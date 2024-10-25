@@ -3,11 +3,13 @@ import { Input } from "@/components/ui/input"
 import { Search, ShoppingBag, Tag, Store } from "lucide-react"
 import { Navigation } from "@/components/Navigation"
 import { BottomNav } from "@/components/BottomNav"
-import { useState } from "react"
-import { useQuery } from "@tanstack/react-query"
+import { useState, useEffect } from "react"
+import { useInfiniteQuery } from "@tanstack/react-query"
 import { fetchProducts } from "@/services/api"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Card, CardContent } from "@/components/ui/card"
+import { useInView } from "react-intersection-observer"
+import { useToast } from "@/hooks/use-toast"
 
 const categories = [
   { id: "all", name: "全部" },
@@ -29,13 +31,39 @@ const ProductSkeleton = () => (
   </Card>
 )
 
-const Explore = () => {
+export const Explore = () => {
   const [activeCategory, setActiveCategory] = useState("all")
+  const { ref, inView } = useInView()
+  const { toast } = useToast()
 
-  const { data: products, isLoading } = useQuery({
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isError
+  } = useInfiniteQuery({
     queryKey: ['products', activeCategory],
-    queryFn: () => fetchProducts(activeCategory)
+    queryFn: ({ pageParam }) => fetchProducts(activeCategory, pageParam),
+    getNextPageParam: (lastPage) => lastPage.nextCursor,
+    initialPageSize: 8
   })
+
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage()
+    }
+  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage])
+
+  if (isError) {
+    toast({
+      variant: "destructive",
+      description: "加载商品失败，请稍后重试",
+    })
+  }
+
+  const allProducts = data?.pages.flatMap(page => page.items) || []
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
@@ -87,7 +115,7 @@ const Explore = () => {
               <ProductSkeleton key={index} />
             ))
           ) : (
-            products?.map((product) => (
+            allProducts.map((product) => (
               <Card key={product.id} className="mb-2 break-inside-avoid overflow-hidden border-none shadow-none hover:shadow-lg transition-shadow duration-200">
                 <img
                   src={product.image}
@@ -117,6 +145,20 @@ const Explore = () => {
                 </CardContent>
               </Card>
             ))
+          )}
+        </div>
+
+        {/* Loading More Indicator */}
+        <div
+          ref={ref}
+          className="flex justify-center py-4"
+        >
+          {isFetchingNextPage && (
+            <div className="space-y-4">
+              {Array(2).fill(0).map((_, index) => (
+                <ProductSkeleton key={index} />
+              ))}
+            </div>
           )}
         </div>
       </div>

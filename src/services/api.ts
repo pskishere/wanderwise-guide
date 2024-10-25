@@ -11,11 +11,19 @@ export interface Product {
   tags: string[];
 }
 
-export const fetchProducts = async (category: string = 'all'): Promise<Product[]> => {
-  // 模拟 API 延迟
+export interface PageData<T> {
+  items: T[];
+  nextCursor?: number;
+}
+
+export const fetchProducts = async (
+  category: string = 'all',
+  cursor?: number
+): Promise<PageData<Product>> => {
   await delay(1000);
   
-  const products = [
+  const pageSize = 8;
+  const allProducts = [
     {
       id: 1,
       title: "ZARA 2024春季新款小香风粗花呢外套",
@@ -90,12 +98,53 @@ export const fetchProducts = async (category: string = 'all'): Promise<Product[]
     }
   ];
 
-  if (category === 'all') {
-    return products;
-  }
+  const filteredProducts = category === 'all' 
+    ? allProducts 
+    : allProducts.filter(product => 
+        product.tags.some(tag => tag.includes(category)) ||
+        product.title.includes(category)
+      );
+
+  const start = cursor || 0;
+  const items = filteredProducts.slice(start, start + pageSize);
+  const nextCursor = start + pageSize < filteredProducts.length ? start + pageSize : undefined;
+
+  return { items, nextCursor };
+};
+
+export interface Post {
+  id: number;
+  title: string;
+  content: string;
+  image: string;
+  author: {
+    name: string;
+    avatar: string;
+  };
+  likes: number;
+  comments: number;
+}
+
+export const fetchPosts = async (cursor?: number): Promise<PageData<Post>> => {
+  await delay(1000);
   
-  return products.filter(product => 
-    product.tags.some(tag => tag.includes(category)) ||
-    product.title.includes(category)
-  );
+  const pageSize = 10;
+  const allPosts = Array.from({ length: 50 }, (_, i) => ({
+    id: i + 1,
+    title: `旅行日记 ${i + 1}`,
+    content: "这是一段旅行日记的内容描述...",
+    image: `https://picsum.photos/seed/${i + 1}/400/600`,
+    author: {
+      name: "旅行者",
+      avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&q=80"
+    },
+    likes: Math.floor(Math.random() * 1000),
+    comments: Math.floor(Math.random() * 100)
+  }));
+
+  const start = cursor || 0;
+  const items = allPosts.slice(start, start + pageSize);
+  const nextCursor = start + pageSize < allPosts.length ? start + pageSize : undefined;
+
+  return { items, nextCursor };
 };
