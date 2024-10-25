@@ -45,8 +45,9 @@ export const Explore = () => {
     isError
   } = useInfiniteQuery<PageData<Product>>({
     queryKey: ['products', activeCategory],
-    queryFn: ({ pageParam }) => fetchProducts(activeCategory, pageParam),
+    queryFn: ({ pageParam = 0 }) => fetchProducts(activeCategory, pageParam as number),
     getNextPageParam: (lastPage) => lastPage.nextCursor,
+    initialPageParam: 0
   })
 
   useEffect(() => {

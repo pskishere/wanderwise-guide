@@ -22,8 +22,9 @@ export const TravelNotes = () => {
     isError
   } = useInfiniteQuery<PageData<Post>>({
     queryKey: ['posts'],
-    queryFn: ({ pageParam }) => fetchPosts(pageParam),
+    queryFn: ({ pageParam = 0 }) => fetchPosts(pageParam as number),
     getNextPageParam: (lastPage) => lastPage.nextCursor,
+    initialPageParam: 0
   })
 
   useEffect(() => {
