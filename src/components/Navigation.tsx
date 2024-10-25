@@ -9,9 +9,9 @@ export const Navigation = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Full Width Floating Box */}
-          <div className="fixed top-2 left-0 right-0 mx-4 z-50">
-            <div className="flex items-center justify-between bg-white/95 backdrop-blur-md px-6 py-3 rounded-2xl shadow-lg border border-gray-100/50 max-w-screen-lg mx-auto">
-              <div className="flex-1 max-w-xl">
+          <div className="fixed top-4 left-0 right-0 mx-4 z-50">
+            <div className="flex items-center justify-between bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-2xl shadow-lg border border-gray-100/50 max-w-screen-lg mx-auto">
+              <div className="flex-1 max-w-2xl">
                 <div className="relative">
                   <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                   <Input 
@@ -21,7 +21,7 @@ export const Navigation = () => {
                 </div>
               </div>
 
-              <div className="flex items-center gap-6">
+              <div className="flex items-center gap-4 ml-4">
                 <Button 
                   variant="ghost" 
                   size="icon"
