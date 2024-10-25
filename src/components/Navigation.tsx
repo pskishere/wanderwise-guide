@@ -15,7 +15,7 @@ export const Navigation = () => {
                 <div className="relative">
                   <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                   <Input 
-                    placeholder="搜索目的地、美食、攻略..." 
+                    placeholder="搜索攻略..." 
                     className="pl-8 bg-gray-100 border-0 rounded-full h-9"
                   />
                 </div>
