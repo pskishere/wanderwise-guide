@@ -89,7 +89,7 @@ export const TravelNotes = () => {
   ]
 
   return (
-    <div className="container mx-auto px-4 py-4">
+    <div className="container mx-auto px-2 py-4">
       <div className="columns-2 gap-0 space-y-0">
         {notes.map((note) => (
           <Card key={note.id} className="mb-0 break-inside-avoid overflow-hidden border-none shadow-none hover:shadow-lg transition-shadow duration-200">

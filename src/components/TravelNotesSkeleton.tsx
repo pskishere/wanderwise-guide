@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 export const TravelNotesSkeleton = () => {
   return (
-    <div className="container mx-auto px-4 py-4">
+    <div className="container mx-auto px-2 py-4">
       <div className="columns-2 gap-0 space-y-0">
         {[1, 2, 3, 4].map((index) => (
           <Card key={index} className="mb-0 break-inside-avoid overflow-hidden border-none shadow-none">
