@@ -1,10 +1,23 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Search, Heart, MessageCircle, Share2 } from "lucide-react";
-import { Navigation } from "@/components/Navigation";
-import { TravelNotes } from "@/components/TravelNotes";
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Search } from "lucide-react"
+import { Navigation } from "@/components/Navigation"
+import { TravelNotes } from "@/components/TravelNotes"
+import { Stories } from "@/components/Stories"
+import { useState } from "react"
+
+const categories = [
+  { id: "all", name: "全部" },
+  { id: "travel", name: "旅行" },
+  { id: "food", name: "美食" },
+  { id: "hotel", name: "酒店" },
+  { id: "shopping", name: "购物" },
+  { id: "culture", name: "文化" },
+]
 
 const Index = () => {
+  const [activeCategory, setActiveCategory] = useState("all")
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
@@ -17,28 +30,37 @@ const Index = () => {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <Input 
                 placeholder="搜索目的地、美食、攻略..." 
-                className="flex-1 bg-gray-100 pl-10"
+                className="pl-10 bg-gray-100"
               />
             </div>
           </div>
         </div>
       </div>
 
+      {/* Stories */}
+      <div className="bg-white mb-2">
+        <Stories />
+      </div>
+
       {/* Categories */}
       <div className="container mx-auto px-4 py-4">
         <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
-          <Button variant="outline" className="rounded-full whitespace-nowrap">全部</Button>
-          <Button variant="outline" className="rounded-full whitespace-nowrap">旅行</Button>
-          <Button variant="outline" className="rounded-full whitespace-nowrap">美食</Button>
-          <Button variant="outline" className="rounded-full whitespace-nowrap">酒店</Button>
-          <Button variant="outline" className="rounded-full whitespace-nowrap">购物</Button>
-          <Button variant="outline" className="rounded-full whitespace-nowrap">文化</Button>
+          {categories.map((category) => (
+            <Button
+              key={category.id}
+              variant={activeCategory === category.id ? "default" : "outline"}
+              className="rounded-full whitespace-nowrap"
+              onClick={() => setActiveCategory(category.id)}
+            >
+              {category.name}
+            </Button>
+          ))}
         </div>
       </div>
 
       <TravelNotes />
     </div>
-  );
-};
+  )
+}
 
-export default Index;
+export default Index

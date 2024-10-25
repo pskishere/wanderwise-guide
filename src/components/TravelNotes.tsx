@@ -1,8 +1,25 @@
-import { Card } from "@/components/ui/card";
-import { Avatar } from "@/components/ui/avatar";
-import { Heart, MessageCircle, Share2 } from "lucide-react";
+import { Card } from "@/components/ui/card"
+import { Avatar } from "@/components/ui/avatar"
+import { Heart, MessageCircle } from "lucide-react"
+import { TravelNotesSkeleton } from "./TravelNotesSkeleton"
+import { useState, useEffect } from "react"
 
 export const TravelNotes = () => {
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    // Simulate loading
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 1500)
+
+    return () => clearTimeout(timer)
+  }, [])
+
+  if (isLoading) {
+    return <TravelNotesSkeleton />
+  }
+
   const notes = [
     {
       id: 1,
@@ -70,7 +87,7 @@ export const TravelNotes = () => {
       likes: 3678,
       comments: 267
     }
-  ];
+  ]
 
   return (
     <div className="container mx-auto px-4 py-4">
@@ -107,5 +124,5 @@ export const TravelNotes = () => {
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
