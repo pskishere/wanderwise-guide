@@ -125,13 +125,24 @@ export interface Post {
   comments: number;
 }
 
+const titles = [
+  "东京和服体验｜超详细攻略",
+  "京都赏樱一日游记，感受春日浪漫",
+  "大阪美食地图｜带你吃遍关西必打卡的美食，不容错过的隐藏美食街巷，关西限定美食大搜罗",
+  "北海道温泉之旅",
+  "富士山下的春日物语｜河口湖一日游完全攻略，含交通、住宿、美食推荐",
+  "箱根温泉游记",
+  "奈良小鹿公园半日游，与萌鹿的悠闲午后时光",
+  "日本购物退税攻略｜超详细步骤说明与注意事项"
+];
+
 export const fetchPosts = async (cursor?: number): Promise<PageData<Post>> => {
   await delay(1000);
   
   const pageSize = 10;
   const allPosts = Array.from({ length: 50 }, (_, i) => ({
     id: i + 1,
-    title: `旅行日记 ${i + 1}`,
+    title: titles[Math.floor(Math.random() * titles.length)],
     content: "这是一段旅行日记的内容描述...",
     image: `https://picsum.photos/seed/${i + 1}/400/600`,
     author: {
