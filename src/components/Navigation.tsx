@@ -5,7 +5,7 @@ export const Navigation = () => {
   return (
     <nav className="bg-white border-b">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-14">
+        <div className="flex items-center justify-between h-12">
           <Link to="/" className="text-2xl font-bold text-pink-500">
             游记攻略
           </Link>
