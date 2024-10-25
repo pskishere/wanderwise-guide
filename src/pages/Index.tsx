@@ -4,6 +4,7 @@ import { Search } from "lucide-react"
 import { Navigation } from "@/components/Navigation"
 import { TravelNotes } from "@/components/TravelNotes"
 import { Stories } from "@/components/Stories"
+import { BottomNav } from "@/components/BottomNav"
 import { useState } from "react"
 
 const categories = [
@@ -19,7 +20,7 @@ const Index = () => {
   const [activeCategory, setActiveCategory] = useState("all")
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pb-20">
       <Navigation />
       
       {/* Search Header */}
@@ -59,6 +60,7 @@ const Index = () => {
       </div>
 
       <TravelNotes />
+      <BottomNav />
     </div>
   )
 }
