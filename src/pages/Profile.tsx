@@ -23,9 +23,7 @@ const menuItems = [
 
 const Profile = () => {
   return (
-    <div className="min-h-screen bg-gray-50 pb-20">
-      <Navigation />
-      
+    <div className="min-h-screen bg-gray-50 pb-20">      
       {/* User Info Card */}
       <Card className="mx-4 mt-4 p-4 border-none shadow-lg">
         <div className="flex items-start justify-between">
