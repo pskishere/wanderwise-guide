@@ -3,7 +3,7 @@ import { Avatar } from "@/components/ui/avatar"
 import { Heart, MessageCircle } from "lucide-react"
 import { Link } from "react-router-dom"
 import { useInfiniteQuery } from "@tanstack/react-query"
-import { fetchPosts } from "@/services/api"
+import { fetchPosts, Post, PageData } from "@/services/api"
 import { TravelNotesSkeleton } from "./TravelNotesSkeleton"
 import { useInView } from "react-intersection-observer"
 import { useEffect } from "react"
@@ -20,11 +20,10 @@ export const TravelNotes = () => {
     isFetchingNextPage,
     isLoading,
     isError
-  } = useInfiniteQuery({
+  } = useInfiniteQuery<PageData<Post>>({
     queryKey: ['posts'],
     queryFn: ({ pageParam }) => fetchPosts(pageParam),
     getNextPageParam: (lastPage) => lastPage.nextCursor,
-    initialPageSize: 10
   })
 
   useEffect(() => {
@@ -85,7 +84,6 @@ export const TravelNotes = () => {
         ))}
       </div>
 
-      {/* Loading More Indicator */}
       <div
         ref={ref}
         className="flex justify-center py-4"

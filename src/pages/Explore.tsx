@@ -5,7 +5,7 @@ import { Navigation } from "@/components/Navigation"
 import { BottomNav } from "@/components/BottomNav"
 import { useState, useEffect } from "react"
 import { useInfiniteQuery } from "@tanstack/react-query"
-import { fetchProducts } from "@/services/api"
+import { fetchProducts, Product, PageData } from "@/services/api"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Card, CardContent } from "@/components/ui/card"
 import { useInView } from "react-intersection-observer"
@@ -43,11 +43,10 @@ export const Explore = () => {
     isFetchingNextPage,
     isLoading,
     isError
-  } = useInfiniteQuery({
+  } = useInfiniteQuery<PageData<Product>>({
     queryKey: ['products', activeCategory],
     queryFn: ({ pageParam }) => fetchProducts(activeCategory, pageParam),
     getNextPageParam: (lastPage) => lastPage.nextCursor,
-    initialPageSize: 8
   })
 
   useEffect(() => {
@@ -148,7 +147,6 @@ export const Explore = () => {
           )}
         </div>
 
-        {/* Loading More Indicator */}
         <div
           ref={ref}
           className="flex justify-center py-4"
