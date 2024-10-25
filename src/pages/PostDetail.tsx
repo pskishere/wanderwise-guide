@@ -1,12 +1,17 @@
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import { Avatar } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { Heart, MessageCircle, Share, Bookmark } from "lucide-react"
+import { Textarea } from "@/components/ui/textarea"
+import { Heart, MessageCircle, Share, Bookmark, ChevronLeft } from "lucide-react"
 import { Navigation } from "@/components/Navigation"
+import { useState } from "react"
 
 const PostDetail = () => {
   const { id } = useParams()
+  const navigate = useNavigate()
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [newComment, setNewComment] = useState("")
   
   // 模拟帖子数据
   const post = {
@@ -60,11 +65,28 @@ const PostDetail = () => {
     publishTime: "2024-02-20"
   }
 
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const container = e.currentTarget
+    const scrollPosition = container.scrollLeft
+    const imageWidth = container.offsetWidth
+    const newIndex = Math.round(scrollPosition / imageWidth)
+    setCurrentImageIndex(newIndex)
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
       <Navigation />
       
       <div className="container mx-auto px-4 py-6">
+        <Button 
+          variant="ghost" 
+          className="mb-4" 
+          onClick={() => navigate(-1)}
+        >
+          <ChevronLeft className="h-4 w-4 mr-2" />
+          返回
+        </Button>
+
         <Card className="overflow-hidden">
           {/* 帖子标题 */}
           <div className="p-4 border-b">
@@ -82,11 +104,25 @@ const PostDetail = () => {
 
           {/* 图片轮播 */}
           <div className="relative">
-            <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide">
+            <div 
+              className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide"
+              onScroll={handleScroll}
+            >
               {post.images.map((image, index) => (
                 <div key={index} className="flex-none w-full snap-center">
                   <img src={image} alt="" className="w-full aspect-[4/3] object-cover" />
                 </div>
+              ))}
+            </div>
+            {/* 轮播指示器 */}
+            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
+              {post.images.map((_, index) => (
+                <div
+                  key={index}
+                  className={`w-2 h-2 rounded-full transition-colors ${
+                    currentImageIndex === index ? "bg-white" : "bg-white/50"
+                  }`}
+                />
               ))}
             </div>
           </div>
@@ -122,6 +158,20 @@ const PostDetail = () => {
         {/* 评论区 */}
         <div className="mt-6">
           <h2 className="text-lg font-bold mb-4">评论 {post.comments.length}</h2>
+          
+          {/* 评论输入框 */}
+          <Card className="p-4 mb-6">
+            <Textarea
+              placeholder="写下你的评论..."
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              className="mb-4"
+            />
+            <div className="flex justify-end">
+              <Button>发布评论</Button>
+            </div>
+          </Card>
+
           <div className="space-y-4">
             {post.comments.map(comment => (
               <Card key={comment.id} className="p-4">
