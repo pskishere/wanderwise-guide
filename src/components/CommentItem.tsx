@@ -16,15 +16,17 @@ export interface CommentType {
   time: string
   likes: number
   replies?: CommentType[]
+  level?: number // 添加层级标记
 }
 
 interface CommentItemProps {
   comment: CommentType
   onReply: (parentId: number, content: string) => void
   onLike: (commentId: number) => void
+  level?: number // 添加层级属性
 }
 
-export const CommentItem = ({ comment, onReply, onLike }: CommentItemProps) => {
+export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItemProps) => {
   const [isReplying, setIsReplying] = useState(false)
   const [isLiked, setIsLiked] = useState(false)
 
@@ -37,6 +39,9 @@ export const CommentItem = ({ comment, onReply, onLike }: CommentItemProps) => {
     onReply(comment.id, content)
     setIsReplying(false)
   }
+
+  // 只显示回复按钮如果层级小于2
+  const showReplyButton = level < 2
 
   return (
     <div className="space-y-4">
@@ -58,14 +63,16 @@ export const CommentItem = ({ comment, onReply, onLike }: CommentItemProps) => {
               <Heart className={`h-4 w-4 ${isLiked ? 'fill-pink-500' : ''}`} />
               <span className="text-xs">{comment.likes}</span>
             </button>
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="text-gray-500 h-6 px-2 hover:text-pink-500"
-              onClick={() => setIsReplying(!isReplying)}
-            >
-              回复
-            </Button>
+            {showReplyButton && (
+              <Button 
+                variant="ghost" 
+                size="sm"
+                className="h-6 px-2 text-gray-500 hover:text-pink-500"
+                onClick={() => setIsReplying(!isReplying)}
+              >
+                回复
+              </Button>
+            )}
           </div>
           
           {isReplying && (
@@ -80,8 +87,8 @@ export const CommentItem = ({ comment, onReply, onLike }: CommentItemProps) => {
         </div>
       </div>
 
-      {/* Nested Replies */}
-      {comment.replies && comment.replies.length > 0 && (
+      {/* 嵌套回复 - 只渲染两层 */}
+      {comment.replies && comment.replies.length > 0 && level < 2 && (
         <div className="ml-10 space-y-4 border-l-2 border-gray-100 pl-4">
           {comment.replies.map((reply) => (
             <CommentItem
@@ -89,6 +96,7 @@ export const CommentItem = ({ comment, onReply, onLike }: CommentItemProps) => {
               comment={reply}
               onReply={onReply}
               onLike={onLike}
+              level={level + 1}
             />
           ))}
         </div>
