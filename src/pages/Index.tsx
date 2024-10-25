@@ -3,7 +3,6 @@ import { Input } from "@/components/ui/input"
 import { Search, MapPin } from "lucide-react"
 import { Navigation } from "@/components/Navigation"
 import { TravelNotes } from "@/components/TravelNotes"
-import { Stories } from "@/components/Stories"
 import { BottomNav } from "@/components/BottomNav"
 import { useState } from "react"
 
@@ -40,11 +39,6 @@ const Index = () => {
             </Button>
           </div>
         </div>
-      </div>
-
-      {/* Stories */}
-      <div className="bg-white mb-2">
-        <Stories />
       </div>
 
       {/* Categories */}
