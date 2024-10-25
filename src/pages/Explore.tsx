@@ -5,6 +5,9 @@ import { Navigation } from "@/components/Navigation"
 import { BottomNav } from "@/components/BottomNav"
 import { Card, CardContent } from "@/components/ui/card"
 import { useState } from "react"
+import { useQuery } from "@tanstack/react-query"
+import { fetchProducts } from "@/services/api"
+import { Skeleton } from "@/components/ui/skeleton"
 
 const categories = [
   { id: "all", name: "全部" },
@@ -15,47 +18,24 @@ const categories = [
   { id: "home", name: "家居" },
 ]
 
-const products = [
-  {
-    id: 1,
-    title: "法式复古连衣裙",
-    price: "¥299",
-    sales: "2.3k",
-    image: "https://source.unsplash.com/800x800/?dress",
-    shop: "巴黎时尚",
-    tags: ["连衣裙", "法式"]
-  },
-  {
-    id: 2,
-    title: "韩国进口面膜套装",
-    price: "¥168",
-    sales: "5.1k",
-    image: "https://source.unsplash.com/800x800/?cosmetics",
-    shop: "韩妆精选",
-    tags: ["面膜", "护肤"]
-  },
-  {
-    id: 3,
-    title: "无线蓝牙耳机",
-    price: "¥499",
-    sales: "1.8k",
-    image: "https://source.unsplash.com/800x800/?headphones",
-    shop: "数码旗舰店",
-    tags: ["耳机", "数码"]
-  },
-  {
-    id: 4,
-    title: "手工曲奇礼盒",
-    price: "¥128",
-    sales: "3.2k",
-    image: "https://source.unsplash.com/800x800/?cookies",
-    shop: "甜心烘焙",
-    tags: ["零食", "伴手礼"]
-  }
-]
+const ProductSkeleton = () => (
+  <Card className="overflow-hidden border-none shadow-sm">
+    <Skeleton className="w-full aspect-square" />
+    <CardContent className="p-3">
+      <Skeleton className="h-4 w-3/4 mb-2" />
+      <Skeleton className="h-3 w-1/2 mb-2" />
+      <Skeleton className="h-3 w-1/4" />
+    </CardContent>
+  </Card>
+)
 
 const Explore = () => {
   const [activeCategory, setActiveCategory] = useState("all")
+
+  const { data: products, isLoading } = useQuery({
+    queryKey: ['products', activeCategory],
+    queryFn: () => fetchProducts(activeCategory)
+  })
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
@@ -98,36 +78,42 @@ const Explore = () => {
       {/* Products Grid */}
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-2 gap-4">
-          {products.map((product) => (
-            <Card key={product.id} className="overflow-hidden border-none shadow-sm">
-              <img
-                src={product.image}
-                alt={product.title}
-                className="w-full aspect-square object-cover"
-              />
-              <CardContent className="p-3">
-                <h3 className="font-medium text-sm line-clamp-2">{product.title}</h3>
-                <div className="flex items-center gap-2 mt-2">
-                  <Tag className="h-3 w-3 text-gray-400" />
-                  <div className="flex gap-2">
-                    {product.tags.map((tag, index) => (
-                      <span key={index} className="text-xs text-gray-500">
-                        {tag}
-                      </span>
-                    ))}
+          {isLoading ? (
+            Array(4).fill(0).map((_, index) => (
+              <ProductSkeleton key={index} />
+            ))
+          ) : (
+            products?.map((product) => (
+              <Card key={product.id} className="overflow-hidden border-none shadow-sm">
+                <img
+                  src={product.image}
+                  alt={product.title}
+                  className="w-full aspect-square object-cover"
+                />
+                <CardContent className="p-3">
+                  <h3 className="font-medium text-sm line-clamp-2">{product.title}</h3>
+                  <div className="flex items-center gap-2 mt-2">
+                    <Tag className="h-3 w-3 text-gray-400" />
+                    <div className="flex gap-2">
+                      {product.tags.map((tag, index) => (
+                        <span key={index} className="text-xs text-gray-500">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-center justify-between mt-2">
-                  <span className="text-pink-600 font-medium">{product.price}</span>
-                  <span className="text-xs text-gray-400">已售{product.sales}</span>
-                </div>
-                <div className="flex items-center gap-1 mt-2">
-                  <Store className="h-3 w-3 text-gray-400" />
-                  <span className="text-xs text-gray-500">{product.shop}</span>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                  <div className="flex items-center justify-between mt-2">
+                    <span className="text-pink-600 font-medium">{product.price}</span>
+                    <span className="text-xs text-gray-400">已售{product.sales}</span>
+                  </div>
+                  <div className="flex items-center gap-1 mt-2">
+                    <Store className="h-3 w-3 text-gray-400" />
+                    <span className="text-xs text-gray-500">{product.shop}</span>
+                  </div>
+                </CardContent>
+              </Card>
+            ))
+          )}
         </div>
       </div>
 
