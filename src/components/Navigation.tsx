@@ -1,9 +1,9 @@
-import { Bell, PlusCircle, User } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Bell, MessageCircle } from "lucide-react"
+import { Link } from "react-router-dom"
 
 export const Navigation = () => {
   return (
-    <nav className="bg-white border-b border-gray-100">
+    <nav className="bg-white border-b">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-14">
           <Link to="/" className="text-2xl font-bold text-pink-500">
@@ -12,25 +12,19 @@ export const Navigation = () => {
           <div className="flex items-center gap-6">
             <Link 
               to="/notifications" 
-              className="text-gray-600 hover:text-gray-900 transition-colors"
+              className="text-gray-600 hover:text-gray-900 transition-colors p-1"
             >
-              <Bell className="h-6 w-6" />
+              <Bell className="h-5 w-5" />
             </Link>
             <Link 
-              to="/create" 
-              className="text-gray-600 hover:text-gray-900 transition-colors"
+              to="/messages"
+              className="text-gray-600 hover:text-gray-900 transition-colors p-1"
             >
-              <PlusCircle className="h-6 w-6" />
-            </Link>
-            <Link 
-              to="/profile" 
-              className="text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              <User className="h-6 w-6" />
+              <MessageCircle className="h-5 w-5" />
             </Link>
           </div>
         </div>
       </div>
     </nav>
-  );
-};
+  )
+}
