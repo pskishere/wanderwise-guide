@@ -7,7 +7,7 @@ export const Navigation = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Full Width Floating Box */}
-          <div className="fixed top-4 left-0 right-0 mx-4">
+          <div className="fixed top-2 left-0 right-0 mx-4">
             <div className="flex items-center justify-between bg-white/80 backdrop-blur-sm px-6 py-2 rounded-full shadow-lg border border-gray-100 max-w-screen-lg mx-auto">
               <Link 
                 to="/" 
