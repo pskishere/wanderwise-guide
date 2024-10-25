@@ -18,7 +18,7 @@ const Index = () => {
   const [activeCategory, setActiveCategory] = useState("all")
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-14">
+    <div className="min-h-screen bg-gray-50">
       <Navigation />
       
       {/* Categories */}

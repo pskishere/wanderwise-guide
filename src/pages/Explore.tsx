@@ -65,7 +65,7 @@ export const Explore = () => {
   const allProducts = data?.pages.flatMap(page => page.items) || []
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20">
+    <div className="min-h-screen bg-gray-50">
       <Navigation />
       
       {/* Categories */}
