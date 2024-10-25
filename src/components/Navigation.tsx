@@ -1,5 +1,7 @@
-import { Bell, MessageCircle } from "lucide-react"
+import { Bell, MessageCircle, Search, MapPin } from "lucide-react"
 import { Link } from "react-router-dom"
+import { Input } from "./ui/input"
+import { Button } from "./ui/button"
 
 export const Navigation = () => {
   return (
@@ -16,7 +18,24 @@ export const Navigation = () => {
                 游记攻略
               </Link>
               
+              <div className="flex-1 max-w-md mx-6">
+                <div className="relative">
+                  <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <Input 
+                    placeholder="搜索目的地、美食、攻略..." 
+                    className="pl-8 bg-gray-100 border-0 rounded-full h-9"
+                  />
+                </div>
+              </div>
+
               <div className="flex items-center gap-6">
+                <Button 
+                  variant="ghost" 
+                  size="icon"
+                  className="h-9 w-9 rounded-full bg-gray-100 hover:bg-gray-200"
+                >
+                  <MapPin className="h-4 w-4 text-gray-500" />
+                </Button>
                 <Link 
                   to="/notifications" 
                   className="text-gray-600 hover:text-gray-900 transition-colors relative"
