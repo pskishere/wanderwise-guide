@@ -65,11 +65,11 @@ export const Explore = () => {
   const allProducts = data?.pages.flatMap(page => page.items) || []
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pb-20">
       <Navigation />
       
       {/* Categories */}
-      <div className="pt-20 pb-1 px-4">
+      <div className="container mx-auto px-2 pt-20 pb-1">
         <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
           {categories.map((category) => (
             <Button
@@ -85,7 +85,7 @@ export const Explore = () => {
       </div>
 
       {/* Products Grid */}
-      <div className="px-4 py-2 pb-20">
+      <div className="container mx-auto px-2 py-4">
         <div className="columns-2 gap-2 space-y-2">
           {isLoading ? (
             Array(4).fill(0).map((_, index) => (
