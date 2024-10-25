@@ -40,8 +40,8 @@ export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItem
     setIsReplying(false)
   }
 
-  // 只显示回复按钮如果层级小于2
-  const showReplyButton = level < 2
+  // 只显示回复按钮如果是原始评论(level=0)
+  const showReplyButton = level === 0
 
   return (
     <div className="space-y-4">
@@ -87,8 +87,8 @@ export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItem
         </div>
       </div>
 
-      {/* 嵌套回复 - 只渲染两层 */}
-      {comment.replies && comment.replies.length > 0 && level < 2 && (
+      {/* 嵌套回复 - 只渲染一层 */}
+      {comment.replies && comment.replies.length > 0 && level === 0 && (
         <div className="ml-10 space-y-4 border-l-2 border-gray-100 pl-4">
           {comment.replies.map((reply) => (
             <CommentItem
