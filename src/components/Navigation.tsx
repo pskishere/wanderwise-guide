@@ -6,12 +6,15 @@ export const Navigation = () => {
     <nav className="bg-white border-b shadow-sm">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          <Link 
-            to="/" 
-            className="text-2xl font-bold bg-gradient-to-r from-pink-500 to-pink-600 bg-clip-text text-transparent"
-          >
-            游记攻略
-          </Link>
+          {/* Floating Logo Box */}
+          <div className="fixed top-4 left-4 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg border border-gray-100">
+            <Link 
+              to="/" 
+              className="text-2xl font-bold bg-gradient-to-r from-pink-500 to-pink-600 bg-clip-text text-transparent"
+            >
+              游记攻略
+            </Link>
+          </div>
           
           {/* Floating Notification Box */}
           <div className="fixed top-4 right-4 flex items-center gap-6 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg border border-gray-100">
