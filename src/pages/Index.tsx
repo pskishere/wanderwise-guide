@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Search } from "lucide-react"
+import { Search, MapPin } from "lucide-react"
 import { Navigation } from "@/components/Navigation"
 import { TravelNotes } from "@/components/TravelNotes"
 import { Stories } from "@/components/Stories"
@@ -9,11 +9,12 @@ import { useState } from "react"
 
 const categories = [
   { id: "all", name: "全部" },
-  { id: "travel", name: "旅行" },
+  { id: "domestic", name: "国内游" },
+  { id: "overseas", name: "出境游" },
   { id: "food", name: "美食" },
-  { id: "hotel", name: "酒店" },
+  { id: "photography", name: "拍照打卡" },
   { id: "shopping", name: "购物" },
-  { id: "culture", name: "文化" },
+  { id: "culture", name: "文化古迹" },
 ]
 
 const Index = () => {
@@ -34,6 +35,9 @@ const Index = () => {
                 className="pl-10 bg-gray-100"
               />
             </div>
+            <Button variant="outline" size="icon">
+              <MapPin className="h-4 w-4" />
+            </Button>
           </div>
         </div>
       </div>

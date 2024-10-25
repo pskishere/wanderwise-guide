@@ -6,7 +6,7 @@ export const Navigation = () => {
     <nav className="bg-white shadow-sm">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          <div className="text-xl font-bold text-pink-600">小红书旅行</div>
+          <div className="text-xl font-bold text-pink-600">游记攻略</div>
           <div className="flex items-center gap-4">
             <Button variant="ghost" size="icon">
               <Bell className="h-5 w-5" />
