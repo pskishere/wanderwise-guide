@@ -69,11 +69,11 @@ export const TravelNotes = () => {
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="flex items-center gap-1">
-                      <Heart className="h-4 w-4 text-gray-400" />
+                      <Heart className="h-3.5 w-3.5 text-gray-400" />
                       <span className="text-xs text-gray-500">{post.likes}</span>
                     </div>
                     <div className="flex items-center gap-1">
-                      <MessageCircle className="h-4 w-4 text-gray-400" />
+                      <MessageCircle className="h-3.5 w-3.5 text-gray-400" />
                       <span className="text-xs text-gray-500">{post.comments}</span>
                     </div>
                   </div>
