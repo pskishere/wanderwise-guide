@@ -20,39 +20,39 @@ const Index = () => {
   const [activeCategory, setActiveCategory] = useState("all")
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20">
+    <div className="min-h-screen bg-gray-50 pb-16">
       <Navigation />
       
       {/* Search Header */}
-      <div className="sticky top-0 z-20 bg-white py-3">
-        <div className="container mx-auto px-4">
-          <div className="flex w-full gap-3">
+      <div className="sticky top-0 z-20 bg-white py-2">
+        <div className="container mx-auto px-2">
+          <div className="flex w-full gap-2">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <Input 
                 placeholder="搜索目的地、美食、攻略..." 
-                className="pl-10 bg-gray-100 border-0 rounded-full h-11"
+                className="pl-8 bg-gray-100 border-0 rounded-full h-9"
               />
             </div>
             <Button 
               variant="ghost" 
               size="icon"
-              className="h-11 w-11 rounded-full bg-gray-100 hover:bg-gray-200"
+              className="h-9 w-9 rounded-full bg-gray-100 hover:bg-gray-200"
             >
-              <MapPin className="h-5 w-5 text-gray-500" />
+              <MapPin className="h-4 w-4 text-gray-500" />
             </Button>
           </div>
         </div>
       </div>
 
       {/* Categories */}
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+      <div className="container mx-auto px-2 py-2">
+        <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
           {categories.map((category) => (
             <Button
               key={category.id}
               variant={activeCategory === category.id ? "default" : "outline"}
-              className="rounded-full whitespace-nowrap"
+              className="rounded-full text-sm h-8 px-3"
               onClick={() => setActiveCategory(category.id)}
             >
               {category.name}
