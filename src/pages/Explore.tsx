@@ -19,7 +19,7 @@ const categories = [
 ]
 
 const ProductSkeleton = () => (
-  <Card className="overflow-hidden border-none shadow-sm">
+  <Card className="mb-2 break-inside-avoid overflow-hidden border-none shadow-none hover:shadow-lg transition-shadow duration-200">
     <Skeleton className="w-full aspect-square" />
     <CardContent className="p-3">
       <Skeleton className="h-4 w-3/4 mb-2" />
@@ -76,19 +76,19 @@ const Explore = () => {
       </div>
 
       {/* Products Grid */}
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-2 gap-4">
+      <div className="container mx-auto px-2 py-4">
+        <div className="columns-2 gap-2 space-y-2">
           {isLoading ? (
             Array(4).fill(0).map((_, index) => (
               <ProductSkeleton key={index} />
             ))
           ) : (
             products?.map((product) => (
-              <Card key={product.id} className="overflow-hidden border-none shadow-sm">
+              <Card key={product.id} className="mb-2 break-inside-avoid overflow-hidden border-none shadow-none hover:shadow-lg transition-shadow duration-200">
                 <img
                   src={product.image}
                   alt={product.title}
-                  className="w-full aspect-square object-cover"
+                  className="w-full object-cover"
                 />
                 <CardContent className="p-3">
                   <h3 className="font-medium text-sm line-clamp-2">{product.title}</h3>
