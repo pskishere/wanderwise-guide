@@ -29,18 +29,16 @@ export const ReplyInput = ({ onSubmit, onCancel, replyTo }: ReplyInputProps) => 
       <div className="flex justify-end gap-2">
         <Button
           variant="outline"
-          size="xs"
-          className="h-7 px-2 text-xs"
+          size="sm"
           onClick={onCancel}
-          className="hover:bg-gray-100"
+          className="h-7 px-2 text-xs hover:bg-gray-100"
         >
           取消
         </Button>
         <Button
-          size="xs"
-          className="h-7 px-2 text-xs"
+          size="sm"
           onClick={handleSubmit}
-          className="bg-pink-500 hover:bg-pink-600"
+          className="h-7 px-2 text-xs bg-pink-500 hover:bg-pink-600"
         >
           发送
         </Button>
