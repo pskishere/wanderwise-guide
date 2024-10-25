@@ -101,25 +101,25 @@ export const TravelNotes = () => {
               />
               <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
             </div>
-            <div className="p-3">
-              <p className="text-sm font-medium line-clamp-2 leading-snug mb-3">
+            <div className="p-4">
+              <p className="text-sm font-medium line-clamp-2 leading-snug mb-4">
                 {note.title}
               </p>
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-2">
                   <Avatar className="h-6 w-6">
                     <img src={note.author.avatar} alt={note.author.name} className="object-cover" />
                   </Avatar>
                   <span className="text-xs text-gray-600">{note.author.name}</span>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-4">
                   <button className="flex items-center gap-1.5 hover:text-pink-500 transition-colors">
                     <Heart className="h-4 w-4" />
-                    <span className="text-xs">{note.likes}</span>
+                    <span className="text-xs text-gray-500">{note.likes}</span>
                   </button>
                   <button className="flex items-center gap-1.5 hover:text-pink-500 transition-colors">
                     <MessageCircle className="h-4 w-4" />
-                    <span className="text-xs">{note.comments}</span>
+                    <span className="text-xs text-gray-500">{note.comments}</span>
                   </button>
                 </div>
               </div>
