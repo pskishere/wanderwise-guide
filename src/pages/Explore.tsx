@@ -1,14 +1,13 @@
-```tsx
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Search, ShoppingBag, Tag, Store } from "lucide-react"
 import { Navigation } from "@/components/Navigation"
 import { BottomNav } from "@/components/BottomNav"
-import { Card, CardContent } from "@/components/ui/card"
 import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { fetchProducts } from "@/services/api"
 import { Skeleton } from "@/components/ui/skeleton"
+import { Card, CardContent } from "@/components/ui/card"
 
 const categories = [
   { id: "all", name: "全部" },
@@ -128,4 +127,3 @@ const Explore = () => {
 }
 
 export default Explore
-```
