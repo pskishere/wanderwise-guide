@@ -20,11 +20,11 @@ const Index = () => {
   const [activeCategory, setActiveCategory] = useState("all")
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-16">
+    <div className="min-h-screen bg-gray-50 pb-14">
       <Navigation />
       
       {/* Search Header */}
-      <div className="sticky top-0 z-20 bg-white py-2">
+      <div className="sticky top-0 z-20 bg-white py-3">
         <div className="container mx-auto px-2">
           <div className="flex w-full gap-2">
             <div className="relative flex-1">
@@ -46,7 +46,7 @@ const Index = () => {
       </div>
 
       {/* Categories */}
-      <div className="container mx-auto px-2 py-2">
+      <div className="container mx-auto px-2 pt-3 pb-1">
         <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
           {categories.map((category) => (
             <Button
