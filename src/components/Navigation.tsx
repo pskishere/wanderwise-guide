@@ -7,7 +7,7 @@ export const Navigation = () => {
   return (
     <nav className="bg-white border-b shadow-sm">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between">
           {/* Full Width Floating Box */}
           <div className="fixed top-4 left-0 right-0 mx-4 z-50">
             <div className="flex items-center justify-between bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-2xl shadow-lg border border-gray-100/50 max-w-screen-lg mx-auto">
