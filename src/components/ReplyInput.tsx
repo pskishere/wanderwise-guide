@@ -19,25 +19,26 @@ export const ReplyInput = ({ onSubmit, onCancel, replyTo }: ReplyInputProps) => 
   }
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-3 bg-gray-50 p-3 rounded-xl">
       <Textarea
         value={content}
         onChange={(e) => setContent(e.target.value)}
         placeholder={`回复 @${replyTo}...`}
-        className="min-h-[60px] focus:ring-pink-500"
+        className="min-h-[80px] resize-none focus-visible:ring-pink-500 bg-white"
       />
       <div className="flex justify-end gap-2">
         <Button
-          variant="ghost"
+          variant="outline"
           size="sm"
           onClick={onCancel}
+          className="hover:bg-gray-100"
         >
           取消
         </Button>
         <Button
           size="sm"
-          className="bg-pink-500 hover:bg-pink-600"
           onClick={handleSubmit}
+          className="bg-pink-500 hover:bg-pink-600"
         >
           发送
         </Button>
