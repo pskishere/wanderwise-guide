@@ -9,7 +9,7 @@ export const Navigation = () => {
           <Link to="/" className="text-2xl font-bold text-pink-500">
             游记攻略
           </Link>
-          <div className="flex items-center gap-8">
+          <div className="flex items-center gap-6">
             <Link 
               to="/notifications" 
               className="text-gray-600 hover:text-gray-900 transition-colors"
