@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip"
 import Index from "@/pages/Index"
 import { Explore } from "@/pages/Explore"
 import PostDetail from "@/pages/PostDetail"
+import Profile from "@/pages/Profile"
 
 const queryClient = new QueryClient()
 
@@ -17,6 +18,7 @@ function App() {
             <Route path="/" element={<Index />} />
             <Route path="/explore" element={<Explore />} />
             <Route path="/posts/:id" element={<PostDetail />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
           <Toaster />
         </Router>
