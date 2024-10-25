@@ -69,7 +69,7 @@ export const Explore = () => {
       <Navigation />
       
       {/* Categories */}
-      <div className="container mx-auto px-2 pt-20 pb-1">
+      <div className="container mx-auto px-2 pb-1">
         <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
           {categories.map((category) => (
             <Button
