@@ -13,12 +13,14 @@ import {
 } from "@/components/ui/carousel"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Textarea } from "@/components/ui/textarea"
+import { useToast } from "@/hooks/use-toast"
 
 const PostDetail = () => {
   const [isLiked, setIsLiked] = useState(false)
   const [isSaved, setIsSaved] = useState(false)
   const [comment, setComment] = useState("")
   const navigate = useNavigate()
+  const { toast } = useToast()
 
   const post = {
     id: 1,
@@ -57,7 +59,42 @@ const PostDetail = () => {
         likes: 23
       }
     ],
-    commentCount: 234
+    commentCount: 234,
+    tags: ["旅行", "日本", "京都", "和服"]
+  }
+
+  const handleLike = () => {
+    setIsLiked(!isLiked)
+    toast({
+      description: isLiked ? "已取消点赞" : "已点赞",
+    })
+  }
+
+  const handleSave = () => {
+    setIsSaved(!isSaved)
+    toast({
+      description: isSaved ? "已取消收藏" : "已收藏",
+    })
+  }
+
+  const handleShare = () => {
+    toast({
+      description: "分享链接已复制",
+    })
+  }
+
+  const handleComment = () => {
+    if (!comment.trim()) {
+      toast({
+        variant: "destructive",
+        description: "请输入评论内容",
+      })
+      return
+    }
+    toast({
+      description: "评论发送成功",
+    })
+    setComment("")
   }
 
   return (
@@ -65,7 +102,7 @@ const PostDetail = () => {
       {/* Back Button */}
       <button 
         onClick={() => navigate(-1)}
-        className="absolute top-4 left-4 z-20 bg-black/30 p-2 rounded-full text-white"
+        className="fixed top-4 left-4 z-20 bg-black/30 p-2 rounded-full text-white hover:bg-black/50 transition-colors"
       >
         <ChevronLeft className="h-6 w-6" />
       </button>
@@ -80,7 +117,7 @@ const PostDetail = () => {
                   <img
                     src={image}
                     alt={`${post.title} - ${index + 1}`}
-                    className="w-full h-full object-contain"
+                    className="w-full h-full object-cover"
                   />
                 </div>
               </CarouselItem>
@@ -92,11 +129,11 @@ const PostDetail = () => {
       </div>
 
       {/* Content */}
-      <Card className="mx-4 -mt-6 relative z-10 rounded-xl border-none">
+      <Card className="mx-4 -mt-6 relative z-10 rounded-xl border-none shadow-lg">
         <div className="p-4">
           {/* Author Info */}
           <div className="flex items-center gap-3 mb-4">
-            <Avatar className="h-10 w-10">
+            <Avatar className="h-10 w-10 ring-2 ring-pink-500/20">
               <img src={post.author.avatar} alt={post.author.name} className="object-cover" />
             </Avatar>
             <div>
@@ -108,6 +145,18 @@ const PostDetail = () => {
             </Button>
           </div>
 
+          {/* Tags */}
+          <div className="flex flex-wrap gap-2 mb-4">
+            {post.tags.map((tag) => (
+              <span
+                key={tag}
+                className="px-2 py-1 bg-pink-50 text-pink-600 rounded-full text-xs"
+              >
+                #{tag}
+              </span>
+            ))}
+          </div>
+
           {/* Post Content */}
           <h1 className="text-lg font-bold mb-2">{post.title}</h1>
           <p className="text-gray-700 text-sm leading-relaxed mb-6">
@@ -117,23 +166,26 @@ const PostDetail = () => {
           {/* Interaction Buttons */}
           <div className="flex items-center justify-around pt-4 border-t">
             <button
-              className="flex flex-col items-center gap-1"
-              onClick={() => setIsLiked(!isLiked)}
+              className="flex flex-col items-center gap-1 transition-transform hover:scale-110"
+              onClick={handleLike}
             >
               <Heart className={`h-6 w-6 ${isLiked ? 'fill-pink-500 text-pink-500' : 'text-gray-500'}`} />
               <span className="text-xs text-gray-500">{post.likes}</span>
             </button>
-            <button className="flex flex-col items-center gap-1">
+            <button className="flex flex-col items-center gap-1 transition-transform hover:scale-110">
               <MessageCircle className="h-6 w-6 text-gray-500" />
               <span className="text-xs text-gray-500">{post.commentCount}</span>
             </button>
-            <button className="flex flex-col items-center gap-1">
+            <button 
+              className="flex flex-col items-center gap-1 transition-transform hover:scale-110"
+              onClick={handleShare}
+            >
               <Share2 className="h-6 w-6 text-gray-500" />
               <span className="text-xs text-gray-500">分享</span>
             </button>
             <button
-              className="flex flex-col items-center gap-1"
-              onClick={() => setIsSaved(!isSaved)}
+              className="flex flex-col items-center gap-1 transition-transform hover:scale-110"
+              onClick={handleSave}
             >
               <Bookmark className={`h-6 w-6 ${isSaved ? 'fill-pink-500 text-pink-500' : 'text-gray-500'}`} />
               <span className="text-xs text-gray-500">收藏</span>
@@ -147,7 +199,7 @@ const PostDetail = () => {
         <h2 className="font-medium mb-4">评论 {post.commentCount}</h2>
         <ScrollArea className="h-[400px] rounded-md">
           {post.comments.map((comment) => (
-            <div key={comment.id} className="flex gap-3 mb-4">
+            <div key={comment.id} className="flex gap-3 mb-4 p-2 hover:bg-gray-50 rounded-lg transition-colors">
               <Avatar className="h-8 w-8">
                 <img src={comment.author.avatar} alt={comment.author.name} className="object-cover" />
               </Avatar>
@@ -158,7 +210,7 @@ const PostDetail = () => {
                 </div>
                 <p className="text-sm mt-1">{comment.content}</p>
                 <div className="flex items-center gap-1 mt-2">
-                  <button className="flex items-center gap-1 text-gray-500">
+                  <button className="flex items-center gap-1 text-gray-500 hover:text-pink-500 transition-colors">
                     <Heart className="h-4 w-4" />
                     <span className="text-xs">{comment.likes}</span>
                   </button>
@@ -169,15 +221,20 @@ const PostDetail = () => {
         </ScrollArea>
 
         {/* Comment Input */}
-        <div className="fixed bottom-0 left-0 right-0 bg-white p-4 border-t">
+        <div className="fixed bottom-0 left-0 right-0 bg-white p-4 border-t shadow-lg">
           <div className="flex gap-2 max-w-lg mx-auto">
             <Textarea
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               placeholder="说点什么..."
-              className="min-h-[40px] max-h-[120px]"
+              className="min-h-[40px] max-h-[120px] focus:ring-pink-500"
             />
-            <Button>发送</Button>
+            <Button 
+              onClick={handleComment}
+              className="bg-pink-500 hover:bg-pink-600"
+            >
+              发送
+            </Button>
           </div>
         </div>
       </div>
