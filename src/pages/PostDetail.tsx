@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card"
 import { Heart, MessageCircle, Share2, Bookmark, ChevronLeft } from "lucide-react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { useToast } from "@/hooks/use-toast"
 import {
   Carousel,
   CarouselContent,
@@ -11,14 +12,11 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Textarea } from "@/components/ui/textarea"
-import { useToast } from "@/hooks/use-toast"
+import { CommentSection } from "@/components/CommentSection"
 
 const PostDetail = () => {
   const [isLiked, setIsLiked] = useState(false)
   const [isSaved, setIsSaved] = useState(false)
-  const [comment, setComment] = useState("")
   const navigate = useNavigate()
   const { toast } = useToast()
 
@@ -46,7 +44,19 @@ const PostDetail = () => {
         },
         content: "太详细了！请问预约是在哪个网站呢？",
         time: "2小时前",
-        likes: 45
+        likes: 45,
+        replies: [
+          {
+            id: 3,
+            author: {
+              name: "樱花妹",
+              avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&q=80"
+            },
+            content: "可以直接在官网预约哦，我待会发链接给你~",
+            time: "1小时前",
+            likes: 12
+          }
+        ]
       },
       {
         id: 2,
@@ -81,20 +91,6 @@ const PostDetail = () => {
     toast({
       description: "分享链接已复制",
     })
-  }
-
-  const handleComment = () => {
-    if (!comment.trim()) {
-      toast({
-        variant: "destructive",
-        description: "请输入评论内容",
-      })
-      return
-    }
-    toast({
-      description: "评论发送成功",
-    })
-    setComment("")
   }
 
   return (
@@ -194,50 +190,11 @@ const PostDetail = () => {
         </div>
       </Card>
 
-      {/* Comments Section */}
-      <div className="mx-4 mt-4">
-        <h2 className="font-medium mb-4">评论 {post.commentCount}</h2>
-        <ScrollArea className="h-[400px] rounded-md">
-          {post.comments.map((comment) => (
-            <div key={comment.id} className="flex gap-3 mb-4 p-2 hover:bg-gray-50 rounded-lg transition-colors">
-              <Avatar className="h-8 w-8">
-                <img src={comment.author.avatar} alt={comment.author.name} className="object-cover" />
-              </Avatar>
-              <div className="flex-1">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium">{comment.author.name}</span>
-                  <span className="text-xs text-gray-500">{comment.time}</span>
-                </div>
-                <p className="text-sm mt-1">{comment.content}</p>
-                <div className="flex items-center gap-1 mt-2">
-                  <button className="flex items-center gap-1 text-gray-500 hover:text-pink-500 transition-colors">
-                    <Heart className="h-4 w-4" />
-                    <span className="text-xs">{comment.likes}</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </ScrollArea>
-
-        {/* Comment Input */}
-        <div className="fixed bottom-0 left-0 right-0 bg-white p-4 border-t shadow-lg">
-          <div className="flex gap-2 max-w-lg mx-auto">
-            <Textarea
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              placeholder="说点什么..."
-              className="min-h-[40px] max-h-[120px] focus:ring-pink-500"
-            />
-            <Button 
-              onClick={handleComment}
-              className="bg-pink-500 hover:bg-pink-600"
-            >
-              发送
-            </Button>
-          </div>
-        </div>
-      </div>
+      {/* Comments */}
+      <CommentSection 
+        comments={post.comments}
+        commentCount={post.commentCount}
+      />
     </div>
   )
 }
