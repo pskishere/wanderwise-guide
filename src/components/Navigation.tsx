@@ -11,14 +11,7 @@ export const Navigation = () => {
           {/* Full Width Floating Box */}
           <div className="fixed top-2 left-0 right-0 mx-4 z-50">
             <div className="flex items-center justify-between bg-white/95 backdrop-blur-md px-6 py-3 rounded-2xl shadow-lg border border-gray-100/50 max-w-screen-lg mx-auto">
-              <Link 
-                to="/" 
-                className="text-2xl font-bold bg-gradient-to-r from-pink-500 via-pink-400 to-pink-500 bg-clip-text text-transparent"
-              >
-                游记攻略
-              </Link>
-              
-              <div className="flex-1 max-w-md mx-6">
+              <div className="flex-1 max-w-xl">
                 <div className="relative">
                   <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                   <Input 
