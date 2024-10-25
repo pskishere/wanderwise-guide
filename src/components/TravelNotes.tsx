@@ -6,36 +6,69 @@ export const TravelNotes = () => {
   const notes = [
     {
       id: 1,
-      title: "东京浅草寺｜绝美夜景与传统小吃的完美邂逅",
-      image: "https://source.unsplash.com/800x600/?tokyo-temple",
+      title: "京都和服体验｜超详细攻略，体验最正宗的日本文化",
+      image: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=800&q=80",
       author: {
-        name: "旅行达人",
-        avatar: "https://source.unsplash.com/100x100/?portrait"
+        name: "樱花妹",
+        avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&q=80"
       },
-      likes: 2341,
-      comments: 89
+      likes: 3421,
+      comments: 234
     },
     {
       id: 2,
-      title: "巴厘岛乌布｜隐藏在雨林中的网红秋千",
-      image: "https://source.unsplash.com/800x600/?bali-swing",
+      title: "巴厘岛乌布皇宫｜隐藏在热带雨林中的绝美秘境",
+      image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&q=80",
       author: {
-        name: "背包客",
-        avatar: "https://source.unsplash.com/100x100/?face"
+        name: "旅行小菌",
+        avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&q=80"
       },
-      likes: 1892,
+      likes: 2892,
       comments: 156
     },
     {
       id: 3,
-      title: "巴黎铁塔｜最浪漫的日落时分",
-      image: "https://source.unsplash.com/800x600/?paris-eiffel",
+      title: "曼谷网红餐厅｜超高性价比的米其林餐厅推荐",
+      image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80",
       author: {
-        name: "美食家",
-        avatar: "https://source.unsplash.com/100x100/?woman"
+        name: "美食探店",
+        avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&q=80"
       },
-      likes: 3421,
-      comments: 234
+      likes: 4567,
+      comments: 345
+    },
+    {
+      id: 4,
+      title: "马尔代夫｜漂浮早餐&水下餐厅，蜜月天堂",
+      image: "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=800&q=80",
+      author: {
+        name: "蜜月旅行",
+        avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&q=80"
+      },
+      likes: 6789,
+      comments: 432
+    },
+    {
+      id: 5,
+      title: "巴黎铁塔｜绝美日落时分，教你拍出ins风照片",
+      image: "https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?w=800&q=80",
+      author: {
+        name: "摄影师小K",
+        avatar: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=100&h=100&q=80"
+      },
+      likes: 5432,
+      comments: 321
+    },
+    {
+      id: 6,
+      title: "迪拜帆船酒店｜奢华下午茶体验，性价比超高",
+      image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&q=80",
+      author: {
+        name: "探店达人",
+        avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&h=100&q=80"
+      },
+      likes: 3678,
+      comments: 267
     }
   ];
 
@@ -54,7 +87,7 @@ export const TravelNotes = () => {
               <div className="flex items-center justify-between mt-2">
                 <div className="flex items-center gap-2">
                   <Avatar className="h-6 w-6">
-                    <img src={note.author.avatar} alt={note.author.name} />
+                    <img src={note.author.avatar} alt={note.author.name} className="object-cover" />
                   </Avatar>
                   <span className="text-xs text-gray-600">{note.author.name}</span>
                 </div>
