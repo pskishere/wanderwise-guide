@@ -93,27 +93,30 @@ export const TravelNotes = () => {
     <div className="container mx-auto px-4 py-4">
       <div className="grid grid-cols-2 gap-4">
         {notes.map((note) => (
-          <Card key={note.id} className="overflow-hidden border-none shadow-sm">
-            <img
-              src={note.image}
-              alt={note.title}
-              className="w-full aspect-[3/4] object-cover rounded-lg"
-            />
-            <div className="p-2">
-              <p className="text-sm font-medium line-clamp-2">{note.title}</p>
-              <div className="flex items-center justify-between mt-2">
+          <Card key={note.id} className="group overflow-hidden border-none shadow-sm hover:shadow-md transition-shadow duration-200">
+            <div className="relative">
+              <img
+                src={note.image}
+                alt={note.title}
+                className="w-full aspect-[3/4] object-cover rounded-lg"
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+            </div>
+            <div className="p-3">
+              <p className="text-sm font-medium line-clamp-2 mb-3 leading-snug">{note.title}</p>
+              <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Avatar className="h-6 w-6">
+                  <Avatar className="h-6 w-6 ring-2 ring-white">
                     <img src={note.author.avatar} alt={note.author.name} className="object-cover" />
                   </Avatar>
                   <span className="text-xs text-gray-600">{note.author.name}</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <button className="flex items-center gap-1">
+                  <button className="flex items-center gap-1 text-gray-600 hover:text-pink-500 transition-colors">
                     <Heart className="h-4 w-4" />
                     <span className="text-xs">{note.likes}</span>
                   </button>
-                  <button className="flex items-center gap-1">
+                  <button className="flex items-center gap-1 text-gray-600 hover:text-pink-500 transition-colors">
                     <MessageCircle className="h-4 w-4" />
                     <span className="text-xs">{note.comments}</span>
                   </button>
