@@ -12,7 +12,9 @@ export const Navigation = () => {
           >
             游记攻略
           </Link>
-          <div className="flex items-center gap-6">
+          
+          {/* Floating Notification Box */}
+          <div className="fixed top-4 right-4 flex items-center gap-6 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg border border-gray-100">
             <Link 
               to="/notifications" 
               className="text-gray-600 hover:text-gray-900 transition-colors relative"
