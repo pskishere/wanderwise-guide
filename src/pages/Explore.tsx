@@ -1,3 +1,4 @@
+```tsx
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Search, ShoppingBag, Tag, Store } from "lucide-react"
@@ -42,18 +43,22 @@ const Explore = () => {
       <Navigation />
       
       {/* Search Header */}
-      <div className="sticky top-0 z-20 bg-white shadow-sm py-2">
+      <div className="sticky top-0 z-20 bg-white py-3">
         <div className="container mx-auto px-4">
-          <div className="flex w-full gap-2">
+          <div className="flex w-full gap-3">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
               <Input 
                 placeholder="搜索商品..." 
-                className="pl-10 bg-gray-100"
+                className="pl-10 bg-gray-100 border-0 rounded-full h-11"
               />
             </div>
-            <Button variant="outline" size="icon">
-              <ShoppingBag className="h-4 w-4" />
+            <Button 
+              variant="ghost" 
+              size="icon"
+              className="h-11 w-11 rounded-full bg-gray-100 hover:bg-gray-200"
+            >
+              <ShoppingBag className="h-5 w-5 text-gray-500" />
             </Button>
           </div>
         </div>
@@ -123,3 +128,4 @@ const Explore = () => {
 }
 
 export default Explore
+```
