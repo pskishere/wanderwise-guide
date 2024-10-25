@@ -90,9 +90,9 @@ export const TravelNotes = () => {
 
   return (
     <div className="container mx-auto px-2 py-4">
-      <div className="columns-2 gap-0 space-y-0">
+      <div className="columns-2 gap-2 space-y-2">
         {notes.map((note) => (
-          <Card key={note.id} className="mb-0 break-inside-avoid overflow-hidden border-none shadow-none hover:shadow-lg transition-shadow duration-200">
+          <Card key={note.id} className="mb-2 break-inside-avoid overflow-hidden border-none shadow-none hover:shadow-lg transition-shadow duration-200">
             <div className="relative">
               <img
                 src={note.image}
