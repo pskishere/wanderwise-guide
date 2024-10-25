@@ -13,11 +13,13 @@ const Index = () => {
       <div className="sticky top-0 z-20 bg-white shadow-sm py-2">
         <div className="container mx-auto px-4">
           <div className="flex w-full gap-2">
-            <Input 
-              placeholder="搜索目的地、美食、攻略..." 
-              className="flex-1 bg-gray-100"
-              prefix={<Search className="h-4 w-4 text-gray-400" />}
-            />
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Input 
+                placeholder="搜索目的地、美食、攻略..." 
+                className="flex-1 bg-gray-100 pl-10"
+              />
+            </div>
           </div>
         </div>
       </div>
