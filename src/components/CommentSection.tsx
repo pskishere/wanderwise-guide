@@ -1,5 +1,4 @@
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { CommentItem, CommentType } from "./CommentItem"
 import { useState } from "react"
@@ -119,15 +118,16 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
       {/* Comment Input */}
       <div className="fixed bottom-0 left-0 right-0 bg-white p-4 border-t shadow-lg">
         <div className="flex gap-2 max-w-lg mx-auto">
-          <Textarea
+          <textarea
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
             placeholder="说点什么..."
-            className="min-h-[40px] max-h-[120px] focus:ring-pink-500"
+            className="flex-1 resize-none rounded-xl border border-gray-200 p-3 text-sm focus:border-pink-500 focus:outline-none min-h-[44px] max-h-[120px]"
+            rows={1}
           />
           <Button 
             onClick={handleAddComment}
-            className="bg-pink-500 hover:bg-pink-600"
+            className="rounded-full bg-pink-500 hover:bg-pink-600 px-8"
           >
             发送
           </Button>
