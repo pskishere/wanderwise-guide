@@ -6,8 +6,9 @@ import { useInfiniteQuery } from "@tanstack/react-query"
 import { fetchPosts, Post, PageData } from "@/services/api"
 import { TravelNotesSkeleton } from "./TravelNotesSkeleton"
 import { useInView } from "react-intersection-observer"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useToast } from "@/hooks/use-toast"
+import { Skeleton } from "./ui/skeleton"
 
 export const TravelNotes = () => {
   const { ref, inView } = useInView()
@@ -52,11 +53,9 @@ export const TravelNotes = () => {
         {allPosts.map((post) => (
           <Link to={`/posts/${post.id}`} key={post.id}>
             <Card className="mb-2 break-inside-avoid overflow-hidden border-none shadow-none hover:shadow-lg transition-shadow duration-200">
-              <img
-                src={post.image}
-                alt={post.title}
-                className="w-full object-cover"
-              />
+              <div className="relative">
+                <ImageWithSkeleton src={post.image} alt={post.title} />
+              </div>
               <div className="px-2 pt-4 pb-3">
                 <h3 className="text-sm font-medium line-clamp-2 mb-4">
                   {post.title}
@@ -92,5 +91,24 @@ export const TravelNotes = () => {
         {isFetchingNextPage && <TravelNotesSkeleton />}
       </div>
     </div>
+  )
+}
+
+const ImageWithSkeleton = ({ src, alt }: { src: string; alt: string }) => {
+  const [isLoading, setIsLoading] = useState(true)
+
+  return (
+    <>
+      {isLoading && (
+        <Skeleton className="w-full aspect-[3/4] absolute inset-0" />
+      )}
+      <img
+        src={src}
+        alt={alt}
+        className="w-full object-cover"
+        onLoad={() => setIsLoading(false)}
+        style={{ minHeight: isLoading ? '300px' : 'auto' }}
+      />
+    </>
   )
 }
