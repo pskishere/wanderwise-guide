@@ -8,7 +8,7 @@ export const TravelNotesSkeleton = () => {
         {[1, 2, 3, 4].map((index) => (
           <Card key={index} className="mb-2 break-inside-avoid overflow-hidden border-none shadow-none">
             <Skeleton className="w-full aspect-[3/4]" />
-            <div className="p-4">
+            <div className="px-2 pt-4 pb-3">
               <Skeleton className="h-4 w-3/4 mb-4" />
               <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-2">

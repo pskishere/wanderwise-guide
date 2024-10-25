@@ -101,7 +101,7 @@ export const TravelNotes = () => {
               />
               <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
             </div>
-            <div className="p-4">
+            <div className="px-2 pt-4 pb-3">
               <p className="text-sm font-medium line-clamp-2 leading-snug mb-4">
                 {note.title}
               </p>
