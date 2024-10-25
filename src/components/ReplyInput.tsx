@@ -31,14 +31,14 @@ export const ReplyInput = ({ onSubmit, onCancel, replyTo }: ReplyInputProps) => 
           variant="outline"
           size="sm"
           onClick={onCancel}
-          className="h-7 px-2 text-xs hover:bg-gray-100"
+          className="h-8 px-3 text-sm hover:bg-gray-100"
         >
           取消
         </Button>
         <Button
           size="sm"
           onClick={handleSubmit}
-          className="h-7 px-2 text-xs bg-pink-500 hover:bg-pink-600"
+          className="h-8 px-3 text-sm bg-pink-500 hover:bg-pink-600"
         >
           发送
         </Button>
