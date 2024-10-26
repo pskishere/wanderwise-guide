@@ -15,6 +15,7 @@ interface CartItem {
   quantity: number
   shop: string
   selected: boolean
+  specs?: string
 }
 
 const fetchCartItems = async () => {
@@ -23,21 +24,23 @@ const fetchCartItems = async () => {
   return [
     {
       id: 1,
-      title: "ZARA 2024春季新款小香风粗花呢外套",
+      title: "ZARA 2024春季新款小香风粗花呢外套 气质翻领长袖夹克",
       price: 799,
       image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&q=80",
       quantity: 1,
       shop: "ZARA官方旗舰店",
-      selected: true
+      selected: true,
+      specs: "颜色: 米白色; 尺码: M"
     },
     {
       id: 2,
-      title: "春季新款针织开衫",
+      title: "UNIQLO 优衣库 春季新款针织开衫 纯棉舒适百搭",
       price: 399,
       image: "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=800&q=80",
       quantity: 2,
       shop: "UNIQLO官方旗舰店",
-      selected: true
+      selected: true,
+      specs: "颜色: 浅灰色; 尺码: L"
     }
   ]
 }
@@ -50,7 +53,6 @@ const Cart = () => {
   })
 
   const handleSelectAll = (checked: boolean) => {
-    // In a real app, this would update the cart items through an API
     toast({
       description: checked ? "已全选商品" : "已取消全选",
     })
