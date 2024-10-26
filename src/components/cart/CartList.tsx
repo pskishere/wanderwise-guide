@@ -55,47 +55,50 @@ export const CartList = ({ items, isLoading }: CartListProps) => {
               />
             </div>
             <div className="flex-1 min-w-0">
-              <div className="flex items-start justify-between">
-                <div className="space-y-1 flex-1">
-                  <h3 className="font-medium line-clamp-2 text-base">{item.title}</h3>
-                  <div className="inline-flex gap-2">
-                    <span className="text-xs px-1.5 py-0.5 bg-gray-100 rounded">
-                      {item.specs?.[0] || "默认规格"}
-                    </span>
-                  </div>
+              <div className="space-y-2">
+                <h3 className="font-medium text-base leading-tight">{item.title}</h3>
+                <div className="inline-flex">
+                  <span className="text-xs px-2 py-1 bg-gray-50 rounded-sm text-gray-900">
+                    {item.specs?.[0] || "默认规格"}
+                  </span>
                 </div>
               </div>
               
-              <div className="mt-2 flex items-center justify-between">
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <span className="text-lg font-bold text-red-500">¥{item.price}</span>
-                    {item.discount && (
-                      <span className="text-xs text-red-500 border border-red-500 px-1 rounded">
-                        限时立减{item.discount}
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex gap-2">
-                    <span className="text-xs text-gray-500 border border-gray-200 px-1 rounded">
-                      退货包运费
+              <div className="mt-3 space-y-2">
+                <div className="flex items-center gap-2">
+                  <span className="text-red-500">
+                    <span className="text-sm">¥</span>
+                    <span className="text-xl font-bold">{item.price}</span>
+                  </span>
+                  {item.discount && (
+                    <span className="text-xs text-red-500 border border-red-500 px-1.5 py-0.5 rounded-sm">
+                      限时立减{item.discount}
                     </span>
-                    <span className="text-xs text-gray-500 border border-gray-200 px-1 rounded">
-                      7天无理由退货
-                    </span>
-                  </div>
-                  {item.deadline && (
-                    <div className="text-xs text-red-500">
-                      截止时间 {item.deadline}
-                    </div>
                   )}
                 </div>
-                
-                <div className="flex items-center gap-2">
+
+                <div className="flex gap-2">
+                  <span className="text-xs text-gray-500 border border-gray-200 px-1.5 py-0.5 rounded-sm whitespace-nowrap">
+                    退货包运费
+                  </span>
+                  <span className="text-xs text-gray-500 border border-gray-200 px-1.5 py-0.5 rounded-sm whitespace-nowrap">
+                    7天无理由退货
+                  </span>
+                </div>
+
+                {item.deadline && (
+                  <div className="text-xs text-red-500">
+                    截止时间 {item.deadline}
+                  </div>
+                )}
+              </div>
+
+              <div className="absolute right-4 bottom-4">
+                <div className="flex items-center gap-1">
                   <Button
                     variant="outline"
                     size="icon"
-                    className="h-8 w-8 rounded-full"
+                    className="h-7 w-7 rounded-full"
                     onClick={() => handleQuantityChange(item.id, 'decrease')}
                     disabled={item.quantity <= 1}
                   >
@@ -105,7 +108,7 @@ export const CartList = ({ items, isLoading }: CartListProps) => {
                   <Button
                     variant="outline"
                     size="icon"
-                    className="h-8 w-8 rounded-full"
+                    className="h-7 w-7 rounded-full"
                     onClick={() => handleQuantityChange(item.id, 'increase')}
                   >
                     <Plus className="h-4 w-4" />
