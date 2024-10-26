@@ -25,20 +25,47 @@ const fetchCartItems = async () => {
   return [
     {
       id: 1,
-      title: "ZARA 2024春季新款小香风粗花呢外套",
-      price: 799,
-      image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&q=80",
+      title: "【新品上市】小米14 Pro 徕卡光学镜头 骁龙8Gen3",
+      price: 4999,
+      image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&q=80",
       quantity: 1,
-      shop: "ZARA官方旗舰店",
+      shop: "小米官方旗舰店",
       selected: true
     },
     {
       id: 2,
-      title: "春季新款针织开衫",
-      price: 399,
-      image: "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=800&q=80",
+      title: "【限时特惠】Nike Air Jordan 1 AJ1 乔丹高帮篮球鞋",
+      price: 1299,
+      image: "https://images.unsplash.com/photo-1600269452121-4f2416e55c28?w=800&q=80",
+      quantity: 1,
+      shop: "Nike官方旗舰店",
+      selected: true
+    },
+    {
+      id: 3,
+      title: "【新年礼盒】SK-II 神仙水精华液套装 230ml",
+      price: 1580,
+      image: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=800&q=80",
       quantity: 2,
-      shop: "UNIQLO官方旗舰店",
+      shop: "SK-II官方旗舰店",
+      selected: true
+    },
+    {
+      id: 4,
+      title: "【春季新款】UNIQLO设计师联名款oversize卫衣",
+      price: 299,
+      image: "https://images.unsplash.com/photo-1578587018452-892bacefd3f2?w=800&q=80",
+      quantity: 1,
+      shop: "优衣库官方旗舰店",
+      selected: false
+    },
+    {
+      id: 5,
+      title: "【限量发售】星巴克樱花季限定保温杯",
+      price: 299,
+      image: "https://images.unsplash.com/photo-1577937927133-66ef06acdf18?w=800&q=80",
+      quantity: 1,
+      shop: "星巴克官方旗舰店",
       selected: true
     }
   ]
