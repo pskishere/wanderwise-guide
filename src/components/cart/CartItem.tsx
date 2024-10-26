@@ -35,6 +35,7 @@ export const CartItem = ({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.2 }}
     >
       <Card className="p-4 bg-white/50 backdrop-blur-sm hover:shadow-lg transition-all duration-300">
         <div className="flex items-center gap-4">

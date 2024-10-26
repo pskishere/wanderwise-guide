@@ -6,7 +6,7 @@ import { CartSummary } from "@/components/cart/CartSummary"
 import { EmptyCart } from "@/components/cart/EmptyCart"
 import { useQuery } from "@tanstack/react-query"
 import { useToast } from "@/hooks/use-toast"
-import { AnimatePresence, motion } from "framer-motion"
+import { AnimatePresence } from "framer-motion"
 import { useState, useEffect } from "react"
 
 interface CartItem {
@@ -105,7 +105,7 @@ const Cart = () => {
     setItems(prev => prev.map(item => 
       item.id === id ? {
         ...item,
-        quantity: type === 'increase' ? item.quantity + 1 : item.quantity - 1
+        quantity: type === 'increase' ? item.quantity + 1 : Math.max(1, item.quantity - 1)
       } : item
     ))
     toast({
@@ -121,8 +121,11 @@ const Cart = () => {
   }
 
   const handleCheckout = () => {
+    const selectedItems = items.filter(item => item.selected)
+    const total = selectedItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
+    
     toast({
-      description: "正在跳转到结算页面...",
+      description: `正在结算 ${selectedItems.length} 件商品，总计 ¥${total}`,
     })
   }
 
@@ -142,18 +145,14 @@ const Cart = () => {
     <div className="min-h-screen bg-gradient-to-b from-pink-50 to-white pb-32">
       <Navigation />
       
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="container mx-auto px-4 pt-20"
-      >
+      <div className="container mx-auto px-4 pt-20">
         <CartHeader 
           onSelectAll={handleSelectAll}
           isAllSelected={isAllSelected}
         />
 
         <div className="space-y-4">
-          <AnimatePresence>
+          <AnimatePresence mode="popLayout">
             {items.map((item) => (
               <CartItem
                 key={item.id}
@@ -172,7 +171,7 @@ const Cart = () => {
             onCheckout={handleCheckout}
           />
         )}
-      </motion.div>
+      </div>
 
       <BottomNav />
     </div>
