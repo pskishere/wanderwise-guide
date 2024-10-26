@@ -6,6 +6,7 @@ import { EmptyCart } from "@/components/cart/EmptyCart"
 import { useQuery } from "@tanstack/react-query"
 import { Checkbox } from "@/components/ui/checkbox"
 import { useToast } from "@/hooks/use-toast"
+import { motion } from "framer-motion"
 
 interface CartItem {
   id: number
@@ -50,7 +51,6 @@ const Cart = () => {
   })
 
   const handleSelectAll = (checked: boolean) => {
-    // In a real app, this would update the cart items through an API
     toast({
       description: checked ? "已全选商品" : "已取消全选",
     })
@@ -64,7 +64,7 @@ const Cart = () => {
 
   if (!cartItems?.length && !isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gradient-to-b from-pink-50 to-white">
         <Navigation />
         <div className="container mx-auto px-4 pt-20">
           <EmptyCart />
@@ -75,13 +75,19 @@ const Cart = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-32">
+    <div className="min-h-screen bg-gradient-to-b from-pink-50 to-white pb-32">
       <Navigation />
       
-      <div className="container mx-auto px-4 pt-20">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="container mx-auto px-4 pt-20"
+      >
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold">购物车</h1>
-          <div className="flex items-center gap-2">
+          <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-purple-500">
+            购物车
+          </h1>
+          <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-sm">
             <Checkbox 
               id="select-all"
               onCheckedChange={handleSelectAll}
@@ -99,7 +105,7 @@ const Cart = () => {
           onCheckout={handleCheckout}
         />
         {cartItems?.length > 0 && <CartSummary items={cartItems} onCheckout={handleCheckout} />}
-      </div>
+      </motion.div>
 
       <BottomNav />
     </div>

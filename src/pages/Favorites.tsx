@@ -6,6 +6,7 @@ import { Heart, BookmarkX } from "lucide-react"
 import { Link } from "react-router-dom"
 import { useQuery } from "@tanstack/react-query"
 import { Skeleton } from "@/components/ui/skeleton"
+import { motion } from "framer-motion"
 
 interface FavoritePost {
   id: number
@@ -97,12 +98,16 @@ const ProductSkeleton = () => (
 )
 
 const EmptyState = ({ type }: { type: "posts" | "products" }) => (
-  <div className="flex flex-col items-center justify-center py-12 text-gray-500">
+  <motion.div 
+    initial={{ opacity: 0, scale: 0.9 }}
+    animate={{ opacity: 1, scale: 1 }}
+    className="flex flex-col items-center justify-center py-12 text-gray-500"
+  >
     <BookmarkX className="h-12 w-12 mb-4 stroke-1" />
     <p className="text-sm">
       {type === "posts" ? "暂无收藏的游记" : "暂无收藏的商品"}
     </p>
-  </div>
+  </motion.div>
 )
 
 const Favorites = () => {
@@ -111,12 +116,29 @@ const Favorites = () => {
     queryFn: fetchFavorites
   })
 
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  }
+
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0 }
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50 pb-20">
+    <div className="min-h-screen bg-gradient-to-b from-pink-50 to-white pb-20">
       <Navigation />
       
       <div className="container mx-auto px-4 pt-20">
-        <h1 className="text-2xl font-bold mb-6">我的收藏</h1>
+        <h1 className="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-purple-500">
+          我的收藏
+        </h1>
         
         <Tabs defaultValue="posts" className="space-y-4">
           <TabsList className="w-full bg-white/50 backdrop-blur-sm">
@@ -124,66 +146,90 @@ const Favorites = () => {
             <TabsTrigger value="products" className="flex-1 data-[state=active]:bg-white">商品</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="posts" className="space-y-4">
-            {isLoading ? (
-              Array(2).fill(0).map((_, i) => <PostSkeleton key={i} />)
-            ) : !data?.posts.length ? (
-              <EmptyState type="posts" />
-            ) : (
-              data.posts.map((post: FavoritePost) => (
-                <Link to={`/posts/${post.id}`} key={post.id}>
-                  <Card className="flex gap-4 p-4 hover:shadow-lg transition-shadow duration-200 bg-white/50 backdrop-blur-sm">
-                    <img
-                      src={post.image}
-                      alt={post.title}
-                      className="w-24 h-24 object-cover rounded-lg"
-                    />
-                    <div className="flex-1">
-                      <h3 className="font-medium line-clamp-2">{post.title}</h3>
-                      <div className="flex items-center gap-2 mt-2">
+          <TabsContent value="posts">
+            <motion.div 
+              variants={container}
+              initial="hidden"
+              animate="show"
+              className="space-y-4"
+            >
+              {isLoading ? (
+                Array(2).fill(0).map((_, i) => <PostSkeleton key={i} />)
+              ) : !data?.posts.length ? (
+                <EmptyState type="posts" />
+              ) : (
+                data.posts.map((post: FavoritePost) => (
+                  <motion.div key={post.id} variants={item}>
+                    <Link to={`/posts/${post.id}`}>
+                      <Card className="flex gap-4 p-4 hover:shadow-lg transition-all duration-300 bg-white/50 backdrop-blur-sm group">
                         <img
-                          src={post.author.avatar}
-                          alt={post.author.name}
-                          className="w-5 h-5 rounded-full"
+                          src={post.image}
+                          alt={post.title}
+                          className="w-24 h-24 object-cover rounded-lg group-hover:scale-105 transition-transform duration-300"
                         />
-                        <span className="text-sm text-gray-500">{post.author.name}</span>
-                      </div>
-                      <div className="flex items-center gap-1 mt-2 text-pink-500">
-                        <Heart className="h-4 w-4 fill-current" />
-                        <span className="text-sm">{post.likes}</span>
-                      </div>
-                    </div>
-                  </Card>
-                </Link>
-              ))
-            )}
+                        <div className="flex-1">
+                          <h3 className="font-medium line-clamp-2 group-hover:text-pink-500 transition-colors">
+                            {post.title}
+                          </h3>
+                          <div className="flex items-center gap-2 mt-2">
+                            <img
+                              src={post.author.avatar}
+                              alt={post.author.name}
+                              className="w-5 h-5 rounded-full"
+                            />
+                            <span className="text-sm text-gray-500">{post.author.name}</span>
+                          </div>
+                          <div className="flex items-center gap-1 mt-2 text-pink-500">
+                            <Heart className="h-4 w-4 fill-current" />
+                            <span className="text-sm">{post.likes}</span>
+                          </div>
+                        </div>
+                      </Card>
+                    </Link>
+                  </motion.div>
+                ))
+              )}
+            </motion.div>
           </TabsContent>
 
-          <TabsContent value="products" className="grid grid-cols-2 gap-4">
-            {isLoading ? (
-              Array(4).fill(0).map((_, i) => <ProductSkeleton key={i} />)
-            ) : !data?.products.length ? (
-              <div className="col-span-2">
-                <EmptyState type="products" />
-              </div>
-            ) : (
-              data.products.map((product: FavoriteProduct) => (
-                <Link to={`/products/${product.id}`} key={product.id}>
-                  <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-200 bg-white/50 backdrop-blur-sm">
-                    <img
-                      src={product.image}
-                      alt={product.title}
-                      className="w-full aspect-square object-cover"
-                    />
-                    <div className="p-3">
-                      <h3 className="text-sm font-medium line-clamp-2">{product.title}</h3>
-                      <p className="text-pink-600 font-medium mt-2">{product.price}</p>
-                      <p className="text-xs text-gray-500 mt-1">{product.shop}</p>
-                    </div>
-                  </Card>
-                </Link>
-              ))
-            )}
+          <TabsContent value="products">
+            <motion.div 
+              variants={container}
+              initial="hidden"
+              animate="show"
+              className="grid grid-cols-2 gap-4"
+            >
+              {isLoading ? (
+                Array(4).fill(0).map((_, i) => <ProductSkeleton key={i} />)
+              ) : !data?.products.length ? (
+                <div className="col-span-2">
+                  <EmptyState type="products" />
+                </div>
+              ) : (
+                data.products.map((product: FavoriteProduct) => (
+                  <motion.div key={product.id} variants={item}>
+                    <Link to={`/products/${product.id}`}>
+                      <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 bg-white/50 backdrop-blur-sm group">
+                        <div className="relative overflow-hidden">
+                          <img
+                            src={product.image}
+                            alt={product.title}
+                            className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
+                          />
+                        </div>
+                        <div className="p-3">
+                          <h3 className="text-sm font-medium line-clamp-2 group-hover:text-pink-500 transition-colors">
+                            {product.title}
+                          </h3>
+                          <p className="text-pink-600 font-medium mt-2">{product.price}</p>
+                          <p className="text-xs text-gray-500 mt-1">{product.shop}</p>
+                        </div>
+                      </Card>
+                    </Link>
+                  </motion.div>
+                ))
+              )}
+            </motion.div>
           </TabsContent>
         </Tabs>
       </div>
