@@ -98,7 +98,7 @@ export const CartList = ({ items, isLoading }: CartListProps) => {
                   <Button
                     variant="outline"
                     size="icon"
-                    className="h-7 w-7 rounded-full"
+                    className="h-8 w-8 rounded-full"
                     onClick={() => handleQuantityChange(item.id, 'decrease')}
                     disabled={item.quantity <= 1}
                   >
@@ -108,7 +108,7 @@ export const CartList = ({ items, isLoading }: CartListProps) => {
                   <Button
                     variant="outline"
                     size="icon"
-                    className="h-7 w-7 rounded-full"
+                    className="h-8 w-8 rounded-full"
                     onClick={() => handleQuantityChange(item.id, 'increase')}
                   >
                     <Plus className="h-4 w-4" />
