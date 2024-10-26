@@ -4,18 +4,7 @@ import { CartList } from "@/components/cart/CartList"
 import { CartSummary } from "@/components/cart/CartSummary"
 import { EmptyCart } from "@/components/cart/EmptyCart"
 import { useQuery } from "@tanstack/react-query"
-import { Checkbox } from "@/components/ui/checkbox"
 import { useToast } from "@/hooks/use-toast"
-
-interface CartItem {
-  id: number
-  title: string
-  price: number
-  image: string
-  quantity: number
-  shop: string
-  selected: boolean
-}
 
 const fetchCartItems = async () => {
   // Simulated API call
@@ -23,21 +12,15 @@ const fetchCartItems = async () => {
   return [
     {
       id: 1,
-      title: "ZARA 2024春季新款小香风粗花呢外套",
-      price: 799,
+      title: "猫咪爱砂 植物珍珠砂 木薯猫砂 无尘",
+      price: 32,
       image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&q=80",
       quantity: 1,
-      shop: "ZARA官方旗舰店",
-      selected: true
-    },
-    {
-      id: 2,
-      title: "春季新款针织开衫",
-      price: 399,
-      image: "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=800&q=80",
-      quantity: 2,
-      shop: "UNIQLO官方旗舰店",
-      selected: true
+      shop: "宠物用品店",
+      selected: true,
+      specs: ["植物珍珠砂【2.5kg*1】"],
+      discount: 4.8,
+      deadline: "11月11日"
     }
   ]
 }
@@ -48,13 +31,6 @@ const Cart = () => {
     queryKey: ['cart-items'],
     queryFn: fetchCartItems
   })
-
-  const handleSelectAll = (checked: boolean) => {
-    // In a real app, this would update the cart items through an API
-    toast({
-      description: checked ? "已全选商品" : "已取消全选",
-    })
-  }
 
   const handleCheckout = () => {
     toast({
@@ -79,18 +55,8 @@ const Cart = () => {
       <Navigation />
       
       <div className="container mx-auto px-4 pt-20">
-        <div className="flex items-center justify-between mb-6">
+        <div className="mb-6">
           <h1 className="text-2xl font-bold">购物车</h1>
-          <div className="flex items-center gap-2">
-            <Checkbox 
-              id="select-all"
-              onCheckedChange={handleSelectAll}
-              className="h-4 w-4"
-            />
-            <label htmlFor="select-all" className="text-sm text-gray-500">
-              全选
-            </label>
-          </div>
         </div>
 
         <CartList 
@@ -98,7 +64,12 @@ const Cart = () => {
           isLoading={isLoading} 
           onCheckout={handleCheckout}
         />
-        {cartItems?.length > 0 && <CartSummary items={cartItems} onCheckout={handleCheckout} />}
+        {cartItems?.length > 0 && (
+          <CartSummary 
+            items={cartItems} 
+            onCheckout={handleCheckout} 
+          />
+        )}
       </div>
 
       <BottomNav />
