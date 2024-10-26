@@ -7,7 +7,7 @@ import { EmptyCart } from "@/components/cart/EmptyCart"
 import { useQuery } from "@tanstack/react-query"
 import { useToast } from "@/hooks/use-toast"
 import { AnimatePresence, motion } from "framer-motion"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 interface CartItem {
   id: number
@@ -47,11 +47,17 @@ const fetchCartItems = async () => {
 const Cart = () => {
   const { toast } = useToast()
   const [items, setItems] = useState<CartItem[]>([])
+  
   const { data: cartItems, isLoading } = useQuery({
     queryKey: ['cart-items'],
-    queryFn: fetchCartItems,
-    onSuccess: (data) => setItems(data)
+    queryFn: fetchCartItems
   })
+
+  useEffect(() => {
+    if (cartItems) {
+      setItems(cartItems)
+    }
+  }, [cartItems])
 
   const isAllSelected = items.length > 0 && items.every(item => item.selected)
 
