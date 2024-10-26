@@ -4,6 +4,8 @@ import { CartList } from "@/components/cart/CartList"
 import { CartSummary } from "@/components/cart/CartSummary"
 import { EmptyCart } from "@/components/cart/EmptyCart"
 import { useQuery } from "@tanstack/react-query"
+import { Checkbox } from "@/components/ui/checkbox"
+import { useToast } from "@/hooks/use-toast"
 
 interface CartItem {
   id: number
@@ -41,10 +43,24 @@ const fetchCartItems = async () => {
 }
 
 const Cart = () => {
+  const { toast } = useToast()
   const { data: cartItems, isLoading } = useQuery({
     queryKey: ['cart-items'],
     queryFn: fetchCartItems
   })
+
+  const handleSelectAll = (checked: boolean) => {
+    // In a real app, this would update the cart items through an API
+    toast({
+      description: checked ? "已全选商品" : "已取消全选",
+    })
+  }
+
+  const handleCheckout = () => {
+    toast({
+      description: "正在跳转到结算页面...",
+    })
+  }
 
   if (!cartItems?.length && !isLoading) {
     return (
@@ -63,9 +79,26 @@ const Cart = () => {
       <Navigation />
       
       <div className="container mx-auto px-4 pt-20">
-        <h1 className="text-2xl font-bold mb-6">购物车</h1>
-        <CartList items={cartItems} isLoading={isLoading} />
-        {cartItems?.length > 0 && <CartSummary items={cartItems} />}
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-2xl font-bold">购物车</h1>
+          <div className="flex items-center gap-2">
+            <Checkbox 
+              id="select-all"
+              onCheckedChange={handleSelectAll}
+              className="h-4 w-4"
+            />
+            <label htmlFor="select-all" className="text-sm text-gray-500">
+              全选
+            </label>
+          </div>
+        </div>
+
+        <CartList 
+          items={cartItems} 
+          isLoading={isLoading} 
+          onCheckout={handleCheckout}
+        />
+        {cartItems?.length > 0 && <CartSummary items={cartItems} onCheckout={handleCheckout} />}
       </div>
 
       <BottomNav />

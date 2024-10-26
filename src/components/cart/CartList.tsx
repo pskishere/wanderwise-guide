@@ -18,14 +18,21 @@ interface CartItem {
 interface CartListProps {
   items?: CartItem[]
   isLoading: boolean
+  onCheckout: () => void
 }
 
-export const CartList = ({ items, isLoading }: CartListProps) => {
+export const CartList = ({ items, isLoading, onCheckout }: CartListProps) => {
   const { toast } = useToast()
 
   const handleDelete = (id: number) => {
     toast({
       description: "商品已从购物车中移除",
+    })
+  }
+
+  const handleQuantityChange = (id: number, type: 'increase' | 'decrease') => {
+    toast({
+      description: type === 'increase' ? "商品数量已增加" : "商品数量已减少",
     })
   }
 
@@ -66,6 +73,8 @@ export const CartList = ({ items, isLoading }: CartListProps) => {
                       variant="outline"
                       size="icon"
                       className="h-8 w-8"
+                      onClick={() => handleQuantityChange(item.id, 'decrease')}
+                      disabled={item.quantity <= 1}
                     >
                       <Minus className="h-4 w-4" />
                     </Button>
@@ -74,6 +83,7 @@ export const CartList = ({ items, isLoading }: CartListProps) => {
                       variant="outline"
                       size="icon"
                       className="h-8 w-8"
+                      onClick={() => handleQuantityChange(item.id, 'increase')}
                     >
                       <Plus className="h-4 w-4" />
                     </Button>
