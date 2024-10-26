@@ -8,6 +8,7 @@ import PostDetail from "@/pages/PostDetail"
 import Profile from "@/pages/Profile"
 import ProductDetail from "@/pages/ProductDetail"
 import Favorites from "@/pages/Favorites"
+import Messages from "@/pages/Messages"
 
 const queryClient = new QueryClient()
 
@@ -23,6 +24,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/products/:id" element={<ProductDetail />} />
             <Route path="/favorites" element={<Favorites />} />
+            <Route path="/messages" element={<Messages />} />
           </Routes>
           <Toaster />
         </Router>
