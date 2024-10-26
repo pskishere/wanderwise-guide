@@ -16,6 +16,12 @@ interface CartItem {
   shop: string
   selected: boolean
   specs?: string
+  discount?: {
+    type: string
+    value: number
+  }
+  returnInfo?: string[]
+  deadline?: string
 }
 
 const fetchCartItems = async () => {
@@ -24,13 +30,19 @@ const fetchCartItems = async () => {
   return [
     {
       id: 1,
-      title: "ZARA 2024春季新款小香风粗花呢外套 气质翻领长袖夹克",
-      price: 799,
-      image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&q=80",
+      title: "猫咪爱砂 植物珍珠砂 木薯猫砂",
+      price: 32,
+      image: "https://images.unsplash.com/photo-1582562124811-c09040d0a901?w=800&q=80",
       quantity: 1,
-      shop: "ZARA官方旗舰店",
+      shop: "宠物用品官方旗舰店",
       selected: true,
-      specs: "颜色: 米白色; 尺码: M"
+      specs: "规格: 2.5kg*1",
+      discount: {
+        type: "instant",
+        value: 4.8
+      },
+      returnInfo: ["退货包运费", "7天无理由退货"],
+      deadline: "11月11日"
     },
     {
       id: 2,

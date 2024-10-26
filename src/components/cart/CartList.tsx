@@ -15,6 +15,12 @@ interface CartItem {
   shop: string
   selected: boolean
   specs?: string
+  discount?: {
+    type: string
+    value: number
+  }
+  returnInfo?: string[]
+  deadline?: string
 }
 
 interface CartListProps {
@@ -71,18 +77,31 @@ export const CartList = ({ items, isLoading, onCheckout }: CartListProps) => {
                   {item.title}
                 </h3>
                 {item.specs && (
-                  <div className="mt-1 px-2 py-1 bg-gray-50 text-gray-500 text-xs inline-block rounded">
-                    {item.specs}
+                  <div className="mt-2 space-x-2">
+                    <span className="px-2 py-1 bg-gray-50 text-gray-500 text-xs rounded">
+                      {item.specs}
+                    </span>
                   </div>
                 )}
-                <p className="text-sm text-gray-500 mt-1 flex items-center gap-2">
-                  <span className="inline-block w-3 h-3 bg-emerald-500/10 rounded-full">
-                    <span className="block w-1.5 h-1.5 bg-emerald-500 rounded-full translate-x-[3px] translate-y-[3px]" />
-                  </span>
-                  {item.shop}
-                </p>
+                {item.discount && (
+                  <div className="mt-2 flex items-center gap-2">
+                    <span className="text-xs text-red-500 border border-red-500/30 px-1.5 py-0.5 rounded">
+                      限时立减 {item.discount.value}
+                    </span>
+                    {item.returnInfo?.map((info, index) => (
+                      <span key={index} className="text-xs text-gray-500 border border-gray-200 px-1.5 py-0.5 rounded">
+                        {info}
+                      </span>
+                    ))}
+                  </div>
+                )}
+                {item.deadline && (
+                  <div className="mt-1 text-xs text-gray-400">
+                    截止时间 {item.deadline}
+                  </div>
+                )}
                 <div className="flex items-center justify-between mt-2">
-                  <span className="text-lg font-bold text-pink-600">
+                  <span className="text-lg font-bold text-red-500">
                     ¥{item.price}
                   </span>
                   <div className="flex items-center gap-1">
