@@ -5,7 +5,7 @@ import { Button } from "./ui/button"
 import { useEffect, useState } from "react"
 
 export const Navigation = () => {
-  const [margin, setMargin] = useState(4)
+  const [margin, setMargin] = useState(8)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,9 +15,9 @@ export const Navigation = () => {
       
       // If content is less than viewport height or we're at the top
       if (documentHeight <= windowHeight || scrollPosition === 0) {
-        setMargin(8) // Increased margin when in empty space
+        setMargin(8) // Default larger margin
       } else {
-        setMargin(4) // Default margin when scrolling
+        setMargin(4) // Smaller margin when scrolling
       }
     }
 
