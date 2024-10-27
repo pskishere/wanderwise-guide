@@ -12,6 +12,7 @@ import ProductDetail from "@/pages/ProductDetail"
 import Favorites from "@/pages/Favorites"
 import Messages from "@/pages/Messages"
 import Cart from "@/pages/Cart"
+import Address from "@/pages/Address"
 
 const queryClient = new QueryClient()
 
@@ -30,6 +31,7 @@ function App() {
               <Route path="/favorites" element={<Favorites />} />
               <Route path="/messages" element={<Messages />} />
               <Route path="/cart" element={<Cart />} />
+              <Route path="/address" element={<Address />} />
             </Routes>
             <Toaster />
           </Router>
