@@ -2,14 +2,46 @@ import { Bell, ShoppingCart, Search, MapPin } from "lucide-react"
 import { Link } from "react-router-dom"
 import { Input } from "./ui/input"
 import { Button } from "./ui/button"
+import { useEffect, useState } from "react"
 
 export const Navigation = () => {
+  const [margin, setMargin] = useState(4)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY
+      const windowHeight = window.innerHeight
+      const documentHeight = document.documentElement.scrollHeight
+      
+      // If content is less than viewport height or we're at the top
+      if (documentHeight <= windowHeight || scrollPosition === 0) {
+        setMargin(8) // Increased margin when in empty space
+      } else {
+        setMargin(4) // Default margin when scrolling
+      }
+    }
+
+    // Initial check
+    handleScroll()
+
+    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('resize', handleScroll)
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', handleScroll)
+    }
+  }, [])
+
   return (
     <nav className="bg-white border-b shadow-sm">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
           {/* Full Width Floating Box */}
-          <div className="fixed top-4 left-0 right-0 mx-4 z-50">
+          <div 
+            className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+            style={{ margin: `${margin}px` }}
+          >
             <div className="flex items-center justify-between bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-2xl shadow-lg border border-gray-100/50 max-w-screen-lg mx-auto">
               <div className="flex-1 max-w-2xl">
                 <div className="relative">
