@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Minus, Plus } from "lucide-react"
+import { Minus, Plus, Trash2 } from "lucide-react"
 import { CartSkeleton } from "./CartSkeleton"
 import { useToast } from "@/hooks/use-toast"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -51,6 +51,12 @@ export const CartList = ({ items, isLoading }: CartListProps) => {
 
   const handleCheckboxChange = (id: number, checked: boolean) => {
     setSelectedItems(prev => ({ ...prev, [id]: checked }))
+  }
+
+  const handleDelete = (id: number) => {
+    toast({
+      description: "商品已删除",
+    })
   }
 
   if (isLoading) {
@@ -123,7 +129,17 @@ export const CartList = ({ items, isLoading }: CartListProps) => {
                 )}
               </div>
 
-              <div className="absolute right-4 bottom-4">
+              <div className="flex items-center justify-between mt-4">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-gray-500"
+                  onClick={() => handleDelete(item.id)}
+                >
+                  <Trash2 className="h-4 w-4 mr-1" />
+                  删除
+                </Button>
+
                 <div className="flex items-center gap-1">
                   <Button
                     variant="outline"

@@ -6,21 +6,46 @@ import { EmptyCart } from "@/components/cart/EmptyCart"
 import { useQuery } from "@tanstack/react-query"
 import { useToast } from "@/hooks/use-toast"
 
-const fetchCartItems = async () => {
-  // Simulated API call
+interface CartItem {
+  id: number
+  title: string
+  price: number
+  image: string
+  quantity: number
+  shop: string
+  selected: boolean
+  specs?: string[]
+  discount?: number
+  deadline?: string
+}
+
+const fetchCartItems = async (): Promise<CartItem[]> => {
+  // 模拟API调用
   await new Promise(resolve => setTimeout(resolve, 1000))
   return [
     {
       id: 1,
-      title: "猫咪爱砂 植物珍珠砂 木薯猫砂 无尘",
-      price: 32,
+      title: "日本限定 Hello Kitty 樱花限定版玩偶",
+      price: 299,
       image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&q=80",
       quantity: 1,
-      shop: "宠物用品店",
+      shop: "三丽鸥官方旗舰店",
       selected: true,
-      specs: ["植物珍珠砂【2.5kg*1】"],
-      discount: 4.8,
-      deadline: "11月11日"
+      specs: ["粉色 40cm"],
+      discount: 30,
+      deadline: "3月1日"
+    },
+    {
+      id: 2,
+      title: "大阪环球影城限定 小黄人公仔套装",
+      price: 199,
+      image: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=800&q=80",
+      quantity: 2,
+      shop: "环球影城官方店",
+      selected: true,
+      specs: ["经典款 20cm"],
+      discount: 20,
+      deadline: "2月28日"
     }
   ]
 }
