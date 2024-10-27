@@ -5,31 +5,18 @@ import { CartSkeleton } from "./CartSkeleton"
 import { useToast } from "@/hooks/use-toast"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
-import { useState } from "react"
-
-interface CartItem {
-  id: number
-  title: string
-  price: number
-  image: string
-  quantity: number
-  shop: string
-  selected: boolean
-  specs?: string[]
-  discount?: number
-  deadline?: string
-}
+import { useDispatch, useSelector } from "react-redux"
+import { RootState } from "@/store/store"
+import { toggleSelectItem, updateQuantity, removeItem } from "@/store/cartSlice"
 
 interface CartListProps {
-  items?: CartItem[]
   isLoading: boolean
-  onCheckout: () => void
 }
 
-export const CartList = ({ items, isLoading }: CartListProps) => {
+export const CartList = ({ isLoading }: CartListProps) => {
   const { toast } = useToast()
-  const [quantities, setQuantities] = useState<Record<number, number>>({})
-  const [selectedItems, setSelectedItems] = useState<Record<number, boolean>>({})
+  const dispatch = useDispatch()
+  const items = useSelector((state: RootState) => state.cart.items)
 
   const handleQuantityChange = (id: number, type: 'increase' | 'decrease' | 'input', value?: number) => {
     let newQuantity: number
@@ -37,12 +24,13 @@ export const CartList = ({ items, isLoading }: CartListProps) => {
     if (type === 'input' && value !== undefined) {
       newQuantity = Math.max(1, Math.min(99, value))
     } else {
-      const currentQuantity = quantities[id] || 1
+      const currentItem = items.find(item => item.id === id)
+      const currentQuantity = currentItem?.quantity || 1
       newQuantity = type === 'increase' ? currentQuantity + 1 : currentQuantity - 1
     }
 
     if (newQuantity >= 1 && newQuantity <= 99) {
-      setQuantities(prev => ({ ...prev, [id]: newQuantity }))
+      dispatch(updateQuantity({ id, quantity: newQuantity }))
       toast({
         description: type === 'increase' ? "商品数量已增加" : "商品数量已减少",
       })
@@ -50,10 +38,11 @@ export const CartList = ({ items, isLoading }: CartListProps) => {
   }
 
   const handleCheckboxChange = (id: number, checked: boolean) => {
-    setSelectedItems(prev => ({ ...prev, [id]: checked }))
+    dispatch(toggleSelectItem(id))
   }
 
   const handleDelete = (id: number) => {
+    dispatch(removeItem(id))
     toast({
       description: "商品已删除",
     })
@@ -71,12 +60,12 @@ export const CartList = ({ items, isLoading }: CartListProps) => {
 
   return (
     <div className="space-y-3">
-      {items?.map((item) => (
+      {items.map((item) => (
         <Card key={item.id} className="p-3 sm:p-4">
           <div className="flex gap-3">
             <div className="flex items-center">
               <Checkbox 
-                checked={selectedItems[item.id] || false}
+                checked={item.selected}
                 onCheckedChange={(checked) => handleCheckboxChange(item.id, checked as boolean)}
                 className="ml-0.5 mr-2"
               />
@@ -146,13 +135,13 @@ export const CartList = ({ items, isLoading }: CartListProps) => {
                     size="icon"
                     className="h-7 w-7 sm:h-8 sm:w-8 rounded-full"
                     onClick={() => handleQuantityChange(item.id, 'decrease')}
-                    disabled={quantities[item.id] <= 1}
+                    disabled={item.quantity <= 1}
                   >
                     <Minus className="h-3 w-3 sm:h-4 sm:w-4" />
                   </Button>
                   <Input
                     type="number"
-                    value={quantities[item.id] || item.quantity}
+                    value={item.quantity}
                     onChange={(e) => handleQuantityChange(item.id, 'input', parseInt(e.target.value))}
                     className="w-10 h-7 sm:h-8 text-center p-0 text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     min={1}

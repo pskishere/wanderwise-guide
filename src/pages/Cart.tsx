@@ -5,21 +5,12 @@ import { CartSummary } from "@/components/cart/CartSummary"
 import { EmptyCart } from "@/components/cart/EmptyCart"
 import { useQuery } from "@tanstack/react-query"
 import { useToast } from "@/hooks/use-toast"
+import { useDispatch, useSelector } from "react-redux"
+import { RootState } from "@/store/store"
+import { setItems } from "@/store/cartSlice"
+import { useEffect } from "react"
 
-interface CartItem {
-  id: number
-  title: string
-  price: number
-  image: string
-  quantity: number
-  shop: string
-  selected: boolean
-  specs?: string[]
-  discount?: number
-  deadline?: string
-}
-
-const fetchCartItems = async (): Promise<CartItem[]> => {
+const fetchCartItems = async () => {
   // 模拟API调用
   await new Promise(resolve => setTimeout(resolve, 1000))
   return [
@@ -52,10 +43,19 @@ const fetchCartItems = async (): Promise<CartItem[]> => {
 
 const Cart = () => {
   const { toast } = useToast()
+  const dispatch = useDispatch()
+  const items = useSelector((state: RootState) => state.cart.items)
+  
   const { data: cartItems, isLoading } = useQuery({
     queryKey: ['cart-items'],
     queryFn: fetchCartItems
   })
+
+  useEffect(() => {
+    if (cartItems) {
+      dispatch(setItems(cartItems))
+    }
+  }, [cartItems, dispatch])
 
   const handleCheckout = () => {
     toast({
@@ -63,7 +63,7 @@ const Cart = () => {
     })
   }
 
-  if (!cartItems?.length && !isLoading) {
+  if (!items?.length && !isLoading) {
     return (
       <div className="min-h-screen bg-gray-50">
         <Navigation />
@@ -84,16 +84,9 @@ const Cart = () => {
           <h1 className="text-xl sm:text-2xl font-bold">购物车</h1>
         </div>
 
-        <CartList 
-          items={cartItems} 
-          isLoading={isLoading} 
-          onCheckout={handleCheckout}
-        />
-        {cartItems?.length > 0 && (
-          <CartSummary 
-            items={cartItems} 
-            onCheckout={handleCheckout} 
-          />
+        <CartList isLoading={isLoading} />
+        {items?.length > 0 && (
+          <CartSummary onCheckout={handleCheckout} />
         )}
       </div>
 
