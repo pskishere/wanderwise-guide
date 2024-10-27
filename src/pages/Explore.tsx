@@ -69,7 +69,7 @@ export const Explore = () => {
       <Navigation />
       
       {/* Categories */}
-      <div className="container mx-auto px-3 pt-24 pb-1">
+      <div className="container mx-auto px-3 pt-24 pb-1 max-w-7xl">
         <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
           {categories.map((category) => (
             <Button
@@ -85,15 +85,15 @@ export const Explore = () => {
       </div>
 
       {/* Products Grid */}
-      <div className="container mx-auto px-2 py-4">
-        <div className="columns-2 gap-2 space-y-2">
+      <div className="container mx-auto px-2 py-4 max-w-7xl">
+        <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
           {isLoading ? (
-            Array(4).fill(0).map((_, index) => (
+            Array(8).fill(0).map((_, index) => (
               <ProductSkeleton key={index} />
             ))
           ) : (
             allProducts.map((product) => (
-              <Card key={product.id} className="mb-2 break-inside-avoid overflow-hidden border-none shadow-none hover:shadow-lg transition-shadow duration-200">
+              <Card key={product.id} className="mb-4 break-inside-avoid overflow-hidden border-none shadow-none hover:shadow-lg transition-shadow duration-200">
                 <img
                   src={product.image}
                   alt={product.title}
@@ -130,8 +130,8 @@ export const Explore = () => {
           className="flex justify-center py-4"
         >
           {isFetchingNextPage && (
-            <div className="space-y-4">
-              {Array(2).fill(0).map((_, index) => (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {Array(4).fill(0).map((_, index) => (
                 <ProductSkeleton key={index} />
               ))}
             </div>

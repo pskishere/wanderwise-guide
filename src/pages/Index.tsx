@@ -22,7 +22,7 @@ const Index = () => {
       <Navigation />
       
       {/* Categories */}
-      <div className="container mx-auto px-2 pt-24 pb-1">
+      <div className="container mx-auto px-2 pt-24 pb-1 max-w-7xl">
         <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
           {categories.map((category) => (
             <Button
@@ -37,7 +37,9 @@ const Index = () => {
         </div>
       </div>
 
-      <TravelNotes />
+      <div className="max-w-7xl mx-auto">
+        <TravelNotes />
+      </div>
       <BottomNav />
     </div>
   )

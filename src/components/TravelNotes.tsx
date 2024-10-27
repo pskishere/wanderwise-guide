@@ -49,10 +49,10 @@ export const TravelNotes = () => {
 
   return (
     <div className="container mx-auto px-2 py-4">
-      <div className="columns-2 gap-2 space-y-2">
+      <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
         {allPosts.map((post) => (
           <Link to={`/posts/${post.id}`} key={post.id}>
-            <Card className="mb-2 break-inside-avoid overflow-hidden border-none shadow-none hover:shadow-lg transition-shadow duration-200">
+            <Card className="mb-4 break-inside-avoid overflow-hidden border-none shadow-none hover:shadow-lg transition-shadow duration-200">
               <div className="relative">
                 <ImageWithSkeleton src={post.image} alt={post.title} />
               </div>
