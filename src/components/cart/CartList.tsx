@@ -61,7 +61,7 @@ export const CartList = ({ items, isLoading }: CartListProps) => {
 
   if (isLoading) {
     return (
-      <div className="space-y-4">
+      <div className="space-y-3">
         {Array(2).fill(0).map((_, i) => (
           <CartSkeleton key={i} />
         ))}
@@ -70,18 +70,18 @@ export const CartList = ({ items, isLoading }: CartListProps) => {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       {items?.map((item) => (
-        <Card key={item.id} className="p-4">
-          <div className="flex gap-4">
+        <Card key={item.id} className="p-3 sm:p-4">
+          <div className="flex gap-3">
             <div className="flex items-center">
               <Checkbox 
                 checked={selectedItems[item.id] || false}
                 onCheckedChange={(checked) => handleCheckboxChange(item.id, checked as boolean)}
-                className="ml-1 mr-4"
+                className="ml-0.5 mr-2"
               />
             </div>
-            <div className="w-24 h-24 rounded-lg overflow-hidden bg-gray-100">
+            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
               <img
                 src={item.image}
                 alt={item.title}
@@ -89,22 +89,22 @@ export const CartList = ({ items, isLoading }: CartListProps) => {
               />
             </div>
             <div className="flex-1 min-w-0">
-              <div className="space-y-2">
-                <h3 className="font-medium text-base leading-tight">{item.title}</h3>
+              <div className="space-y-1.5">
+                <h3 className="text-sm sm:text-base font-medium leading-tight line-clamp-2">{item.title}</h3>
                 {item.specs && item.specs.length > 0 && (
                   <div className="inline-flex">
-                    <span className="text-xs px-2 py-1 bg-gray-50 rounded-sm text-gray-900">
+                    <span className="text-xs px-1.5 py-0.5 bg-gray-50 rounded-sm text-gray-900">
                       {item.specs[0]}
                     </span>
                   </div>
                 )}
               </div>
               
-              <div className="mt-3 space-y-2">
+              <div className="mt-2 space-y-1.5">
                 <div className="flex items-center gap-2">
                   <span className="text-red-500">
-                    <span className="text-sm">¥</span>
-                    <span className="text-xl font-bold">{item.price}</span>
+                    <span className="text-xs">¥</span>
+                    <span className="text-lg sm:text-xl font-bold">{item.price}</span>
                   </span>
                   {item.discount && (
                     <span className="text-xs text-red-500 border border-red-500 px-1.5 py-0.5 rounded-sm">
@@ -113,7 +113,7 @@ export const CartList = ({ items, isLoading }: CartListProps) => {
                   )}
                 </div>
 
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-1.5">
                   <span className="text-xs text-gray-500 border border-gray-200 px-1.5 py-0.5 rounded-sm whitespace-nowrap">
                     退货包运费
                   </span>
@@ -129,42 +129,42 @@ export const CartList = ({ items, isLoading }: CartListProps) => {
                 )}
               </div>
 
-              <div className="flex items-center justify-between mt-4">
+              <div className="flex items-center justify-between mt-3">
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="text-gray-500"
+                  className="text-gray-500 h-8 px-2"
                   onClick={() => handleDelete(item.id)}
                 >
                   <Trash2 className="h-4 w-4 mr-1" />
-                  删除
+                  <span className="text-sm">删除</span>
                 </Button>
 
                 <div className="flex items-center gap-1">
                   <Button
                     variant="outline"
                     size="icon"
-                    className="h-8 w-8 rounded-full"
+                    className="h-7 w-7 sm:h-8 sm:w-8 rounded-full"
                     onClick={() => handleQuantityChange(item.id, 'decrease')}
                     disabled={quantities[item.id] <= 1}
                   >
-                    <Minus className="h-4 w-4" />
+                    <Minus className="h-3 w-3 sm:h-4 sm:w-4" />
                   </Button>
                   <Input
                     type="number"
                     value={quantities[item.id] || item.quantity}
                     onChange={(e) => handleQuantityChange(item.id, 'input', parseInt(e.target.value))}
-                    className="w-12 h-8 text-center p-0"
+                    className="w-10 h-7 sm:h-8 text-center p-0 text-sm"
                     min={1}
                     max={99}
                   />
                   <Button
                     variant="outline"
                     size="icon"
-                    className="h-8 w-8 rounded-full"
+                    className="h-7 w-7 sm:h-8 sm:w-8 rounded-full"
                     onClick={() => handleQuantityChange(item.id, 'increase')}
                   >
-                    <Plus className="h-4 w-4" />
+                    <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
                   </Button>
                 </div>
               </div>
