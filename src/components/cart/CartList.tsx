@@ -3,6 +3,9 @@ import { Button } from "@/components/ui/button"
 import { Minus, Plus } from "lucide-react"
 import { CartSkeleton } from "./CartSkeleton"
 import { useToast } from "@/hooks/use-toast"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Input } from "@/components/ui/input"
+import { useState } from "react"
 
 interface CartItem {
   id: number
@@ -25,11 +28,29 @@ interface CartListProps {
 
 export const CartList = ({ items, isLoading }: CartListProps) => {
   const { toast } = useToast()
+  const [quantities, setQuantities] = useState<Record<number, number>>({})
+  const [selectedItems, setSelectedItems] = useState<Record<number, boolean>>({})
 
-  const handleQuantityChange = (id: number, type: 'increase' | 'decrease') => {
-    toast({
-      description: type === 'increase' ? "商品数量已增加" : "商品数量已减少",
-    })
+  const handleQuantityChange = (id: number, type: 'increase' | 'decrease' | 'input', value?: number) => {
+    let newQuantity: number
+    
+    if (type === 'input' && value !== undefined) {
+      newQuantity = Math.max(1, Math.min(99, value))
+    } else {
+      const currentQuantity = quantities[id] || 1
+      newQuantity = type === 'increase' ? currentQuantity + 1 : currentQuantity - 1
+    }
+
+    if (newQuantity >= 1 && newQuantity <= 99) {
+      setQuantities(prev => ({ ...prev, [id]: newQuantity }))
+      toast({
+        description: type === 'increase' ? "商品数量已增加" : "商品数量已减少",
+      })
+    }
+  }
+
+  const handleCheckboxChange = (id: number, checked: boolean) => {
+    setSelectedItems(prev => ({ ...prev, [id]: checked }))
   }
 
   if (isLoading) {
@@ -47,6 +68,13 @@ export const CartList = ({ items, isLoading }: CartListProps) => {
       {items?.map((item) => (
         <Card key={item.id} className="p-4">
           <div className="flex gap-4">
+            <div className="flex items-center">
+              <Checkbox 
+                checked={selectedItems[item.id] || false}
+                onCheckedChange={(checked) => handleCheckboxChange(item.id, checked as boolean)}
+                className="ml-1 mr-4"
+              />
+            </div>
             <div className="w-24 h-24 rounded-lg overflow-hidden bg-gray-100">
               <img
                 src={item.image}
@@ -100,11 +128,18 @@ export const CartList = ({ items, isLoading }: CartListProps) => {
                     size="icon"
                     className="h-8 w-8 rounded-full"
                     onClick={() => handleQuantityChange(item.id, 'decrease')}
-                    disabled={item.quantity <= 1}
+                    disabled={quantities[item.id] <= 1}
                   >
                     <Minus className="h-4 w-4" />
                   </Button>
-                  <span className="w-8 text-center">{item.quantity}</span>
+                  <Input
+                    type="number"
+                    value={quantities[item.id] || item.quantity}
+                    onChange={(e) => handleQuantityChange(item.id, 'input', parseInt(e.target.value))}
+                    className="w-12 h-8 text-center p-0"
+                    min={1}
+                    max={99}
+                  />
                   <Button
                     variant="outline"
                     size="icon"
