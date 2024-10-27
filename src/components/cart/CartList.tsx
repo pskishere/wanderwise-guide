@@ -85,11 +85,13 @@ export const CartList = ({ items, isLoading }: CartListProps) => {
             <div className="flex-1 min-w-0">
               <div className="space-y-2">
                 <h3 className="font-medium text-base leading-tight">{item.title}</h3>
-                <div className="inline-flex">
-                  <span className="text-xs px-2 py-1 bg-gray-50 rounded-sm text-gray-900">
-                    {item.specs?.[0] || "默认规格"}
-                  </span>
-                </div>
+                {item.specs && item.specs.length > 0 && (
+                  <div className="inline-flex">
+                    <span className="text-xs px-2 py-1 bg-gray-50 rounded-sm text-gray-900">
+                      {item.specs[0]}
+                    </span>
+                  </div>
+                )}
               </div>
               
               <div className="mt-3 space-y-2">
