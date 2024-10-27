@@ -154,7 +154,7 @@ export const CartList = ({ items, isLoading }: CartListProps) => {
                     type="number"
                     value={quantities[item.id] || item.quantity}
                     onChange={(e) => handleQuantityChange(item.id, 'input', parseInt(e.target.value))}
-                    className="w-10 h-7 sm:h-8 text-center p-0 text-sm"
+                    className="w-10 h-7 sm:h-8 text-center p-0 text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     min={1}
                     max={99}
                   />
