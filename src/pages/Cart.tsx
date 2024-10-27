@@ -8,7 +8,7 @@ import { useToast } from "@/hooks/use-toast"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
 import { setItems } from "@/store/cartSlice"
-import { useEffect, useRef, useState } from "react"
+import { useEffect } from "react"
 
 const fetchCartItems = async () => {
   // 模拟API调用
@@ -45,8 +45,6 @@ const Cart = () => {
   const { toast } = useToast()
   const dispatch = useDispatch()
   const items = useSelector((state: RootState) => state.cart.items)
-  const containerRef = useRef<HTMLDivElement>(null)
-  const [containerHeight, setContainerHeight] = useState("auto")
   
   const { data: cartItems, isLoading } = useQuery({
     queryKey: ['cart-items'],
@@ -58,28 +56,6 @@ const Cart = () => {
       dispatch(setItems(cartItems))
     }
   }, [cartItems, dispatch])
-
-  useEffect(() => {
-    const updateHeight = () => {
-      if (containerRef.current) {
-        const windowHeight = window.innerHeight
-        const contentHeight = containerRef.current.scrollHeight
-        const navHeight = 80 // 导航栏高度
-        const bottomNavHeight = 64 // 底部导航栏高度
-        
-        // 如果内容高度小于可视区域高度,设置容器高度为视口高度减去导航栏高度
-        if (contentHeight < (windowHeight - navHeight - bottomNavHeight)) {
-          setContainerHeight(`${windowHeight - navHeight - bottomNavHeight}px`)
-        } else {
-          setContainerHeight("auto")
-        }
-      }
-    }
-
-    updateHeight()
-    window.addEventListener('resize', updateHeight)
-    return () => window.removeEventListener('resize', updateHeight)
-  }, [items, isLoading])
 
   const handleCheckout = () => {
     toast({
@@ -103,11 +79,7 @@ const Cart = () => {
     <div className="min-h-screen bg-gray-50 pb-32">
       <Navigation />
       
-      <div 
-        ref={containerRef}
-        className="container mx-auto px-3 sm:px-4 pt-20 max-w-3xl"
-        style={{ minHeight: containerHeight }}
-      >
+      <div className="container mx-auto px-3 sm:px-4 pt-20 max-w-3xl">
         <div className="mb-4 sm:mb-6">
           <h1 className="text-xl sm:text-2xl font-bold">购物车</h1>
         </div>
