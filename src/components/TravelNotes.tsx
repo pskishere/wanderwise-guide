@@ -1,114 +1,98 @@
 import { Card } from "@/components/ui/card"
 import { Avatar } from "@/components/ui/avatar"
-import { Heart, MessageCircle } from "lucide-react"
-import { Link } from "react-router-dom"
-import { useInfiniteQuery } from "@tanstack/react-query"
-import { fetchPosts, Post, PageData } from "@/services/api"
+import { MessageCircle, Heart } from "lucide-react"
+import { useQuery } from "@tanstack/react-query"
 import { TravelNotesSkeleton } from "./TravelNotesSkeleton"
-import { useInView } from "react-intersection-observer"
-import { useEffect, useState } from "react"
-import { useToast } from "@/hooks/use-toast"
-import { Skeleton } from "./ui/skeleton"
+
+interface TravelNote {
+  id: number
+  title: string
+  image: string
+  author: {
+    name: string
+    avatar: string
+  }
+  likes: number
+  comments: number
+}
 
 export const TravelNotes = () => {
-  const { ref, inView } = useInView()
-  const { toast } = useToast()
-
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isLoading,
-    isError
-  } = useInfiniteQuery<PageData<Post>>({
-    queryKey: ['posts'],
-    queryFn: ({ pageParam = 0 }) => fetchPosts(pageParam as number),
-    getNextPageParam: (lastPage) => lastPage.nextCursor,
-    initialPageParam: 0
+  const { data: notes, isLoading } = useQuery<TravelNote[]>({
+    queryKey: ["travel-notes"],
+    queryFn: () =>
+      Promise.resolve([
+        {
+          id: 1,
+          title: "日本购物退税攻略｜超详细步骤说明与注意事项",
+          image: "https://source.unsplash.com/800x600/?japan-shopping",
+          author: {
+            name: "旅行者",
+            avatar: "https://source.unsplash.com/100x100/?portrait",
+          },
+          likes: 555,
+          comments: 62,
+        },
+        {
+          id: 2,
+          title: "奈良小鹿公园半日游，与萌鹿的悠闲午后时光",
+          image: "https://source.unsplash.com/800x600/?nara-deer",
+          author: {
+            name: "旅行者",
+            avatar: "https://source.unsplash.com/100x100/?portrait",
+          },
+          likes: 758,
+          comments: 13,
+        },
+      ]),
   })
-
-  useEffect(() => {
-    if (inView && hasNextPage && !isFetchingNextPage) {
-      fetchNextPage()
-    }
-  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage])
-
-  if (isError) {
-    toast({
-      variant: "destructive",
-      description: "加载游记失败，请稍后重试",
-    })
-  }
 
   if (isLoading) {
     return <TravelNotesSkeleton />
   }
 
-  const allPosts = data?.pages.flatMap(page => page.items) || []
-
   return (
-    <div className="container mx-auto px-2 py-4">
-      <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
-        {allPosts.map((post) => (
-          <Link to={`/posts/${post.id}`} key={post.id}>
-            <Card className="mb-4 break-inside-avoid overflow-hidden border-none shadow-none hover:shadow-lg transition-shadow duration-200">
-              <div className="relative">
-                <ImageWithSkeleton src={post.image} alt={post.title} />
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-2">
+      {notes?.map((note) => (
+        <Card
+          key={note.id}
+          className="overflow-hidden hover:shadow-lg transition-shadow duration-200 cursor-pointer bg-white"
+        >
+          <div className="aspect-[4/3]">
+            <img
+              src={note.image}
+              alt={note.title}
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <div className="p-3">
+            <h3 className="font-medium line-clamp-2 mb-2 text-sm">
+              {note.title}
+            </h3>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Avatar className="h-6 w-6">
+                  <img
+                    src={note.author.avatar}
+                    alt={note.author.name}
+                    className="object-cover"
+                  />
+                </Avatar>
+                <span className="text-sm text-gray-600">{note.author.name}</span>
               </div>
-              <div className="px-2 pt-4 pb-3">
-                <h3 className="text-sm font-medium line-clamp-2 mb-4">
-                  {post.title}
-                </h3>
-                <div className="flex flex-col gap-3">
-                  <div className="flex items-center gap-2">
-                    <Avatar className="h-6 w-6">
-                      <img src={post.author.avatar} alt={post.author.name} />
-                    </Avatar>
-                    <span className="text-xs text-gray-500">{post.author.name}</span>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-1">
-                      <Heart className="h-3.5 w-3.5 text-gray-400" />
-                      <span className="text-xs text-gray-500">{post.likes}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <MessageCircle className="h-3.5 w-3.5 text-gray-400" />
-                      <span className="text-xs text-gray-500">{post.comments}</span>
-                    </div>
-                  </div>
+              <div className="flex items-center gap-3 text-gray-400">
+                <div className="flex items-center gap-1">
+                  <Heart className="h-4 w-4" />
+                  <span className="text-xs">{note.likes}</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <MessageCircle className="h-4 w-4" />
+                  <span className="text-xs">{note.comments}</span>
                 </div>
               </div>
-            </Card>
-          </Link>
-        ))}
-      </div>
-
-      <div
-        ref={ref}
-        className="flex justify-center py-4"
-      >
-        {isFetchingNextPage && <TravelNotesSkeleton />}
-      </div>
+            </div>
+          </div>
+        </Card>
+      ))}
     </div>
-  )
-}
-
-const ImageWithSkeleton = ({ src, alt }: { src: string; alt: string }) => {
-  const [isLoading, setIsLoading] = useState(true)
-
-  return (
-    <>
-      {isLoading && (
-        <Skeleton className="w-full aspect-[3/4] absolute inset-0" />
-      )}
-      <img
-        src={src}
-        alt={alt}
-        className="w-full object-cover"
-        onLoad={() => setIsLoading(false)}
-        style={{ minHeight: isLoading ? '300px' : 'auto' }}
-      />
-    </>
   )
 }
