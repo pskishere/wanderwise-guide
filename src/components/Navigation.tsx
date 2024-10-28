@@ -13,17 +13,14 @@ export const Navigation = () => {
       const windowHeight = window.innerHeight
       const documentHeight = document.documentElement.scrollHeight
       
-      // If content is less than viewport height or we're at the top
       if (documentHeight <= windowHeight || scrollPosition === 0) {
-        setMargin(8) // Default larger margin
+        setMargin(8)
       } else {
-        setMargin(4) // Smaller margin when scrolling
+        setMargin(4)
       }
     }
 
-    // Initial check
     handleScroll()
-
     window.addEventListener('scroll', handleScroll)
     window.addEventListener('resize', handleScroll)
 
@@ -37,13 +34,16 @@ export const Navigation = () => {
     <nav className="bg-white border-b shadow-sm">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
-          {/* Full Width Floating Box */}
           <div 
             className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
             style={{ margin: `${margin}px` }}
           >
             <div className="flex items-center justify-between bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-2xl shadow-lg border border-gray-100/50 max-w-screen-lg mx-auto">
-              <div className="flex-1 max-w-2xl">
+              <Link to="/" className="hidden md:block font-semibold text-lg">
+                小红书
+              </Link>
+
+              <div className="flex-1 max-w-2xl mx-auto md:mx-8">
                 <div className="relative">
                   <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                   <Input 
@@ -53,7 +53,7 @@ export const Navigation = () => {
                 </div>
               </div>
 
-              <div className="flex items-center gap-4 ml-4">
+              <div className="flex items-center gap-4">
                 <Button 
                   variant="ghost" 
                   size="icon"
@@ -74,6 +74,17 @@ export const Navigation = () => {
                 >
                   <ShoppingCart className="h-5 w-5" />
                   <span className="absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-pink-500 text-[10px] text-white animate-bounce">2</span>
+                </Link>
+                <div className="hidden md:block h-6 w-px bg-gray-200 mx-2"></div>
+                <Link 
+                  to="/profile"
+                  className="hidden md:block"
+                >
+                  <img 
+                    src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&q=80" 
+                    alt="用户头像" 
+                    className="w-8 h-8 rounded-full ring-2 ring-white"
+                  />
                 </Link>
               </div>
             </div>
