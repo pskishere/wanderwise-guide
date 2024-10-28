@@ -36,9 +36,10 @@ export const Navigation = () => {
       const documentHeight = document.documentElement.scrollHeight
       
       if (documentHeight <= windowHeight || scrollPosition === 0) {
-        setMargin(8)
+        setMargin(5)
       } else {
-        setMargin(4)
+        setMargin(10)
+        
       }
     }
 
@@ -61,7 +62,7 @@ export const Navigation = () => {
             className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
             style={{ margin: `${margin}px` }}
           >
-            <div className="flex items-center justify-between bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-2xl shadow-lg border border-gray-100/50 max-w-screen-lg mx-auto">
+            <div className="flex items-center justify-between bg-white/95 backdrop-blur-md px-3 py-2.5 rounded-2xl shadow-lg border border-gray-100/50 max-w-screen-lg mx-auto">
               <div className="flex-1 max-w-2xl">
                 <Popover open={open} onOpenChange={setOpen}>
                   <PopoverTrigger asChild>

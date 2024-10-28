@@ -106,7 +106,6 @@ export const Explore = () => {
               >
                 <img
                   src={product.image}
-                  alt={product.title}
                   className="w-full object-cover"
                 />
                 <CardContent className="p-3">

@@ -48,7 +48,7 @@ export const TravelNotes = () => {
   const allPosts = data?.pages.flatMap(page => page.items) || []
 
   return (
-    <div className="container mx-auto px-2 py-4">
+    <div className="container mx-auto px-1 py-3">
       <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
         {allPosts.map((post) => (
           <Link to={`/posts/${post.id}`} key={post.id}>
@@ -104,7 +104,7 @@ const ImageWithSkeleton = ({ src, alt }: { src: string; alt: string }) => {
       )}
       <img
         src={src}
-        alt={alt}
+        // alt={alt}
         className="w-full object-cover"
         onLoad={() => setIsLoading(false)}
         style={{ minHeight: isLoading ? '300px' : 'auto' }}
