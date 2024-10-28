@@ -100,9 +100,9 @@ export const SpecsDrawer = ({ isOpen, onClose, product }: SpecsDrawerProps) => {
                     <Button
                       key={option}
                       variant={selectedSpecs[spec.name] === option ? "default" : "outline"}
-                      className={`rounded-full transition-all duration-200 ${
+                      className={`h-8 px-4 text-sm rounded-full transition-all duration-200 ${
                         selectedSpecs[spec.name] === option 
-                          ? 'bg-pink-500 hover:bg-pink-600 text-white shadow-md'
+                          ? 'bg-pink-500 hover:bg-pink-600 text-white shadow-sm'
                           : 'hover:border-pink-500 hover:text-pink-500'
                       }`}
                       onClick={() => handleSpecSelect(spec.name, option)}
@@ -120,23 +120,23 @@ export const SpecsDrawer = ({ isOpen, onClose, product }: SpecsDrawerProps) => {
                 <Button
                   variant="outline"
                   size="icon"
-                  className="rounded-full w-10 h-10 border-2 hover:border-pink-500 hover:text-pink-500 transition-colors"
+                  className="h-8 w-8 rounded-full border hover:border-pink-500 hover:text-pink-500 transition-colors"
                   onClick={() => handleQuantityChange('decrease')}
                   disabled={quantity <= 1}
                 >
-                  <Minus className="h-4 w-4" />
+                  <Minus className="h-3.5 w-3.5" />
                 </Button>
-                <span className="text-lg font-medium w-12 text-center">
+                <span className="text-base font-medium w-10 text-center">
                   {quantity}
                 </span>
                 <Button
                   variant="outline"
                   size="icon"
-                  className="rounded-full w-10 h-10 border-2 hover:border-pink-500 hover:text-pink-500 transition-colors"
+                  className="h-8 w-8 rounded-full border hover:border-pink-500 hover:text-pink-500 transition-colors"
                   onClick={() => handleQuantityChange('increase')}
                   disabled={quantity >= 99}
                 >
-                  <Plus className="h-4 w-4" />
+                  <Plus className="h-3.5 w-3.5" />
                 </Button>
               </div>
             </div>
@@ -144,7 +144,7 @@ export const SpecsDrawer = ({ isOpen, onClose, product }: SpecsDrawerProps) => {
 
           <DrawerFooter>
             <Button 
-              className="w-full bg-pink-500 hover:bg-pink-600 text-white font-medium text-lg h-12 shadow-lg"
+              className="w-full bg-pink-500 hover:bg-pink-600 text-white font-medium h-11 shadow-sm"
               onClick={handleAddToCart}
             >
               确定
