@@ -116,7 +116,7 @@ export const SpecsDrawer = ({ isOpen, onClose, product }: SpecsDrawerProps) => {
 
             <div>
               <h3 className="text-sm text-gray-500 mb-2">数量</h3>
-              <div className="flex items-center justify-end gap-3">
+              <div className="flex items-center justify-end gap-2">
                 <Button
                   variant="outline"
                   size="icon"
