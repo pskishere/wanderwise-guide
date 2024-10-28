@@ -11,14 +11,10 @@ export const TravelNotesSkeleton = ({
   count = 6 
 }: TravelNotesSkeletonProps) => {
   return (
-    <div className={`grid gap-4 ${
-      viewMode === "grid" 
-        ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" 
-        : "grid-cols-1"
-    }`}>
+    <div className={viewMode === "list" ? "space-y-4" : "columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4"}>
       {Array.from({ length: count }).map((_, i) => (
-        <Card key={i} className={`overflow-hidden ${
-          viewMode === "list" ? "flex gap-4" : ""
+        <Card key={i} className={`overflow-hidden mb-4 ${
+          viewMode === "list" ? "flex gap-4" : "break-inside-avoid"
         }`}>
           <div className={viewMode === "list" ? "w-48 shrink-0" : ""}>
             <Skeleton className={`w-full ${
