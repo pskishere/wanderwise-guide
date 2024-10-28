@@ -122,10 +122,10 @@ const Favorites = () => {
         <h1 className="text-2xl font-bold mb-6">我的收藏</h1>
         
         <Tabs defaultValue="posts" className="w-full">
-          <TabsList className="w-full h-10 bg-white/80 backdrop-blur-sm sticky top-16 z-10 p-0.5 gap-0.5 rounded-xl">
+          <TabsList className="w-full h-10 bg-white/90 backdrop-blur-sm sticky top-16 z-10 p-0.5 gap-0.5 rounded-xl shadow-sm">
             <TabsTrigger 
               value="posts" 
-              className="w-1/2 h-9 data-[state=active]:bg-pink-500 data-[state=active]:text-white data-[state=inactive]:text-gray-600 rounded-lg transition-all duration-300 text-xs font-medium"
+              className="w-1/2 h-9 data-[state=active]:bg-pink-500 data-[state=active]:text-white data-[state=inactive]:text-gray-700 rounded-lg transition-all duration-300 text-xs font-medium"
             >
               <div className="flex items-center gap-2">
                 <BookmarkIcon className="w-4 h-4" />
@@ -134,7 +134,7 @@ const Favorites = () => {
             </TabsTrigger>
             <TabsTrigger 
               value="products" 
-              className="w-1/2 h-9 data-[state=active]:bg-pink-500 data-[state=active]:text-white data-[state=inactive]:text-gray-600 rounded-lg transition-all duration-300 text-xs font-medium"
+              className="w-1/2 h-9 data-[state=active]:bg-pink-500 data-[state=active]:text-white data-[state=inactive]:text-gray-700 rounded-lg transition-all duration-300 text-xs font-medium"
             >
               <div className="flex items-center gap-2">
                 <ShoppingBagIcon className="w-4 h-4" />
