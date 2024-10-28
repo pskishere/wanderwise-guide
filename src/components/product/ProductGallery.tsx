@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/carousel"
 import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { Image } from "@/components/ui/image"
+import { ImageLightbox } from "@/components/ImageLightbox"
 import { useState } from "react"
 
 interface ProductGalleryProps {
@@ -15,6 +16,7 @@ interface ProductGalleryProps {
 
 export const ProductGallery = ({ images }: ProductGalleryProps) => {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [lightboxOpen, setLightboxOpen] = useState(false)
 
   return (
     <div className="space-y-4">
@@ -26,8 +28,12 @@ export const ProductGallery = ({ images }: ProductGalleryProps) => {
                 <Image
                   src={image}
                   alt={`Product image ${index + 1}`}
-                  className="rounded-lg object-cover w-full h-full"
+                  className="rounded-lg object-cover w-full h-full cursor-zoom-in"
                   fallback="https://placehold.co/600x600/png?text=Image+Not+Found"
+                  onClick={() => {
+                    setCurrentIndex(index)
+                    setLightboxOpen(true)
+                  }}
                 />
               </AspectRatio>
             </CarouselItem>
@@ -57,6 +63,13 @@ export const ProductGallery = ({ images }: ProductGalleryProps) => {
           </button>
         ))}
       </div>
+
+      <ImageLightbox
+        isOpen={lightboxOpen}
+        onClose={() => setLightboxOpen(false)}
+        images={images}
+        index={currentIndex}
+      />
     </div>
   )
 }
