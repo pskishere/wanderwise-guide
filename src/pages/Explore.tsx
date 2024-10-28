@@ -9,6 +9,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { useInView } from "react-intersection-observer"
 import { useToast } from "@/hooks/use-toast"
 import { ShoppingBag, Tag, Store } from "lucide-react"
+import { Link, useNavigate } from "react-router-dom"
 
 const categories = [
   { id: "all", name: "全部" },
@@ -34,6 +35,7 @@ export const Explore = () => {
   const [activeCategory, setActiveCategory] = useState("all")
   const { ref, inView } = useInView()
   const { toast } = useToast()
+  const navigate = useNavigate()
 
   const {
     data,
@@ -64,6 +66,10 @@ export const Explore = () => {
 
   const allProducts = data?.pages.flatMap(page => page.items) || []
 
+  const handleProductClick = (productId: number) => {
+    navigate(`/products/${productId}`)
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
@@ -93,7 +99,11 @@ export const Explore = () => {
             ))
           ) : (
             allProducts.map((product) => (
-              <Card key={product.id} className="mb-4 break-inside-avoid overflow-hidden border-none shadow-none hover:shadow-lg transition-shadow duration-200">
+              <Card 
+                key={product.id} 
+                className="mb-4 break-inside-avoid overflow-hidden border-none shadow-none hover:shadow-lg transition-shadow duration-200 cursor-pointer"
+                onClick={() => handleProductClick(product.id)}
+              >
                 <img
                   src={product.image}
                   alt={product.title}
