@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
 import { toggleSelectItem, updateQuantity, removeItem } from "@/store/cartSlice"
 import { CartItemCard } from "./CartItemCard"
+import { CartSkeleton } from "./CartSkeleton"
 
 export const CartList = ({ isLoading }: { isLoading: boolean }) => {
   const { toast } = useToast()
