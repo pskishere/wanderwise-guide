@@ -10,6 +10,7 @@ import { toggleSelectItem, updateQuantity, removeItem } from "@/store/cartSlice"
 import { Image } from "@/components/ui/image"
 import { motion, PanInfo, useAnimation } from "framer-motion"
 import { useEffect, useState } from "react"
+import { CartSkeleton } from "./CartSkeleton"
 
 interface CartListProps {
   isLoading: boolean
