@@ -1,8 +1,8 @@
-import { Bell, ShoppingCart, Search, MapPin } from "lucide-react"
+import { Bell, ShoppingCart, MapPin } from "lucide-react"
 import { Link } from "react-router-dom"
-import { Input } from "./ui/input"
 import { Button } from "./ui/button"
 import { useEffect, useState } from "react"
+import { SearchBox } from "./SearchBox"
 
 export const Navigation = () => {
   const [margin, setMargin] = useState(8)
@@ -13,15 +13,13 @@ export const Navigation = () => {
       const windowHeight = window.innerHeight
       const documentHeight = document.documentElement.scrollHeight
       
-      // If content is less than viewport height or we're at the top
       if (documentHeight <= windowHeight || scrollPosition === 0) {
-        setMargin(8) // Default larger margin
+        setMargin(8)
       } else {
-        setMargin(4) // Smaller margin when scrolling
+        setMargin(4)
       }
     }
 
-    // Initial check
     handleScroll()
 
     window.addEventListener('scroll', handleScroll)
@@ -37,20 +35,13 @@ export const Navigation = () => {
     <nav className="bg-white border-b shadow-sm">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
-          {/* Full Width Floating Box */}
           <div 
             className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
             style={{ margin: `${margin}px` }}
           >
             <div className="flex items-center justify-between bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-2xl shadow-lg border border-gray-100/50 max-w-screen-lg mx-auto">
               <div className="flex-1 max-w-2xl">
-                <div className="relative">
-                  <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                  <Input 
-                    placeholder="搜索目的地、美食、攻略..." 
-                    className="pl-8 bg-gray-100 border-0 rounded-full h-9"
-                  />
-                </div>
+                <SearchBox />
               </div>
 
               <div className="flex items-center gap-4 ml-4">
