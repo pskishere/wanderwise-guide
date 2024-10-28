@@ -31,10 +31,14 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">{product.title}</h1>
-        <div className="flex items-baseline gap-2 mt-2">
-          <span className="text-2xl font-bold text-pink-600">{product.price}</span>
-          <span className="text-sm text-gray-500 line-through">
+        <h1 className="text-2xl font-bold tracking-tight leading-relaxed">
+          {product.title}
+        </h1>
+        <div className="flex items-baseline gap-3 mt-3">
+          <span className="text-3xl font-bold text-pink-600 tracking-tight">
+            {product.price}
+          </span>
+          <span className="text-sm text-gray-400 line-through">
             {product.originalPrice}
           </span>
         </div>
