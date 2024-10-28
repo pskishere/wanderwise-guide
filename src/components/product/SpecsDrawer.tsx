@@ -68,7 +68,7 @@ export const SpecsDrawer = ({ isOpen, onClose, product }: SpecsDrawerProps) => {
     <Drawer open={isOpen} onOpenChange={onClose}>
       <DrawerContent>
         <div className="max-w-xl mx-auto w-full">
-          <DrawerHeader>
+          <DrawerHeader className="pb-2">
             <div className="flex gap-3 -mt-2">
               <div className="w-24 h-24 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
                 <Image
@@ -78,11 +78,11 @@ export const SpecsDrawer = ({ isOpen, onClose, product }: SpecsDrawerProps) => {
                   fallback="https://placehold.co/600x600/png?text=商品图片"
                 />
               </div>
-              <div className="flex-1 min-w-0 text-left">
+              <div className="flex-1 min-w-0 text-left space-y-2">
                 <DrawerTitle className="text-base font-medium leading-tight line-clamp-2">
                   {product.title}
                 </DrawerTitle>
-                <div className="mt-2">
+                <div>
                   <span className="text-pink-600 font-medium text-lg">
                     {product.price}
                   </span>
@@ -94,13 +94,13 @@ export const SpecsDrawer = ({ isOpen, onClose, product }: SpecsDrawerProps) => {
           <div className="px-4 pb-6 space-y-6">
             {(product.specs || []).map((spec) => (
               <div key={spec.name}>
-                <h3 className="text-sm text-gray-500 mb-2">{spec.name}</h3>
+                <h3 className="text-sm text-gray-500 mb-3">{spec.name}</h3>
                 <div className="flex flex-wrap gap-2">
                   {spec.options.map((option) => (
                     <Button
                       key={option}
                       variant={selectedSpecs[spec.name] === option ? "default" : "outline"}
-                      className={`h-8 px-4 text-sm rounded-full transition-all duration-200 ${
+                      className={`h-9 px-5 text-sm rounded-full transition-all duration-200 ${
                         selectedSpecs[spec.name] === option 
                           ? 'bg-pink-500 hover:bg-pink-600 text-white shadow-sm'
                           : 'hover:border-pink-500 hover:text-pink-500'
@@ -115,16 +115,16 @@ export const SpecsDrawer = ({ isOpen, onClose, product }: SpecsDrawerProps) => {
             ))}
 
             <div>
-              <h3 className="text-sm text-gray-500 mb-2">数量</h3>
-              <div className="flex items-center justify-end gap-2">
+              <h3 className="text-sm text-gray-500 mb-3">数量</h3>
+              <div className="flex items-center justify-end gap-3">
                 <Button
                   variant="outline"
                   size="icon"
-                  className="h-8 w-8 rounded-full border hover:border-pink-500 hover:text-pink-500 transition-colors"
+                  className="h-9 w-9 rounded-full border hover:border-pink-500 hover:text-pink-500 transition-colors"
                   onClick={() => handleQuantityChange('decrease')}
                   disabled={quantity <= 1}
                 >
-                  <Minus className="h-3.5 w-3.5" />
+                  <Minus className="h-4 w-4" />
                 </Button>
                 <span className="text-base font-medium w-8 text-center">
                   {quantity}
@@ -132,11 +132,11 @@ export const SpecsDrawer = ({ isOpen, onClose, product }: SpecsDrawerProps) => {
                 <Button
                   variant="outline"
                   size="icon"
-                  className="h-8 w-8 rounded-full border hover:border-pink-500 hover:text-pink-500 transition-colors"
+                  className="h-9 w-9 rounded-full border hover:border-pink-500 hover:text-pink-500 transition-colors"
                   onClick={() => handleQuantityChange('increase')}
                   disabled={quantity >= 99}
                 >
-                  <Plus className="h-3.5 w-3.5" />
+                  <Plus className="h-4 w-4" />
                 </Button>
               </div>
             </div>
