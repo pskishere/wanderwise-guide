@@ -18,7 +18,7 @@ interface SpecsDrawerProps {
     title: string
     price: string
     image: string
-    specs?: Array<{
+    specs: Array<{
       name: string
       options: string[]
     }>
@@ -116,30 +116,28 @@ export const SpecsDrawer = ({ isOpen, onClose, product }: SpecsDrawerProps) => {
 
             <div>
               <h3 className="text-sm text-gray-500 mb-2">数量</h3>
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-3 p-2 rounded-full border-2 border-gray-200">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8 rounded-full hover:bg-gray-100 hover:text-pink-500"
-                    onClick={() => handleQuantityChange('decrease')}
-                    disabled={quantity <= 1}
-                  >
-                    <Minus className="h-4 w-4" />
-                  </Button>
-                  <span className="text-lg font-medium w-8 text-center">
-                    {quantity}
-                  </span>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8 rounded-full hover:bg-gray-100 hover:text-pink-500"
-                    onClick={() => handleQuantityChange('increase')}
-                    disabled={quantity >= 99}
-                  >
-                    <Plus className="h-4 w-4" />
-                  </Button>
-                </div>
+              <div className="flex items-center gap-3">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="rounded-full w-10 h-10 border-2 hover:border-pink-500 hover:text-pink-500 transition-colors"
+                  onClick={() => handleQuantityChange('decrease')}
+                  disabled={quantity <= 1}
+                >
+                  <Minus className="h-4 w-4" />
+                </Button>
+                <span className="text-lg font-medium w-12 text-center">
+                  {quantity}
+                </span>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="rounded-full w-10 h-10 border-2 hover:border-pink-500 hover:text-pink-500 transition-colors"
+                  onClick={() => handleQuantityChange('increase')}
+                  disabled={quantity >= 99}
+                >
+                  <Plus className="h-4 w-4" />
+                </Button>
               </div>
             </div>
           </div>
