@@ -30,9 +30,9 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
   const { toast } = useToast()
 
   return (
-    <div className="space-y-4">
-      <div className="space-y-2">
-        <div className="flex flex-wrap gap-2">
+    <div className="space-y-3">
+      <div className="space-y-1.5">
+        <div className="flex flex-wrap gap-1.5">
           <Badge variant="secondary" className="bg-pink-50 text-pink-600 hover:bg-pink-100">
             限时优惠
           </Badge>
@@ -41,70 +41,70 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
           </Badge>
         </div>
         
-        <h1 className="text-xl font-bold tracking-tight leading-relaxed">
+        <h1 className="text-lg font-bold tracking-tight leading-relaxed">
           {product.title}
         </h1>
         
-        <div className="flex items-baseline gap-3">
-          <span className="text-3xl font-bold text-pink-600 tracking-tight">
+        <div className="flex items-baseline gap-2">
+          <span className="text-2xl font-bold text-pink-600 tracking-tight">
             {product.price}
           </span>
           <span className="text-sm text-gray-400 line-through">
             {product.originalPrice}
           </span>
-          <span className="text-xs px-2 py-1 bg-pink-50 text-pink-600 rounded-full">
+          <span className="text-xs px-1.5 py-0.5 bg-pink-50 text-pink-600 rounded-full">
             省¥{Number(product.originalPrice.slice(1)) - Number(product.price.slice(1))}
           </span>
         </div>
       </div>
 
-      <div className="flex items-center gap-3 p-3 bg-gradient-to-r from-pink-50/50 to-transparent rounded-xl border border-pink-100">
-        <Avatar className="h-10 w-10 ring-2 ring-pink-500/20">
+      <div className="flex items-center gap-2 p-2 bg-gradient-to-r from-pink-50/50 to-transparent rounded-lg border border-pink-100">
+        <Avatar className="h-8 w-8 ring-1 ring-pink-500/20">
           <img src={product.shop.avatar} alt={product.shop.name} className="object-cover" />
         </Avatar>
         <div className="flex-1">
-          <h3 className="font-medium">{product.shop.name}</h3>
-          <div className="flex items-center gap-2">
-            <Award className="h-3.5 w-3.5 text-pink-500" />
+          <h3 className="font-medium text-sm">{product.shop.name}</h3>
+          <div className="flex items-center gap-1.5">
+            <Award className="h-3 w-3 text-pink-500" />
             <p className="text-xs text-gray-500">官方认证店铺</p>
           </div>
         </div>
-        <Button variant="outline" size="sm" className="gap-1.5 rounded-full px-4 border-pink-200 hover:bg-pink-50">
-          <Store className="h-4 w-4 text-pink-500" />
+        <Button variant="outline" size="sm" className="gap-1 rounded-full px-3 border-pink-200 hover:bg-pink-50 text-xs h-7">
+          <Store className="h-3.5 w-3.5 text-pink-500" />
           进店逛逛
         </Button>
       </div>
 
-      <div className="grid grid-cols-3 gap-2">
-        <div className="flex flex-col items-center gap-1 p-2 bg-gray-50/50 rounded-xl">
-          <Shield className="h-5 w-5 text-pink-500" />
+      <div className="grid grid-cols-3 gap-1.5">
+        <div className="flex flex-col items-center gap-0.5 p-1.5 bg-gray-50/50 rounded-lg">
+          <Shield className="h-4 w-4 text-pink-500" />
           <span className="text-xs text-gray-600">正品保证</span>
         </div>
-        <div className="flex flex-col items-center gap-1 p-2 bg-gray-50/50 rounded-xl">
-          <Package className="h-5 w-5 text-pink-500" />
+        <div className="flex flex-col items-center gap-0.5 p-1.5 bg-gray-50/50 rounded-lg">
+          <Package className="h-4 w-4 text-pink-500" />
           <span className="text-xs text-gray-600">极速发货</span>
         </div>
-        <div className="flex flex-col items-center gap-1 p-2 bg-gray-50/50 rounded-xl">
-          <Truck className="h-5 w-5 text-pink-500" />
+        <div className="flex flex-col items-center gap-0.5 p-1.5 bg-gray-50/50 rounded-lg">
+          <Truck className="h-4 w-4 text-pink-500" />
           <span className="text-xs text-gray-600">全国包邮</span>
         </div>
       </div>
 
-      <div className="space-y-2 bg-gray-50/50 p-3 rounded-xl">
-        <h2 className="font-medium flex items-center gap-2">
-          <span className="h-4 w-1 bg-pink-500 rounded-full"></span>
+      <div className="space-y-1.5 bg-gray-50/50 p-2 rounded-lg">
+        <h2 className="font-medium flex items-center gap-1.5 text-sm">
+          <span className="h-3 w-0.5 bg-pink-500 rounded-full"></span>
           商品详情
         </h2>
-        <p className="text-gray-600 text-sm leading-relaxed">
+        <p className="text-gray-600 text-xs leading-relaxed">
           {product.description}
         </p>
       </div>
 
-      <div className="flex gap-3 pt-2">
+      <div className="flex gap-2 pt-1">
         <Button
           variant="outline"
           size="lg"
-          className="flex-1 rounded-full border-pink-200 hover:bg-pink-50"
+          className="flex-1 rounded-full border-pink-200 hover:bg-pink-50 h-9"
           onClick={() => {
             setIsLiked(!isLiked)
             toast({
@@ -113,16 +113,16 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
           }}
         >
           <Heart
-            className={`h-5 w-5 mr-2 transition-colors ${isLiked ? "fill-pink-500 text-pink-500" : "text-pink-500"}`}
+            className={`h-4 w-4 mr-1.5 transition-colors ${isLiked ? "fill-pink-500 text-pink-500" : "text-pink-500"}`}
           />
           收藏
         </Button>
         <Button
           size="lg"
-          className="flex-1 bg-pink-500 hover:bg-pink-600 rounded-full shadow-lg shadow-pink-500/20"
+          className="flex-1 bg-pink-500 hover:bg-pink-600 rounded-full shadow-lg shadow-pink-500/20 h-9"
           onClick={() => setIsDrawerOpen(true)}
         >
-          <ShoppingCart className="h-5 w-5 mr-2" />
+          <ShoppingCart className="h-4 w-4 mr-1.5" />
           加入购物车
         </Button>
       </div>
