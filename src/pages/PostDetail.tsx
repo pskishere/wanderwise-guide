@@ -13,10 +13,13 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import { CommentSection } from "@/components/CommentSection"
+import { ImageLightbox } from "@/components/ImageLightbox"
 
 const PostDetail = () => {
   const [isLiked, setIsLiked] = useState(false)
   const [isSaved, setIsSaved] = useState(false)
+  const [lightboxOpen, setLightboxOpen] = useState(false)
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const navigate = useNavigate()
   const { toast } = useToast()
 
@@ -73,24 +76,9 @@ const PostDetail = () => {
     tags: ["旅行", "日本", "京都", "和服"]
   }
 
-  const handleLike = () => {
-    setIsLiked(!isLiked)
-    toast({
-      description: isLiked ? "已取消点赞" : "已点赞",
-    })
-  }
-
-  const handleSave = () => {
-    setIsSaved(!isSaved)
-    toast({
-      description: isSaved ? "已取消收藏" : "已收藏",
-    })
-  }
-
-  const handleShare = () => {
-    toast({
-      description: "分享链接已复制",
-    })
+  const handleImageClick = (index: number) => {
+    setCurrentImageIndex(index)
+    setLightboxOpen(true)
   }
 
   return (
@@ -109,7 +97,10 @@ const PostDetail = () => {
           <CarouselContent>
             {post.images.map((image, index) => (
               <CarouselItem key={index}>
-                <div className="flex aspect-square items-center justify-center">
+                <div 
+                  className="flex aspect-square items-center justify-center cursor-zoom-in"
+                  onClick={() => handleImageClick(index)}
+                >
                   <img
                     src={image}
                     alt={`${post.title} - ${index + 1}`}
@@ -123,6 +114,14 @@ const PostDetail = () => {
           <CarouselNext className="right-4" />
         </Carousel>
       </div>
+
+      {/* Lightbox */}
+      <ImageLightbox
+        isOpen={lightboxOpen}
+        onClose={() => setLightboxOpen(false)}
+        images={post.images}
+        index={currentImageIndex}
+      />
 
       {/* Content */}
       <Card className="mx-4 -mt-6 relative z-10 rounded-xl border-none shadow-lg">
