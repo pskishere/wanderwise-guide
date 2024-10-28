@@ -32,7 +32,7 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
   return (
     <div className="space-y-3">
       <div className="space-y-1.5">
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex flex-wrap gap-1.5 justify-end">
           <Badge variant="secondary" className="bg-pink-50 text-pink-600 hover:bg-pink-100">
             限时优惠
           </Badge>
@@ -41,11 +41,11 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
           </Badge>
         </div>
         
-        <h1 className="text-lg font-bold tracking-tight leading-relaxed">
+        <h1 className="text-lg font-bold tracking-tight leading-relaxed text-right">
           {product.title}
         </h1>
         
-        <div className="flex items-baseline gap-2">
+        <div className="flex items-baseline gap-2 justify-end">
           <span className="text-2xl font-bold text-pink-600 tracking-tight">
             {product.price}
           </span>
