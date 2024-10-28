@@ -70,7 +70,7 @@ export const CartList = ({ isLoading }: CartListProps) => {
                 onCheckedChange={(checked) => handleCheckboxChange(item.id, checked as boolean)}
               />
             </div>
-            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
+            <div className="w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100">
               <Image
                 src={item.image}
                 alt={item.title}
