@@ -22,8 +22,8 @@ const Index = () => {
     <div className="min-h-screen bg-gray-50">
       <Navigation />
       
-      <div className="container mx-0.5 pt-20 pb-20 max-w-6xl">
-        <div className="grid grid-cols-1 lg:grid-cols-[180px,1fr] gap-2">
+      <div className="container mx-auto px-1 pt-20 pb-20 max-w-6xl">
+        <div className="grid grid-cols-1 lg:grid-cols-[200px,1fr] gap-3">
           {/* Sidebar */}
           <aside className="hidden lg:block space-y-3">
             <div className="bg-white rounded-xl p-2 shadow-sm">
@@ -50,14 +50,14 @@ const Index = () => {
           </aside>
 
           {/* Main Content */}
-          <main className="space-y-2">
+          <main className="space-y-3">
             {/* Mobile Categories */}
-            <div className="lg:hidden flex gap-1 overflow-x-auto pb-1 scrollbar-hide">
+            <div className="lg:hidden flex gap-1.5 overflow-x-auto pb-1 scrollbar-hide">
               {categories.map((category) => (
                 <Button
                   key={category.id}
                   variant={activeCategory === category.id ? "default" : "outline"}
-                  className="rounded-full text-sm h-7 px-2"
+                  className="rounded-full text-sm h-7 px-2.5"
                   onClick={() => setActiveCategory(category.id)}
                 >
                   {category.name}
