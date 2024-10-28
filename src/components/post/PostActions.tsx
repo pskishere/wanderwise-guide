@@ -39,7 +39,7 @@ export const PostActions = ({ likes, commentCount }: PostActionsProps) => {
         onClick={handleLike}
       >
         <Heart 
-          className={`h-6 w-6 transition-colors ${
+          className={`h-5 w-5 transition-colors ${
             isLiked ? 'fill-pink-500 text-pink-500' : 'text-gray-400 hover:text-pink-500'
           }`} 
         />
@@ -48,14 +48,14 @@ export const PostActions = ({ likes, commentCount }: PostActionsProps) => {
         </span>
       </button>
       <button className="flex flex-col items-center gap-1.5 transition-all hover:scale-110">
-        <MessageCircle className="h-6 w-6 text-gray-400 hover:text-pink-500 transition-colors" />
+        <MessageCircle className="h-5 w-5 text-gray-400 hover:text-pink-500 transition-colors" />
         <span className="text-xs text-gray-500">{commentCount}</span>
       </button>
       <button 
         className="flex flex-col items-center gap-1.5 transition-all hover:scale-110"
         onClick={handleShare}
       >
-        <Share2 className="h-6 w-6 text-gray-400 hover:text-pink-500 transition-colors" />
+        <Share2 className="h-5 w-5 text-gray-400 hover:text-pink-500 transition-colors" />
         <span className="text-xs text-gray-500">分享</span>
       </button>
       <button
@@ -63,7 +63,7 @@ export const PostActions = ({ likes, commentCount }: PostActionsProps) => {
         onClick={handleSave}
       >
         <Bookmark 
-          className={`h-6 w-6 transition-colors ${
+          className={`h-5 w-5 transition-colors ${
             isSaved ? 'fill-pink-500 text-pink-500' : 'text-gray-400 hover:text-pink-500'
           }`}
         />
