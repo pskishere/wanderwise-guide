@@ -72,7 +72,7 @@ export const Navigation = () => {
                         value={searchValue}
                         onChange={(e) => setSearchValue(e.target.value)}
                         placeholder="搜索目的地、美食、攻略..." 
-                        className="pl-8 bg-gray-100 border-0 rounded-full h-9 w-full"
+                        className="pl-8 bg-gray-100 border-0 rounded-2xl h-9 w-full"
                       />
                     </div>
                   </PopoverTrigger>
