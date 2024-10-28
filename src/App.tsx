@@ -13,6 +13,7 @@ import Favorites from "@/pages/Favorites"
 import Messages from "@/pages/Messages"
 import Cart from "@/pages/Cart"
 import Orders from "@/pages/Orders"
+import CreatePost from "@/pages/CreatePost"
 
 const queryClient = new QueryClient()
 
@@ -32,6 +33,7 @@ function App() {
               <Route path="/messages" element={<Messages />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/orders" element={<Orders />} />
+              <Route path="/create-post" element={<CreatePost />} />
             </Routes>
             <Toaster />
           </Router>
