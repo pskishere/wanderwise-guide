@@ -3,6 +3,7 @@ import { Avatar } from "@/components/ui/avatar"
 import { ShoppingCart, Heart, Store } from "lucide-react"
 import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
+import { SpecsDrawer } from "./SpecsDrawer"
 
 interface ProductInfoProps {
   product: {
@@ -10,26 +11,22 @@ interface ProductInfoProps {
     price: string
     originalPrice: string
     description: string
+    image: string
     shop: {
       name: string
       avatar: string
     }
     specs: Array<{
       name: string
-      value: string
+      options: string[]
     }>
   }
 }
 
 export const ProductInfo = ({ product }: ProductInfoProps) => {
   const [isLiked, setIsLiked] = useState(false)
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const { toast } = useToast()
-
-  const handleAddToCart = () => {
-    toast({
-      description: "已添加到购物车",
-    })
-  }
 
   return (
     <div className="space-y-6">
@@ -64,24 +61,17 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
         </p>
       </div>
 
-      <div className="space-y-4">
-        <h2 className="font-medium">规格参数</h2>
-        <div className="grid grid-cols-2 gap-4">
-          {product.specs.map((spec) => (
-            <div key={spec.name} className="flex gap-4">
-              <span className="text-gray-500">{spec.name}</span>
-              <span>{spec.value}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
       <div className="flex gap-4 pt-4">
         <Button
           variant="outline"
           size="lg"
           className="flex-1"
-          onClick={() => setIsLiked(!isLiked)}
+          onClick={() => {
+            setIsLiked(!isLiked)
+            toast({
+              description: isLiked ? "已取消收藏" : "已收藏",
+            })
+          }}
         >
           <Heart
             className={`h-5 w-5 mr-2 ${isLiked ? "fill-pink-500 text-pink-500" : ""}`}
@@ -91,12 +81,18 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
         <Button
           size="lg"
           className="flex-1 bg-pink-500 hover:bg-pink-600"
-          onClick={handleAddToCart}
+          onClick={() => setIsDrawerOpen(true)}
         >
           <ShoppingCart className="h-5 w-5 mr-2" />
           加入购物车
         </Button>
       </div>
+
+      <SpecsDrawer 
+        isOpen={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
+        product={product}
+      />
     </div>
   )
 }

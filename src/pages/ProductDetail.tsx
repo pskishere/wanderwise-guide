@@ -25,10 +25,14 @@ const fetchProduct = async (id: string) => {
       avatar: "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&q=80"
     },
     specs: [
-      { name: "颜色", value: "米白色" },
-      { name: "尺码", value: "S/M/L" },
-      { name: "材质", value: "羊毛混纺" },
-      { name: "产地", value: "中国" }
+      {
+        name: "颜色",
+        options: ["米白色", "黑色", "粉色"]
+      },
+      {
+        name: "尺码",
+        options: ["S", "M", "L", "XL"]
+      }
     ]
   }
 }
