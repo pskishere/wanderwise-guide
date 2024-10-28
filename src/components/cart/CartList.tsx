@@ -9,7 +9,6 @@ import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
 import { toggleSelectItem, updateQuantity, removeItem } from "@/store/cartSlice"
 import { Image } from "@/components/ui/image"
-import { Drawer } from "vaul"
 
 interface CartListProps {
   isLoading: boolean
@@ -63,110 +62,90 @@ export const CartList = ({ isLoading }: CartListProps) => {
   return (
     <div className="space-y-3">
       {items.map((item) => (
-        <Drawer.Root key={item.id}>
-          <Drawer.Trigger asChild>
-            <div className="touch-pan-x">
-              <Card className="p-3 sm:p-4">
-                <div className="flex gap-3">
-                  <div className="flex items-center justify-center w-6">
-                    <Checkbox 
-                      checked={item.selected}
-                      onCheckedChange={(checked) => handleCheckboxChange(item.id, checked as boolean)}
-                    />
-                  </div>
-                  <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
-                    <Image
-                      src={item.image}
-                      alt={item.title}
-                      className="w-full h-full object-cover"
-                      fallback="https://placehold.co/600x600/png?text=商品图片"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="space-y-1.5">
-                      <h3 className="text-sm sm:text-base font-medium leading-tight line-clamp-2">{item.title}</h3>
-                      {item.specs && item.specs.length > 0 && (
-                        <div className="inline-flex">
-                          <span className="text-xs px-1.5 py-0.5 bg-gray-50 rounded-sm text-gray-900">
-                            {item.specs[0]}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                    
-                    <div className="mt-2 space-y-1.5">
-                      <div className="flex items-center gap-2">
-                        <span className="text-red-500">
-                          <span className="text-xs">¥</span>
-                          <span className="text-lg sm:text-xl font-bold">{item.price}</span>
-                        </span>
-                        {item.discount && (
-                          <span className="text-xs text-red-500 border border-red-500 px-1.5 py-0.5 rounded-sm">
-                            限时立减{item.discount}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between mt-3">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="text-gray-500 h-8 px-2"
-                        onClick={() => handleDelete(item.id)}
-                      >
-                        <Trash2 className="h-4 w-4 mr-1" />
-                        <span className="text-sm">删除</span>
-                      </Button>
-
-                      <div className="flex items-center gap-1">
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          className="h-7 w-7 sm:h-8 sm:w-8 rounded-full"
-                          onClick={() => handleQuantityChange(item.id, 'decrease')}
-                          disabled={item.quantity <= 1}
-                        >
-                          <Minus className="h-3 w-3 sm:h-4 sm:w-4" />
-                        </Button>
-                        <Input
-                          type="number"
-                          value={item.quantity}
-                          onChange={(e) => handleQuantityChange(item.id, 'input', parseInt(e.target.value))}
-                          className="w-10 h-7 sm:h-8 text-center p-0 text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                          min={1}
-                          max={99}
-                        />
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          className="h-7 w-7 sm:h-8 sm:w-8 rounded-full"
-                          onClick={() => handleQuantityChange(item.id, 'increase')}
-                        >
-                          <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Card>
+        <Card key={item.id} className="p-3 sm:p-4">
+          <div className="flex gap-3">
+            <div className="flex items-center justify-center w-6">
+              <Checkbox 
+                checked={item.selected}
+                onCheckedChange={(checked) => handleCheckboxChange(item.id, checked as boolean)}
+              />
             </div>
-          </Drawer.Trigger>
-          <Drawer.Portal>
-            <Drawer.Content className="bg-red-500 fixed bottom-0 left-0 right-0 flex items-center justify-center h-32">
-              <Drawer.Close asChild>
-                <Button 
-                  variant="ghost" 
-                  className="text-white"
+            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
+              <Image
+                src={item.image}
+                alt={item.title}
+                className="w-full h-full object-cover"
+                fallback="https://placehold.co/600x600/png?text=商品图片"
+              />
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="space-y-1.5">
+                <h3 className="text-sm sm:text-base font-medium leading-tight line-clamp-2">{item.title}</h3>
+                {item.specs && item.specs.length > 0 && (
+                  <div className="inline-flex">
+                    <span className="text-xs px-1.5 py-0.5 bg-gray-50 rounded-sm text-gray-900">
+                      {item.specs[0]}
+                    </span>
+                  </div>
+                )}
+              </div>
+              
+              <div className="mt-2 space-y-1.5">
+                <div className="flex items-center gap-2">
+                  <span className="text-red-500">
+                    <span className="text-xs">¥</span>
+                    <span className="text-lg sm:text-xl font-bold">{item.price}</span>
+                  </span>
+                  {item.discount && (
+                    <span className="text-xs text-red-500 border border-red-500 px-1.5 py-0.5 rounded-sm">
+                      限时立减{item.discount}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between mt-3">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-gray-500 h-8 px-2"
                   onClick={() => handleDelete(item.id)}
                 >
-                  <Trash2 className="h-6 w-6 mr-2" />
-                  删除商品
+                  <Trash2 className="h-4 w-4 mr-1" />
+                  <span className="text-sm">删除</span>
                 </Button>
-              </Drawer.Close>
-            </Drawer.Content>
-          </Drawer.Portal>
-        </Drawer.Root>
+
+                <div className="flex items-center gap-1">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="h-7 w-7 sm:h-8 sm:w-8 rounded-full"
+                    onClick={() => handleQuantityChange(item.id, 'decrease')}
+                    disabled={item.quantity <= 1}
+                  >
+                    <Minus className="h-3 w-3 sm:h-4 sm:w-4" />
+                  </Button>
+                  <Input
+                    type="number"
+                    value={item.quantity}
+                    onChange={(e) => handleQuantityChange(item.id, 'input', parseInt(e.target.value))}
+                    className="w-10 h-7 sm:h-8 text-center p-0 text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                    min={1}
+                    max={99}
+                  />
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="h-7 w-7 sm:h-8 sm:w-8 rounded-full"
+                    onClick={() => handleQuantityChange(item.id, 'increase')}
+                  >
+                    <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Card>
       ))}
     </div>
   )
