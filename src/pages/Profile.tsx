@@ -3,81 +3,95 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Navigation } from "@/components/Navigation"
 import { BottomNav } from "@/components/BottomNav"
-import { Settings, Heart, MapPin, ShoppingBag, MessageCircle, Share2, ChevronRight } from "lucide-react"
+import { Settings, Heart, MapPin, ShoppingBag, MessageCircle, Share2, ChevronRight, QrCode, Gift, Bell } from "lucide-react"
 import { Link } from "react-router-dom"
 
 const stats = [
-  { label: "游记", value: "12" },
+  { label: "笔记", value: "12" },
   { label: "关注", value: "238" },
   { label: "粉丝", value: "486" },
   { label: "获赞", value: "1.2k" },
 ]
 
 const menuItems = [
-  { icon: Heart, label: "我的收藏", link: "/favorites" },
-  { icon: MapPin, label: "我的足迹", link: "/footprints" },
-  { icon: ShoppingBag, label: "我的订单", link: "/orders" },
-  { icon: MessageCircle, label: "我的评论", link: "/comments" },
-  { icon: Share2, label: "我的分享", link: "/shares" },
+  { icon: Heart, label: "收藏", link: "/favorites" },
+  { icon: MapPin, label: "足迹", link: "/footprints" },
+  { icon: ShoppingBag, label: "订单", link: "/orders" },
+  { icon: MessageCircle, label: "评论", link: "/comments" },
+  { icon: Gift, label: "福利社", link: "/benefits" },
+  { icon: QrCode, label: "小程序码", link: "/qrcode" },
+  { icon: Bell, label: "消息通知", link: "/notifications" },
+  { icon: Settings, label: "设置", link: "/settings" },
 ]
 
 const Profile = () => {
   return (
     <div className="min-h-screen bg-gray-50 pb-20">      
-      {/* User Info Card */}
-      <Card className="mx-4 mt-4 p-4 border-none shadow-lg">
-        <div className="flex items-start justify-between">
-          <div className="flex gap-4">
-            <Avatar className="h-16 w-16 ring-4 ring-pink-500/20">
-              <img 
-                src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&q=80" 
-                alt="用户头像"
-                className="object-cover"
-              />
-            </Avatar>
-            <div>
-              <h2 className="text-lg font-semibold">旅行达人</h2>
-              <p className="text-sm text-gray-500 mt-1">在路上，寻找生活的诗意 ✨</p>
-              <Button variant="outline" size="sm" className="mt-2">
-                编辑资料
-              </Button>
+      {/* Background Image & User Info */}
+      <div className="relative h-[280px] bg-gradient-to-b from-pink-500/20 to-white">
+        <div className="absolute inset-x-0 top-12 px-4">
+          <div className="flex items-start justify-between">
+            <div className="flex gap-4">
+              <Avatar className="h-20 w-20 ring-4 ring-white">
+                <img 
+                  src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&q=80" 
+                  alt="用户头像"
+                  className="object-cover"
+                />
+              </Avatar>
+              <div className="mt-1">
+                <h2 className="text-xl font-semibold">旅行达人</h2>
+                <p className="text-sm text-gray-600 mt-1">小红书号：XHSUID8888</p>
+                <p className="text-sm text-gray-600 mt-1">在路上，寻找生活的诗意 ✨</p>
+                <div className="flex gap-2 mt-3">
+                  <Button size="sm" className="bg-pink-500 hover:bg-pink-600">
+                    编辑资料
+                  </Button>
+                  <Button size="sm" variant="outline" className="border-gray-300">
+                    分享主页
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
-          <Button variant="ghost" size="icon" className="text-gray-500">
-            <Settings className="h-5 w-5" />
-          </Button>
-        </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-4 gap-4 mt-6">
-          {stats.map((stat) => (
-            <div key={stat.label} className="text-center">
-              <div className="font-semibold">{stat.value}</div>
-              <div className="text-xs text-gray-500 mt-1">{stat.label}</div>
-            </div>
-          ))}
+          {/* Stats */}
+          <div className="flex justify-between mt-8 px-8">
+            {stats.map((stat) => (
+              <div key={stat.label} className="text-center">
+                <div className="font-semibold">{stat.value}</div>
+                <div className="text-xs text-gray-500 mt-1">{stat.label}</div>
+              </div>
+            ))}
+          </div>
         </div>
-      </Card>
+      </div>
 
       {/* Menu Items */}
-      <Card className="mx-4 mt-4 divide-y border-none shadow-lg">
-        {menuItems.map((item) => {
-          const Icon = item.icon
-          return (
-            <Link
-              key={item.label}
-              to={item.link}
-              className="flex items-center justify-between p-4 hover:bg-gray-50"
-            >
-              <div className="flex items-center gap-3">
-                <Icon className="h-5 w-5 text-gray-500" />
-                <span>{item.label}</span>
-              </div>
-              <ChevronRight className="h-5 w-5 text-gray-400" />
-            </Link>
-          )
-        })}
-      </Card>
+      <div className="px-4 mt-4">
+        <Card className="divide-y border-none shadow-sm">
+          {menuItems.map((item, index) => {
+            const Icon = item.icon
+            return (
+              <Link
+                key={item.label}
+                to={item.link}
+                className="flex items-center justify-between p-4 hover:bg-gray-50"
+              >
+                <div className="flex items-center gap-3">
+                  <Icon className="h-5 w-5 text-gray-500" />
+                  <span className="text-sm">{item.label}</span>
+                </div>
+                <ChevronRight className="h-4 w-4 text-gray-400" />
+              </Link>
+            )
+          })}
+        </Card>
+
+        <div className="mt-6 text-center">
+          <p className="text-xs text-gray-500">当前版本 1.0.0</p>
+        </div>
+      </div>
 
       <BottomNav />
     </div>
