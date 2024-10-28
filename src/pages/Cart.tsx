@@ -67,7 +67,7 @@ const Cart = () => {
     return (
       <div className="min-h-screen bg-gray-50">
         <Navigation />
-        <div className="container mx-auto px-2 sm:px-4 pt-20 max-w-3xl">
+        <div className="container mx-auto px-1 sm:px-4 pt-20 max-w-3xl">
           <EmptyCart />
         </div>
         <BottomNav />
