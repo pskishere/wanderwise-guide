@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Navigation } from "@/components/Navigation"
 import { BottomNav } from "@/components/BottomNav"
-import { Settings, Heart, MapPin, ShoppingBag, MessageCircle, Share2, ChevronRight, QrCode, Gift, Bell } from "lucide-react"
+import { Settings, Heart, MapPin, ShoppingBag, MessageCircle, Bell } from "lucide-react"
 import { Link } from "react-router-dom"
 
 const stats = [
@@ -18,8 +18,6 @@ const menuItems = [
   { icon: MapPin, label: "足迹", link: "/footprints" },
   { icon: ShoppingBag, label: "订单", link: "/orders" },
   { icon: MessageCircle, label: "评论", link: "/comments" },
-  { icon: Gift, label: "福利社", link: "/benefits" },
-  { icon: QrCode, label: "小程序码", link: "/qrcode" },
   { icon: Bell, label: "消息通知", link: "/notifications" },
   { icon: Settings, label: "设置", link: "/settings" },
 ]
@@ -47,7 +45,6 @@ const Profile = () => {
                     编辑资料
                   </Button>
                   <Button size="sm" variant="outline" className="border-gray-200 hover:bg-gray-50 h-8 px-4 rounded-full text-sm">
-                    <Share2 className="h-3.5 w-3.5 mr-1" />
                     分享主页
                   </Button>
                 </div>
