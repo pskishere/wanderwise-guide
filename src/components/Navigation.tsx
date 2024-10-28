@@ -76,12 +76,10 @@ export const Navigation = () => {
                     </div>
                   </PopoverTrigger>
                   <PopoverContent className="p-0 w-[500px]" align="start">
-                    <Command className="rounded-lg border shadow-md">
-                      <CommandList className="py-2">
-                        <CommandEmpty className="py-4 text-sm text-center text-gray-500">
-                          未找到相关结果
-                        </CommandEmpty>
-                        <CommandGroup heading="热门目的地" className="px-3 pb-2">
+                    <Command>
+                      <CommandList>
+                        <CommandEmpty>未找到相关结果</CommandEmpty>
+                        <CommandGroup heading="热门目的地" className="px-2">
                           {suggestions.destinations.map((item) => (
                             <CommandItem 
                               key={item.id}
@@ -89,21 +87,21 @@ export const Navigation = () => {
                                 setSearchValue(item.name)
                                 setOpen(false)
                               }}
-                              className="flex items-center px-3 py-2.5 rounded-lg hover:bg-gray-50 cursor-pointer"
+                              className="flex items-center px-2 py-2 rounded-lg hover:bg-gray-100"
                             >
-                              <div className="flex items-center gap-4 flex-1">
-                                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-pink-50">
-                                  <MapPin className="h-5 w-5 text-pink-500" />
+                              <div className="flex items-center gap-3 flex-1">
+                                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-pink-50">
+                                  <MapPin className="h-4 w-4 text-pink-500" />
                                 </div>
-                                <div className="space-y-0.5">
-                                  <p className="text-sm font-medium text-gray-900">{item.name}</p>
-                                  <p className="text-xs text-gray-500">{item.desc}</p>
+                                <div className="space-y-1">
+                                  <p className="text-sm font-medium">{item.name}</p>
+                                  <p className="text-xs text-muted-foreground">{item.desc}</p>
                                 </div>
                               </div>
                             </CommandItem>
                           ))}
                         </CommandGroup>
-                        <CommandGroup heading="美食推荐" className="px-3 py-2">
+                        <CommandGroup heading="美食推荐" className="px-2">
                           {suggestions.foods.map((item) => (
                             <CommandItem
                               key={item.id}
@@ -111,21 +109,21 @@ export const Navigation = () => {
                                 setSearchValue(item.name)
                                 setOpen(false)
                               }}
-                              className="flex items-center px-3 py-2.5 rounded-lg hover:bg-gray-50 cursor-pointer"
+                              className="flex items-center px-2 py-2 rounded-lg hover:bg-gray-100"
                             >
-                              <div className="flex items-center gap-4 flex-1">
-                                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-50">
-                                  <Utensils className="h-5 w-5 text-orange-500" />
+                              <div className="flex items-center gap-3 flex-1">
+                                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-orange-50">
+                                  <Utensils className="h-4 w-4 text-orange-500" />
                                 </div>
-                                <div className="space-y-0.5">
-                                  <p className="text-sm font-medium text-gray-900">{item.name}</p>
-                                  <p className="text-xs text-gray-500">{item.desc}</p>
+                                <div className="space-y-1">
+                                  <p className="text-sm font-medium">{item.name}</p>
+                                  <p className="text-xs text-muted-foreground">{item.desc}</p>
                                 </div>
                               </div>
                             </CommandItem>
                           ))}
                         </CommandGroup>
-                        <CommandGroup heading="热门攻略" className="px-3 pt-2">
+                        <CommandGroup heading="热门攻略" className="px-2">
                           {suggestions.guides.map((item) => (
                             <CommandItem
                               key={item.id}
@@ -133,15 +131,15 @@ export const Navigation = () => {
                                 setSearchValue(item.name)
                                 setOpen(false)
                               }}
-                              className="flex items-center px-3 py-2.5 rounded-lg hover:bg-gray-50 cursor-pointer"
+                              className="flex items-center px-2 py-2 rounded-lg hover:bg-gray-100"
                             >
-                              <div className="flex items-center gap-4 flex-1">
-                                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50">
-                                  <BookOpen className="h-5 w-5 text-blue-500" />
+                              <div className="flex items-center gap-3 flex-1">
+                                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50">
+                                  <BookOpen className="h-4 w-4 text-blue-500" />
                                 </div>
-                                <div className="space-y-0.5">
-                                  <p className="text-sm font-medium text-gray-900">{item.name}</p>
-                                  <p className="text-xs text-gray-500">{item.desc}</p>
+                                <div className="space-y-1">
+                                  <p className="text-sm font-medium">{item.name}</p>
+                                  <p className="text-xs text-muted-foreground">{item.desc}</p>
                                 </div>
                               </div>
                             </CommandItem>
