@@ -102,21 +102,6 @@ export const CartList = ({ isLoading }: CartListProps) => {
                     </span>
                   )}
                 </div>
-
-                <div className="flex flex-wrap gap-1.5">
-                  <span className="text-xs text-gray-500 border border-gray-200 px-1.5 py-0.5 rounded-sm whitespace-nowrap">
-                    退货包运费
-                  </span>
-                  <span className="text-xs text-gray-500 border border-gray-200 px-1.5 py-0.5 rounded-sm whitespace-nowrap">
-                    7天无理由退货
-                  </span>
-                </div>
-
-                {item.deadline && (
-                  <div className="text-xs text-red-500">
-                    截止时间 {item.deadline}
-                  </div>
-                )}
               </div>
 
               <div className="flex items-center justify-between mt-3">
