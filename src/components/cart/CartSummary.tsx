@@ -44,7 +44,7 @@ export const CartSummary = ({ onCheckout }: CartSummaryProps) => {
           </div>
         </div>
         <Button 
-          className="bg-pink-500 hover:bg-pink-600 h-9 sm:h-10 px-6 sm:px-8"
+          className="bg-[#F1424C] hover:bg-[#E13E47] text-white rounded-full h-10 px-8 font-medium"
           onClick={onCheckout}
           disabled={selectedCount === 0}
         >
