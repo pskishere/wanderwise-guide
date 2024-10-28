@@ -95,7 +95,7 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
           <span className="h-3 w-0.5 bg-pink-500 rounded-full"></span>
           商品详情
         </h2>
-        <p className="text-gray-600 text-xs leading-relaxed">
+        <p className="text-gray-600 text-sm leading-relaxed">
           {product.description}
         </p>
       </div>
