@@ -67,7 +67,7 @@ const Cart = () => {
     return (
       <div className="min-h-screen bg-gray-50">
         <Navigation />
-        <div className="container mx-auto px-3 sm:px-4 pt-20 max-w-3xl">
+        <div className="container mx-auto px-2 sm:px-4 pt-20 max-w-3xl">
           <EmptyCart />
         </div>
         <BottomNav />
@@ -79,7 +79,7 @@ const Cart = () => {
     <div className="min-h-screen bg-gray-50 pb-32">
       <Navigation />
       
-      <div className="container mx-auto px-3 sm:px-4 pt-20 max-w-3xl">
+      <div className="container mx-auto px-2 sm:px-4 pt-20 max-w-3xl">
         <div className="mb-4 sm:mb-6">
           <h1 className="text-xl sm:text-2xl font-bold">购物车</h1>
         </div>
