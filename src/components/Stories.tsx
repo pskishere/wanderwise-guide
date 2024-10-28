@@ -31,18 +31,20 @@ const stories = [
 
 export const Stories = () => {
   return (
-    <ScrollArea className="w-full whitespace-nowrap">
-      <div className="flex w-max space-x-4 p-4">
-        {stories.map((story) => (
-          <div key={story.id} className="flex flex-col items-center space-y-1">
-            <Avatar className="h-16 w-16 ring-2 ring-pink-500 ring-offset-2">
-              <img src={story.image} alt={story.name} className="object-cover" />
-            </Avatar>
-            <span className="text-xs">{story.name}</span>
-          </div>
-        ))}
-      </div>
-      <ScrollBar orientation="horizontal" />
-    </ScrollArea>
+    <div className="bg-white rounded-xl p-4 shadow-sm">
+      <ScrollArea className="w-full whitespace-nowrap">
+        <div className="flex w-max space-x-4">
+          {stories.map((story) => (
+            <div key={story.id} className="flex flex-col items-center space-y-1">
+              <Avatar className="h-16 w-16 ring-2 ring-pink-500/20 cursor-pointer hover:ring-pink-500/50 transition-all">
+                <img src={story.image} alt={story.name} className="object-cover" />
+              </Avatar>
+              <span className="text-xs text-gray-600">{story.name}</span>
+            </div>
+          ))}
+        </div>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
+    </div>
   )
 }

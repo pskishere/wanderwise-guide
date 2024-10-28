@@ -1,33 +1,32 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card"
 
 export const PopularDestinations = () => {
   const destinations = [
-    { id: 1, name: "巴厘岛", image: "https://source.unsplash.com/800x600/?bali", description: "印尼最受欢迎的旅游胜地" },
-    { id: 2, name: "东京", image: "https://source.unsplash.com/800x600/?tokyo", description: "现代与传统交融的大都市" },
-    { id: 3, name: "巴黎", image: "https://source.unsplash.com/800x600/?paris", description: "浪漫之都，艺术的殿堂" },
-    { id: 4, name: "马尔代夫", image: "https://source.unsplash.com/800x600/?maldives", description: "梦幻般的海岛天堂" },
-  ];
+    { id: 1, name: "东京", image: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=300&h=200&q=80" },
+    { id: 2, name: "巴厘岛", image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=300&h=200&q=80" },
+    { id: 3, name: "巴黎", image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=300&h=200&q=80" },
+  ]
 
   return (
-    <div className="container mx-auto px-4 py-16">
-      <h2 className="text-3xl font-bold mb-8">热门目的地</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="bg-white rounded-xl p-4 shadow-sm">
+      <h2 className="font-medium mb-3">热门目的地</h2>
+      <div className="space-y-3">
         {destinations.map((destination) => (
-          <Card key={destination.id} className="overflow-hidden">
+          <Card 
+            key={destination.id}
+            className="overflow-hidden cursor-pointer hover:shadow-md transition-shadow"
+          >
             <img
               src={destination.image}
               alt={destination.name}
-              className="w-full h-48 object-cover"
+              className="w-full h-24 object-cover"
             />
-            <CardHeader>
-              <CardTitle>{destination.name}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600">{destination.description}</p>
-            </CardContent>
+            <div className="p-2">
+              <h3 className="text-sm font-medium">{destination.name}</h3>
+            </div>
           </Card>
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
