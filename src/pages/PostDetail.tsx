@@ -1,10 +1,4 @@
-import { Avatar } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { Heart, MessageCircle, Share2, Bookmark, ChevronLeft } from "lucide-react"
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { useToast } from "@/hooks/use-toast"
 import {
   Carousel,
   CarouselContent,
@@ -14,14 +8,14 @@ import {
 } from "@/components/ui/carousel"
 import { CommentSection } from "@/components/CommentSection"
 import { ImageLightbox } from "@/components/ImageLightbox"
+import { PostHeader } from "@/components/post/PostHeader"
+import { PostContent } from "@/components/post/PostContent"
+import { PostActions } from "@/components/post/PostActions"
+import { useState } from "react"
 
 const PostDetail = () => {
-  const [isLiked, setIsLiked] = useState(false)
-  const [isSaved, setIsSaved] = useState(false)
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
-  const navigate = useNavigate()
-  const { toast } = useToast()
 
   const post = {
     id: 1,
@@ -83,13 +77,7 @@ const PostDetail = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
-      {/* Back Button */}
-      <button 
-        onClick={() => navigate(-1)}
-        className="fixed top-4 left-4 z-20 bg-black/30 p-2 rounded-full text-white hover:bg-black/50 transition-colors"
-      >
-        <ChevronLeft className="h-6 w-6" />
-      </button>
+      <PostHeader />
 
       {/* Image Gallery */}
       <div className="relative w-full aspect-square bg-black">
@@ -125,68 +113,16 @@ const PostDetail = () => {
 
       {/* Content */}
       <Card className="mx-4 -mt-6 relative z-10 rounded-xl border-none shadow-lg">
-        <div className="p-4">
-          {/* Author Info */}
-          <div className="flex items-center gap-3 mb-4">
-            <Avatar className="h-10 w-10 ring-2 ring-pink-500/20">
-              <img src={post.author.avatar} alt={post.author.name} className="object-cover" />
-            </Avatar>
-            <div>
-              <h3 className="font-medium">{post.author.name}</h3>
-              <p className="text-xs text-gray-500">2024-02-20</p>
-            </div>
-            <Button variant="default" size="sm" className="ml-auto">
-              关注
-            </Button>
-          </div>
-
-          {/* Tags */}
-          <div className="flex flex-wrap gap-2 mb-4">
-            {post.tags.map((tag) => (
-              <span
-                key={tag}
-                className="px-2 py-1 bg-pink-50 text-pink-600 rounded-full text-xs"
-              >
-                #{tag}
-              </span>
-            ))}
-          </div>
-
-          {/* Post Content */}
-          <h1 className="text-lg font-bold mb-2">{post.title}</h1>
-          <p className="text-gray-700 text-sm leading-relaxed mb-6">
-            {post.content}
-          </p>
-
-          {/* Interaction Buttons */}
-          <div className="flex items-center justify-around pt-4 border-t">
-            <button
-              className="flex flex-col items-center gap-1 transition-transform hover:scale-110"
-              onClick={handleLike}
-            >
-              <Heart className={`h-6 w-6 ${isLiked ? 'fill-pink-500 text-pink-500' : 'text-gray-500'}`} />
-              <span className="text-xs text-gray-500">{post.likes}</span>
-            </button>
-            <button className="flex flex-col items-center gap-1 transition-transform hover:scale-110">
-              <MessageCircle className="h-6 w-6 text-gray-500" />
-              <span className="text-xs text-gray-500">{post.commentCount}</span>
-            </button>
-            <button 
-              className="flex flex-col items-center gap-1 transition-transform hover:scale-110"
-              onClick={handleShare}
-            >
-              <Share2 className="h-6 w-6 text-gray-500" />
-              <span className="text-xs text-gray-500">分享</span>
-            </button>
-            <button
-              className="flex flex-col items-center gap-1 transition-transform hover:scale-110"
-              onClick={handleSave}
-            >
-              <Bookmark className={`h-6 w-6 ${isSaved ? 'fill-pink-500 text-pink-500' : 'text-gray-500'}`} />
-              <span className="text-xs text-gray-500">收藏</span>
-            </button>
-          </div>
-        </div>
+        <PostContent 
+          title={post.title}
+          content={post.content}
+          author={post.author}
+          tags={post.tags}
+        />
+        <PostActions 
+          likes={post.likes}
+          commentCount={post.commentCount}
+        />
       </Card>
 
       {/* Comments */}
