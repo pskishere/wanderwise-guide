@@ -51,14 +51,14 @@ export function SearchBox() {
 
   return (
     <Command
-      className="relative rounded-full border shadow-sm overflow-visible"
+      className="relative overflow-visible"
       shouldFilter={true}
     >
-      <div className="flex items-center border-b px-3">
-        <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
         <CommandInput 
           placeholder="搜索目的地、美食、攻略..." 
-          className="flex h-9 w-full rounded-full bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
+          className="pl-9 bg-gray-100 border-0 rounded-full h-9 w-full text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
           onFocus={() => setOpen(true)}
         />
       </div>
