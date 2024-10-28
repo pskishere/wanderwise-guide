@@ -8,8 +8,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
 import { toggleSelectItem, updateQuantity, removeItem } from "@/store/cartSlice"
 import { Image } from "@/components/ui/image"
-import { motion, PanInfo, useAnimation } from "framer-motion"
-import { useEffect, useState, useCallback } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { useEffect, useState } from "react"
 import { CartSkeleton } from "./CartSkeleton"
 
 interface CartListProps {
@@ -20,11 +20,6 @@ export const CartList = ({ isLoading }: CartListProps) => {
   const { toast } = useToast()
   const dispatch = useDispatch()
   const items = useSelector((state: RootState) => state.cart.items)
-  const [controls, setControls] = useState<ReturnType<typeof useAnimation>[]>([])
-
-  useEffect(() => {
-    setControls(items.map(() => useAnimation()))
-  }, [items.length])
 
   const handleQuantityChange = (id: number, type: 'increase' | 'decrease' | 'input', value?: number) => {
     let newQuantity: number
@@ -56,18 +51,6 @@ export const CartList = ({ isLoading }: CartListProps) => {
     })
   }
 
-  const handleDragEnd = async (id: number, info: PanInfo, index: number) => {
-    const offset = info.offset.x
-    const velocity = info.velocity.x
-
-    if (offset < -50 || velocity < -500) {
-      await controls[index]?.start({ x: -100 })
-      handleDelete(id)
-    } else {
-      controls[index]?.start({ x: 0 })
-    }
-  }
-
   if (isLoading) {
     return (
       <div className="space-y-3">
@@ -80,21 +63,16 @@ export const CartList = ({ isLoading }: CartListProps) => {
 
   return (
     <div className="space-y-3">
-      {items.map((item, index) => (
-        <div key={item.id} className="relative overflow-hidden rounded-lg">
-          <div className="absolute right-0 top-0 bottom-0 w-[100px] bg-red-500 rounded-r-lg flex items-center justify-center">
-            <Trash2 className="text-white h-6 w-6" />
-          </div>
+      <AnimatePresence>
+        {items.map((item) => (
           <motion.div
-            drag="x"
-            dragConstraints={{ left: -100, right: 0 }}
-            dragElastic={0.1}
-            dragMomentum={true}
-            animate={controls[index]}
-            onDragEnd={(_, info) => handleDragEnd(item.id, info, index)}
-            className="relative cursor-grab active:cursor-grabbing"
+            key={item.id}
+            initial={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2 }}
+            className="relative overflow-hidden rounded-lg"
           >
-            <Card className="p-3 sm:p-4 bg-white touch-pan-y">
+            <Card className="p-3 sm:p-4 bg-white">
               <div className="flex gap-3">
                 <div className="flex items-center justify-center w-6">
                   <Checkbox 
@@ -179,8 +157,8 @@ export const CartList = ({ isLoading }: CartListProps) => {
               </div>
             </Card>
           </motion.div>
-        </div>
-      ))}
+        ))}
+      </AnimatePresence>
     </div>
   )
 }
