@@ -2,6 +2,7 @@ import { Navigation } from "@/components/Navigation"
 import { TravelNotes } from "@/components/TravelNotes"
 import { BottomNav } from "@/components/BottomNav"
 import { PopularDestinations } from "@/components/PopularDestinations"
+import { Button } from "@/components/ui/button"
 import { useState } from "react"
 
 const categories = [
