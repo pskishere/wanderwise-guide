@@ -126,7 +126,7 @@ export const SpecsDrawer = ({ isOpen, onClose, product }: SpecsDrawerProps) => {
                 >
                   <Minus className="h-3.5 w-3.5" />
                 </Button>
-                <span className="text-base font-medium w-10 text-center">
+                <span className="text-base font-medium w-8 text-center">
                   {quantity}
                 </span>
                 <Button
