@@ -100,7 +100,11 @@ export const SpecsDrawer = ({ isOpen, onClose, product }: SpecsDrawerProps) => {
                     <Button
                       key={option}
                       variant={selectedSpecs[spec.name] === option ? "default" : "outline"}
-                      className="rounded-full"
+                      className={`rounded-full transition-all duration-200 ${
+                        selectedSpecs[spec.name] === option 
+                          ? 'bg-pink-500 hover:bg-pink-600 text-white shadow-md'
+                          : 'hover:border-pink-500 hover:text-pink-500'
+                      }`}
                       onClick={() => handleSpecSelect(spec.name, option)}
                     >
                       {option}
@@ -116,7 +120,7 @@ export const SpecsDrawer = ({ isOpen, onClose, product }: SpecsDrawerProps) => {
                 <Button
                   variant="outline"
                   size="icon"
-                  className="rounded-full"
+                  className="rounded-full w-10 h-10 border-2 hover:border-pink-500 hover:text-pink-500 transition-colors"
                   onClick={() => handleQuantityChange('decrease')}
                   disabled={quantity <= 1}
                 >
@@ -128,7 +132,7 @@ export const SpecsDrawer = ({ isOpen, onClose, product }: SpecsDrawerProps) => {
                 <Button
                   variant="outline"
                   size="icon"
-                  className="rounded-full"
+                  className="rounded-full w-10 h-10 border-2 hover:border-pink-500 hover:text-pink-500 transition-colors"
                   onClick={() => handleQuantityChange('increase')}
                   disabled={quantity >= 99}
                 >
@@ -140,7 +144,7 @@ export const SpecsDrawer = ({ isOpen, onClose, product }: SpecsDrawerProps) => {
 
           <DrawerFooter>
             <Button 
-              className="w-full bg-pink-500 hover:bg-pink-600 text-white"
+              className="w-full bg-pink-500 hover:bg-pink-600 text-white font-medium text-lg h-12 shadow-lg"
               onClick={handleAddToCart}
             >
               确定
