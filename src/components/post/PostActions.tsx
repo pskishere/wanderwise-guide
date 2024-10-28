@@ -33,7 +33,7 @@ export const PostActions = ({ likes, commentCount }: PostActionsProps) => {
   }
 
   return (
-    <div className="flex items-center justify-around py-4 px-6 border-t bg-gray-50/50">
+    <div className="flex items-center justify-around py-4 px-4 border-t bg-gray-50/50">
       <button
         className="flex flex-col items-center gap-1.5 transition-all hover:scale-110"
         onClick={handleLike}
