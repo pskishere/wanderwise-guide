@@ -15,25 +15,25 @@ export const PostContent = ({ title, content, author, tags }: PostContentProps) 
   return (
     <div className="p-4">
       <div className="flex items-center gap-3 mb-4">
-        <Avatar className="h-12 w-12 ring-2 ring-pink-500/20">
+        <Avatar className="h-10 w-10 ring-2 ring-pink-500/20">
           <img src={author.avatar} alt={author.name} className="object-cover" />
         </Avatar>
         <div className="flex-1">
-          <h3 className="font-medium text-base">{author.name}</h3>
+          <h3 className="font-medium text-sm">{author.name}</h3>
           <p className="text-xs text-gray-500 mt-0.5">2024-02-20</p>
         </div>
         <Button 
           variant="outline" 
           size="sm" 
-          className="rounded-full px-6 border-pink-500 text-pink-500 hover:bg-pink-50"
+          className="rounded-full px-4 border-pink-500 text-pink-500 hover:bg-pink-50 text-xs"
         >
           关注
         </Button>
       </div>
 
       <div className="space-y-3">
-        <h1 className="text-xl font-bold leading-relaxed">{title}</h1>
-        <p className="text-gray-700 text-base leading-relaxed">
+        <h1 className="text-lg font-bold leading-relaxed">{title}</h1>
+        <p className="text-gray-700 text-sm leading-relaxed">
           {content}
         </p>
       </div>
@@ -42,7 +42,7 @@ export const PostContent = ({ title, content, author, tags }: PostContentProps) 
         {tags.map((tag) => (
           <span
             key={tag}
-            className="px-3 py-1.5 bg-pink-50 text-pink-600 rounded-full text-xs font-medium hover:bg-pink-100 transition-colors cursor-pointer"
+            className="px-2.5 py-1 bg-pink-50 text-pink-600 rounded-full text-xs font-medium hover:bg-pink-100 transition-colors cursor-pointer"
           >
             #{tag}
           </span>
