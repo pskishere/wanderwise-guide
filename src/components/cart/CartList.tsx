@@ -23,9 +23,6 @@ export const CartList = ({ isLoading }: { isLoading: boolean }) => {
 
     if (newQuantity >= 1 && newQuantity <= 99) {
       dispatch(updateQuantity({ id, quantity: newQuantity }))
-      toast({
-        description: type === 'increase' ? "商品数量已增加" : "商品数量已减少",
-      })
     }
   }
 
@@ -35,6 +32,9 @@ export const CartList = ({ isLoading }: { isLoading: boolean }) => {
 
   const handleDelete = (id: number) => {
     dispatch(removeItem(id))
+    toast({
+      description: "商品已从购物车中移除",
+    })
   }
 
   if (isLoading) {

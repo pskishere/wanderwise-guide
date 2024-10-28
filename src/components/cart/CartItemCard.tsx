@@ -4,9 +4,9 @@ import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Image } from "@/components/ui/image"
-import { Minus, Plus, Trash2 } from "lucide-react"
+import { Minus, Plus } from "lucide-react"
 import { CartItem } from "@/store/cartSlice"
-import { useToast } from "@/hooks/use-toast"
+import { cn } from "@/lib/utils"
 
 interface CartItemCardProps {
   item: CartItem
@@ -16,7 +16,6 @@ interface CartItemCardProps {
 }
 
 export const CartItemCard = ({ item, onSelect, onQuantityChange, onDelete }: CartItemCardProps) => {
-  const { toast } = useToast()
   const [startX, setStartX] = useState(0)
   const [currentX, setCurrentX] = useState(0)
   const [isSwiping, setIsSwiping] = useState(false)
@@ -56,13 +55,6 @@ export const CartItemCard = ({ item, onSelect, onQuantityChange, onDelete }: Car
       }
       setCurrentX(0)
     }
-  }
-
-  const handleDelete = () => {
-    onDelete(item.id)
-    toast({
-      description: "商品已删除",
-    })
   }
 
   return (
@@ -131,21 +123,14 @@ export const CartItemCard = ({ item, onSelect, onQuantityChange, onDelete }: Car
             </div>
 
             <div className="flex items-center justify-between mt-3">
-              <Button
-                variant="ghost"
-                size="sm"
-                className="text-gray-500 h-8 px-2"
-                onClick={handleDelete}
-              >
-                <Trash2 className="h-4 w-4 mr-1" />
-                <span className="text-sm">删除</span>
-              </Button>
-
               <div className="flex items-center gap-1">
                 <Button
                   variant="outline"
                   size="icon"
-                  className="h-7 w-7 sm:h-8 sm:w-8 rounded-full"
+                  className={cn(
+                    "h-7 w-7 sm:h-8 sm:w-8 rounded-full",
+                    item.quantity <= 1 && "opacity-50"
+                  )}
                   onClick={() => onQuantityChange(item.id, 'decrease')}
                   disabled={item.quantity <= 1}
                 >
@@ -174,7 +159,7 @@ export const CartItemCard = ({ item, onSelect, onQuantityChange, onDelete }: Car
       </Card>
       <div 
         className="absolute right-0 top-0 bottom-0 bg-red-500 w-20 flex items-center justify-center text-white cursor-pointer"
-        onClick={handleDelete}
+        onClick={() => onDelete(item.id)}
       >
         删除
       </div>
