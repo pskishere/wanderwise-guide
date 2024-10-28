@@ -1,8 +1,6 @@
-import { Button } from "@/components/ui/button"
 import { Navigation } from "@/components/Navigation"
 import { TravelNotes } from "@/components/TravelNotes"
 import { BottomNav } from "@/components/BottomNav"
-import { Stories } from "@/components/Stories"
 import { PopularDestinations } from "@/components/PopularDestinations"
 import { useState } from "react"
 
@@ -52,8 +50,6 @@ const Index = () => {
 
           {/* Main Content */}
           <main className="space-y-6">
-            <Stories />
-            
             {/* Mobile Categories */}
             <div className="lg:hidden flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
               {categories.map((category) => (
