@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Navigation } from "@/components/Navigation"
 import { BottomNav } from "@/components/BottomNav"
-import { Settings, Heart, MapPin, ShoppingBag, MessageCircle, Bell } from "lucide-react"
+import { Settings, Heart, MapPin, ShoppingBag, MessageCircle, Bell, ChevronRight } from "lucide-react"
 import { Link } from "react-router-dom"
 
 const stats = [
