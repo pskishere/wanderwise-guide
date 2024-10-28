@@ -72,7 +72,7 @@ export const CartList = ({ isLoading }: CartListProps) => {
   }
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-3">
       <AnimatePresence>
         {items.map((item) => (
           <motion.div
@@ -99,15 +99,15 @@ export const CartList = ({ isLoading }: CartListProps) => {
               animate={{ x: swipedItemId === item.id ? -100 : 0 }}
               className="relative cursor-grab active:cursor-grabbing bg-white rounded-lg"
             >
-              <Card className="p-2 bg-white touch-none">
-                <div className="flex gap-2">
+              <Card className="p-3 sm:p-4 bg-white touch-none">
+                <div className="flex gap-3">
                   <div className="flex items-center justify-center w-6">
                     <Checkbox 
                       checked={item.selected}
                       onCheckedChange={(checked) => handleCheckboxChange(item.id, checked as boolean)}
                     />
                   </div>
-                  <div className="w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100">
+                  <div className="w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100">
                     <Image
                       src={item.image}
                       alt={item.title}
@@ -116,8 +116,8 @@ export const CartList = ({ isLoading }: CartListProps) => {
                     />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="space-y-1">
-                      <h3 className="text-sm font-medium leading-tight line-clamp-2">{item.title}</h3>
+                    <div className="space-y-1.5">
+                      <h3 className="text-sm sm:text-base font-medium leading-tight line-clamp-2">{item.title}</h3>
                       {item.specs && item.specs.length > 0 && (
                         <div className="inline-flex">
                           <span className="text-xs px-1.5 py-0.5 bg-gray-50 rounded-sm text-gray-900">
@@ -127,11 +127,11 @@ export const CartList = ({ isLoading }: CartListProps) => {
                       )}
                     </div>
                     
-                    <div className="mt-1.5 space-y-1">
+                    <div className="mt-2 space-y-1.5">
                       <div className="flex items-center gap-2">
                         <span className="text-red-500">
                           <span className="text-xs">¥</span>
-                          <span className="text-lg font-bold">{item.price}</span>
+                          <span className="text-lg sm:text-xl font-bold">{item.price}</span>
                         </span>
                         {item.discount && (
                           <span className="text-xs text-red-500 border border-red-500 px-1.5 py-0.5 rounded-sm">
@@ -141,32 +141,32 @@ export const CartList = ({ isLoading }: CartListProps) => {
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-between mt-2">
+                    <div className="flex items-center justify-between mt-3">
                       <div className="flex items-center gap-1">
                         <Button
                           variant="outline"
                           size="icon"
-                          className="h-7 w-7 rounded-full"
+                          className="h-7 w-7 sm:h-8 sm:w-8 rounded-full"
                           onClick={() => handleQuantityChange(item.id, 'decrease')}
                           disabled={item.quantity <= 1}
                         >
-                          <Minus className="h-3 w-3" />
+                          <Minus className="h-3 w-3 sm:h-4 sm:w-4" />
                         </Button>
                         <Input
                           type="number"
                           value={item.quantity}
                           onChange={(e) => handleQuantityChange(item.id, 'input', parseInt(e.target.value))}
-                          className="w-10 h-7 text-center p-0 text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                          className="w-10 h-7 sm:h-8 text-center p-0 text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                           min={1}
                           max={99}
                         />
                         <Button
                           variant="outline"
                           size="icon"
-                          className="h-7 w-7 rounded-full"
+                          className="h-7 w-7 sm:h-8 sm:w-8 rounded-full"
                           onClick={() => handleQuantityChange(item.id, 'increase')}
                         >
-                          <Plus className="h-3 w-3" />
+                          <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
                         </Button>
                       </div>
                     </div>
