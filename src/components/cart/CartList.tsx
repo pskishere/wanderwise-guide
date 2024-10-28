@@ -20,6 +20,7 @@ export const CartList = ({ isLoading }: CartListProps) => {
   const { toast } = useToast()
   const dispatch = useDispatch()
   const items = useSelector((state: RootState) => state.cart.items)
+  const [swipedItemId, setSwipedItemId] = useState<number | null>(null)
 
   const handleQuantityChange = (id: number, type: 'increase' | 'decrease' | 'input', value?: number) => {
     let newQuantity: number
@@ -46,6 +47,7 @@ export const CartList = ({ isLoading }: CartListProps) => {
 
   const handleDelete = (id: number) => {
     dispatch(removeItem(id))
+    setSwipedItemId(null)
     toast({
       description: "商品已删除",
     })
@@ -53,7 +55,9 @@ export const CartList = ({ isLoading }: CartListProps) => {
 
   const handleDragEnd = (info: PanInfo, id: number) => {
     if (info.offset.x < -100) {
-      handleDelete(id)
+      setSwipedItemId(id)
+    } else {
+      setSwipedItemId(null)
     }
   }
 
@@ -79,13 +83,20 @@ export const CartList = ({ isLoading }: CartListProps) => {
             className="relative overflow-hidden rounded-lg"
           >
             <div className="absolute right-0 top-0 bottom-0 w-[100px] bg-red-500 rounded-r-lg flex items-center justify-center">
-              <Trash2 className="text-white h-6 w-6" />
+              <Button
+                variant="ghost"
+                className="text-white hover:text-white/90"
+                onClick={() => handleDelete(item.id)}
+              >
+                <Trash2 className="h-6 w-6" />
+              </Button>
             </div>
             <motion.div
               drag="x"
               dragConstraints={{ left: -100, right: 0 }}
               dragElastic={0.1}
               onDragEnd={(_, info) => handleDragEnd(info, item.id)}
+              animate={{ x: swipedItemId === item.id ? -100 : 0 }}
               className="relative cursor-grab active:cursor-grabbing bg-white rounded-lg"
             >
               <Card className="p-3 sm:p-4 bg-white touch-none">
@@ -131,16 +142,6 @@ export const CartList = ({ isLoading }: CartListProps) => {
                     </div>
 
                     <div className="flex items-center justify-between mt-3">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="text-gray-500 h-8 px-2"
-                        onClick={() => handleDelete(item.id)}
-                      >
-                        <Trash2 className="h-4 w-4 mr-1" />
-                        <span className="text-sm">删除</span>
-                      </Button>
-
                       <div className="flex items-center gap-1">
                         <Button
                           variant="outline"
