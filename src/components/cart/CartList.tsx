@@ -1,16 +1,15 @@
-import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Minus, Plus, Trash2 } from "lucide-react"
-import { CartSkeleton } from "./CartSkeleton"
-import { useToast } from "@/hooks/use-toast"
+import { Card } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
+import { Minus, Plus, Trash2 } from "lucide-react"
+import { useToast } from "@/hooks/use-toast"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
 import { toggleSelectItem, updateQuantity, removeItem } from "@/store/cartSlice"
 import { Image } from "@/components/ui/image"
 import { motion, PanInfo, useAnimation } from "framer-motion"
-import { useRef } from "react"
+import { useEffect, useState } from "react"
 
 interface CartListProps {
   isLoading: boolean
@@ -20,7 +19,11 @@ export const CartList = ({ isLoading }: CartListProps) => {
   const { toast } = useToast()
   const dispatch = useDispatch()
   const items = useSelector((state: RootState) => state.cart.items)
-  const controls = useRef(items.map(() => useAnimation()))
+  const [controls, setControls] = useState<any[]>([])
+
+  useEffect(() => {
+    setControls(items.map(() => useAnimation()))
+  }, [items.length])
 
   const handleQuantityChange = (id: number, type: 'increase' | 'decrease' | 'input', value?: number) => {
     let newQuantity: number
@@ -57,10 +60,10 @@ export const CartList = ({ isLoading }: CartListProps) => {
     const velocity = info.velocity.x
 
     if (offset < -50 || velocity < -500) {
-      await controls.current[index].start({ x: -100 })
+      await controls[index]?.start({ x: -100 })
       handleDelete(id)
     } else {
-      controls.current[index].start({ x: 0 })
+      controls[index]?.start({ x: 0 })
     }
   }
 
@@ -86,7 +89,7 @@ export const CartList = ({ isLoading }: CartListProps) => {
             dragConstraints={{ left: -100, right: 0 }}
             dragElastic={0.1}
             dragMomentum={true}
-            animate={controls.current[index]}
+            animate={controls[index]}
             onDragEnd={(_, info) => handleDragEnd(item.id, info, index)}
             className="relative cursor-grab active:cursor-grabbing"
           >
