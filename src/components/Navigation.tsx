@@ -1,4 +1,4 @@
-import { Bell, ShoppingCart, Search, MapPin, Utensils, BookOpen } from "lucide-react"
+import { Bell, ShoppingCart, Search, MapPin } from "lucide-react"
 import { Link } from "react-router-dom"
 import { Input } from "./ui/input"
 import { Button } from "./ui/button"
@@ -13,19 +13,19 @@ export const Navigation = () => {
 
   const suggestions = {
     destinations: [
-      { id: 1, name: "东京", type: "city", desc: "日本最大都市" },
-      { id: 2, name: "巴厘岛", type: "city", desc: "印尼度假胜地" },
-      { id: 3, name: "巴黎", type: "city", desc: "法国浪漫之都" }
+      { id: 1, name: "东京", type: "city" },
+      { id: 2, name: "巴厘岛", type: "city" },
+      { id: 3, name: "巴黎", type: "city" }
     ],
     foods: [
-      { id: 1, name: "寿司", type: "food", desc: "日本传统美食" },
-      { id: 2, name: "披萨", type: "food", desc: "意大利风味" },
-      { id: 3, name: "牛排", type: "food", desc: "西式料理" }
+      { id: 1, name: "寿司", type: "food" },
+      { id: 2, name: "披萨", type: "food" },
+      { id: 3, name: "牛排", type: "food" }
     ],
     guides: [
-      { id: 1, name: "东京购物攻略", type: "guide", desc: "血拼购物指南" },
-      { id: 2, name: "巴厘岛潜水指南", type: "guide", desc: "海底探险" },
-      { id: 3, name: "巴黎美食地图", type: "guide", desc: "米其林推荐" }
+      { id: 1, name: "东京购物攻略", type: "guide" },
+      { id: 2, name: "巴厘岛潜水指南", type: "guide" },
+      { id: 3, name: "巴黎美食地图", type: "guide" }
     ]
   }
 
@@ -79,7 +79,7 @@ export const Navigation = () => {
                     <Command>
                       <CommandList>
                         <CommandEmpty>未找到相关结果</CommandEmpty>
-                        <CommandGroup heading="热门目的地" className="px-2">
+                        <CommandGroup heading="热门目的地">
                           {suggestions.destinations.map((item) => (
                             <CommandItem 
                               key={item.id}
@@ -87,21 +87,13 @@ export const Navigation = () => {
                                 setSearchValue(item.name)
                                 setOpen(false)
                               }}
-                              className="flex items-center px-2 py-3 rounded-lg hover:bg-gray-100"
                             >
-                              <div className="flex items-center gap-3 flex-1">
-                                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-pink-50">
-                                  <MapPin className="h-4 w-4 text-pink-500" />
-                                </div>
-                                <div className="space-y-1">
-                                  <p className="text-sm font-medium">{item.name}</p>
-                                  <p className="text-xs text-muted-foreground">{item.desc}</p>
-                                </div>
-                              </div>
+                              <MapPin className="mr-2 h-4 w-4" />
+                              {item.name}
                             </CommandItem>
                           ))}
                         </CommandGroup>
-                        <CommandGroup heading="美食推荐" className="px-2">
+                        <CommandGroup heading="美食推荐">
                           {suggestions.foods.map((item) => (
                             <CommandItem
                               key={item.id}
@@ -109,21 +101,12 @@ export const Navigation = () => {
                                 setSearchValue(item.name)
                                 setOpen(false)
                               }}
-                              className="flex items-center px-2 py-3 rounded-lg hover:bg-gray-100"
                             >
-                              <div className="flex items-center gap-3 flex-1">
-                                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-orange-50">
-                                  <Utensils className="h-4 w-4 text-orange-500" />
-                                </div>
-                                <div className="space-y-1">
-                                  <p className="text-sm font-medium">{item.name}</p>
-                                  <p className="text-xs text-muted-foreground">{item.desc}</p>
-                                </div>
-                              </div>
+                              {item.name}
                             </CommandItem>
                           ))}
                         </CommandGroup>
-                        <CommandGroup heading="热门攻略" className="px-2">
+                        <CommandGroup heading="热门攻略">
                           {suggestions.guides.map((item) => (
                             <CommandItem
                               key={item.id}
@@ -131,17 +114,8 @@ export const Navigation = () => {
                                 setSearchValue(item.name)
                                 setOpen(false)
                               }}
-                              className="flex items-center px-2 py-3 rounded-lg hover:bg-gray-100"
                             >
-                              <div className="flex items-center gap-3 flex-1">
-                                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50">
-                                  <BookOpen className="h-4 w-4 text-blue-500" />
-                                </div>
-                                <div className="space-y-1">
-                                  <p className="text-sm font-medium">{item.name}</p>
-                                  <p className="text-xs text-muted-foreground">{item.desc}</p>
-                                </div>
-                              </div>
+                              {item.name}
                             </CommandItem>
                           ))}
                         </CommandGroup>
