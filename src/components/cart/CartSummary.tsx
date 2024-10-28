@@ -44,11 +44,11 @@ export const CartSummary = ({ onCheckout }: CartSummaryProps) => {
           </div>
         </div>
         <Button 
-          className="bg-pink-500 hover:bg-pink-600 h-9 sm:h-10 px-6"
+          className="bg-pink-500 hover:bg-pink-600 h-9 sm:h-10 px-6 sm:px-8"
           onClick={onCheckout}
           disabled={selectedCount === 0}
         >
-          结算
+          结算({selectedCount})
         </Button>
       </div>
     </div>

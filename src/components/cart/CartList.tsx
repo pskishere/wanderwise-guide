@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
 import { toggleSelectItem, updateQuantity, removeItem } from "@/store/cartSlice"
+import { Image } from "@/components/ui/image"
 
 interface CartListProps {
   isLoading: boolean
@@ -71,10 +72,11 @@ export const CartList = ({ isLoading }: CartListProps) => {
               />
             </div>
             <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
-              <img
+              <Image
                 src={item.image}
                 alt={item.title}
                 className="w-full h-full object-cover"
+                fallback="https://placehold.co/600x600/png?text=商品图片"
               />
             </div>
             <div className="flex-1 min-w-0">
