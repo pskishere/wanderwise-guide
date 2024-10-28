@@ -22,18 +22,18 @@ const Index = () => {
     <div className="min-h-screen bg-gray-50">
       <Navigation />
       
-      <div className="container mx-auto px-1 pt-20 pb-20 max-w-6xl">
-        <div className="grid grid-cols-1 lg:grid-cols-[200px,1fr] gap-3">
+      <div className="container mx-auto px-2 pt-24 pb-20 max-w-7xl">
+        <div className="grid grid-cols-1 lg:grid-cols-[220px,1fr] gap-4">
           {/* Sidebar */}
-          <aside className="hidden lg:block space-y-3">
-            <div className="bg-white rounded-xl p-2 shadow-sm">
-              <h2 className="font-medium mb-2">分类浏览</h2>
-              <div className="flex flex-col gap-1.5">
+          <aside className="hidden lg:block space-y-4">
+            <div className="bg-white rounded-xl p-3 shadow-sm">
+              <h2 className="font-medium mb-3">分类浏览</h2>
+              <div className="flex flex-col gap-2">
                 {categories.map((category) => (
                   <Button
                     key={category.id}
                     variant={activeCategory === category.id ? "default" : "ghost"}
-                    className={`justify-start h-8 ${
+                    className={`justify-start h-9 ${
                       activeCategory === category.id 
                         ? "bg-pink-500 hover:bg-pink-600 text-white" 
                         : "hover:bg-pink-50 text-gray-600"
@@ -50,14 +50,14 @@ const Index = () => {
           </aside>
 
           {/* Main Content */}
-          <main className="space-y-3">
+          <main className="space-y-4">
             {/* Mobile Categories */}
-            <div className="lg:hidden flex gap-1.5 overflow-x-auto pb-1 scrollbar-hide">
+            <div className="lg:hidden flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
               {categories.map((category) => (
                 <Button
                   key={category.id}
                   variant={activeCategory === category.id ? "default" : "outline"}
-                  className="rounded-full text-sm h-7 px-2.5"
+                  className="rounded-full text-sm h-8 px-3"
                   onClick={() => setActiveCategory(category.id)}
                 >
                   {category.name}
