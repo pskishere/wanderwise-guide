@@ -30,8 +30,8 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
   const { toast } = useToast()
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-4">
+    <div className="space-y-4">
+      <div className="space-y-2">
         <div className="flex flex-wrap gap-2">
           <Badge variant="secondary" className="bg-pink-50 text-pink-600 hover:bg-pink-100">
             限时优惠
@@ -58,13 +58,13 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
         </div>
       </div>
 
-      <div className="flex items-center gap-3 p-4 bg-gradient-to-r from-pink-50/50 to-transparent rounded-xl border border-pink-100">
-        <Avatar className="h-12 w-12 ring-2 ring-pink-500/20">
+      <div className="flex items-center gap-3 p-3 bg-gradient-to-r from-pink-50/50 to-transparent rounded-xl border border-pink-100">
+        <Avatar className="h-10 w-10 ring-2 ring-pink-500/20">
           <img src={product.shop.avatar} alt={product.shop.name} className="object-cover" />
         </Avatar>
         <div className="flex-1">
           <h3 className="font-medium">{product.shop.name}</h3>
-          <div className="flex items-center gap-2 mt-1">
+          <div className="flex items-center gap-2">
             <Award className="h-3.5 w-3.5 text-pink-500" />
             <p className="text-xs text-gray-500">官方认证店铺</p>
           </div>
@@ -75,22 +75,22 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
         </Button>
       </div>
 
-      <div className="grid grid-cols-3 gap-4 py-4">
-        <div className="flex flex-col items-center gap-2 p-3 bg-gray-50/50 rounded-xl">
+      <div className="grid grid-cols-3 gap-2">
+        <div className="flex flex-col items-center gap-1 p-2 bg-gray-50/50 rounded-xl">
           <Shield className="h-5 w-5 text-pink-500" />
           <span className="text-xs text-gray-600">正品保证</span>
         </div>
-        <div className="flex flex-col items-center gap-2 p-3 bg-gray-50/50 rounded-xl">
+        <div className="flex flex-col items-center gap-1 p-2 bg-gray-50/50 rounded-xl">
           <Package className="h-5 w-5 text-pink-500" />
           <span className="text-xs text-gray-600">极速发货</span>
         </div>
-        <div className="flex flex-col items-center gap-2 p-3 bg-gray-50/50 rounded-xl">
+        <div className="flex flex-col items-center gap-1 p-2 bg-gray-50/50 rounded-xl">
           <Truck className="h-5 w-5 text-pink-500" />
           <span className="text-xs text-gray-600">全国包邮</span>
         </div>
       </div>
 
-      <div className="space-y-3 bg-gray-50/50 p-4 rounded-xl">
+      <div className="space-y-2 bg-gray-50/50 p-3 rounded-xl">
         <h2 className="font-medium flex items-center gap-2">
           <span className="h-4 w-1 bg-pink-500 rounded-full"></span>
           商品详情
@@ -100,7 +100,7 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
         </p>
       </div>
 
-      <div className="flex gap-4 pt-4">
+      <div className="flex gap-3 pt-2">
         <Button
           variant="outline"
           size="lg"
