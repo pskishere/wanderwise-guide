@@ -2,16 +2,15 @@ import { Navigation } from "@/components/Navigation"
 import { BottomNav } from "@/components/BottomNav"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { BookmarkIcon, ShoppingBagIcon } from "lucide-react"
-import { useQuery } from "@tanstack/react-query"
-import { useState } from "react"
+import { useInfiniteQuery } from "@tanstack/react-query"
 import { FavoritesList } from "@/components/favorites/FavoritesList"
 
-const fetchFavorites = async (page = 1) => {
+const fetchFavorites = async ({ pageParam = 1 }) => {
   // 模拟延迟
   await new Promise(resolve => setTimeout(resolve, 1000))
   
   const itemsPerPage = 6
-  const start = (page - 1) * itemsPerPage
+  const start = (pageParam - 1) * itemsPerPage
   const end = start + itemsPerPage
 
   const allItems = {
@@ -34,25 +33,30 @@ const fetchFavorites = async (page = 1) => {
     }))
   }
 
+  const hasNextPage = end < allItems.posts.length
+
   return {
     items: allItems.posts.slice(start, end),
     products: allItems.products.slice(start, end),
-    hasMore: end < allItems.posts.length
+    nextPage: hasNextPage ? pageParam + 1 : undefined
   }
 }
 
 const Favorites = () => {
-  const [page, setPage] = useState(1)
-  
-  const { data, isLoading, fetchNextPage, hasNextPage } = useQuery({
-    queryKey: ['favorites', page],
-    queryFn: () => fetchFavorites(page),
-    keepPreviousData: true
+  const { 
+    data, 
+    isLoading, 
+    fetchNextPage, 
+    hasNextPage 
+  } = useInfiniteQuery({
+    queryKey: ['favorites'],
+    queryFn: fetchFavorites,
+    getNextPageParam: (lastPage) => lastPage.nextPage,
+    initialPageParam: 1
   })
 
-  const loadMore = () => {
-    setPage(prev => prev + 1)
-  }
+  const allItems = data?.pages.flatMap(page => page.items) || []
+  const allProducts = data?.pages.flatMap(page => page.products) || []
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white pb-20">
@@ -87,20 +91,20 @@ const Favorites = () => {
             <TabsContent value="posts" className="focus-visible:outline-none">
               <FavoritesList
                 type="posts"
-                items={data?.items || []}
+                items={allItems}
                 isLoading={isLoading}
                 hasNextPage={hasNextPage}
-                fetchNextPage={loadMore}
+                fetchNextPage={fetchNextPage}
               />
             </TabsContent>
 
             <TabsContent value="products" className="focus-visible:outline-none">
               <FavoritesList
                 type="products"
-                items={data?.products || []}
+                items={allProducts}
                 isLoading={isLoading}
                 hasNextPage={hasNextPage}
-                fetchNextPage={loadMore}
+                fetchNextPage={fetchNextPage}
               />
             </TabsContent>
           </div>
