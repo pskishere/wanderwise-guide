@@ -63,8 +63,8 @@ export const CartList = ({ isLoading }: CartListProps) => {
     <div className="space-y-3">
       {items.map((item) => (
         <Card key={item.id} className="p-3 sm:p-4">
-          <div className="flex items-start sm:items-center gap-3">
-            <div className="pt-1.5 sm:pt-0">
+          <div className="flex gap-3">
+            <div className="flex items-center justify-center w-6">
               <Checkbox 
                 checked={item.selected}
                 onCheckedChange={(checked) => handleCheckboxChange(item.id, checked as boolean)}
@@ -90,7 +90,7 @@ export const CartList = ({ isLoading }: CartListProps) => {
                 )}
               </div>
               
-              <div className="mt-2">
+              <div className="mt-2 space-y-1.5">
                 <div className="flex items-center gap-2">
                   <span className="text-red-500">
                     <span className="text-xs">¥</span>
