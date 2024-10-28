@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button"
 import { Heart, MessageCircle, Share2, Bookmark } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { useState } from "react"
@@ -34,31 +33,43 @@ export const PostActions = ({ likes, commentCount }: PostActionsProps) => {
   }
 
   return (
-    <div className="flex items-center justify-around pt-4 border-t">
+    <div className="flex items-center justify-around py-4 px-6 border-t bg-gray-50/50">
       <button
-        className="flex flex-col items-center gap-1 transition-transform hover:scale-110"
+        className="flex flex-col items-center gap-1.5 transition-all hover:scale-110"
         onClick={handleLike}
       >
-        <Heart className={`h-6 w-6 ${isLiked ? 'fill-pink-500 text-pink-500' : 'text-gray-500'}`} />
-        <span className="text-xs text-gray-500">{likes}</span>
+        <Heart 
+          className={`h-6 w-6 transition-colors ${
+            isLiked ? 'fill-pink-500 text-pink-500' : 'text-gray-400 hover:text-pink-500'
+          }`} 
+        />
+        <span className={`text-xs ${isLiked ? 'text-pink-500' : 'text-gray-500'}`}>
+          {likes}
+        </span>
       </button>
-      <button className="flex flex-col items-center gap-1 transition-transform hover:scale-110">
-        <MessageCircle className="h-6 w-6 text-gray-500" />
+      <button className="flex flex-col items-center gap-1.5 transition-all hover:scale-110">
+        <MessageCircle className="h-6 w-6 text-gray-400 hover:text-pink-500 transition-colors" />
         <span className="text-xs text-gray-500">{commentCount}</span>
       </button>
       <button 
-        className="flex flex-col items-center gap-1 transition-transform hover:scale-110"
+        className="flex flex-col items-center gap-1.5 transition-all hover:scale-110"
         onClick={handleShare}
       >
-        <Share2 className="h-6 w-6 text-gray-500" />
+        <Share2 className="h-6 w-6 text-gray-400 hover:text-pink-500 transition-colors" />
         <span className="text-xs text-gray-500">分享</span>
       </button>
       <button
-        className="flex flex-col items-center gap-1 transition-transform hover:scale-110"
+        className="flex flex-col items-center gap-1.5 transition-all hover:scale-110"
         onClick={handleSave}
       >
-        <Bookmark className={`h-6 w-6 ${isSaved ? 'fill-pink-500 text-pink-500' : 'text-gray-500'}`} />
-        <span className="text-xs text-gray-500">收藏</span>
+        <Bookmark 
+          className={`h-6 w-6 transition-colors ${
+            isSaved ? 'fill-pink-500 text-pink-500' : 'text-gray-400 hover:text-pink-500'
+          }`}
+        />
+        <span className={`text-xs ${isSaved ? 'text-pink-500' : 'text-gray-500'}`}>
+          收藏
+        </span>
       </button>
     </div>
   )

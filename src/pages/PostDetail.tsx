@@ -80,13 +80,13 @@ const PostDetail = () => {
       <PostHeader />
 
       {/* Image Gallery */}
-      <div className="relative w-full aspect-square bg-black">
+      <div className="relative w-full aspect-[4/3] bg-black">
         <Carousel className="w-full h-full">
           <CarouselContent>
             {post.images.map((image, index) => (
               <CarouselItem key={index}>
                 <div 
-                  className="flex aspect-square items-center justify-center cursor-zoom-in"
+                  className="flex aspect-[4/3] items-center justify-center cursor-zoom-in"
                   onClick={() => handleImageClick(index)}
                 >
                   <img
@@ -103,7 +103,6 @@ const PostDetail = () => {
         </Carousel>
       </div>
 
-      {/* Lightbox */}
       <ImageLightbox
         isOpen={lightboxOpen}
         onClose={() => setLightboxOpen(false)}
@@ -112,7 +111,7 @@ const PostDetail = () => {
       />
 
       {/* Content */}
-      <Card className="mx-4 -mt-6 relative z-10 rounded-xl border-none shadow-lg">
+      <Card className="mx-4 -mt-8 relative z-10 rounded-2xl border-none shadow-lg overflow-hidden">
         <PostContent 
           title={post.title}
           content={post.content}
@@ -126,10 +125,12 @@ const PostDetail = () => {
       </Card>
 
       {/* Comments */}
-      <CommentSection 
-        comments={post.comments}
-        commentCount={post.commentCount}
-      />
+      <div className="mt-6">
+        <CommentSection 
+          comments={post.comments}
+          commentCount={post.commentCount}
+        />
+      </div>
     </div>
   )
 }
