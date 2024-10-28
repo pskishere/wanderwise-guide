@@ -55,7 +55,7 @@ export const Navigation = () => {
 
   return (
     <nav className="bg-white border-b shadow-sm">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-2 sm:px-4">
         <div className="flex items-center justify-between">
           <div 
             className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
@@ -71,11 +71,11 @@ export const Navigation = () => {
                         value={searchValue}
                         onChange={(e) => setSearchValue(e.target.value)}
                         placeholder="搜索目的地、美食、攻略..." 
-                        className="pl-8 bg-gray-100 border-0 rounded-full h-9"
+                        className="pl-8 bg-gray-100 border-0 rounded-full h-9 w-full"
                       />
                     </div>
                   </PopoverTrigger>
-                  <PopoverContent className="p-0 w-[500px]" align="start">
+                  <PopoverContent className="p-0 w-[calc(100vw-16px)] sm:w-[500px]" align="start">
                     <Command>
                       <CommandList>
                         <CommandEmpty>未找到相关结果</CommandEmpty>
