@@ -46,7 +46,7 @@ export const SpecsDrawer = ({ isOpen, onClose, product }: SpecsDrawerProps) => {
   }
 
   const handleAddToCart = () => {
-    const isAllSpecsSelected = product.specs.every(spec => 
+    const isAllSpecsSelected = (product.specs || []).every(spec => 
       selectedSpecs[spec.name]
     )
 
@@ -92,7 +92,7 @@ export const SpecsDrawer = ({ isOpen, onClose, product }: SpecsDrawerProps) => {
           </DrawerHeader>
 
           <div className="px-4 pb-6 space-y-6">
-            {product.specs.map((spec) => (
+            {(product.specs || []).map((spec) => (
               <div key={spec.name}>
                 <h3 className="text-sm text-gray-500 mb-2">{spec.name}</h3>
                 <div className="flex flex-wrap gap-2">
