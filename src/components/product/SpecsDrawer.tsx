@@ -78,7 +78,7 @@ export const SpecsDrawer = ({ isOpen, onClose, product }: SpecsDrawerProps) => {
                   fallback="https://placehold.co/600x600/png?text=商品图片"
                 />
               </div>
-              <div className="flex-1 min-w-0">
+              <div className="flex-1 min-w-0 text-left">
                 <DrawerTitle className="text-base font-medium leading-tight line-clamp-2">
                   {product.title}
                 </DrawerTitle>
