@@ -9,7 +9,7 @@ import { RootState } from "@/store/store"
 import { toggleSelectItem, updateQuantity, removeItem } from "@/store/cartSlice"
 import { Image } from "@/components/ui/image"
 import { motion, PanInfo, useAnimation } from "framer-motion"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { CartSkeleton } from "./CartSkeleton"
 
 interface CartListProps {
@@ -20,7 +20,7 @@ export const CartList = ({ isLoading }: CartListProps) => {
   const { toast } = useToast()
   const dispatch = useDispatch()
   const items = useSelector((state: RootState) => state.cart.items)
-  const [controls, setControls] = useState<any[]>([])
+  const [controls, setControls] = useState<ReturnType<typeof useAnimation>[]>([])
 
   useEffect(() => {
     setControls(items.map(() => useAnimation()))
