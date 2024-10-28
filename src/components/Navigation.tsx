@@ -75,7 +75,7 @@ export const Navigation = () => {
                       />
                     </div>
                   </PopoverTrigger>
-                  <PopoverContent className="p-0 w-[calc(100vw-16px)] sm:w-[500px]" align="start">
+                  <PopoverContent className="p-0 w-[calc(100vw-32px)] sm:w-[500px]" align="start">
                     <Command>
                       <CommandList>
                         <CommandEmpty>未找到相关结果</CommandEmpty>
