@@ -13,8 +13,8 @@ interface PostContentProps {
 
 export const PostContent = ({ title, content, author, tags }: PostContentProps) => {
   return (
-    <div className="p-6">
-      <div className="flex items-center gap-4 mb-6">
+    <div className="p-4">
+      <div className="flex items-center gap-3 mb-4">
         <Avatar className="h-12 w-12 ring-2 ring-pink-500/20">
           <img src={author.avatar} alt={author.name} className="object-cover" />
         </Avatar>
@@ -31,14 +31,14 @@ export const PostContent = ({ title, content, author, tags }: PostContentProps) 
         </Button>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-3">
         <h1 className="text-xl font-bold leading-relaxed">{title}</h1>
         <p className="text-gray-700 text-base leading-relaxed">
           {content}
         </p>
       </div>
 
-      <div className="flex flex-wrap gap-2 mt-6">
+      <div className="flex flex-wrap gap-2 mt-4">
         {tags.map((tag) => (
           <span
             key={tag}
