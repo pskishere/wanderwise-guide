@@ -8,7 +8,7 @@ interface MarkdownToolbarProps {
 
 export const MarkdownToolbar = ({ onInsert, showPreview, onTogglePreview }: MarkdownToolbarProps) => {
   return (
-    <div className="flex items-center gap-1 border-b pb-2">
+    <div className="flex items-center gap-1">
       <button
         type="button"
         onClick={() => onInsert('bold')}

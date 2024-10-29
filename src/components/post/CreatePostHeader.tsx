@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
 import { useNavigate } from "react-router-dom"
-import { Separator } from "@/components/ui/separator"
 
 interface CreatePostHeaderProps {
   isSubmitting: boolean
@@ -13,7 +12,7 @@ export const CreatePostHeader = ({ isSubmitting, isOverLimit, hasContent }: Crea
   const navigate = useNavigate()
   
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md">
+    <div className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b">
       <div className="flex items-center justify-between px-4 h-14 max-w-2xl mx-auto">
         <div className="flex items-center gap-6">
           <button 
@@ -34,7 +33,6 @@ export const CreatePostHeader = ({ isSubmitting, isOverLimit, hasContent }: Crea
           发布
         </Button>
       </div>
-      <Separator />
     </div>
   )
 }

@@ -1,13 +1,13 @@
-import { BottomNav } from "@/components/BottomNav"
-import { Input } from "@/components/ui/input"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useToast } from "@/hooks/use-toast"
 import { Avatar } from "@/components/ui/avatar"
+import { Input } from "@/components/ui/input"
 import MDEditor from '@uiw/react-md-editor'
 import { CreatePostHeader } from "@/components/post/CreatePostHeader"
 import { MarkdownToolbar } from "@/components/post/MarkdownToolbar"
 import { ImageUploader } from "@/components/post/ImageUploader"
+import { BottomNav } from "@/components/BottomNav"
 
 const CreatePost = () => {
   const [title, setTitle] = useState("")
@@ -23,6 +23,13 @@ const CreatePost = () => {
     if (!files) return
 
     const newImages = Array.from(files).map(file => URL.createObjectURL(file))
+    if (images.length + newImages.length > 9) {
+      toast({
+        variant: "destructive",
+        description: "最多只能上传9张图片",
+      })
+      return
+    }
     setImages(prev => [...prev, ...newImages])
   }
 
@@ -103,8 +110,8 @@ const CreatePost = () => {
         hasContent={Boolean(title.trim() || content.trim())}
       />
       
-      <form id="post-form" onSubmit={handleSubmit} className="container max-w-2xl mx-auto pt-20 pb-32">
-        <div className="flex gap-3">
+      <form id="post-form" onSubmit={handleSubmit} className="container max-w-2xl mx-auto pt-16 pb-32">
+        <div className="flex gap-3 p-4">
           <Avatar className="h-10 w-10">
             <img src="https://github.com/shadcn.png" alt="@shadcn" />
           </Avatar>

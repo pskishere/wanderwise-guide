@@ -1,5 +1,4 @@
 import { Camera, X, Globe2 } from "lucide-react"
-import { Separator } from "@/components/ui/separator"
 
 interface ImageUploaderProps {
   images: string[]
@@ -19,7 +18,7 @@ export const ImageUploader = ({
   isOverLimit
 }: ImageUploaderProps) => {
   return (
-    <>
+    <div className="space-y-4">
       {images.length > 0 && (
         <div className={`grid gap-2 ${
           images.length === 1 ? 'grid-cols-1' : 
@@ -51,11 +50,9 @@ export const ImageUploader = ({
         </div>
       )}
 
-      <Separator className="my-3" />
-
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          {images.length < 4 && (
+          {images.length < 9 && (
             <label className="p-2 hover:bg-pink-50 rounded-full cursor-pointer transition-colors">
               <input
                 type="file"
@@ -76,14 +73,11 @@ export const ImageUploader = ({
         </div>
 
         {characterCount > 0 && (
-          <div className="flex items-center gap-2">
-            <Separator orientation="vertical" className="h-6" />
-            <div className={`text-sm ${isOverLimit ? 'text-red-500' : 'text-gray-500'}`}>
-              {remainingCharacters}
-            </div>
+          <div className={`text-sm ${isOverLimit ? 'text-red-500' : 'text-gray-500'}`}>
+            {remainingCharacters}
           </div>
         )}
       </div>
-    </>
+    </div>
   )
 }
