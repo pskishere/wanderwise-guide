@@ -1,13 +1,12 @@
 import { BottomNav } from "@/components/BottomNav"
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Camera, X, Globe2, ArrowLeft, Bold, Italic, List, Link, Image as ImageIcon } from "lucide-react"
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
 import { useToast } from "@/hooks/use-toast"
 import { Avatar } from "@/components/ui/avatar"
-import { Separator } from "@/components/ui/separator"
 import MDEditor from '@uiw/react-md-editor'
+import { CreatePostHeader } from "@/components/post/CreatePostHeader"
+import { MarkdownToolbar } from "@/components/post/MarkdownToolbar"
+import { ImageUploader } from "@/components/post/ImageUploader"
 
 const CreatePost = () => {
   const [title, setTitle] = useState("")
@@ -15,7 +14,6 @@ const CreatePost = () => {
   const [images, setImages] = useState<string[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showMarkdownPreview, setShowMarkdownPreview] = useState(false)
-  const navigate = useNavigate()
   const { toast } = useToast()
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -97,30 +95,11 @@ const CreatePost = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md">
-        <div className="flex items-center justify-between px-4 h-14 max-w-2xl mx-auto">
-          <div className="flex items-center gap-6">
-            <button 
-              onClick={() => navigate(-1)}
-              className="p-2 -ml-2 hover:bg-gray-100 rounded-full transition-colors"
-            >
-              <ArrowLeft className="w-5 h-5" />
-            </button>
-            <span className="font-bold">创建新帖子</span>
-          </div>
-          <Button
-            type="submit"
-            form="post-form"
-            size="sm"
-            className="rounded-full bg-blue-500 hover:bg-blue-600 px-4"
-            disabled={isSubmitting || isOverLimit || (!title.trim() && !content.trim())}
-          >
-            发布
-          </Button>
-        </div>
-        <Separator />
-      </div>
+      <CreatePostHeader 
+        isSubmitting={isSubmitting}
+        isOverLimit={isOverLimit}
+        hasContent={Boolean(title.trim() || content.trim())}
+      />
       
       <form id="post-form" onSubmit={handleSubmit} className="container max-w-2xl mx-auto px-4 pt-20 pb-32">
         <div className="flex gap-3">
@@ -137,46 +116,11 @@ const CreatePost = () => {
             />
 
             <div className="space-y-2">
-              <div className="flex items-center gap-1 border-b pb-2">
-                <button
-                  type="button"
-                  onClick={() => insertMarkdown('bold')}
-                  className="p-1.5 hover:bg-gray-100 rounded"
-                >
-                  <Bold className="w-4 h-4" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => insertMarkdown('italic')}
-                  className="p-1.5 hover:bg-gray-100 rounded"
-                >
-                  <Italic className="w-4 h-4" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => insertMarkdown('list')}
-                  className="p-1.5 hover:bg-gray-100 rounded"
-                >
-                  <List className="w-4 h-4" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => insertMarkdown('link')}
-                  className="p-1.5 hover:bg-gray-100 rounded"
-                >
-                  <Link className="w-4 h-4" />
-                </button>
-                <div className="flex-1" />
-                <button
-                  type="button"
-                  onClick={() => setShowMarkdownPreview(!showMarkdownPreview)}
-                  className={`text-xs px-2 py-1 rounded ${
-                    showMarkdownPreview ? 'bg-blue-50 text-blue-500' : 'hover:bg-gray-100'
-                  }`}
-                >
-                  预览
-                </button>
-              </div>
+              <MarkdownToolbar 
+                onInsert={insertMarkdown}
+                showPreview={showMarkdownPreview}
+                onTogglePreview={() => setShowMarkdownPreview(!showMarkdownPreview)}
+              />
 
               {showMarkdownPreview ? (
                 <div className="min-h-[150px] p-3 rounded-lg border">
@@ -192,71 +136,14 @@ const CreatePost = () => {
               )}
             </div>
 
-            {/* Image Preview */}
-            {images.length > 0 && (
-              <div className={`grid gap-2 ${
-                images.length === 1 ? 'grid-cols-1' : 
-                images.length === 2 ? 'grid-cols-2' :
-                images.length === 3 ? 'grid-cols-2' :
-                'grid-cols-2'
-              }`}>
-                {images.map((image, index) => (
-                  <div 
-                    key={index} 
-                    className={`relative group ${
-                      images.length === 3 && index === 0 ? 'row-span-2' : ''
-                    }`}
-                  >
-                    <img
-                      src={image}
-                      alt={`上传图片 ${index + 1}`}
-                      className="w-full h-full object-cover rounded-2xl aspect-square"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => removeImage(index)}
-                      className="absolute top-2 right-2 p-1.5 bg-black/50 backdrop-blur-sm rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                      <X className="w-4 h-4 text-white" />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            <Separator className="my-3" />
-
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                {images.length < 4 && (
-                  <label className="p-2 hover:bg-blue-50 rounded-full cursor-pointer transition-colors">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      multiple
-                      onChange={handleImageUpload}
-                      className="hidden"
-                    />
-                    <Camera className="w-5 h-5 text-blue-500" />
-                  </label>
-                )}
-                <button 
-                  type="button" 
-                  className="p-2 hover:bg-blue-50 rounded-full transition-colors"
-                >
-                  <Globe2 className="w-5 h-5 text-blue-500" />
-                </button>
-              </div>
-
-              {characterCount > 0 && (
-                <div className="flex items-center gap-2">
-                  <Separator orientation="vertical" className="h-6" />
-                  <div className={`text-sm ${isOverLimit ? 'text-red-500' : 'text-gray-500'}`}>
-                    {remainingCharacters}
-                  </div>
-                </div>
-              )}
-            </div>
+            <ImageUploader 
+              images={images}
+              onUpload={handleImageUpload}
+              onRemove={removeImage}
+              characterCount={characterCount}
+              remainingCharacters={remainingCharacters}
+              isOverLimit={isOverLimit}
+            />
           </div>
         </div>
       </form>
