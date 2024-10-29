@@ -8,6 +8,12 @@ import { CreatePostHeader } from "@/components/post/CreatePostHeader"
 import { ImageUploader } from "@/components/post/ImageUploader"
 import { TagSelector } from "@/components/post/TagSelector"
 import { LocationButton } from "@/components/post/LocationButton"
+import { MarkdownToolbar } from "@/components/post/MarkdownToolbar"
+import "@uiw/react-md-editor/markdown-editor.css"
+import "@uiw/react-markdown-preview/markdown.css"
+import dynamic from "@uiw/react-md-editor"
+
+const MDEditor = dynamic
 
 const CreatePost = () => {
   const [title, setTitle] = useState("")
@@ -15,6 +21,7 @@ const CreatePost = () => {
   const [images, setImages] = useState<string[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [selectedTags, setSelectedTags] = useState<string[]>([])
+  const [showPreview, setShowPreview] = useState(false)
   const navigate = useNavigate()
   const { toast } = useToast()
 
@@ -45,6 +52,34 @@ const CreatePost = () => {
         ? prev.filter(t => t !== tag)
         : [...prev, tag]
     )
+  }
+
+  const handleMarkdownInsert = (type: string) => {
+    const textarea = document.querySelector('textarea')
+    if (!textarea) return
+
+    const start = textarea.selectionStart
+    const end = textarea.selectionEnd
+    const text = textarea.value
+
+    let insertion = ''
+    switch (type) {
+      case 'bold':
+        insertion = `**${text.slice(start, end) || '粗体文字'}**`
+        break
+      case 'italic':
+        insertion = `*${text.slice(start, end) || '斜体文字'}*`
+        break
+      case 'list':
+        insertion = `\n- ${text.slice(start, end) || '列表项'}`
+        break
+      case 'link':
+        insertion = `[${text.slice(start, end) || '链接文字'}](url)`
+        break
+    }
+
+    const newContent = text.slice(0, start) + insertion + text.slice(end)
+    setContent(newContent)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -110,12 +145,25 @@ const CreatePost = () => {
             maxLength={30}
           />
 
-          <Textarea
-            placeholder="分享这一刻的想法..."
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            className="min-h-[100px] text-base resize-none border-0 p-0 focus-visible:ring-0 placeholder:text-gray-400"
-          />
+          <div className="space-y-2">
+            <MarkdownToolbar 
+              onInsert={handleMarkdownInsert}
+              showPreview={showPreview}
+              onTogglePreview={() => setShowPreview(!showPreview)}
+            />
+            {showPreview ? (
+              <div className="min-h-[100px] p-3 rounded-lg bg-gray-50">
+                <MDEditor.Markdown source={content} />
+              </div>
+            ) : (
+              <Textarea
+                placeholder="分享这一刻的想法..."
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                className="min-h-[100px] text-base resize-none border-0 p-0 focus-visible:ring-0 placeholder:text-gray-400"
+              />
+            )}
+          </div>
         </div>
 
         <TagSelector 
