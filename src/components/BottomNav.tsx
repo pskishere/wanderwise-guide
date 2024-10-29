@@ -11,7 +11,7 @@ export const BottomNav = () => {
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-lg border-t border-gray-100 py-2 z-50">
       <div className="flex items-center justify-between max-w-screen-lg mx-auto relative px-4">
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-12">
           <Link 
             to="/" 
             className={`flex flex-col items-center gap-0.5 min-w-[64px] py-1 transition-colors ${
@@ -42,7 +42,7 @@ export const BottomNav = () => {
           <Plus className="h-6 w-6 text-white group-hover:rotate-90 transition-transform duration-200" />
         </Link>
 
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-12">
           <Link 
             to="/favorites" 
             className={`flex flex-col items-center gap-0.5 min-w-[64px] py-1 transition-colors ${
