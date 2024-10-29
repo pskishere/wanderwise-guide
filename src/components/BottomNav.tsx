@@ -10,7 +10,7 @@ export const BottomNav = () => {
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-lg border-t border-gray-100 py-2 px-4 z-50">
-      <div className="flex justify-between items-center max-w-screen-lg mx-auto relative px-8">
+      <div className="flex justify-between items-center max-w-screen-lg mx-auto relative px-16">
         <Link 
           to="/" 
           className={`flex flex-col items-center gap-1 min-w-[64px] py-1 transition-colors ${
