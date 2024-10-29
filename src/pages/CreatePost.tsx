@@ -151,7 +151,7 @@ const CreatePost = () => {
               onTogglePreview={() => setShowPreview(!showPreview)}
             />
             {showPreview ? (
-              <div className="min-h-[100px] p-3 rounded-lg bg-gray-50">
+              <div className="min-h-[100px] p-3 rounded-lg bg-white border">
                 <MDEditor.Markdown source={content} />
               </div>
             ) : (
