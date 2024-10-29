@@ -133,7 +133,7 @@ const CreatePost = () => {
                   placeholder="有什么新鲜事想分享给大家？支持 Markdown 格式"
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
-                  className="w-full min-h-[150px] text-lg resize-none border-0 focus:outline-none placeholder:text-gray-400"
+                  className="w-full min-h-[250px] text-lg resize-none border-0 focus:outline-none placeholder:text-gray-400"
                 />
               )}
             </div>
