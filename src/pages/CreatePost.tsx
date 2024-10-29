@@ -65,35 +65,35 @@ const CreatePost = () => {
       <Navigation />
       
       <form onSubmit={handleSubmit} className="container max-w-2xl mx-auto px-4 pt-20 pb-32">
-        <div className="space-y-6">
+        <div className="space-y-6 bg-white rounded-xl shadow-sm p-4 md:p-6">
           <Input
             placeholder="输入标题..."
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="text-lg font-medium"
+            className="text-lg font-medium border-0 border-b focus-visible:ring-0 rounded-none px-0 placeholder:text-gray-400"
           />
 
           <Textarea
             placeholder="分享你的故事..."
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            className="min-h-[200px] resize-none"
+            className="min-h-[200px] resize-none border-0 focus-visible:ring-0 placeholder:text-gray-400"
           />
 
           {/* Image Upload */}
           <div className="space-y-4">
             <div className="flex flex-wrap gap-4">
               {images.map((image, index) => (
-                <div key={index} className="relative">
+                <div key={index} className="relative group">
                   <img
                     src={image}
                     alt={`上传图片 ${index + 1}`}
-                    className="w-24 h-24 object-cover rounded-lg"
+                    className="w-24 h-24 object-cover rounded-xl"
                   />
                   <button
                     type="button"
                     onClick={() => removeImage(index)}
-                    className="absolute -top-2 -right-2 p-1 bg-white rounded-full shadow-md hover:bg-gray-100"
+                    className="absolute -top-2 -right-2 p-1 bg-white/90 backdrop-blur-sm rounded-full shadow-md hover:bg-gray-100 opacity-0 group-hover:opacity-100 transition-opacity"
                   >
                     <X className="w-4 h-4 text-gray-500" />
                   </button>
@@ -101,7 +101,7 @@ const CreatePost = () => {
               ))}
               
               {images.length < 9 && (
-                <label className="w-24 h-24 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-pink-500 transition-colors">
+                <label className="w-24 h-24 flex items-center justify-center border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:border-pink-500 transition-colors">
                   <input
                     type="file"
                     accept="image/*"
@@ -113,7 +113,7 @@ const CreatePost = () => {
                 </label>
               )}
             </div>
-            <p className="text-xs text-gray-500">最多上传9张图片</p>
+            <p className="text-xs text-gray-400">最多上传9张图片</p>
           </div>
 
           <Button
