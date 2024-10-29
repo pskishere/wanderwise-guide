@@ -103,7 +103,7 @@ const CreatePost = () => {
         hasContent={Boolean(title.trim() || content.trim())}
       />
       
-      <form id="post-form" onSubmit={handleSubmit} className="container max-w-2xl mx-auto px-4 pt-20 pb-32">
+      <form id="post-form" onSubmit={handleSubmit} className="container max-w-2xl mx-auto pt-20 pb-32">
         <div className="flex gap-3">
           <Avatar className="h-10 w-10">
             <img src="https://github.com/shadcn.png" alt="@shadcn" />
@@ -125,7 +125,7 @@ const CreatePost = () => {
               />
 
               {showMarkdownPreview ? (
-                <div className="min-h-[150px] p-3 rounded-lg border">
+                <div className="min-h-[250px] p-3 rounded-lg border">
                   <MDEditor.Markdown source={content} />
                 </div>
               ) : (
