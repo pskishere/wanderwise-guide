@@ -1,5 +1,4 @@
 import { Bold, Italic, List, Link } from "lucide-react"
-import { Separator } from "@/components/ui/separator"
 
 interface MarkdownToolbarProps {
   onInsert: (type: string) => void
@@ -39,7 +38,6 @@ export const MarkdownToolbar = ({ onInsert, showPreview, onTogglePreview }: Mark
         <Link className="w-4 h-4 text-pink-600" />
       </button>
       <div className="flex-1" />
-      <Separator orientation="vertical" className="h-6" />
       <button
         type="button"
         onClick={onTogglePreview}
