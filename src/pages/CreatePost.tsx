@@ -3,9 +3,11 @@ import { useNavigate } from "react-router-dom"
 import { useToast } from "@/hooks/use-toast"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Tag, MapPin } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import { BottomNav } from "@/components/BottomNav"
+import { CreatePostHeader } from "@/components/post/CreatePostHeader"
+import { ImageUploader } from "@/components/post/ImageUploader"
+import { TagSelector } from "@/components/post/TagSelector"
+import { LocationButton } from "@/components/post/LocationButton"
 
 const CreatePost = () => {
   const [title, setTitle] = useState("")
@@ -84,87 +86,21 @@ const CreatePost = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-white border-b">
-        <div className="flex items-center justify-between px-4 h-12">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => navigate(-1)}
-            className="font-medium"
-          >
-            取消
-          </Button>
-          <span className="font-medium">发布笔记</span>
-          <Button
-            type="submit"
-            form="post-form"
-            variant="ghost"
-            size="sm"
-            className="text-pink-500 hover:text-pink-600 hover:bg-transparent"
-            disabled={isSubmitting || !title.trim() || !content.trim() || images.length === 0}
-          >
-            发布
-          </Button>
-        </div>
-      </div>
+      <CreatePostHeader 
+        isSubmitting={isSubmitting}
+        hasContent={Boolean(title.trim() || content.trim())}
+        hasImages={images.length > 0}
+      />
 
       <form id="post-form" onSubmit={handleSubmit} className="pt-12 pb-20">
-        {/* Image Upload */}
         <div className="p-4">
-          {images.length === 0 ? (
-            <label className="block aspect-[4/3] rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 cursor-pointer hover:bg-gray-100 transition-colors">
-              <input
-                type="file"
-                accept="image/*"
-                multiple
-                onChange={handleImageUpload}
-                className="hidden"
-              />
-              <div className="flex flex-col items-center justify-center h-full text-gray-500">
-                <div className="w-16 h-16 rounded-full bg-pink-50 flex items-center justify-center mb-2">
-                  <Tag className="w-8 h-8 text-pink-500" />
-                </div>
-                <span className="text-sm font-medium">添加图片</span>
-                <span className="text-xs mt-1 text-gray-400">最多9张｜建议比例3:4</span>
-              </div>
-            </label>
-          ) : (
-            <div className="grid grid-cols-3 gap-1">
-              {images.map((image, index) => (
-                <div key={index} className="relative aspect-square group">
-                  <img
-                    src={image}
-                    alt={`上传图片 ${index + 1}`}
-                    className="w-full h-full object-cover rounded-sm"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => removeImage(index)}
-                    className="absolute top-1 right-1 w-6 h-6 bg-black/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                  >
-                    <span className="text-white text-sm">×</span>
-                  </button>
-                </div>
-              ))}
-              {images.length < 9 && (
-                <label className="aspect-square border border-dashed border-gray-200 rounded-sm flex flex-col items-center justify-center cursor-pointer bg-gray-50">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    onChange={handleImageUpload}
-                    className="hidden"
-                  />
-                  <span className="text-2xl text-gray-300">+</span>
-                  <span className="text-xs text-gray-400 mt-1">{9 - images.length}</span>
-                </label>
-              )}
-            </div>
-          )}
+          <ImageUploader 
+            images={images}
+            onUpload={handleImageUpload}
+            onRemove={removeImage}
+          />
         </div>
 
-        {/* Content */}
         <div className="px-4 space-y-4">
           <Input
             placeholder="填写标题会有更多赞哦～"
@@ -182,40 +118,13 @@ const CreatePost = () => {
           />
         </div>
 
-        {/* Tags */}
-        <div className="mt-6 px-4">
-          <div className="flex items-center gap-2 mb-3">
-            <Tag className="w-4 h-4 text-gray-400" />
-            <span className="text-sm text-gray-500">添加标签</span>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {suggestedTags.map(tag => (
-              <button
-                key={tag}
-                type="button"
-                onClick={() => toggleTag(tag)}
-                className={`px-3 py-1.5 rounded-full text-sm transition-colors ${
-                  selectedTags.includes(tag)
-                    ? 'bg-pink-50 text-pink-500'
-                    : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
-                }`}
-              >
-                #{tag}
-              </button>
-            ))}
-          </div>
-        </div>
+        <TagSelector 
+          selectedTags={selectedTags}
+          onToggleTag={toggleTag}
+          suggestedTags={suggestedTags}
+        />
 
-        {/* Location */}
-        <div className="mt-6 px-4">
-          <button
-            type="button"
-            className="flex items-center gap-2 text-sm text-gray-500"
-          >
-            <MapPin className="w-4 h-4" />
-            <span>添加地点</span>
-          </button>
-        </div>
+        <LocationButton />
       </form>
 
       <BottomNav />
