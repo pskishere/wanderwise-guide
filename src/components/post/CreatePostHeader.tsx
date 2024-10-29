@@ -12,22 +12,21 @@ export const CreatePostHeader = ({ isSubmitting, isOverLimit, hasContent }: Crea
   const navigate = useNavigate()
   
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b">
-      <div className="flex items-center justify-between px-4 h-14 max-w-2xl mx-auto">
-        <div className="flex items-center gap-6">
-          <button 
-            onClick={() => navigate(-1)}
-            className="p-2 -ml-2 hover:bg-gray-100 rounded-full transition-colors"
-          >
-            <ArrowLeft className="w-5 h-5" />
-          </button>
-          <span className="font-bold">创建新帖子</span>
-        </div>
+    <div className="fixed top-0 left-0 right-0 z-50 bg-white border-b">
+      <div className="flex items-center justify-between px-4 h-12 max-w-2xl mx-auto">
+        <button 
+          onClick={() => navigate(-1)}
+          className="p-2 -ml-2 hover:bg-gray-100 rounded-full transition-colors"
+        >
+          <ArrowLeft className="w-5 h-5" />
+        </button>
+        <span className="absolute left-1/2 -translate-x-1/2 font-medium">发布笔记</span>
         <Button
           type="submit"
           form="post-form"
+          variant="ghost"
           size="sm"
-          className="rounded-full bg-pink-500 hover:bg-pink-600 px-4 transition-all"
+          className="text-pink-500 hover:text-pink-600 hover:bg-transparent px-0"
           disabled={isSubmitting || isOverLimit || !hasContent}
         >
           发布

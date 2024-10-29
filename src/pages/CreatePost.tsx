@@ -3,20 +3,22 @@ import { useNavigate } from "react-router-dom"
 import { useToast } from "@/hooks/use-toast"
 import { Avatar } from "@/components/ui/avatar"
 import { Input } from "@/components/ui/input"
-import MDEditor from '@uiw/react-md-editor'
+import { Textarea } from "@/components/ui/textarea"
 import { CreatePostHeader } from "@/components/post/CreatePostHeader"
-import { MarkdownToolbar } from "@/components/post/MarkdownToolbar"
 import { ImageUploader } from "@/components/post/ImageUploader"
 import { BottomNav } from "@/components/BottomNav"
+import { Tag } from "lucide-react"
 
 const CreatePost = () => {
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
   const [images, setImages] = useState<string[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [showMarkdownPreview, setShowMarkdownPreview] = useState(false)
+  const [selectedTags, setSelectedTags] = useState<string[]>([])
   const navigate = useNavigate()
   const { toast } = useToast()
+
+  const suggestedTags = ["旅行", "美食", "穿搭", "护肤", "数码", "生活"]
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
@@ -37,6 +39,14 @@ const CreatePost = () => {
     setImages(prev => prev.filter((_, i) => i !== index))
   }
 
+  const toggleTag = (tag: string) => {
+    setSelectedTags(prev => 
+      prev.includes(tag) 
+        ? prev.filter(t => t !== tag)
+        : [...prev, tag]
+    )
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
@@ -44,6 +54,14 @@ const CreatePost = () => {
       toast({
         variant: "destructive",
         description: "请输入内容后再发布",
+      })
+      return
+    }
+
+    if (images.length === 0) {
+      toast({
+        variant: "destructive",
+        description: "请至少上传一张图片",
       })
       return
     }
@@ -68,39 +86,9 @@ const CreatePost = () => {
   }
 
   const characterCount = content.length
-  const maxCharacters = 2000
+  const maxCharacters = 1000
   const remainingCharacters = maxCharacters - characterCount
   const isOverLimit = remainingCharacters < 0
-
-  const insertMarkdown = (type: string) => {
-    let insertion = ''
-    const textarea = document.querySelector('textarea')
-    if (!textarea) return
-
-    const start = textarea.selectionStart
-    const end = textarea.selectionEnd
-    const selectedText = content.substring(start, end)
-
-    switch (type) {
-      case 'bold':
-        insertion = `**${selectedText || '粗体文字'}**`
-        break
-      case 'italic':
-        insertion = `*${selectedText || '斜体文字'}*`
-        break
-      case 'list':
-        insertion = `\n- ${selectedText || '列表项'}`
-        break
-      case 'link':
-        insertion = `[${selectedText || '链接文字'}](url)`
-        break
-      default:
-        return
-    }
-
-    const newContent = content.substring(0, start) + insertion + content.substring(end)
-    setContent(newContent)
-  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -111,48 +99,51 @@ const CreatePost = () => {
       />
       
       <form id="post-form" onSubmit={handleSubmit} className="container max-w-2xl mx-auto pt-16 pb-32">
-        <div className="flex gap-3 p-4">
-          <Avatar className="h-10 w-10">
-            <img src="https://github.com/shadcn.png" alt="@shadcn" />
-          </Avatar>
+        <div className="space-y-4 p-4">
+          <ImageUploader 
+            images={images}
+            onUpload={handleImageUpload}
+            onRemove={removeImage}
+            characterCount={characterCount}
+            remainingCharacters={remainingCharacters}
+            isOverLimit={isOverLimit}
+          />
 
-          <div className="flex-1 space-y-4">
-            <Input
-              placeholder="标题 (可选)"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="text-xl font-bold border-0 px-0 placeholder:text-gray-400 focus-visible:ring-0"
-            />
+          <Input
+            placeholder="标题 (选填)"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="text-lg font-medium border-0 px-0 focus-visible:ring-0 placeholder:text-gray-400"
+          />
 
-            <div className="space-y-2">
-              <MarkdownToolbar 
-                onInsert={insertMarkdown}
-                showPreview={showMarkdownPreview}
-                onTogglePreview={() => setShowMarkdownPreview(!showMarkdownPreview)}
-              />
+          <Textarea
+            placeholder="这一刻的想法..."
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            className="min-h-[120px] text-base resize-none border-0 focus-visible:ring-0 placeholder:text-gray-400"
+          />
 
-              {showMarkdownPreview ? (
-                <div className="min-h-[250px] p-3 rounded-lg border">
-                  <MDEditor.Markdown source={content} />
-                </div>
-              ) : (
-                <textarea
-                  placeholder="有什么新鲜事想分享给大家？支持 Markdown 格式"
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                  className="w-full min-h-[250px] text-lg resize-none border-0 focus:outline-none placeholder:text-gray-400"
-                />
-              )}
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 text-sm text-gray-500">
+              <Tag className="w-4 h-4" />
+              <span>添加标签</span>
             </div>
-
-            <ImageUploader 
-              images={images}
-              onUpload={handleImageUpload}
-              onRemove={removeImage}
-              characterCount={characterCount}
-              remainingCharacters={remainingCharacters}
-              isOverLimit={isOverLimit}
-            />
+            <div className="flex flex-wrap gap-2">
+              {suggestedTags.map(tag => (
+                <button
+                  key={tag}
+                  type="button"
+                  onClick={() => toggleTag(tag)}
+                  className={`px-3 py-1.5 rounded-full text-sm transition-colors ${
+                    selectedTags.includes(tag)
+                      ? 'bg-pink-50 text-pink-500'
+                      : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
+                  }`}
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </form>
