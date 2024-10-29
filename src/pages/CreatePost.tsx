@@ -1,20 +1,20 @@
-import { Navigation } from "@/components/Navigation"
 import { BottomNav } from "@/components/BottomNav"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Camera, X, Globe2, ArrowLeft } from "lucide-react"
+import { Camera, X, Globe2, ArrowLeft, Bold, Italic, List, Link, Image as ImageIcon } from "lucide-react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useToast } from "@/hooks/use-toast"
 import { Avatar } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
+import MDEditor from '@uiw/react-md-editor'
 
 const CreatePost = () => {
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
   const [images, setImages] = useState<string[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [showMarkdownPreview, setShowMarkdownPreview] = useState(false)
   const navigate = useNavigate()
   const { toast } = useToast()
 
@@ -61,9 +61,39 @@ const CreatePost = () => {
   }
 
   const characterCount = content.length
-  const maxCharacters = 280
+  const maxCharacters = 2000
   const remainingCharacters = maxCharacters - characterCount
   const isOverLimit = remainingCharacters < 0
+
+  const insertMarkdown = (type: string) => {
+    let insertion = ''
+    const textarea = document.querySelector('textarea')
+    if (!textarea) return
+
+    const start = textarea.selectionStart
+    const end = textarea.selectionEnd
+    const selectedText = content.substring(start, end)
+
+    switch (type) {
+      case 'bold':
+        insertion = `**${selectedText || '粗体文字'}**`
+        break
+      case 'italic':
+        insertion = `*${selectedText || '斜体文字'}*`
+        break
+      case 'list':
+        insertion = `\n- ${selectedText || '列表项'}`
+        break
+      case 'link':
+        insertion = `[${selectedText || '链接文字'}](url)`
+        break
+      default:
+        return
+    }
+
+    const newContent = content.substring(0, start) + insertion + content.substring(end)
+    setContent(newContent)
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -106,12 +136,61 @@ const CreatePost = () => {
               className="text-xl font-bold border-0 px-0 placeholder:text-gray-400 focus-visible:ring-0"
             />
 
-            <Textarea
-              placeholder="有什么新鲜事想分享给大家？"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              className="min-h-[150px] text-lg resize-none border-0 focus-visible:ring-0 placeholder:text-gray-400"
-            />
+            <div className="space-y-2">
+              <div className="flex items-center gap-1 border-b pb-2">
+                <button
+                  type="button"
+                  onClick={() => insertMarkdown('bold')}
+                  className="p-1.5 hover:bg-gray-100 rounded"
+                >
+                  <Bold className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => insertMarkdown('italic')}
+                  className="p-1.5 hover:bg-gray-100 rounded"
+                >
+                  <Italic className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => insertMarkdown('list')}
+                  className="p-1.5 hover:bg-gray-100 rounded"
+                >
+                  <List className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => insertMarkdown('link')}
+                  className="p-1.5 hover:bg-gray-100 rounded"
+                >
+                  <Link className="w-4 h-4" />
+                </button>
+                <div className="flex-1" />
+                <button
+                  type="button"
+                  onClick={() => setShowMarkdownPreview(!showMarkdownPreview)}
+                  className={`text-xs px-2 py-1 rounded ${
+                    showMarkdownPreview ? 'bg-blue-50 text-blue-500' : 'hover:bg-gray-100'
+                  }`}
+                >
+                  预览
+                </button>
+              </div>
+
+              {showMarkdownPreview ? (
+                <div className="min-h-[150px] p-3 rounded-lg border">
+                  <MDEditor.Markdown source={content} />
+                </div>
+              ) : (
+                <textarea
+                  placeholder="有什么新鲜事想分享给大家？支持 Markdown 格式"
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  className="w-full min-h-[150px] text-lg resize-none border-0 focus:outline-none placeholder:text-gray-400"
+                />
+              )}
+            </div>
 
             {/* Image Preview */}
             {images.length > 0 && (
