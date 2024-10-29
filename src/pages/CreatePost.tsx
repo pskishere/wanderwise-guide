@@ -22,6 +22,7 @@ const CreatePost = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [selectedTags, setSelectedTags] = useState<string[]>([])
   const [showPreview, setShowPreview] = useState(false)
+  const [location, setLocation] = useState<string | null>(null)
   const navigate = useNavigate()
   const { toast } = useToast()
 
@@ -172,7 +173,10 @@ const CreatePost = () => {
           suggestedTags={suggestedTags}
         />
 
-        <LocationButton />
+        <LocationButton 
+          location={location}
+          onLocationSelect={setLocation}
+        />
       </form>
 
       <BottomNav />

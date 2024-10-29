@@ -1,15 +1,31 @@
 import { MapPin } from "lucide-react"
+import { useState } from "react"
+import { LocationDrawer } from "./LocationDrawer"
 
-export const LocationButton = () => {
+interface LocationButtonProps {
+  location: string | null
+  onLocationSelect: (location: string) => void
+}
+
+export const LocationButton = ({ location, onLocationSelect }: LocationButtonProps) => {
+  const [open, setOpen] = useState(false)
+
   return (
     <div className="mt-6 px-4">
       <button
         type="button"
-        className="flex items-center gap-2 text-sm text-gray-500"
+        onClick={() => setOpen(true)}
+        className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 transition-colors"
       >
         <MapPin className="w-4 h-4" />
-        <span>添加地点</span>
+        <span>{location || "添加地点"}</span>
       </button>
+
+      <LocationDrawer 
+        open={open}
+        onOpenChange={setOpen}
+        onSelect={onLocationSelect}
+      />
     </div>
   )
 }
