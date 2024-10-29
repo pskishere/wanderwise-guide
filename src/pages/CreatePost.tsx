@@ -151,12 +151,10 @@ const CreatePost = () => {
               onTogglePreview={() => setShowPreview(!showPreview)}
             />
             {showPreview ? (
-              <div className="min-h-[100px] p-3 rounded-lg bg-white border">
-                <MDEditor.Markdown 
-                  source={content} 
-                  className="prose prose-sm max-w-none prose-p:my-2 prose-p:leading-relaxed prose-headings:font-bold prose-headings:my-3 prose-h1:text-xl prose-h2:text-lg prose-h3:text-base prose-a:text-pink-600 prose-a:no-underline hover:prose-a:underline prose-code:text-pink-600 prose-code:bg-pink-50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none"
-                />
-              </div>
+              <MDEditor.Markdown 
+                source={content} 
+                className="min-h-[100px] p-3 rounded-lg bg-white border prose prose-sm max-w-none prose-p:my-2 prose-p:leading-relaxed prose-headings:font-bold prose-headings:my-3 prose-h1:text-xl prose-h2:text-lg prose-h3:text-base prose-a:text-pink-600 prose-a:no-underline hover:prose-a:underline prose-code:text-pink-600 prose-code:bg-pink-50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none"
+              />
             ) : (
               <Textarea
                 placeholder="分享这一刻的想法..."
