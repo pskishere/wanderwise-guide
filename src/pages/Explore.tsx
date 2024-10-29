@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button"
 import { Navigation } from "@/components/Navigation"
 import { BottomNav } from "@/components/BottomNav"
 import { useState, useEffect } from "react"
@@ -8,17 +7,8 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { Card, CardContent } from "@/components/ui/card"
 import { useInView } from "react-intersection-observer"
 import { useToast } from "@/hooks/use-toast"
-import { ShoppingBag, Tag, Store } from "lucide-react"
-import { Link, useNavigate } from "react-router-dom"
-
-const categories = [
-  { id: "all", name: "全部" },
-  { id: "clothing", name: "服饰" },
-  { id: "beauty", name: "美妆" },
-  { id: "digital", name: "数码" },
-  { id: "food", name: "美食" },
-  { id: "home", name: "家居" },
-]
+import { Tag, Store } from "lucide-react"
+import { useNavigate } from "react-router-dom"
 
 const ProductSkeleton = () => (
   <Card className="mb-2 break-inside-avoid overflow-hidden border-none shadow-none hover:shadow-lg transition-shadow duration-200">
@@ -32,7 +22,6 @@ const ProductSkeleton = () => (
 )
 
 export const Explore = () => {
-  const [activeCategory, setActiveCategory] = useState("all")
   const { ref, inView } = useInView()
   const { toast } = useToast()
   const navigate = useNavigate()
@@ -45,8 +34,8 @@ export const Explore = () => {
     isLoading,
     isError
   } = useInfiniteQuery<PageData<Product>>({
-    queryKey: ['products', activeCategory],
-    queryFn: ({ pageParam = 0 }) => fetchProducts(activeCategory, pageParam as number),
+    queryKey: ['products'],
+    queryFn: ({ pageParam = 0 }) => fetchProducts('all', pageParam as number),
     getNextPageParam: (lastPage) => lastPage.nextCursor,
     initialPageParam: 0
   })
@@ -74,24 +63,8 @@ export const Explore = () => {
     <div className="min-h-screen bg-gray-50">
       <Navigation />
       
-      {/* Categories */}
-      <div className="container mx-auto px-3 pt-24 pb-1 max-w-7xl">
-        <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
-          {categories.map((category) => (
-            <Button
-              key={category.id}
-              variant={activeCategory === category.id ? "default" : "outline"}
-              className="rounded-full text-sm h-8 px-3"
-              onClick={() => setActiveCategory(category.id)}
-            >
-              {category.name}
-            </Button>
-          ))}
-        </div>
-      </div>
-
       {/* Products Grid */}
-      <div className="container mx-auto px-2 py-4 max-w-7xl">
+      <div className="container mx-auto px-2 py-20 max-w-7xl">
         <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
           {isLoading ? (
             Array(8).fill(0).map((_, index) => (
@@ -121,7 +94,7 @@ export const Explore = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between mt-2">
-                    <span className="text-pink-600 font-medium">{product.price}</span>
+                    <span className="text-red-600 font-medium">{product.price}</span>
                     <span className="text-xs text-gray-400">已售{product.sales}</span>
                   </div>
                   <div className="flex items-center gap-1 mt-2">
