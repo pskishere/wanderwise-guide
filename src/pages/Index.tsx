@@ -1,7 +1,6 @@
 import { Navigation } from "@/components/Navigation"
 import { TravelNotes } from "@/components/TravelNotes"
 import { BottomNav } from "@/components/BottomNav"
-import { PopularDestinations } from "@/components/PopularDestinations"
 
 const Index = () => {
   return (
@@ -9,13 +8,7 @@ const Index = () => {
       <Navigation />
       
       <div className="container mx-auto px-1 pt-20 pb-20 max-w-6xl">
-        <div className="grid grid-cols-1 lg:grid-cols-[200px,1fr] gap-3">
-          {/* Sidebar */}
-          <aside className="hidden lg:block space-y-3">
-            <PopularDestinations />
-          </aside>
-
-          {/* Main Content */}
+        <div className="grid grid-cols-1">
           <main>
             <TravelNotes />
           </main>
