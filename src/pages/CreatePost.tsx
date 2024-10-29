@@ -1,6 +1,7 @@
 import { BottomNav } from "@/components/BottomNav"
 import { Input } from "@/components/ui/input"
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { useToast } from "@/hooks/use-toast"
 import { Avatar } from "@/components/ui/avatar"
 import MDEditor from '@uiw/react-md-editor'
@@ -14,6 +15,7 @@ const CreatePost = () => {
   const [images, setImages] = useState<string[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showMarkdownPreview, setShowMarkdownPreview] = useState(false)
+  const navigate = useNavigate()
   const { toast } = useToast()
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
