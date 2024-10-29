@@ -7,7 +7,6 @@ import { BottomNav } from "@/components/BottomNav"
 import { CreatePostHeader } from "@/components/post/CreatePostHeader"
 import { ImageUploader } from "@/components/post/ImageUploader"
 import { TagSelector } from "@/components/post/TagSelector"
-import { LocationButton } from "@/components/post/LocationButton"
 import { MarkdownToolbar } from "@/components/post/MarkdownToolbar"
 import "@uiw/react-md-editor/markdown-editor.css"
 import "@uiw/react-markdown-preview/markdown.css"
@@ -22,7 +21,6 @@ const CreatePost = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [selectedTags, setSelectedTags] = useState<string[]>([])
   const [showPreview, setShowPreview] = useState(false)
-  const [location, setLocation] = useState<string | null>(null)
   const navigate = useNavigate()
   const { toast } = useToast()
 
@@ -171,11 +169,6 @@ const CreatePost = () => {
           selectedTags={selectedTags}
           onToggleTag={toggleTag}
           suggestedTags={suggestedTags}
-        />
-
-        <LocationButton 
-          location={location}
-          onLocationSelect={setLocation}
         />
       </form>
 
