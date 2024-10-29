@@ -22,13 +22,13 @@ export const BottomNav = () => {
             <span className="text-xs font-medium tracking-tight">首页</span>
           </Link>
           <Link 
-            to="/favorites" 
+            to="/explore" 
             className={`flex flex-col items-center gap-0.5 min-w-[64px] py-1 transition-colors ${
-              isActive('/favorites') ? 'text-pink-500' : 'text-gray-500 hover:text-gray-900'
+              isActive('/explore') ? 'text-pink-500' : 'text-gray-500 hover:text-gray-900'
             }`}
           >
-            <Heart className={`h-5 w-5 ${isActive('/favorites') ? 'stroke-[2.5px]' : ''}`} />
-            <span className="text-xs font-medium tracking-tight">收藏</span>
+            <Compass className={`h-5 w-5 ${isActive('/explore') ? 'stroke-[2.5px]' : ''}`} />
+            <span className="text-xs font-medium tracking-tight">发现</span>
           </Link>
         </div>
 
@@ -44,13 +44,13 @@ export const BottomNav = () => {
 
         <div className="flex items-center gap-8">
           <Link 
-            to="/explore" 
+            to="/favorites" 
             className={`flex flex-col items-center gap-0.5 min-w-[64px] py-1 transition-colors ${
-              isActive('/explore') ? 'text-pink-500' : 'text-gray-500 hover:text-gray-900'
+              isActive('/favorites') ? 'text-pink-500' : 'text-gray-500 hover:text-gray-900'
             }`}
           >
-            <Compass className={`h-5 w-5 ${isActive('/explore') ? 'stroke-[2.5px]' : ''}`} />
-            <span className="text-xs font-medium tracking-tight">发现</span>
+            <Heart className={`h-5 w-5 ${isActive('/favorites') ? 'stroke-[2.5px]' : ''}`} />
+            <span className="text-xs font-medium tracking-tight">收藏</span>
           </Link>
           <Link 
             to="/profile" 
