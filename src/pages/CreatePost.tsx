@@ -3,11 +3,12 @@ import { BottomNav } from "@/components/BottomNav"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Camera, X, Send, Globe2 } from "lucide-react"
+import { Camera, X, Globe2, ArrowLeft } from "lucide-react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useToast } from "@/hooks/use-toast"
 import { Avatar } from "@/components/ui/avatar"
+import { Separator } from "@/components/ui/separator"
 
 const CreatePost = () => {
   const [title, setTitle] = useState("")
@@ -32,10 +33,10 @@ const CreatePost = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
-    if (!title.trim() || !content.trim()) {
+    if (!title.trim() && !content.trim()) {
       toast({
         variant: "destructive",
-        description: "请填写标题和内容",
+        description: "请输入内容后再发布",
       })
       return
     }
@@ -66,15 +67,38 @@ const CreatePost = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <Navigation />
+      {/* Header */}
+      <div className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md">
+        <div className="flex items-center justify-between px-4 h-14 max-w-2xl mx-auto">
+          <div className="flex items-center gap-6">
+            <button 
+              onClick={() => navigate(-1)}
+              className="p-2 -ml-2 hover:bg-gray-100 rounded-full transition-colors"
+            >
+              <ArrowLeft className="w-5 h-5" />
+            </button>
+            <span className="font-bold">创建新帖子</span>
+          </div>
+          <Button
+            type="submit"
+            form="post-form"
+            size="sm"
+            className="rounded-full bg-blue-500 hover:bg-blue-600 px-4"
+            disabled={isSubmitting || isOverLimit || (!title.trim() && !content.trim())}
+          >
+            发布
+          </Button>
+        </div>
+        <Separator />
+      </div>
       
-      <form onSubmit={handleSubmit} className="container max-w-2xl mx-auto px-4 pt-20 pb-32">
-        <div className="flex gap-4">
+      <form id="post-form" onSubmit={handleSubmit} className="container max-w-2xl mx-auto px-4 pt-20 pb-32">
+        <div className="flex gap-3">
           <Avatar className="h-10 w-10">
             <img src="https://github.com/shadcn.png" alt="@shadcn" />
           </Avatar>
 
-          <div className="flex-1 space-y-6">
+          <div className="flex-1 space-y-4">
             <Input
               placeholder="标题 (可选)"
               value={title}
@@ -83,7 +107,7 @@ const CreatePost = () => {
             />
 
             <Textarea
-              placeholder="分享你的故事..."
+              placeholder="有什么新鲜事想分享给大家？"
               value={content}
               onChange={(e) => setContent(e.target.value)}
               className="min-h-[150px] text-lg resize-none border-0 focus-visible:ring-0 placeholder:text-gray-400"
@@ -121,7 +145,9 @@ const CreatePost = () => {
               </div>
             )}
 
-            <div className="flex items-center justify-between pt-4 border-t">
+            <Separator className="my-3" />
+
+            <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 {images.length < 4 && (
                   <label className="p-2 hover:bg-blue-50 rounded-full cursor-pointer transition-colors">
@@ -135,25 +161,22 @@ const CreatePost = () => {
                     <Camera className="w-5 h-5 text-blue-500" />
                   </label>
                 )}
-                <button type="button" className="p-2 hover:bg-blue-50 rounded-full transition-colors">
+                <button 
+                  type="button" 
+                  className="p-2 hover:bg-blue-50 rounded-full transition-colors"
+                >
                   <Globe2 className="w-5 h-5 text-blue-500" />
                 </button>
               </div>
 
-              <div className="flex items-center gap-4">
-                {characterCount > 0 && (
+              {characterCount > 0 && (
+                <div className="flex items-center gap-2">
+                  <Separator orientation="vertical" className="h-6" />
                   <div className={`text-sm ${isOverLimit ? 'text-red-500' : 'text-gray-500'}`}>
                     {remainingCharacters}
                   </div>
-                )}
-                <Button
-                  type="submit"
-                  className="rounded-full bg-blue-500 hover:bg-blue-600"
-                  disabled={isSubmitting || isOverLimit}
-                >
-                  发布
-                </Button>
-              </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
