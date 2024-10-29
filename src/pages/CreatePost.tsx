@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/Navigation"
+import { BottomNav } from "@/components/BottomNav"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -63,7 +64,7 @@ const CreatePost = () => {
     <div className="min-h-screen bg-gray-50">
       <Navigation />
       
-      <form onSubmit={handleSubmit} className="container max-w-2xl mx-auto px-4 pt-20 pb-20">
+      <form onSubmit={handleSubmit} className="container max-w-2xl mx-auto px-4 pt-20 pb-32">
         <div className="space-y-6">
           <Input
             placeholder="输入标题..."
@@ -125,6 +126,8 @@ const CreatePost = () => {
           </Button>
         </div>
       </form>
+
+      <BottomNav />
     </div>
   )
 }
