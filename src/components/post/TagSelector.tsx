@@ -45,7 +45,7 @@ export const TagSelector = ({ selectedTags, onToggleTag, suggestedTags }: TagSel
             onClick={() => onToggleTag(tag)}
             className="px-3 py-1.5 rounded-full text-sm bg-pink-50 text-pink-500"
           >
-            #{tag}
+            {tag}
           </button>
         ))}
         
@@ -58,7 +58,7 @@ export const TagSelector = ({ selectedTags, onToggleTag, suggestedTags }: TagSel
               onClick={() => onToggleTag(tag)}
               className="px-3 py-1.5 rounded-full text-sm bg-gray-50 text-gray-600 hover:bg-gray-100"
             >
-              #{tag}
+              {tag}
             </button>
           ))}
 
