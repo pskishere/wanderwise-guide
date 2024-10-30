@@ -9,7 +9,7 @@ interface ImageUploaderProps {
 export const ImageUploader = ({ images, onUpload, onRemove }: ImageUploaderProps) => {
   if (images.length === 0) {
     return (
-      <label className="block aspect-[4/3] max-w-xs mx-auto rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 cursor-pointer hover:bg-gray-100 transition-colors">
+      <label className="block aspect-[4/3] w-[240px] rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 cursor-pointer hover:bg-gray-100 transition-colors">
         <input
           type="file"
           accept="image/*"
@@ -18,8 +18,8 @@ export const ImageUploader = ({ images, onUpload, onRemove }: ImageUploaderProps
           className="hidden"
         />
         <div className="flex flex-col items-center justify-center h-full text-gray-500">
-          <div className="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center mb-2">
-            <Tag className="w-4 h-4 text-pink-500" />
+          <div className="w-6 h-6 rounded-full bg-pink-50 flex items-center justify-center mb-2">
+            <Tag className="w-3 h-3 text-pink-500" />
           </div>
           <span className="text-xs font-medium">添加图片</span>
           <span className="text-xs mt-1 text-gray-400">最多9张｜建议比例3:4</span>
@@ -29,7 +29,7 @@ export const ImageUploader = ({ images, onUpload, onRemove }: ImageUploaderProps
   }
 
   return (
-    <div className="grid grid-cols-3 gap-1 max-w-xs mx-auto">
+    <div className="grid grid-cols-3 gap-1 w-[240px]">
       {images.map((image, index) => (
         <div key={index} className="relative aspect-square group">
           <img
