@@ -9,7 +9,7 @@ import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { Image } from "@/components/ui/image"
 import { ImageLightbox } from "@/components/ImageLightbox"
 import { useState, useEffect } from "react"
-import { useCarousel } from "@/components/ui/carousel"
+import type { CarouselApi } from "@/components/ui/carousel"
 
 interface ProductGalleryProps {
   images: string[]
@@ -18,7 +18,7 @@ interface ProductGalleryProps {
 export const ProductGallery = ({ images }: ProductGalleryProps) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [lightboxOpen, setLightboxOpen] = useState(false)
-  const [api, setApi] = useState<any>(null)
+  const [api, setApi] = useState<CarouselApi>()
 
   // 监听轮播图变化,更新当前索引
   useEffect(() => {
