@@ -1,6 +1,6 @@
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
-import type { SlideImage } from "yet-another-react-lightbox/dist/types";
+import type { Slide } from "yet-another-react-lightbox";
 
 interface ImageLightboxProps {
   isOpen: boolean;
@@ -10,7 +10,7 @@ interface ImageLightboxProps {
 }
 
 export const ImageLightbox = ({ isOpen, onClose, images, index }: ImageLightboxProps) => {
-  const slides: SlideImage[] = images.map(src => ({ src }));
+  const slides: Slide[] = images.map(src => ({ src }));
 
   return (
     <Lightbox
