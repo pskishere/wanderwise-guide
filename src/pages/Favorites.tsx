@@ -16,20 +16,41 @@ const fetchFavorites = async ({ pageParam = 1 }) => {
   const allItems = {
     posts: Array.from({ length: 20 }, (_, i) => ({
       id: i + 1,
-      title: "京都和服体验｜超详细攻略",
-      image: `https://images.unsplash.com/photo-${1528360983277 + i}-13d401cdc186?w=800&q=80`,
+      title: [
+        "京都和服体验｜超详细攻略，体验最正宗的日本文化",
+        "东京美食地图｜带你吃遍东京必打卡的美食",
+        "富士山下的春日物语｜河口湖一日游完全攻略",
+        "奈良小鹿公园半日游，与萌鹿的悠闲午后时光",
+        "大阪环球影城｜哈利波特园区全攻略",
+        "箱根温泉游记｜享受日式温泉的极致体验"
+      ][i % 6],
+      image: `https://source.unsplash.com/random/800x${1000 + i}?japan,travel`,
       author: {
-        name: "樱花妹",
-        avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&q=80"
+        name: ["樱花妹", "旅行达人", "美食家", "摄影师", "背包客", "旅游博主"][i % 6],
+        avatar: `https://source.unsplash.com/random/100x100?portrait&${i}`
       },
-      likes: 3421 + i
+      likes: Math.floor(Math.random() * 5000) + 1000
     })),
     products: Array.from({ length: 20 }, (_, i) => ({
       id: i + 1,
-      title: "ZARA 2024春季新款小香风粗花呢外套",
-      price: "¥799",
-      image: `https://images.unsplash.com/photo-${1591047139829 + i}-d91aecb6caea?w=800&q=80`,
-      shop: "ZARA官方旗舰店"
+      title: [
+        "ZARA 2024春季新款小香风粗花呢外套",
+        "SK-II 神仙水精华液 230ml",
+        "Apple AirPods Pro 2代 主动降噪",
+        "星巴克 Pike Place 派克市场咖啡豆",
+        "UNIQLO 设计师联名款印花T恤",
+        "蒂佳婷 DR.JART+ 补水面膜"
+      ][i % 6],
+      price: ["¥799", "¥1599", "¥1799", "¥128", "¥199", "¥169"][i % 6],
+      image: `https://source.unsplash.com/random/800x800?product&${i}`,
+      shop: [
+        "ZARA官方旗舰店",
+        "SK-II官方旗舰店",
+        "Apple官方旗舰店",
+        "星巴克官方旗舰店",
+        "优衣库官方旗舰店",
+        "DR.JART+海外旗舰店"
+      ][i % 6]
     }))
   }
 
