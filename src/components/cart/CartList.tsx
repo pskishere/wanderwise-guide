@@ -105,7 +105,7 @@ export const CartList = ({ isLoading }: CartListProps) => {
                     <Checkbox 
                       checked={item.selected}
                       onCheckedChange={(checked) => handleCheckboxChange(item.id, checked as boolean)}
-                      className="border-[#F1424C] data-[state=checked]:bg-[#F1424C] data-[state=checked]:border-[#F1424C] data-[state=checked]:text-white"
+                      className="border-pink-500 data-[state=checked]:bg-pink-500 data-[state=checked]:border-pink-500 data-[state=checked]:text-white"
                     />
                   </div>
                   <div className="w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100">
@@ -135,7 +135,7 @@ export const CartList = ({ isLoading }: CartListProps) => {
                           <span className="text-lg sm:text-xl font-bold">{item.price}</span>
                         </span>
                         {item.discount && (
-                          <span className="text-xs text-[#F1424C] border border-[#F1424C] px-1.5 py-0.5 rounded-sm">
+                          <span className="text-xs text-pink-500 border border-pink-500 px-1.5 py-0.5 rounded-sm">
                             限时立减{item.discount}
                           </span>
                         )}

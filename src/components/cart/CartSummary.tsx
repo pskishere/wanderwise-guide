@@ -33,11 +33,11 @@ export const CartSummary = ({ onCheckout }: CartSummaryProps) => {
           <Checkbox 
             checked={allSelected}
             onCheckedChange={handleSelectAll}
-            className="border-[#F1424C] data-[state=checked]:bg-[#F1424C] data-[state=checked]:border-[#F1424C] data-[state=checked]:text-white"
+            className="border-pink-500 data-[state=checked]:bg-pink-500 data-[state=checked]:border-pink-500 data-[state=checked]:text-white"
           />
           <div>
             <div className="text-sm text-gray-500">
-              合计: <span className="text-lg sm:text-xl font-bold text-[#F1424C] ml-1">¥{totalAmount}</span>
+              合计: <span className="text-lg sm:text-xl font-bold text-pink-500 ml-1">¥{totalAmount}</span>
             </div>
             <div className="text-xs text-gray-400 mt-0.5">
               已选 {selectedCount} 件商品
@@ -45,7 +45,7 @@ export const CartSummary = ({ onCheckout }: CartSummaryProps) => {
           </div>
         </div>
         <Button 
-          className="bg-[#F1424C] hover:bg-[#E13E47] text-white rounded-full h-10 px-8 font-medium"
+          className="bg-pink-500 hover:bg-[#E13E47] text-white rounded-full h-10 px-8 font-medium"
           onClick={onCheckout}
           disabled={selectedCount === 0}
         >
