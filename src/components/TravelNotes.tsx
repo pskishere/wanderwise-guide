@@ -6,7 +6,7 @@ import { useInfiniteQuery } from "@tanstack/react-query"
 import { fetchPosts, Post, PageData } from "@/services/api"
 import { TravelNotesSkeleton } from "./TravelNotesSkeleton"
 import { useInView } from "react-intersection-observer"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
 import { Skeleton } from "./ui/skeleton"
 
@@ -48,45 +48,43 @@ export const TravelNotes = () => {
   const allPosts = data?.pages.flatMap(page => page.items) || []
 
   return (
-    <div className="container mx-auto px-1 py-3">
-      <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
-        {allPosts.map((post) => (
-          <Link to={`/posts/${post.id}`} key={post.id}>
-            <Card className="mb-4 break-inside-avoid overflow-hidden border-none shadow-none hover:shadow-lg transition-shadow duration-200">
-              <div className="relative">
-                <ImageWithSkeleton src={post.image} alt={post.title} />
-              </div>
-              <div className="px-2 pt-4 pb-3">
-                <h3 className="text-sm font-medium line-clamp-2 mb-4">
-                  {post.title}
-                </h3>
-                <div className="flex flex-col gap-3">
-                  <div className="flex items-center gap-2">
-                    <Avatar className="h-6 w-6">
-                      <img src={post.author.avatar} alt={post.author.name} />
-                    </Avatar>
-                    <span className="text-xs text-gray-500">{post.author.name}</span>
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      {allPosts.map((post) => (
+        <Link to={`/posts/${post.id}`} key={post.id}>
+          <Card className="overflow-hidden border-none shadow-sm hover:shadow-lg transition-all duration-200">
+            <div className="relative">
+              <ImageWithSkeleton src={post.image} alt={post.title} />
+            </div>
+            <div className="p-4">
+              <h3 className="text-base font-medium line-clamp-2 mb-4 leading-snug">
+                {post.title}
+              </h3>
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center gap-2">
+                  <Avatar className="h-6 w-6">
+                    <img src={post.author.avatar} alt={post.author.name} />
+                  </Avatar>
+                  <span className="text-sm text-gray-600">{post.author.name}</span>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-1.5">
+                    <Heart className="h-4 w-4 text-gray-400" />
+                    <span className="text-sm text-gray-500">{post.likes}</span>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-1">
-                      <Heart className="h-3.5 w-3.5 text-gray-400" />
-                      <span className="text-xs text-gray-500">{post.likes}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <MessageCircle className="h-3.5 w-3.5 text-gray-400" />
-                      <span className="text-xs text-gray-500">{post.comments}</span>
-                    </div>
+                  <div className="flex items-center gap-1.5">
+                    <MessageCircle className="h-4 w-4 text-gray-400" />
+                    <span className="text-sm text-gray-500">{post.comments}</span>
                   </div>
                 </div>
               </div>
-            </Card>
-          </Link>
-        ))}
-      </div>
+            </div>
+          </Card>
+        </Link>
+      ))}
 
       <div
         ref={ref}
-        className="flex justify-center py-4"
+        className="col-span-full flex justify-center py-4"
       >
         {isFetchingNextPage && <TravelNotesSkeleton />}
       </div>
@@ -104,7 +102,7 @@ const ImageWithSkeleton = ({ src, alt }: { src: string; alt: string }) => {
       )}
       <img
         src={src}
-        // alt={alt}
+        alt={alt}
         className="w-full object-cover"
         onLoad={() => setIsLoading(false)}
         style={{ minHeight: isLoading ? '300px' : 'auto' }}
