@@ -33,10 +33,11 @@ export const CartSummary = ({ onCheckout }: CartSummaryProps) => {
           <Checkbox 
             checked={allSelected}
             onCheckedChange={handleSelectAll}
+            className="border-[#F1424C] data-[state=checked]:bg-[#F1424C] data-[state=checked]:border-[#F1424C]"
           />
           <div>
             <div className="text-sm text-gray-500">
-              合计: <span className="text-lg sm:text-xl font-bold text-pink-600 ml-1">¥{totalAmount}</span>
+              合计: <span className="text-lg sm:text-xl font-bold text-[#F1424C] ml-1">¥{totalAmount}</span>
             </div>
             <div className="text-xs text-gray-400 mt-0.5">
               已选 {selectedCount} 件商品

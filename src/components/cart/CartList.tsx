@@ -105,6 +105,7 @@ export const CartList = ({ isLoading }: CartListProps) => {
                     <Checkbox 
                       checked={item.selected}
                       onCheckedChange={(checked) => handleCheckboxChange(item.id, checked as boolean)}
+                      className="border-[#F1424C] data-[state=checked]:bg-[#F1424C] data-[state=checked]:border-[#F1424C]"
                     />
                   </div>
                   <div className="w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100">
