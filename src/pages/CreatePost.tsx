@@ -119,74 +119,58 @@ const CreatePost = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-white">
       <CreatePostHeader 
         isSubmitting={isSubmitting}
         hasContent={Boolean(title.trim() || content.trim())}
         hasImages={images.length > 0}
       />
 
-      <form 
-        id="post-form" 
-        onSubmit={handleSubmit} 
-        className="pt-16 pb-20 max-w-3xl mx-auto px-4 md:px-8 lg:px-0"
-      >
-        <div className="bg-white rounded-2xl overflow-hidden">
-          <div className="p-6 border-b border-gray-100">
-            <ImageUploader 
-              images={images}
-              onUpload={handleImageUpload}
-              onRemove={removeImage}
-            />
-          </div>
+      <form id="post-form" onSubmit={handleSubmit} className="pt-12 pb-20">
+        <div className="p-4">
+          <ImageUploader 
+            images={images}
+            onUpload={handleImageUpload}
+            onRemove={removeImage}
+          />
+        </div>
 
-          <div className="px-6 py-8 space-y-8">
-            <div className="space-y-2">
-              <label htmlFor="title" className="text-sm font-medium text-gray-500">标题</label>
-              <Input
-                id="title"
-                placeholder="填写标题会有更多赞哦～"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                className="text-xl border-0 px-0 py-4 focus-visible:ring-0 placeholder:text-gray-400"
-                maxLength={30}
+        <div className="px-4 space-y-4">
+          <Input
+            placeholder="填写标题会有更多赞哦～"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="text-lg border-0 px-0 py-2 focus-visible:ring-0 placeholder:text-gray-400"
+            maxLength={30}
+          />
+
+          <div className="space-y-2">
+            <MarkdownToolbar 
+              onInsert={handleMarkdownInsert}
+              showPreview={showPreview}
+              onTogglePreview={() => setShowPreview(!showPreview)}
+            />
+            {showPreview ? (
+              <MDEditor.Markdown 
+                source={content} 
+                className="min-h-[200px] p-4 rounded-lg bg-white border-2 border-gray-100 prose prose-sm max-w-none prose-p:my-2 prose-p:leading-relaxed prose-headings:font-bold prose-headings:my-3 prose-h1:text-xl prose-h2:text-lg prose-h3:text-base prose-a:text-pink-600 prose-a:no-underline hover:prose-a:underline prose-code:text-pink-600 prose-code:bg-pink-50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none hover:border-pink-100 transition-colors"
               />
-            </div>
-
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-gray-500">正文</label>
-                <MarkdownToolbar 
-                  onInsert={handleMarkdownInsert}
-                  showPreview={showPreview}
-                  onTogglePreview={() => setShowPreview(!showPreview)}
-                />
-              </div>
-              
-              {showPreview ? (
-                <MDEditor.Markdown 
-                  source={content} 
-                  className="min-h-[400px] p-6 rounded-xl bg-white border border-gray-200 prose prose-sm max-w-none prose-p:my-2 prose-p:leading-relaxed prose-headings:font-bold prose-headings:my-3 prose-h1:text-xl prose-h2:text-lg prose-h3:text-base prose-a:text-pink-600 prose-a:no-underline hover:prose-a:underline prose-code:text-pink-600 prose-code:bg-pink-50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none hover:border-pink-100 transition-colors"
-                />
-              ) : (
-                <Textarea
-                  placeholder="分享这一刻的想法..."
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                  className="min-h-[400px] text-base resize-none border border-gray-200 p-6 focus-visible:ring-0 focus-visible:border-pink-100 placeholder:text-gray-400 rounded-xl transition-colors"
-                />
-              )}
-            </div>
-          </div>
-
-          <div className="border-t border-gray-100">
-            <TagSelector 
-              selectedTags={selectedTags}
-              onToggleTag={toggleTag}
-              suggestedTags={suggestedTags}
-            />
+            ) : (
+              <Textarea
+                placeholder="分享这一刻的想法..."
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                className="min-h-[200px] text-base resize-none border-2 border-gray-100 p-4 focus-visible:ring-0 focus-visible:border-pink-100 placeholder:text-gray-400 rounded-lg transition-colors"
+              />
+            )}
           </div>
         </div>
+
+        <TagSelector 
+          selectedTags={selectedTags}
+          onToggleTag={toggleTag}
+          suggestedTags={suggestedTags}
+        />
       </form>
 
       <BottomNav />
