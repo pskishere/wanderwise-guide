@@ -14,8 +14,6 @@ import Messages from "@/pages/Messages"
 import Cart from "@/pages/Cart"
 import Orders from "@/pages/Orders"
 import CreatePost from "@/pages/CreatePost"
-import Search from "@/pages/Search"
-import SearchResults from "@/pages/SearchResults"
 
 const queryClient = new QueryClient()
 
@@ -36,8 +34,6 @@ function App() {
               <Route path="/cart" element={<Cart />} />
               <Route path="/orders" element={<Orders />} />
               <Route path="/create-post" element={<CreatePost />} />
-              <Route path="/search" element={<Search />} />
-              <Route path="/search/results" element={<SearchResults />} />
             </Routes>
             <Toaster />
           </Router>
