@@ -6,7 +6,7 @@ import { useInfiniteQuery } from "@tanstack/react-query"
 import { fetchPosts, Post, PageData } from "@/services/api"
 import { TravelNotesSkeleton } from "./TravelNotesSkeleton"
 import { useInView } from "react-intersection-observer"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useToast } from "@/hooks/use-toast"
 import { Skeleton } from "./ui/skeleton"
 
