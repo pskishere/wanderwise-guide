@@ -22,8 +22,8 @@ function App() {
   return (
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <Router>
+        <Router>
+          <TooltipProvider>
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/explore" element={<Explore />} />
@@ -38,8 +38,8 @@ function App() {
               <Route path="/search/results" element={<SearchResults />} />
             </Routes>
             <Toaster />
-          </Router>
-        </TooltipProvider>
+          </TooltipProvider>
+        </Router>
       </QueryClientProvider>
     </Provider>
   )
