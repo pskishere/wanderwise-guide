@@ -1,6 +1,6 @@
 import { Navigation } from "@/components/Navigation"
 import { BottomNav } from "@/components/BottomNav"
-import { useSearchParams } from "react-router-dom"
+import { useSearchParams, useNavigate } from "react-router-dom"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { useInView } from "react-intersection-observer"
 import { useEffect } from "react"
@@ -67,6 +67,7 @@ const SearchResults = () => {
   const query = searchParams.get('q') || ''
   const { ref, inView } = useInView()
   const { toast } = useToast()
+  const navigate = useNavigate()
 
   const {
     data,
@@ -97,6 +98,14 @@ const SearchResults = () => {
 
   const allResults = data?.pages.flatMap(page => page.items) || []
 
+  const handleItemClick = (result: SearchResult) => {
+    if (result.type === 'post') {
+      navigate(`/posts/${result.id}`)
+    } else {
+      navigate(`/products/${result.id}`)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
@@ -117,7 +126,11 @@ const SearchResults = () => {
             ))
           ) : (
             allResults.map((result) => (
-              <Card key={result.id} className="mb-4 break-inside-avoid overflow-hidden border-none shadow-none hover:shadow-lg transition-shadow duration-200">
+              <Card 
+                key={result.id} 
+                className="mb-4 break-inside-avoid overflow-hidden border-none shadow-none hover:shadow-lg transition-shadow duration-200 cursor-pointer"
+                onClick={() => handleItemClick(result)}
+              >
                 <img 
                   src={result.image} 
                   alt={result.title}
