@@ -101,14 +101,14 @@ const SearchResults = () => {
     <div className="min-h-screen bg-gray-50">
       <Navigation />
       
-      <div className="container mx-auto px-4 pt-20 pb-24 max-w-2xl">
-        <h2 className="text-lg font-medium mb-4">"{query}" 的搜索结果</h2>
+      <div className="container mx-auto px-2 py-20">
+        <h2 className="text-lg font-medium mb-4 px-2">"{query}" 的搜索结果</h2>
 
-        <div className="space-y-4">
+        <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
           {isLoading ? (
-            Array(3).fill(0).map((_, index) => (
-              <Card key={index} className="overflow-hidden">
-                <Skeleton className="w-full h-48" />
+            Array(8).fill(0).map((_, index) => (
+              <Card key={index} className="mb-4 break-inside-avoid overflow-hidden border-none shadow-none">
+                <Skeleton className="w-full aspect-[3/4]" />
                 <div className="p-4 space-y-3">
                   <Skeleton className="h-4 w-3/4" />
                   <Skeleton className="h-4 w-1/2" />
@@ -117,14 +117,14 @@ const SearchResults = () => {
             ))
           ) : (
             allResults.map((result) => (
-              <Card key={result.id} className="overflow-hidden">
+              <Card key={result.id} className="mb-4 break-inside-avoid overflow-hidden border-none shadow-none hover:shadow-lg transition-shadow duration-200">
                 <img 
                   src={result.image} 
                   alt={result.title}
-                  className="w-full h-48 object-cover"
+                  className="w-full aspect-[3/4] object-cover"
                 />
                 <div className="p-4">
-                  <h3 className="font-medium mb-3">{result.title}</h3>
+                  <h3 className="font-medium mb-3 line-clamp-2">{result.title}</h3>
                   
                   {result.type === 'post' ? (
                     <div className="flex flex-col gap-3">
@@ -175,10 +175,10 @@ const SearchResults = () => {
 
         <div ref={ref} className="py-4">
           {isFetchingNextPage && (
-            <div className="space-y-4">
-              {Array(2).fill(0).map((_, index) => (
-                <Card key={index} className="overflow-hidden">
-                  <Skeleton className="w-full h-48" />
+            <div className="columns-2 md:columns-3 lg:columns-4 gap-4">
+              {Array(4).fill(0).map((_, index) => (
+                <Card key={index} className="mb-4 break-inside-avoid overflow-hidden border-none shadow-none">
+                  <Skeleton className="w-full aspect-[3/4]" />
                   <div className="p-4 space-y-3">
                     <Skeleton className="h-4 w-3/4" />
                     <Skeleton className="h-4 w-1/2" />
