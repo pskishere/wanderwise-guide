@@ -4,28 +4,10 @@ import { useSearchParams, useNavigate } from "react-router-dom"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { useInView } from "react-intersection-observer"
 import { useEffect } from "react"
-import { Card } from "@/components/ui/card"
-import { Avatar } from "@/components/ui/avatar"
-import { Heart, MessageCircle, Store, Tag } from "lucide-react"
-import { Skeleton } from "@/components/ui/skeleton"
 import { useToast } from "@/hooks/use-toast"
-
-interface SearchResult {
-  id: number
-  type: 'post' | 'product'
-  title: string
-  image: string
-  price?: string
-  sales?: string
-  shop?: string
-  tags?: string[]
-  author?: {
-    name: string
-    avatar: string
-  }
-  likes?: number
-  comments?: number
-}
+import { SearchResultItem } from "@/components/search/SearchResultItem"
+import { SearchResultSkeleton } from "@/components/search/SearchResultSkeleton"
+import type { SearchResult } from "@/types/search"
 
 const fetchSearchResults = async ({ pageParam = 0, queryKey }: any) => {
   const [_, query] = queryKey
@@ -116,72 +98,15 @@ const SearchResults = () => {
         <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
           {isLoading ? (
             Array(8).fill(0).map((_, index) => (
-              <Card key={index} className="mb-4 break-inside-avoid overflow-hidden border-none shadow-none">
-                <Skeleton className="w-full aspect-[3/4]" />
-                <div className="p-4 space-y-3">
-                  <Skeleton className="h-4 w-3/4" />
-                  <Skeleton className="h-4 w-1/2" />
-                </div>
-              </Card>
+              <SearchResultSkeleton key={index} />
             ))
           ) : (
             allResults.map((result) => (
-              <Card 
-                key={result.id} 
-                className="mb-4 break-inside-avoid overflow-hidden border-none shadow-none hover:shadow-lg transition-shadow duration-200 cursor-pointer"
-                onClick={() => handleItemClick(result)}
-              >
-                <img 
-                  src={result.image} 
-                  alt={result.title}
-                  className="w-full aspect-[3/4] object-cover"
-                />
-                <div className="p-4">
-                  <h3 className="font-medium mb-3 line-clamp-2">{result.title}</h3>
-                  
-                  {result.type === 'post' ? (
-                    <div className="flex flex-col gap-3">
-                      <div className="flex items-center gap-2">
-                        <Avatar className="h-6 w-6">
-                          <img src={result.author?.avatar} alt={result.author?.name} />
-                        </Avatar>
-                        <span className="text-sm text-gray-500">{result.author?.name}</span>
-                      </div>
-                      <div className="flex items-center gap-4">
-                        <div className="flex items-center gap-1">
-                          <Heart className="h-4 w-4 text-gray-400" />
-                          <span className="text-sm text-gray-500">{result.likes}</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <MessageCircle className="h-4 w-4 text-gray-400" />
-                          <span className="text-sm text-gray-500">{result.comments}</span>
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-red-600 font-medium">{result.price}</span>
-                        <span className="text-sm text-gray-400">已售{result.sales}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Tag className="h-4 w-4 text-gray-400" />
-                        <div className="flex gap-2">
-                          {result.tags?.map((tag, index) => (
-                            <span key={index} className="text-sm text-gray-500">
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Store className="h-4 w-4 text-gray-400" />
-                        <span className="text-sm text-gray-500">{result.shop}</span>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </Card>
+              <SearchResultItem
+                key={result.id}
+                result={result}
+                onClick={handleItemClick}
+              />
             ))
           )}
         </div>
@@ -190,13 +115,7 @@ const SearchResults = () => {
           {isFetchingNextPage && (
             <div className="columns-2 md:columns-3 lg:columns-4 gap-4">
               {Array(4).fill(0).map((_, index) => (
-                <Card key={index} className="mb-4 break-inside-avoid overflow-hidden border-none shadow-none">
-                  <Skeleton className="w-full aspect-[3/4]" />
-                  <div className="p-4 space-y-3">
-                    <Skeleton className="h-4 w-3/4" />
-                    <Skeleton className="h-4 w-1/2" />
-                  </div>
-                </Card>
+                <SearchResultSkeleton key={index} />
               ))}
             </div>
           )}
