@@ -1,31 +1,34 @@
 import { Card } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
-import { AspectRatio } from "@/components/ui/aspect-ratio"
 
 export const PostSkeleton = () => (
-  <Card className="overflow-hidden">
-    <AspectRatio ratio={4/3}>
-      <Skeleton className="w-full h-full" />
-    </AspectRatio>
-    <div className="p-3 space-y-2">
-      <Skeleton className="h-4 w-3/4" />
-      <div className="flex items-center gap-2">
-        <Skeleton className="w-6 h-6 rounded-full" />
-        <Skeleton className="h-3 w-20" />
+  <Card className="mb-4 break-inside-avoid overflow-hidden border-none shadow-none">
+    <Skeleton className="w-full aspect-[3/4]" />
+    <div className="px-2 pt-4 pb-3">
+      <Skeleton className="h-4 w-3/4 mb-4" />
+      <div className="flex flex-col gap-3">
+        <div className="flex items-center gap-2">
+          <Skeleton className="h-6 w-6 rounded-full" />
+          <Skeleton className="h-4 w-20" />
+        </div>
+        <div className="flex items-center gap-4">
+          <Skeleton className="h-4 w-12" />
+        </div>
       </div>
     </div>
   </Card>
 )
 
 export const ProductSkeleton = () => (
-  <Card className="overflow-hidden">
-    <AspectRatio ratio={1}>
-      <Skeleton className="w-full h-full" />
-    </AspectRatio>
-    <div className="p-3 space-y-2">
-      <Skeleton className="h-4 w-3/4" />
-      <Skeleton className="h-4 w-1/2" />
-      <Skeleton className="h-3 w-1/3" />
+  <Card className="mb-4 break-inside-avoid overflow-hidden border-none shadow-none">
+    <Skeleton className="w-full aspect-square" />
+    <div className="px-2 pt-4 pb-3">
+      <Skeleton className="h-4 w-3/4 mb-2" />
+      <Skeleton className="h-4 w-1/2 mb-2" />
+      <div className="flex items-center gap-1 mt-1.5">
+        <Skeleton className="h-3 w-3" />
+        <Skeleton className="h-3 w-24" />
+      </div>
     </div>
   </Card>
 )
