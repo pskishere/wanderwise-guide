@@ -30,7 +30,6 @@ const Search = () => {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
     if (searchValue.trim()) {
-      // Navigate to search results
       navigate(`/search/results?q=${encodeURIComponent(searchValue)}`)
     }
   }
