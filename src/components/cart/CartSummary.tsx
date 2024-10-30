@@ -33,7 +33,7 @@ export const CartSummary = ({ onCheckout }: CartSummaryProps) => {
           <Checkbox 
             checked={allSelected}
             onCheckedChange={handleSelectAll}
-            className="border-[#F1424C] data-[state=checked]:bg-[#F1424C] data-[state=checked]:border-[#F1424C]"
+            className="border-[#F1424C] data-[state=checked]:bg-[#F1424C] data-[state=checked]:border-[#F1424C] data-[state=checked]:text-white"
           />
           <div>
             <div className="text-sm text-gray-500">
