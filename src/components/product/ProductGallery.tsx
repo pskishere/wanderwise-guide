@@ -8,7 +8,8 @@ import {
 import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { Image } from "@/components/ui/image"
 import { ImageLightbox } from "@/components/ImageLightbox"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useCarousel } from "@/components/ui/carousel"
 
 interface ProductGalleryProps {
   images: string[]
@@ -17,10 +18,21 @@ interface ProductGalleryProps {
 export const ProductGallery = ({ images }: ProductGalleryProps) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [lightboxOpen, setLightboxOpen] = useState(false)
+  const [api, setApi] = useState<any>(null)
+
+  // 监听轮播图变化,更新当前索引
+  useEffect(() => {
+    if (!api) return
+
+    api.on("select", () => {
+      const selectedIndex = api.selectedScrollSnap()
+      setCurrentIndex(selectedIndex)
+    })
+  }, [api])
 
   return (
     <div className="space-y-4">
-      <Carousel className="w-full">
+      <Carousel setApi={setApi} className="w-full">
         <CarouselContent>
           {images.map((image, index) => (
             <CarouselItem key={index}>
@@ -47,9 +59,14 @@ export const ProductGallery = ({ images }: ProductGalleryProps) => {
         {images.map((image, index) => (
           <button
             key={index}
-            onClick={() => setCurrentIndex(index)}
-            className={`relative rounded-md overflow-hidden ${
-              currentIndex === index ? "ring-2 ring-pink-500" : ""
+            onClick={() => {
+              setCurrentIndex(index)
+              api?.scrollTo(index)
+            }}
+            className={`relative rounded-md overflow-hidden transition-all duration-200 ${
+              currentIndex === index 
+                ? "ring-2 ring-pink-500 ring-offset-2" 
+                : "opacity-70 hover:opacity-100"
             }`}
           >
             <AspectRatio ratio={1}>
