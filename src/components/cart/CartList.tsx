@@ -130,7 +130,7 @@ export const CartList = ({ isLoading }: CartListProps) => {
                     
                     <div className="mt-2 space-y-1.5">
                       <div className="flex items-center gap-2">
-                        <span className="text-[#F1424C]">
+                        <span className="text-pink-500">
                           <span className="text-xs">¥</span>
                           <span className="text-lg sm:text-xl font-bold">{item.price}</span>
                         </span>
