@@ -131,7 +131,7 @@ const CreatePost = () => {
         onSubmit={handleSubmit} 
         className="pt-16 pb-20 max-w-3xl mx-auto px-4 md:px-8 lg:px-0"
       >
-        <div className="bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100">
+        <div className="bg-white rounded-2xl overflow-hidden">
           <div className="p-6 border-b border-gray-100">
             <ImageUploader 
               images={images}
