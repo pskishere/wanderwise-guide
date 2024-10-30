@@ -15,6 +15,10 @@ export const ImageLightbox = ({ isOpen, onClose, images, index }: ImageLightboxP
       close={onClose}
       slides={images.map(src => ({ src }))}
       index={index}
+      styles={{
+        container: { backgroundColor: "rgba(75, 85, 99, 0.8)" }, // 使用灰色半透明背景
+        root: { "--yarl__color_backdrop": "rgba(75, 85, 99, 0.8)" } as React.CSSProperties,
+      }}
     />
   );
 };
