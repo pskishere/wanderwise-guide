@@ -1,5 +1,5 @@
 import { Bell, ShoppingCart, Search, MapPin, Utensils, BookOpen } from "lucide-react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { Input } from "./ui/input"
 import { Button } from "./ui/button"
 import { useEffect, useState } from "react"
@@ -7,6 +7,7 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 
 export const Navigation = () => {
+  const navigate = useNavigate()
   const [margin, setMargin] = useState(8)
   const [open, setOpen] = useState(false)
   const [searchValue, setSearchValue] = useState("")
@@ -39,7 +40,6 @@ export const Navigation = () => {
         setMargin(5)
       } else {
         setMargin(10)
-        
       }
     }
 
@@ -53,6 +53,19 @@ export const Navigation = () => {
       window.removeEventListener('resize', handleScroll)
     }
   }, [])
+
+  const handleSearch = (value: string) => {
+    if (value.trim()) {
+      navigate(`/search/results?q=${encodeURIComponent(value.trim())}`)
+      setOpen(false)
+    }
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSearch(searchValue)
+    }
+  }
 
   return (
     <nav className="bg-white border-b shadow-sm">
@@ -71,6 +84,7 @@ export const Navigation = () => {
                       <Input 
                         value={searchValue}
                         onChange={(e) => setSearchValue(e.target.value)}
+                        onKeyDown={handleKeyDown}
                         placeholder="搜索目的地、美食、攻略..." 
                         className="pl-8 bg-gray-100 border-0 rounded-2xl h-9 w-full"
                       />
@@ -86,7 +100,7 @@ export const Navigation = () => {
                               key={item.id}
                               onSelect={() => {
                                 setSearchValue(item.name)
-                                setOpen(false)
+                                handleSearch(item.name)
                               }}
                               className="flex items-center px-2 py-2 rounded-lg hover:bg-gray-100"
                             >
@@ -108,7 +122,7 @@ export const Navigation = () => {
                               key={item.id}
                               onSelect={() => {
                                 setSearchValue(item.name)
-                                setOpen(false)
+                                handleSearch(item.name)
                               }}
                               className="flex items-center px-2 py-2 rounded-lg hover:bg-gray-100"
                             >
@@ -130,7 +144,7 @@ export const Navigation = () => {
                               key={item.id}
                               onSelect={() => {
                                 setSearchValue(item.name)
-                                setOpen(false)
+                                handleSearch(item.name)
                               }}
                               className="flex items-center px-2 py-2 rounded-lg hover:bg-gray-100"
                             >
