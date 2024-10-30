@@ -13,12 +13,7 @@ export const Image = ({ className, src, alt, fallback, ...props }: ImageProps) =
   return (
     <div className="relative">
       {isLoading && (
-        <Skeleton 
-          className={cn(
-            "absolute inset-0 bg-gray-200",
-            className
-          )} 
-        />
+        <div className="absolute inset-0 bg-gray-200 animate-pulse" />
       )}
       <img
         src={error && fallback ? fallback : src}
