@@ -5,6 +5,7 @@ import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
 import { SpecsDrawer } from "./SpecsDrawer"
 import { Badge } from "@/components/ui/badge"
+import MarkdownPreview from '@uiw/react-markdown-preview'
 
 interface ProductInfoProps {
   product: {
@@ -12,6 +13,7 @@ interface ProductInfoProps {
     price: string
     originalPrice: string
     description: string
+    richDescription?: string
     image: string
     shop: {
       name: string
@@ -24,13 +26,33 @@ interface ProductInfoProps {
   }
 }
 
+const adContent = `
+## 🌟 限时特惠活动
+
+![春季新品发布会](https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=800&q=80)
+
+### 活动详情
+- 🎉 新品上市特惠
+- 🎁 限时赠送精美礼品
+- 💝 VIP会员额外95折
+
+### 产品亮点
+1. 精选优质面料
+2. 专业设计师打造
+3. 舒适透气
+
+![产品工艺展示](https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&q=80)
+
+> 温馨提示：活动期间商品售完即止，请尽快购买！
+`
+
 export const ProductInfo = ({ product }: ProductInfoProps) => {
   const [isLiked, setIsLiked] = useState(false)
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const { toast } = useToast()
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-6">
       <div className="space-y-1.5">
         <div className="flex flex-wrap gap-1.5">
           <Badge variant="secondary" className="bg-pink-50 text-pink-600 hover:bg-pink-100">
@@ -98,6 +120,14 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
         <p className="text-gray-600 text-sm leading-relaxed">
           {product.description}
         </p>
+      </div>
+
+      {/* 富文本广告内容 */}
+      <div className="bg-white rounded-lg shadow-sm border p-4">
+        <MarkdownPreview 
+          source={product.richDescription || adContent}
+          className="prose prose-pink max-w-none prose-img:rounded-lg prose-img:shadow-md"
+        />
       </div>
 
       <div className="flex gap-2 pt-1">

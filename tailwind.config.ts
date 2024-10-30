@@ -1,12 +1,13 @@
-import type { Config } from "tailwindcss";
+import { type Config } from "tailwindcss"
+import { fontFamily } from "tailwindcss/defaultTheme"
 
 export default {
   darkMode: ["class"],
   content: [
-    "./pages/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./app/**/*.{ts,tsx}",
-    "./src/**/*.{ts,tsx}",
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}',
   ],
   prefix: "",
   theme: {
@@ -18,6 +19,26 @@ export default {
       },
     },
     extend: {
+      typography: {
+        DEFAULT: {
+          css: {
+            maxWidth: 'none',
+            color: 'inherit',
+            a: {
+              color: '#ec4899',
+              '&:hover': {
+                color: '#be185d',
+              },
+            },
+            h2: {
+              color: '#111827',
+            },
+            h3: {
+              color: '#111827',
+            },
+          },
+        },
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -58,6 +79,9 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      fontFamily: {
+        sans: ["var(--font-sans)", ...fontFamily.sans],
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -72,33 +96,7 @@ export default {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
-      typography: {
-        DEFAULT: {
-          css: {
-            maxWidth: 'none',
-            color: 'inherit',
-            p: {
-              marginTop: '0.5em',
-              marginBottom: '0.5em',
-            },
-            a: {
-              color: 'inherit',
-              textDecoration: 'none',
-              fontWeight: '500',
-            },
-            'code::before': {
-              content: 'none',
-            },
-            'code::after': {
-              content: 'none',
-            },
-          },
-        },
-      },
     },
   },
-  plugins: [
-    require("tailwindcss-animate"),
-    require('@tailwindcss/typography'),
-  ],
-} satisfies Config;
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
+} satisfies Config
