@@ -84,10 +84,10 @@ const Favorites = () => {
       <Navigation />
       
       <div className="container mx-auto px-4 pt-20 max-w-7xl">
-        <h1 className="text-2xl font-bold mb-6">我的收藏</h1>
+        <h1 className="text-2xl font-bold">我的收藏</h1>
         
         <Tabs defaultValue="posts" className="w-full">
-          <TabsList className="w-full h-10 bg-white/90 backdrop-blur-sm sticky top-16 z-10 p-0.5 gap-0.5 rounded-xl shadow-sm">
+          <TabsList className="w-full h-10 bg-white/90 backdrop-blur-sm sticky top-20 z-10 p-0.5 gap-0.5 rounded-xl shadow-sm">
             <TabsTrigger 
               value="posts" 
               className="w-1/2 h-9 data-[state=active]:bg-pink-500 data-[state=active]:text-white data-[state=inactive]:text-gray-700 rounded-lg transition-all duration-300 text-xs font-medium"
