@@ -11,11 +11,11 @@ export const Image = ({ className, src, alt, fallback, ...props }: ImageProps) =
   const [error, setError] = useState(false)
 
   return (
-    <div className="relative">
+    <div className="relative bg-gray-200 overflow-hidden">
       {isLoading && (
         <Skeleton 
           className={cn(
-            "absolute inset-0 bg-gray-200",
+            "absolute inset-0",
             className
           )} 
         />
