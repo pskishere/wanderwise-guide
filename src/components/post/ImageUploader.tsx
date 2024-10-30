@@ -9,7 +9,7 @@ interface ImageUploaderProps {
 export const ImageUploader = ({ images, onUpload, onRemove }: ImageUploaderProps) => {
   if (images.length === 0) {
     return (
-      <label className="block aspect-[4/3] max-w-sm mx-auto rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 cursor-pointer hover:bg-gray-100 transition-colors">
+      <label className="block aspect-[4/3] max-w-xs mx-auto rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 cursor-pointer hover:bg-gray-100 transition-colors">
         <input
           type="file"
           accept="image/*"
@@ -18,10 +18,10 @@ export const ImageUploader = ({ images, onUpload, onRemove }: ImageUploaderProps
           className="hidden"
         />
         <div className="flex flex-col items-center justify-center h-full text-gray-500">
-          <div className="w-10 h-10 rounded-full bg-pink-50 flex items-center justify-center mb-2">
-            <Tag className="w-5 h-5 text-pink-500" />
+          <div className="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center mb-2">
+            <Tag className="w-4 h-4 text-pink-500" />
           </div>
-          <span className="text-sm font-medium">添加图片</span>
+          <span className="text-xs font-medium">添加图片</span>
           <span className="text-xs mt-1 text-gray-400">最多9张｜建议比例3:4</span>
         </div>
       </label>
@@ -29,7 +29,7 @@ export const ImageUploader = ({ images, onUpload, onRemove }: ImageUploaderProps
   }
 
   return (
-    <div className="grid grid-cols-3 gap-1 max-w-sm mx-auto">
+    <div className="grid grid-cols-3 gap-1 max-w-xs mx-auto">
       {images.map((image, index) => (
         <div key={index} className="relative aspect-square group">
           <img
@@ -40,9 +40,9 @@ export const ImageUploader = ({ images, onUpload, onRemove }: ImageUploaderProps
           <button
             type="button"
             onClick={() => onRemove(index)}
-            className="absolute top-1 right-1 w-6 h-6 bg-black/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+            className="absolute top-1 right-1 w-5 h-5 bg-black/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
           >
-            <span className="text-white text-sm">×</span>
+            <span className="text-white text-xs">×</span>
           </button>
         </div>
       ))}
@@ -55,7 +55,7 @@ export const ImageUploader = ({ images, onUpload, onRemove }: ImageUploaderProps
             onChange={onUpload}
             className="hidden"
           />
-          <span className="text-2xl text-gray-300">+</span>
+          <span className="text-xl text-gray-300">+</span>
           <span className="text-xs text-gray-400 mt-1">{9 - images.length}</span>
         </label>
       )}
