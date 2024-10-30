@@ -9,7 +9,7 @@ export const BottomNav = () => {
   }
 
   return (
-    <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-lg border-t border-gray-100 py-2 z-50">
+    <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-lg border-t border-gray-100 py-2 z-50">
       <div className="flex items-center justify-between max-w-screen-lg mx-auto relative px-4">
         <div className="flex items-center gap-8">
           <Link 
