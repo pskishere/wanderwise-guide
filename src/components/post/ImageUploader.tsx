@@ -9,7 +9,7 @@ interface ImageUploaderProps {
 export const ImageUploader = ({ images, onUpload, onRemove }: ImageUploaderProps) => {
   if (images.length === 0) {
     return (
-      <label className="block aspect-[4/3] w-[240px] rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 cursor-pointer hover:bg-gray-100 transition-colors">
+      <label className="block aspect-[4/3] w-full rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 cursor-pointer hover:bg-gray-100 transition-colors">
         <input
           type="file"
           accept="image/*"
@@ -29,7 +29,7 @@ export const ImageUploader = ({ images, onUpload, onRemove }: ImageUploaderProps
   }
 
   return (
-    <div className="grid grid-cols-3 gap-1 w-[240px]">
+    <div className="grid grid-cols-3 gap-1 w-full">
       {images.map((image, index) => (
         <div key={index} className="relative aspect-square group">
           <img
