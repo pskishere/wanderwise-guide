@@ -153,14 +153,14 @@ const CreatePost = () => {
             {showPreview ? (
               <MDEditor.Markdown 
                 source={content} 
-                className="min-h-[100px] p-3 rounded-lg bg-white border prose prose-sm max-w-none prose-p:my-2 prose-p:leading-relaxed prose-headings:font-bold prose-headings:my-3 prose-h1:text-xl prose-h2:text-lg prose-h3:text-base prose-a:text-pink-600 prose-a:no-underline hover:prose-a:underline prose-code:text-pink-600 prose-code:bg-pink-50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none"
+                className="min-h-[200px] p-4 rounded-lg bg-white border-2 border-gray-100 prose prose-sm max-w-none prose-p:my-2 prose-p:leading-relaxed prose-headings:font-bold prose-headings:my-3 prose-h1:text-xl prose-h2:text-lg prose-h3:text-base prose-a:text-pink-600 prose-a:no-underline hover:prose-a:underline prose-code:text-pink-600 prose-code:bg-pink-50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none hover:border-pink-100 transition-colors"
               />
             ) : (
               <Textarea
                 placeholder="分享这一刻的想法..."
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                className="min-h-[100px] text-base resize-none border-0 p-0 focus-visible:ring-0 placeholder:text-gray-400"
+                className="min-h-[200px] text-base resize-none border-2 border-gray-100 p-4 focus-visible:ring-0 focus-visible:border-pink-100 placeholder:text-gray-400 rounded-lg transition-colors"
               />
             )}
           </div>
