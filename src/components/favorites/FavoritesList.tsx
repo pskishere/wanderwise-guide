@@ -99,7 +99,7 @@ export const FavoritesList = ({
         {items.map((item) => (
           type === 'posts' ? (
             <Link to={`/posts/${item.id}`} key={item.id}>
-              <Card className="mb-4 break-inside-avoid overflow-hidden border-none shadow-none hover:shadow-lg transition-shadow duration-200">
+              <Card className="mb-4 break-inside-avoid overflow-hidden border-none shadow-sm hover:shadow-lg transition-shadow duration-200">
                 <ImageWithSkeleton
                   src={(item as FavoritePost).image}
                   alt={(item as FavoritePost).title}
@@ -133,7 +133,7 @@ export const FavoritesList = ({
             </Link>
           ) : (
             <Link to={`/products/${item.id}`} key={item.id}>
-              <Card className="mb-4 break-inside-avoid overflow-hidden border-none shadow-none hover:shadow-lg transition-shadow duration-200">
+              <Card className="mb-4 break-inside-avoid overflow-hidden border-none shadow-sm hover:shadow-lg transition-shadow duration-200">
                 <ImageWithSkeleton
                   src={(item as FavoriteProduct).image}
                   alt={(item as FavoriteProduct).title}
