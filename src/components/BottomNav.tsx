@@ -1,4 +1,4 @@
-import { Home, Compass, Heart, User, Plus } from "lucide-react"
+import { Home, Compass, ShoppingCart, User, Plus } from "lucide-react"
 import { Link, useLocation } from "react-router-dom"
 
 export const BottomNav = () => {
@@ -44,13 +44,13 @@ export const BottomNav = () => {
 
         <div className="flex items-center gap-4 sm:gap-20">
           <Link 
-            to="/favorites" 
+            to="/cart" 
             className={`flex flex-col items-center gap-0.5 min-w-[64px] py-1 transition-colors ${
-              isActive('/favorites') ? 'text-pink-500' : 'text-gray-500 hover:text-gray-900'
+              isActive('/cart') ? 'text-pink-500' : 'text-gray-500 hover:text-gray-900'
             }`}
           >
-            <Heart className={`h-5 w-5 ${isActive('/favorites') ? 'stroke-[2.5px]' : ''}`} />
-            <span className="text-xs font-medium tracking-tight">收藏</span>
+            <ShoppingCart className={`h-5 w-5 ${isActive('/cart') ? 'stroke-[2.5px]' : ''}`} />
+            <span className="text-xs font-medium tracking-tight">购物车</span>
           </Link>
           <Link 
             to="/profile" 
