@@ -11,21 +11,18 @@ const menuItems = [
     icon: Heart, 
     label: "收藏", 
     link: "/favorites",
-    count: "28",
     color: "pink"
   },
   { 
     icon: MapPin, 
     label: "足迹", 
     link: "/footprints",
-    count: "12",
     color: "blue"
   },
   { 
     icon: ShoppingBag, 
     label: "订单", 
     link: "/orders",
-    count: "6",
     color: "orange"
   }
 ]
@@ -150,9 +147,8 @@ const Profile = () => {
                   <Icon className={`h-5 w-5 ${colors.split(" ")[0]}`} />
                 </div>
                 <span className="ml-3 font-medium text-gray-900">{item.label}</span>
-                <div className={`ml-auto flex items-center gap-2 ${colors.split(" ")[0]}`}>
-                  <span className="text-sm font-medium">{item.count}</span>
-                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
+                <div className="ml-auto">
+                  <svg className="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none">
                     <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </div>
