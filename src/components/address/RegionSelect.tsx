@@ -20,43 +20,46 @@ export function RegionSelect({
   onCityChange,
   onDistrictChange
 }: RegionSelectProps) {
-  const [provinces, setProvinces] = useState(getProvinces())
-  const [cities, setCities] = useState(province ? getCitiesByProvince(province) : [])
-  const [districts, setDistricts] = useState(city ? getDistrictsByCity(city) : [])
+  const [provinces] = useState(getProvinces())
+  const [cities, setCities] = useState<Array<{ code: string; name: string }>>([])
+  const [districts, setDistricts] = useState<Array<{ code: string; name: string }>>([])
 
-  // Update cities when province changes
+  // 初始化城市和区县数据
   useEffect(() => {
     if (province) {
-      setCities(getCitiesByProvince(province))
-      // Reset city and district when province changes
+      const citiesData = getCitiesByProvince(province)
+      setCities(citiesData)
+      
       if (city) {
-        onCityChange("")
-        onDistrictChange("")
+        const districtsData = getDistrictsByCity(city)
+        setDistricts(districtsData)
       }
-    } else {
-      setCities([])
-      setDistricts([])
     }
-  }, [province])
+  }, [])
 
-  // Update districts when city changes
-  useEffect(() => {
-    if (city) {
-      setDistricts(getDistrictsByCity(city))
-      // Reset district when city changes
-      if (district) {
-        onDistrictChange("")
-      }
-    } else {
-      setDistricts([])
-    }
-  }, [city])
+  // 当省份改变时更新城市列表
+  const handleProvinceChange = (value: string) => {
+    onProvinceChange(value)
+    const citiesData = getCitiesByProvince(value)
+    setCities(citiesData)
+    setDistricts([])
+    onCityChange("")
+    onDistrictChange("")
+  }
+
+  // 当城市改变时更新区县列表
+  const handleCityChange = (value: string) => {
+    onCityChange(value)
+    const districtsData = getDistrictsByCity(value)
+    setDistricts(districtsData)
+    onDistrictChange("")
+  }
 
   return (
     <div className="grid grid-cols-3 gap-4">
       <div className="space-y-2">
         <Label>省份</Label>
-        <Select value={province} onValueChange={onProvinceChange}>
+        <Select value={province} onValueChange={handleProvinceChange}>
           <SelectTrigger>
             <SelectValue placeholder="请选择" />
           </SelectTrigger>
@@ -72,7 +75,7 @@ export function RegionSelect({
       
       <div className="space-y-2">
         <Label>城市</Label>
-        <Select value={city} onValueChange={onCityChange} disabled={!province}>
+        <Select value={city} onValueChange={handleCityChange} disabled={!province}>
           <SelectTrigger>
             <SelectValue placeholder="请选择" />
           </SelectTrigger>
