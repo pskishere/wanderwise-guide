@@ -1,8 +1,20 @@
 import { Navigation } from "@/components/Navigation"
+import { BottomNav } from "@/components/BottomNav"
 import { Button } from "@/components/ui/button"
 import { MapPin, Plus, Edit2, Trash2 } from "lucide-react"
 import { Link } from "react-router-dom"
 import { useToast } from "@/hooks/use-toast"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 const addresses = [
   {
@@ -34,61 +46,97 @@ const AddressList = () => {
     <div className="min-h-screen bg-gray-50">
       <Navigation />
       
-      <div className="container mx-auto px-4 pt-20 pb-6 max-w-2xl">
+      <div className="container mx-auto px-4 pt-20 pb-24 max-w-2xl">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-xl font-semibold">我的地址</h1>
           <Link to="/address/new">
-            <Button className="rounded-full">
+            <Button className="rounded-full bg-pink-500 hover:bg-pink-600">
               <Plus className="h-4 w-4 mr-2" />
               新增地址
             </Button>
           </Link>
         </div>
 
-        <div className="space-y-4">
-          {addresses.map((address) => (
-            <div 
-              key={address.id}
-              className="bg-white rounded-xl p-4 shadow-sm"
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50">
-                    <MapPin className="h-5 w-5 text-blue-500" />
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-4">
-                      <span className="font-medium">{address.name}</span>
-                      <span className="text-gray-500">{address.phone}</span>
-                      {address.isDefault && (
-                        <span className="text-xs px-1.5 py-0.5 bg-pink-50 text-pink-600 rounded">默认</span>
-                      )}
+        {addresses.length === 0 ? (
+          <div className="text-center py-12">
+            <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-gray-50 flex items-center justify-center">
+              <MapPin className="h-10 w-10 text-gray-400" />
+            </div>
+            <p className="text-gray-500 mb-4">暂无收货地址</p>
+            <Link to="/address/new">
+              <Button variant="outline" className="rounded-full">
+                添加地址
+              </Button>
+            </Link>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {addresses.map((address) => (
+              <div 
+                key={address.id}
+                className="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-pink-50">
+                      <MapPin className="h-5 w-5 text-pink-500" />
                     </div>
-                    <p className="text-sm text-gray-600 mt-1">
-                      {address.detail}
-                    </p>
+                    <div>
+                      <div className="flex items-center gap-4">
+                        <span className="font-medium">{address.name}</span>
+                        <span className="text-gray-500">{address.phone}</span>
+                        {address.isDefault && (
+                          <span className="text-xs px-1.5 py-0.5 bg-pink-50 text-pink-600 rounded">默认</span>
+                        )}
+                      </div>
+                      <p className="text-sm text-gray-600 mt-1">
+                        {address.detail}
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Link to={`/address/edit/${address.id}`}>
-                    <Button variant="ghost" size="icon" className="h-8 w-8">
-                      <Edit2 className="h-4 w-4 text-gray-500" />
-                    </Button>
-                  </Link>
-                  <Button 
-                    variant="ghost" 
-                    size="icon"
-                    className="h-8 w-8"
-                    onClick={() => handleDelete(address.id)}
-                  >
-                    <Trash2 className="h-4 w-4 text-gray-500" />
-                  </Button>
+                  <div className="flex items-center gap-2">
+                    <Link to={`/address/edit/${address.id}`}>
+                      <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-pink-50 hover:text-pink-500">
+                        <Edit2 className="h-4 w-4" />
+                      </Button>
+                    </Link>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button 
+                          variant="ghost" 
+                          size="icon"
+                          className="h-8 w-8 hover:bg-red-50 hover:text-red-500"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>确认删除</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            确定要删除这个收货地址吗？此操作无法撤销。
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>取消</AlertDialogCancel>
+                          <AlertDialogAction
+                            className="bg-red-500 hover:bg-red-600"
+                            onClick={() => handleDelete(address.id)}
+                          >
+                            删除
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
+
+      <BottomNav />
     </div>
   )
 }
