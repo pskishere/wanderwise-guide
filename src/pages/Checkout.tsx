@@ -9,6 +9,8 @@ import { useSelector } from "react-redux"
 import { RootState } from "@/store/store"
 import { useToast } from "@/hooks/use-toast"
 import { useNavigate } from "react-router-dom"
+import { AddressSelector } from "@/components/address/AddressSelector"
+import { useState } from "react"
 
 const Checkout = () => {
   const { toast } = useToast()
@@ -20,11 +22,18 @@ const Checkout = () => {
   const totalAmount = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
   const freight = 0 // 免运费
 
+  const [showAddressSelector, setShowAddressSelector] = useState(false)
+  const [selectedAddress, setSelectedAddress] = useState({
+    id: "1",
+    name: "张三",
+    phone: "138****8888",
+    detail: "浙江省杭州市西湖区文三路 123 号"
+  })
+
   const handlePayment = () => {
     toast({
       description: "订单提交成功，正在跳转支付...",
     })
-    // 模拟订单创建后跳转
     setTimeout(() => {
       navigate('/orders')
     }, 1500)
@@ -42,15 +51,20 @@ const Checkout = () => {
               <MapPin className="h-5 w-5 text-gray-400" />
               <div>
                 <div className="flex items-center gap-4">
-                  <span className="font-medium">张三</span>
-                  <span className="text-gray-500">138****8888</span>
+                  <span className="font-medium">{selectedAddress.name}</span>
+                  <span className="text-gray-500">{selectedAddress.phone}</span>
                 </div>
                 <p className="text-sm text-gray-600 mt-1">
-                  浙江省杭州市西湖区文三路 123 号
+                  {selectedAddress.detail}
                 </p>
               </div>
             </div>
-            <Button variant="ghost" size="sm" className="text-gray-500">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="text-gray-500"
+              onClick={() => setShowAddressSelector(true)}
+            >
               更换
             </Button>
           </div>
@@ -144,6 +158,14 @@ const Checkout = () => {
             </Button>
           </div>
         </div>
+
+        {/* 地址选择器 */}
+        <AddressSelector
+          open={showAddressSelector}
+          onOpenChange={setShowAddressSelector}
+          onSelect={setSelectedAddress}
+          selectedId={selectedAddress.id}
+        />
       </div>
 
       <BottomNav />
