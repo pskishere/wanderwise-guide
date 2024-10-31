@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { Heart, Shield, Package, Truck, Award } from "lucide-react"
+import { Heart, Shield, Package, Truck, Award, ShoppingCart } from "lucide-react"
 import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
 import { SpecsDrawer } from "./SpecsDrawer"
@@ -85,12 +85,14 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
       </div>
 
       {/* 富文本广告内容 */}
-      <div className="bg-white rounded-lg p-4">
-        <MarkdownPreview 
-          source={product.richDescription || adContent}
-          className="prose prose-pink max-w-none prose-img:rounded-lg prose-img:shadow-md"
-        />
-      </div>
+      {product.richDescription && (
+        <div className="bg-white rounded-lg p-4">
+          <MarkdownPreview 
+            source={product.richDescription}
+            className="prose prose-pink max-w-none prose-img:rounded-lg prose-img:shadow-md"
+          />
+        </div>
+      )}
 
       <div className="flex gap-2 pt-1">
         <Button
