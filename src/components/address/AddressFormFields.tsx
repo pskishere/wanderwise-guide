@@ -1,10 +1,9 @@
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useToast } from "@/hooks/use-toast"
 import { parseAddress } from "@/utils/addressParser"
-import { getProvinces, getCitiesByProvince, getDistrictsByCity, getNameByCode } from "@/utils/addressData"
-import { useEffect, useState } from "react"
+import { getProvinces, getCitiesByProvince, getDistrictsByCity } from "@/utils/addressData"
+import { RegionSelect } from "./RegionSelect"
 
 interface AddressFormFieldsProps {
   form: {
@@ -26,40 +25,17 @@ export const AddressFormFields = ({
   handleSelectChange,
 }: AddressFormFieldsProps) => {
   const { toast } = useToast()
-  const [provinces, setProvinces] = useState<{ code: string; name: string }[]>([])
-  const [cities, setCities] = useState<{ code: string; name: string }[]>([])
-  const [districts, setDistricts] = useState<{ code: string; name: string }[]>([])
-
-  // 初始化省份数据
-  useEffect(() => {
-    setProvinces(getProvinces())
-  }, [])
-
-  // 当省份改变时更新城市
-  useEffect(() => {
-    if (form.province) {
-      setCities(getCitiesByProvince(form.province))
-      setDistricts([]) // 清空区县
-    }
-  }, [form.province])
-
-  // 当城市改变时更新区县
-  useEffect(() => {
-    if (form.city) {
-      setDistricts(getDistrictsByCity(form.city))
-    }
-  }, [form.city])
 
   const handleDetailPaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
     e.preventDefault()
     const text = e.clipboardData.getData('text')
     const parsed = parseAddress(text, 
-      provinces.map(p => p.name),
-      provinces.reduce((acc, p) => ({
+      getProvinces().map(p => p.name),
+      getProvinces().reduce((acc, p) => ({
         ...acc,
         [p.name]: getCitiesByProvince(p.code).map(c => c.name)
       }), {}),
-      cities.reduce((acc, c) => ({
+      getCitiesByProvince(form.province).reduce((acc, c) => ({
         ...acc,
         [c.name]: getDistrictsByCity(c.code).map(d => d.name)
       }), {})
@@ -85,15 +61,15 @@ export const AddressFormFields = ({
     
     // 找到对应的代码并更新
     if (parsed.province) {
-      const provinceCode = provinces.find(p => p.name === parsed.province)?.code
+      const provinceCode = getProvinces().find(p => p.name === parsed.province)?.code
       if (provinceCode) handleSelectChange(provinceCode, 'province')
     }
     if (parsed.city) {
-      const cityCode = cities.find(c => c.name === parsed.city)?.code
+      const cityCode = getCitiesByProvince(form.province).find(c => c.name === parsed.city)?.code
       if (cityCode) handleSelectChange(cityCode, 'city')
     }
     if (parsed.district) {
-      const districtCode = districts.find(d => d.name === parsed.district)?.code
+      const districtCode = getDistrictsByCity(form.city).find(d => d.name === parsed.district)?.code
       if (districtCode) handleSelectChange(districtCode, 'district')
     }
     if (parsed.detail) handleInputChange(createChangeEvent('detail', parsed.detail))
@@ -131,65 +107,15 @@ export const AddressFormFields = ({
         </div>
       </div>
 
-      {/* Address Section */}
-      <div className="grid grid-cols-3 gap-4">
-        <div className="space-y-2">
-          <Label>省份</Label>
-          <Select
-            value={form.province}
-            onValueChange={(value) => handleSelectChange(value, 'province')}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="请选择" />
-            </SelectTrigger>
-            <SelectContent>
-              {provinces.map(province => (
-                <SelectItem key={province.code} value={province.code}>
-                  {province.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="space-y-2">
-          <Label>城市</Label>
-          <Select
-            value={form.city}
-            onValueChange={(value) => handleSelectChange(value, 'city')}
-            disabled={!form.province}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="请选择" />
-            </SelectTrigger>
-            <SelectContent>
-              {cities.map(city => (
-                <SelectItem key={city.code} value={city.code}>
-                  {city.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="space-y-2">
-          <Label>区县</Label>
-          <Select
-            value={form.district}
-            onValueChange={(value) => handleSelectChange(value, 'district')}
-            disabled={!form.city}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="请选择" />
-            </SelectTrigger>
-            <SelectContent>
-              {districts.map(district => (
-                <SelectItem key={district.code} value={district.code}>
-                  {district.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
+      {/* Region Selection */}
+      <RegionSelect
+        province={form.province}
+        city={form.city}
+        district={form.district}
+        onProvinceChange={(value) => handleSelectChange(value, 'province')}
+        onCityChange={(value) => handleSelectChange(value, 'city')}
+        onDistrictChange={(value) => handleSelectChange(value, 'district')}
+      />
 
       <div className="space-y-2">
         <Label htmlFor="detail">详细地址</Label>
