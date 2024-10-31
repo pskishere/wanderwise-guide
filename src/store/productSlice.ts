@@ -4,7 +4,7 @@ export interface Product {
   id: number
   title: string
   price: string
-  originalPrice: string  // Changed from optional to required
+  originalPrice: string
   description: string
   images: string[]
   image: string
@@ -12,7 +12,7 @@ export interface Product {
     name: string
     avatar: string
   }
-  specs?: {
+  specs: {
     name: string
     options: string[]
   }[]
