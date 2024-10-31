@@ -1,6 +1,4 @@
 import { Avatar } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-import { Navigation } from "@/components/Navigation"
 import { BottomNav } from "@/components/BottomNav"
 import { Heart, MapPin, ShoppingBag, MessageCircle, Bell, Settings } from "lucide-react"
 import { Link } from "react-router-dom"
@@ -54,10 +52,8 @@ const menuItems = [
 const Profile = () => {
   return (
     <div className="min-h-screen bg-gray-50">      
-      <Navigation />
-      
-      <div className="container mx-auto px-4 pt-20 pb-24 max-w-2xl">
-        <div className="flex items-start gap-4 mb-8">
+      <div className="container mx-auto px-4 pb-24 max-w-2xl">
+        <div className="flex items-start gap-4 mb-8 pt-4">
           <Avatar className="h-16 w-16 border-2 border-white">
             <img 
               src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&q=80" 
