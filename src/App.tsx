@@ -18,6 +18,7 @@ import OrderDetail from "@/pages/OrderDetail"
 import Checkout from "@/pages/Checkout"
 import CreatePost from "@/pages/CreatePost"
 import SearchResults from "@/pages/SearchResults"
+import AddressForm from "@/pages/AddressForm"
 
 const queryClient = new QueryClient()
 
@@ -42,6 +43,8 @@ function App() {
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/create-post" element={<CreatePost />} />
               <Route path="/search/results" element={<SearchResults />} />
+              <Route path="/address/new" element={<AddressForm />} />
+              <Route path="/address/edit/:id" element={<AddressForm />} />
             </Routes>
             <Toaster />
           </TooltipProvider>
