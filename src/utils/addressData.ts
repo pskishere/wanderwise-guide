@@ -1,4 +1,6 @@
-import { provinceData as rawProvinceData, cityData as rawCityData, areaData as rawAreaData } from 'province-city-china/dist/data'
+import { data as provinceData } from 'province-city-china/dist/province.json'
+import { data as cityData } from 'province-city-china/dist/city.json'
+import { data as areaData } from 'province-city-china/dist/area.json'
 
 export interface AddressData {
   code: string
@@ -7,43 +9,43 @@ export interface AddressData {
 
 // 获取所有省份
 export const getProvinces = (): AddressData[] => {
-  if (!Array.isArray(rawProvinceData)) {
+  if (!Array.isArray(provinceData)) {
     console.error('Province data is not available')
     return []
   }
   
-  return rawProvinceData.map(item => ({
-    code: item.code,
+  return provinceData.map(item => ({
+    code: String(item.code),
     name: item.name
   }))
 }
 
 // 根据省份代码获取城市
 export const getCitiesByProvince = (provinceCode: string): AddressData[] => {
-  if (!Array.isArray(rawCityData)) {
+  if (!Array.isArray(cityData)) {
     console.error('City data is not available')
     return []
   }
 
-  return rawCityData
-    .filter(item => item.province === provinceCode)
+  return cityData
+    .filter(item => String(item.provinceCode) === provinceCode)
     .map(item => ({
-      code: item.code,
+      code: String(item.code),
       name: item.name
     }))
 }
 
 // 根据城市代码获取区县
 export const getDistrictsByCity = (cityCode: string): AddressData[] => {
-  if (!Array.isArray(rawAreaData)) {
+  if (!Array.isArray(areaData)) {
     console.error('District data is not available')
     return []
   }
 
-  return rawAreaData
-    .filter(item => item.city === cityCode)
+  return areaData
+    .filter(item => String(item.cityCode) === cityCode)
     .map(item => ({
-      code: item.code,
+      code: String(item.code),
       name: item.name
     }))
 }
@@ -53,10 +55,10 @@ export const getNameByCode = (code: string): string => {
   if (!code) return ''
   
   const allData = [
-    ...(Array.isArray(rawProvinceData) ? rawProvinceData : []),
-    ...(Array.isArray(rawCityData) ? rawCityData : []),
-    ...(Array.isArray(rawAreaData) ? rawAreaData : [])
+    ...(Array.isArray(provinceData) ? provinceData : []),
+    ...(Array.isArray(cityData) ? cityData : []),
+    ...(Array.isArray(areaData) ? areaData : [])
   ]
   
-  return allData.find(item => item.code === code)?.name || ''
+  return allData.find(item => String(item.code) === code)?.name || ''
 }
