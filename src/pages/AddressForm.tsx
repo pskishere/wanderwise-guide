@@ -3,16 +3,20 @@ import { BottomNav } from "@/components/BottomNav"
 import { Button } from "@/components/ui/button"
 import { useNavigate, useParams } from "react-router-dom"
 import { useToast } from "@/hooks/use-toast"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { AddressHeader } from "@/components/address/AddressHeader"
 import { AddressFormFields } from "@/components/address/AddressFormFields"
 import { Loader2 } from "lucide-react"
-import { getNameByCode } from "@/utils/addressData"
+import { useDispatch, useSelector } from "react-redux"
+import { RootState } from "@/store/store"
+import { addAddress, updateAddress } from "@/store/addressSlice"
 
 const AddressForm = () => {
   const navigate = useNavigate()
   const { toast } = useToast()
   const { id } = useParams()
+  const dispatch = useDispatch()
+  const addresses = useSelector((state: RootState) => state.address.addresses)
   const isEdit = !!id
   const [isLoading, setIsLoading] = useState(false)
   
@@ -26,20 +30,37 @@ const AddressForm = () => {
     isDefault: false
   })
 
+  useEffect(() => {
+    if (isEdit) {
+      const address = addresses.find(addr => addr.id === id)
+      if (address) {
+        setForm({
+          name: address.name,
+          phone: address.phone,
+          province: address.province,
+          city: address.city,
+          district: address.district,
+          detail: address.detail,
+          isDefault: address.isDefault
+        })
+      }
+    }
+  }, [id, addresses, isEdit])
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
     
-    // 获取地址名称用于提交
     const addressData = {
       ...form,
-      provinceName: getNameByCode(form.province),
-      cityName: getNameByCode(form.city),
-      districtName: getNameByCode(form.district)
+      id: isEdit ? id : String(Date.now())
     }
     
-    // 模拟API调用
-    await new Promise(resolve => setTimeout(resolve, 1000))
+    if (isEdit) {
+      dispatch(updateAddress(addressData))
+    } else {
+      dispatch(addAddress(addressData))
+    }
     
     toast({
       description: isEdit ? "地址修改成功" : "地址添加成功"

@@ -4,6 +4,9 @@ import { Button } from "@/components/ui/button"
 import { MapPin, Plus, Edit2, Trash2 } from "lucide-react"
 import { Link } from "react-router-dom"
 import { useToast } from "@/hooks/use-toast"
+import { useDispatch, useSelector } from "react-redux"
+import { RootState } from "@/store/store"
+import { deleteAddress } from "@/store/addressSlice"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,27 +19,13 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 
-const addresses = [
-  {
-    id: "1",
-    name: "张三",
-    phone: "138****8888",
-    detail: "浙江省杭州市西湖区文三路 123 号",
-    isDefault: true
-  },
-  {
-    id: "2",
-    name: "李四",
-    phone: "139****9999",
-    detail: "浙江省杭州市滨江区网商路 599 号",
-    isDefault: false
-  }
-]
-
 const AddressList = () => {
   const { toast } = useToast()
+  const dispatch = useDispatch()
+  const addresses = useSelector((state: RootState) => state.address.addresses)
 
   const handleDelete = (id: string) => {
+    dispatch(deleteAddress(id))
     toast({
       description: "地址删除成功",
     })
