@@ -1,11 +1,9 @@
 import { Avatar } from "@/components/ui/avatar"
 import { BottomNav } from "@/components/BottomNav"
-import { Heart, MapPin, ShoppingBag, Settings, Camera, Medal, Edit2, Bell, Share2, ChevronRight } from "lucide-react"
+import { Heart, MapPin, ShoppingBag, Settings, Camera } from "lucide-react"
 import { Link } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
-import { motion } from "framer-motion"
 
 const menuItems = [
   { 
@@ -15,7 +13,7 @@ const menuItems = [
     count: "28",
     desc: "收藏的内容",
     color: "pink",
-    gradient: "from-pink-500/10 to-pink-500/5"
+    bgColor: "bg-pink-50/50"
   },
   { 
     icon: MapPin, 
@@ -24,7 +22,7 @@ const menuItems = [
     count: "12",
     desc: "去过的地方",
     color: "blue",
-    gradient: "from-blue-500/10 to-blue-500/5"
+    bgColor: "bg-blue-50/50"
   },
   { 
     icon: ShoppingBag, 
@@ -33,7 +31,7 @@ const menuItems = [
     count: "6",
     desc: "购买的商品",
     color: "orange",
-    gradient: "from-orange-500/10 to-orange-500/5"
+    bgColor: "bg-orange-50/50"
   }
 ]
 
@@ -42,15 +40,10 @@ const Profile = () => {
     <div className="min-h-screen bg-gray-50/50">      
       <div className="container mx-auto px-4 pb-24 pt-6">
         {/* 用户信息卡片 */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="bg-white rounded-2xl p-6 shadow-sm"
-        >
+        <div className="bg-white rounded-2xl p-6 shadow-sm">
           <div className="flex items-start gap-4">
-            <div className="relative group">
-              <Avatar className="h-20 w-20 ring-4 ring-pink-100 transition-transform duration-300 group-hover:scale-105">
+            <div className="relative">
+              <Avatar className="h-16 w-16 ring-2 ring-pink-100">
                 <img 
                   src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&q=80" 
                   alt="用户头像"
@@ -60,119 +53,49 @@ const Profile = () => {
               <Button 
                 size="icon" 
                 variant="secondary"
-                className="absolute -bottom-1 -right-1 h-7 w-7 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 bg-white shadow-lg"
+                className="absolute -bottom-1 -right-1 h-6 w-6 rounded-full bg-white shadow-sm"
               >
-                <Camera className="h-3.5 w-3.5" />
+                <Camera className="h-3 w-3" />
               </Button>
             </div>
 
             <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 mb-1">
-                <h2 className="text-lg font-bold bg-gradient-to-r from-pink-500 to-orange-500 bg-clip-text text-transparent">
-                  旅行达人
-                </h2>
-                <Medal className="h-4 w-4 text-yellow-500 animate-pulse" />
-                <Badge variant="secondary" className="bg-gradient-to-r from-pink-50 to-pink-100 text-pink-600 text-xs">
+              <div className="flex items-center gap-2">
+                <h2 className="text-lg font-bold">旅行达人</h2>
+                <Badge variant="secondary" className="bg-pink-50 text-pink-600 text-xs">
                   Lv.4
                 </Badge>
               </div>
-              <p className="text-sm text-gray-500">小红书号：XHSUID8888</p>
-              <p className="text-sm text-gray-600 mt-2 line-clamp-2">
-                在路上，寻找生活的诗意 ✨ 记录旅行的点点滴滴
-              </p>
-              <div className="flex items-center gap-2 mt-3">
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="rounded-full px-4 text-xs h-8 border-pink-200 hover:bg-pink-50 hover:scale-105 transition-all duration-300"
-                >
-                  <Edit2 className="h-3.5 w-3.5 mr-1.5" />
-                  编辑资料
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8 rounded-full hover:bg-gray-100 hover:scale-110 transition-all duration-300"
-                >
-                  <Share2 className="h-4 w-4 text-gray-500" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8 rounded-full hover:bg-gray-100 hover:scale-110 transition-all duration-300"
-                >
-                  <Bell className="h-4 w-4 text-gray-500" />
-                </Button>
-              </div>
+              <p className="text-sm text-gray-500 mt-1">小红书号：XHSUID8888</p>
             </div>
 
             <Link to="/settings">
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="h-8 w-8 rounded-full hover:bg-gray-100 hover:scale-110 transition-all duration-300"
-              >
+              <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
                 <Settings className="h-4 w-4 text-gray-500" />
               </Button>
             </Link>
           </div>
-
-          <Separator className="my-6" />
-
-          <div className="grid grid-cols-4 gap-6 text-center">
-            {[
-              { label: "笔记", count: "12" },
-              { label: "关注", count: "238" },
-              { label: "粉丝", count: "486" },
-              { label: "获赞", count: "1.2k" }
-            ].map((item, index) => (
-              <motion.button 
-                key={item.label}
-                whileHover={{ scale: 1.05 }}
-                className="hover:bg-gray-50 rounded-xl py-2 transition-colors group relative"
-              >
-                <div className="font-bold text-lg text-gray-900 group-hover:text-pink-500 transition-colors">
-                  {item.count}
-                </div>
-                <div className="text-xs text-gray-500 mt-0.5">{item.label}</div>
-              </motion.button>
-            ))}
-          </div>
-        </motion.div>
+        </div>
 
         {/* 功能菜单 */}
         <div className="mt-4 space-y-3">
-          {menuItems.map((item, index) => {
+          {menuItems.map((item) => {
             const Icon = item.icon
-            const bgColorClass = item.color === 'pink' ? 'bg-pink-50' : 
-                               item.color === 'blue' ? 'bg-blue-50' : 'bg-orange-50'
-            const textColorClass = item.color === 'pink' ? 'text-pink-500' : 
-                                 item.color === 'blue' ? 'text-blue-500' : 'text-orange-500'
+            const textColorClass = `text-${item.color}-500`
             
             return (
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: index * 0.1 }}
-                key={item.label}
+              <Link 
+                key={item.label} 
+                to={item.link}
+                className={`flex items-center px-5 py-4 ${item.bgColor} rounded-2xl transition-all`}
               >
-                <Link 
-                  to={item.link}
-                  className={`flex items-center px-5 py-4 bg-gradient-to-r ${item.gradient} rounded-2xl shadow-sm hover:shadow-md transition-all hover:scale-[1.01] relative overflow-hidden group`}
-                >
-                  <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${bgColorClass} transition-transform duration-300 group-hover:scale-110`}>
-                    <Icon className={`h-5 w-5 ${textColorClass}`} />
-                  </div>
-                  <div className="ml-4 flex-1">
-                    <div className="font-medium">{item.label}</div>
-                    <div className="text-sm text-gray-500 mt-0.5">{item.desc}</div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className={`text-sm font-medium ${textColorClass}`}>{item.count}</div>
-                    <ChevronRight className={`h-4 w-4 ${textColorClass} transition-transform duration-300 group-hover:translate-x-1`} />
-                  </div>
-                </Link>
-              </motion.div>
+                <Icon className={`h-5 w-5 ${textColorClass}`} />
+                <div className="ml-4 flex-1">
+                  <div className="font-medium">{item.label}</div>
+                  <div className="text-sm text-gray-500">{item.desc}</div>
+                </div>
+                <div className={`text-sm font-medium ${textColorClass}`}>{item.count}</div>
+              </Link>
             )
           })}
         </div>
