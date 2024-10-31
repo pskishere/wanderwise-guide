@@ -9,7 +9,7 @@ import { RootState } from "@/store/store"
 import { toggleSelectItem, updateQuantity, removeItem } from "@/store/cartSlice"
 import { Image } from "@/components/ui/image"
 import { motion, AnimatePresence, PanInfo } from "framer-motion"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { CartSkeleton } from "./CartSkeleton"
 
 interface CartListProps {
@@ -141,36 +141,35 @@ export const CartList = ({ isLoading }: CartListProps) => {
                         )}
                       </div>
                     </div>
+                  </div>
 
-                    <div className="flex items-center justify-between mt-3">
-                      <div className="flex items-center gap-1">
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          className="h-7 w-7 sm:h-8 sm:w-8 rounded-full"
-                          onClick={() => handleQuantityChange(item.id, 'decrease')}
-                          disabled={item.quantity <= 1}
-                        >
-                          <Minus className="h-3 w-3 sm:h-4 sm:w-4" />
-                        </Button>
-                        <Input
-                          type="number"
-                          value={item.quantity}
-                          onChange={(e) => handleQuantityChange(item.id, 'input', parseInt(e.target.value))}
-                          className="w-10 h-7 sm:h-8 text-center p-0 text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                          min={1}
-                          max={99}
-                        />
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          className="h-7 w-7 sm:h-8 sm:w-8 rounded-full"
-                          onClick={() => handleQuantityChange(item.id, 'increase')}
-                        >
-                          <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
-                        </Button>
-                      </div>
-                    </div>
+                  {/* 将数量编辑器移到最右侧 */}
+                  <div className="flex items-center gap-1 ml-auto">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="h-7 w-7 sm:h-8 sm:w-8 rounded-full"
+                      onClick={() => handleQuantityChange(item.id, 'decrease')}
+                      disabled={item.quantity <= 1}
+                    >
+                      <Minus className="h-3 w-3 sm:h-4 sm:w-4" />
+                    </Button>
+                    <Input
+                      type="number"
+                      value={item.quantity}
+                      onChange={(e) => handleQuantityChange(item.id, 'input', parseInt(e.target.value))}
+                      className="w-10 h-7 sm:h-8 text-center p-0 text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                      min={1}
+                      max={99}
+                    />
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="h-7 w-7 sm:h-8 sm:w-8 rounded-full"
+                      onClick={() => handleQuantityChange(item.id, 'increase')}
+                    >
+                      <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
+                    </Button>
                   </div>
                 </div>
               </Card>
