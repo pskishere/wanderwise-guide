@@ -10,6 +10,27 @@ import { useEffect, useState } from "react"
 import { useToast } from "@/hooks/use-toast"
 import { Skeleton } from "./ui/skeleton"
 
+const ImageWithSkeleton = ({ src, alt }: { src: string; alt: string }) => {
+  const [isLoading, setIsLoading] = useState(true)
+
+  return (
+    <div className="relative aspect-[3/4]">
+      {isLoading && (
+        <Skeleton className="absolute inset-0 w-full h-full" />
+      )}
+      <img
+        src={src}
+        alt={alt}
+        className={`w-full h-full object-cover transition-opacity duration-300 ${
+          isLoading ? 'opacity-0' : 'opacity-100'
+        }`}
+        loading="lazy"
+        onLoad={() => setIsLoading(false)}
+      />
+    </div>
+  )
+}
+
 export const TravelNotes = () => {
   const { ref, inView } = useInView()
   const { toast } = useToast()
@@ -53,9 +74,7 @@ export const TravelNotes = () => {
         {allPosts.map((post) => (
           <Link to={`/posts/${post.id}`} key={post.id}>
             <Card className="mb-4 break-inside-avoid overflow-hidden border-none shadow-none hover:shadow-lg transition-shadow duration-200">
-              <div className="relative">
-                <ImageWithSkeleton src={post.image} alt={post.title} />
-              </div>
+              <ImageWithSkeleton src={post.image} alt={post.title} />
               <div className="px-2 pt-4 pb-3">
                 <h3 className="text-sm font-medium line-clamp-2 mb-4">
                   {post.title}
@@ -91,24 +110,5 @@ export const TravelNotes = () => {
         {isFetchingNextPage && <TravelNotesSkeleton />}
       </div>
     </div>
-  )
-}
-
-const ImageWithSkeleton = ({ src, alt }: { src: string; alt: string }) => {
-  const [isLoading, setIsLoading] = useState(true)
-
-  return (
-    <>
-      {isLoading && (
-        <Skeleton className="w-full aspect-[3/4] absolute inset-0" />
-      )}
-      <img
-        src={src}
-        // alt={alt}
-        className="w-full object-cover"
-        onLoad={() => setIsLoading(false)}
-        style={{ minHeight: isLoading ? '300px' : 'auto' }}
-      />
-    </>
   )
 }
