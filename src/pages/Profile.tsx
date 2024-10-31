@@ -32,10 +32,10 @@ const menuItems = [
 
 const Profile = () => {
   return (
-    <div className="min-h-screen bg-gray-50/50">      
+    <div className="min-h-screen bg-gray-100">      
       <div className="container mx-auto px-4 pb-24 pt-6">
         {/* 用户信息卡片 */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm">
+        <div className="bg-white rounded-2xl p-6 shadow">
           <div className="flex items-start gap-4">
             <div className="relative">
               <Avatar className="h-20 w-20 ring-4 ring-pink-100">
@@ -130,13 +130,13 @@ const Profile = () => {
         </div>
 
         {/* 功能菜单 */}
-        <div className="mt-4 grid gap-2">
+        <div className="mt-4 grid gap-3">
           {menuItems.map((item) => {
             const Icon = item.icon
             const colorMap = {
-              pink: "text-pink-500 bg-pink-50",
-              blue: "text-blue-500 bg-blue-50",
-              orange: "text-orange-500 bg-orange-50"
+              pink: "text-pink-600 bg-pink-100",
+              blue: "text-blue-600 bg-blue-100",
+              orange: "text-orange-600 bg-orange-100"
             }
             const colors = colorMap[item.color as keyof typeof colorMap]
             
@@ -144,14 +144,14 @@ const Profile = () => {
               <Link 
                 to={item.link}
                 key={item.label}
-                className="flex items-center px-4 py-3 bg-white rounded-xl hover:bg-gray-50/80 transition-colors"
+                className="flex items-center px-4 py-3.5 bg-white rounded-xl hover:bg-gray-50/80 transition-colors shadow-sm"
               >
-                <div className={`flex h-9 w-9 items-center justify-center rounded-lg ${colors.split(" ")[1]}`}>
-                  <Icon className={`h-4 w-4 ${colors.split(" ")[0]}`} />
+                <div className={`flex h-10 w-10 items-center justify-center rounded-lg ${colors.split(" ")[1]}`}>
+                  <Icon className={`h-5 w-5 ${colors.split(" ")[0]}`} />
                 </div>
-                <span className="ml-3 font-medium">{item.label}</span>
+                <span className="ml-3 font-medium text-gray-900">{item.label}</span>
                 <div className={`ml-auto flex items-center gap-2 ${colors.split(" ")[0]}`}>
-                  <span className="text-sm">{item.count}</span>
+                  <span className="text-sm font-medium">{item.count}</span>
                   <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
                     <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
