@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
-import { Heart, Shield, Package, Truck, Award, ShoppingCart } from "lucide-react"
+import { Avatar } from "@/components/ui/avatar"
+import { ShoppingCart, Heart, Store, Shield, Package, Truck, Award } from "lucide-react"
 import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
 import { SpecsDrawer } from "./SpecsDrawer"
@@ -25,43 +26,30 @@ interface ProductInfoProps {
   }
 }
 
-const ProductFeatures = () => (
-  <div className="grid grid-cols-3 gap-1.5">
-    <div className="flex flex-col items-center gap-0.5 p-1.5 bg-gray-50/50 rounded-lg">
-      <Shield className="h-4 w-4 text-pink-500" />
-      <span className="text-xs text-gray-600">正品保证</span>
-    </div>
-    <div className="flex flex-col items-center gap-0.5 p-1.5 bg-gray-50/50 rounded-lg">
-      <Package className="h-4 w-4 text-pink-500" />
-      <span className="text-xs text-gray-600">极速发货</span>
-    </div>
-    <div className="flex flex-col items-center gap-0.5 p-1.5 bg-gray-50/50 rounded-lg">
-      <Truck className="h-4 w-4 text-pink-500" />
-      <span className="text-xs text-gray-600">全国包邮</span>
-    </div>
-  </div>
-)
+const adContent = `
+## 🌟 限时特惠活动
 
-const ProductDescription = ({ description }: { description: string }) => (
-  <div className="space-y-1.5 bg-gray-50/50 p-2 rounded-lg">
-    <h2 className="font-medium flex items-center gap-1.5 text-sm">
-      <span className="h-3 w-0.5 bg-pink-500 rounded-full"></span>
-      商品详情
-    </h2>
-    <p className="text-gray-600 text-sm leading-relaxed">
-      {description}
-    </p>
-  </div>
-)
+![春季新品发布会](https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=800&q=80)
+
+### 活动详情
+- 🎉 新品上市特惠
+- 🎁 限时赠送精美礼品
+- 💝 VIP会员额外95折
+
+### 产品亮点
+1. 精选优质面料
+2. 专业设计师打造
+3. 舒适透气
+
+![产品工艺展示](https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&q=80)
+
+> 温馨提示：活动期间商品售完即止，请尽快购买！
+`
 
 export const ProductInfo = ({ product }: ProductInfoProps) => {
   const [isLiked, setIsLiked] = useState(false)
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const { toast } = useToast()
-
-  const originalPrice = Number(product.originalPrice.slice(1))
-  const currentPrice = Number(product.price.slice(1))
-  const discount = originalPrice - currentPrice
 
   return (
     <div className="space-y-6">
@@ -87,23 +75,60 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
             {product.originalPrice}
           </span>
           <span className="text-xs px-1.5 py-0.5 bg-pink-50 text-pink-600 rounded-full">
-            省¥{discount}
+            省¥{Number(product.originalPrice.slice(1)) - Number(product.price.slice(1))}
           </span>
         </div>
       </div>
 
-      <ProductFeatures />
-
-      <ProductDescription description={product.description} />
-
-      {product.richDescription && (
-        <div className="bg-white rounded-lg p-4">
-          <MarkdownPreview 
-            source={product.richDescription}
-            className="prose prose-pink max-w-none prose-img:rounded-lg prose-img:shadow-md"
-          />
+      <div className="flex items-center gap-2 p-2 bg-gradient-to-r from-pink-50/50 to-transparent rounded-lg border border-pink-100">
+        <Avatar className="h-8 w-8 ring-1 ring-pink-500/20">
+          <img src={product.shop.avatar} alt={product.shop.name} className="object-cover" />
+        </Avatar>
+        <div className="flex-1">
+          <h3 className="font-medium text-sm">{product.shop.name}</h3>
+          <div className="flex items-center gap-1.5">
+            <Award className="h-3 w-3 text-pink-500" />
+            <p className="text-xs text-gray-500">官方认证店铺</p>
+          </div>
         </div>
-      )}
+        <Button variant="outline" size="sm" className="gap-1 rounded-full px-3 border-pink-200 hover:bg-pink-50 text-xs h-7">
+          <Store className="h-3.5 w-3.5 text-pink-500" />
+          进店逛逛
+        </Button>
+      </div>
+
+      <div className="grid grid-cols-3 gap-1.5">
+        <div className="flex flex-col items-center gap-0.5 p-1.5 bg-gray-50/50 rounded-lg">
+          <Shield className="h-4 w-4 text-pink-500" />
+          <span className="text-xs text-gray-600">正品保证</span>
+        </div>
+        <div className="flex flex-col items-center gap-0.5 p-1.5 bg-gray-50/50 rounded-lg">
+          <Package className="h-4 w-4 text-pink-500" />
+          <span className="text-xs text-gray-600">极速发货</span>
+        </div>
+        <div className="flex flex-col items-center gap-0.5 p-1.5 bg-gray-50/50 rounded-lg">
+          <Truck className="h-4 w-4 text-pink-500" />
+          <span className="text-xs text-gray-600">全国包邮</span>
+        </div>
+      </div>
+
+      <div className="space-y-1.5 bg-gray-50/50 p-2 rounded-lg">
+        <h2 className="font-medium flex items-center gap-1.5 text-sm">
+          <span className="h-3 w-0.5 bg-pink-500 rounded-full"></span>
+          商品详情
+        </h2>
+        <p className="text-gray-600 text-sm leading-relaxed">
+          {product.description}
+        </p>
+      </div>
+
+      {/* 富文本广告内容 */}
+      <div className="bg-white rounded-lg p-4">
+        <MarkdownPreview 
+          source={product.richDescription || adContent}
+          className="prose prose-pink max-w-none prose-img:rounded-lg prose-img:shadow-md"
+        />
+      </div>
 
       <div className="flex gap-2 pt-1">
         <Button

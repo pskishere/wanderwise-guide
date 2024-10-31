@@ -128,21 +128,21 @@ export const CartList = ({ isLoading }: CartListProps) => {
                       )}
                     </div>
                     
-                    <div className="mt-2 flex items-center justify-between">
-                      <div className="space-y-1.5">
-                        <div className="flex items-center gap-2">
-                          <span className="text-pink-500">
-                            <span className="text-xs">¥</span>
-                            <span className="text-lg sm:text-xl font-bold">{item.price}</span>
+                    <div className="mt-2 space-y-1.5">
+                      <div className="flex items-center gap-2">
+                        <span className="text-pink-500">
+                          <span className="text-xs">¥</span>
+                          <span className="text-lg sm:text-xl font-bold">{item.price}</span>
+                        </span>
+                        {item.discount && (
+                          <span className="text-xs text-pink-500 border border-pink-500 px-1.5 py-0.5 rounded-sm">
+                            限时立减{item.discount}
                           </span>
-                          {item.discount && (
-                            <span className="text-xs text-pink-500 border border-pink-500 px-1.5 py-0.5 rounded-sm">
-                              限时立减{item.discount}
-                            </span>
-                          )}
-                        </div>
+                        )}
                       </div>
+                    </div>
 
+                    <div className="flex items-center justify-between mt-3">
                       <div className="flex items-center gap-1">
                         <Button
                           variant="outline"
