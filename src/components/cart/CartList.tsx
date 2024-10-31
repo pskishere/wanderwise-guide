@@ -142,9 +142,11 @@ export const CartList = ({ isLoading }: CartListProps) => {
                       </div>
                     </div>
                   </div>
+                </div>
 
-                  {/* 将数量编辑器移到最右侧 */}
-                  <div className="flex items-center gap-1 ml-auto">
+                {/* 数量编辑器独立一行并靠右 */}
+                <div className="flex justify-end mt-3">
+                  <div className="flex items-center gap-1">
                     <Button
                       variant="outline"
                       size="icon"
