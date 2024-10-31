@@ -13,6 +13,7 @@ import Favorites from "@/pages/Favorites"
 import Messages from "@/pages/Messages"
 import Cart from "@/pages/Cart"
 import Orders from "@/pages/Orders"
+import OrderDetail from "@/pages/OrderDetail"
 import CreatePost from "@/pages/CreatePost"
 import SearchResults from "@/pages/SearchResults"
 
@@ -34,6 +35,7 @@ function App() {
               <Route path="/messages" element={<Messages />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/orders" element={<Orders />} />
+              <Route path="/orders/:id" element={<OrderDetail />} />
               <Route path="/create-post" element={<CreatePost />} />
               <Route path="/search/results" element={<SearchResults />} />
             </Routes>
