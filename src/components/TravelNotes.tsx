@@ -12,21 +12,31 @@ import { Skeleton } from "./ui/skeleton"
 
 const ImageWithSkeleton = ({ src, alt }: { src: string; alt: string }) => {
   const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(false)
 
   return (
-    <div className="relative aspect-[3/4]">
+    <div className="relative w-full aspect-[3/4] bg-gray-100 overflow-hidden">
       {isLoading && (
-        <Skeleton className="absolute inset-0 w-full h-full" />
+        <div className="absolute inset-0 animate-pulse bg-gray-200" />
       )}
       <img
         src={src}
         alt={alt}
-        className={`w-full h-full object-cover transition-opacity duration-300 ${
+        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
           isLoading ? 'opacity-0' : 'opacity-100'
         }`}
         loading="lazy"
         onLoad={() => setIsLoading(false)}
+        onError={() => {
+          setIsLoading(false)
+          setError(true)
+        }}
       />
+      {error && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+          <span className="text-gray-400 text-sm">图片加载失败</span>
+        </div>
+      )}
     </div>
   )
 }
