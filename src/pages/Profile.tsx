@@ -1,109 +1,173 @@
 import { Avatar } from "@/components/ui/avatar"
 import { BottomNav } from "@/components/BottomNav"
-import { Heart, MapPin, ShoppingBag, MessageCircle, Bell, Settings } from "lucide-react"
+import { 
+  Heart, 
+  MapPin, 
+  ShoppingBag, 
+  MessageCircle, 
+  Bell, 
+  Settings,
+  ChevronRight,
+  Camera,
+  Edit2
+} from "lucide-react"
 import { Link } from "react-router-dom"
 import { Card } from "@/components/ui/card"
-
-const stats = [
-  { label: "笔记", value: "12" },
-  { label: "关注", value: "238" },
-  { label: "粉丝", value: "486" },
-  { label: "获赞", value: "1.2k" },
-]
+import { Button } from "@/components/ui/button"
+import { Separator } from "@/components/ui/separator"
 
 const menuItems = [
   { 
     icon: Heart, 
-    label: "收藏", 
+    label: "我的收藏", 
     link: "/favorites",
-    description: "查看我的收藏内容"
+    color: "text-pink-500",
+    bgColor: "bg-pink-50"
   },
   { 
     icon: MapPin, 
-    label: "足迹", 
+    label: "我的足迹", 
     link: "/footprints",
-    description: "我去过的地方"
+    color: "text-blue-500",
+    bgColor: "bg-blue-50"
   },
   { 
     icon: ShoppingBag, 
-    label: "订单", 
+    label: "我的订单", 
     link: "/orders",
-    description: "全部消费记录"
+    color: "text-orange-500",
+    bgColor: "bg-orange-50"
   },
   { 
     icon: MessageCircle, 
-    label: "评论", 
+    label: "我的评论", 
     link: "/comments",
-    description: "我的互动记录"
-  },
+    color: "text-green-500",
+    bgColor: "bg-green-50"
+  }
+]
+
+const settingsItems = [
   { 
     icon: Bell, 
     label: "消息通知", 
     link: "/notifications",
-    description: "系统和互动提醒"
+    badge: 2
   },
   { 
     icon: Settings, 
     label: "设置", 
-    link: "/settings",
-    description: "偏好和账号设置"
-  },
+    link: "/settings"
+  }
 ]
 
 const Profile = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-pink-50 to-white">      
-      <div className="container mx-auto px-4 pb-24 max-w-2xl">
-        <Card className="mt-6 p-6 shadow-lg">
-          <div className="flex flex-col items-center text-center">
-            <Avatar className="h-24 w-24 border-4 border-white shadow-xl">
-              <img 
-                src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&q=80" 
-                alt="用户头像"
-                className="object-cover"
-              />
-            </Avatar>
-            <h2 className="text-xl font-semibold mt-4">旅行达人</h2>
-            <p className="text-sm text-gray-500 mt-1">小红书号：XHSUID8888</p>
-            <p className="text-sm text-gray-600 mt-2 italic">在路上，寻找生活的诗意 ✨</p>
+    <div className="min-h-screen bg-gray-50">      
+      <div className="container mx-auto px-4 pb-24 pt-6">
+        {/* 用户信息卡片 */}
+        <Card className="p-6">
+          <div className="flex items-start justify-between">
+            <div className="flex gap-4">
+              <div className="relative">
+                <Avatar className="h-16 w-16 border-2 border-white ring-2 ring-pink-100">
+                  <img 
+                    src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&q=80" 
+                    alt="用户头像"
+                    className="object-cover"
+                  />
+                </Avatar>
+                <Button 
+                  size="icon" 
+                  variant="secondary" 
+                  className="absolute -bottom-1 -right-1 h-6 w-6 rounded-full"
+                >
+                  <Camera className="h-3 w-3" />
+                </Button>
+              </div>
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <h2 className="text-lg font-semibold">旅行达人</h2>
+                  <Button size="icon" variant="ghost" className="h-6 w-6">
+                    <Edit2 className="h-3.5 w-3.5" />
+                  </Button>
+                </div>
+                <p className="text-sm text-gray-500">小红书号：XHSUID8888</p>
+                <p className="text-sm text-gray-600 italic">在路上，寻找生活的诗意 ✨</p>
+              </div>
+            </div>
+            <Button variant="outline" size="sm">
+              编辑资料
+            </Button>
           </div>
 
-          <div className="grid grid-cols-4 gap-4 mt-8">
-            {stats.map((stat) => (
-              <div 
-                key={stat.label} 
-                className="text-center p-3 rounded-lg bg-pink-50/50 hover:bg-pink-50 transition-colors"
-              >
-                <div className="font-semibold text-pink-600">{stat.value}</div>
-                <div className="text-xs text-gray-500 mt-1">{stat.label}</div>
-              </div>
-            ))}
+          <div className="mt-6 grid grid-cols-4 divide-x">
+            <div className="text-center">
+              <div className="font-semibold">12</div>
+              <div className="text-xs text-gray-500 mt-1">笔记</div>
+            </div>
+            <div className="text-center">
+              <div className="font-semibold">238</div>
+              <div className="text-xs text-gray-500 mt-1">关注</div>
+            </div>
+            <div className="text-center">
+              <div className="font-semibold">486</div>
+              <div className="text-xs text-gray-500 mt-1">粉丝</div>
+            </div>
+            <div className="text-center">
+              <div className="font-semibold">1.2k</div>
+              <div className="text-xs text-gray-500 mt-1">获赞</div>
+            </div>
           </div>
         </Card>
 
-        <div className="mt-6 space-y-3">
-          {menuItems.map((item) => {
-            const Icon = item.icon
-            return (
-              <Link
-                key={item.label}
-                to={item.link}
-                className="block"
-              >
-                <Card className="p-4 hover:shadow-md transition-shadow">
-                  <div className="flex items-center gap-4">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-pink-50">
-                      <Icon className="h-5 w-5 text-pink-500" />
+        {/* 功能菜单 */}
+        <div className="mt-4 space-y-4">
+          <Card>
+            <div className="grid grid-cols-4 divide-x p-4">
+              {menuItems.map((item) => {
+                const Icon = item.icon
+                return (
+                  <Link
+                    key={item.label}
+                    to={item.link}
+                    className="flex flex-col items-center gap-2 p-2 hover:bg-gray-50 transition-colors"
+                  >
+                    <div className={`flex h-10 w-10 items-center justify-center rounded-full ${item.bgColor}`}>
+                      <Icon className={`h-5 w-5 ${item.color}`} />
                     </div>
-                    <div className="flex-1">
-                      <span className="font-medium text-gray-900">{item.label}</span>
-                      <p className="text-sm text-gray-500 mt-0.5">{item.description}</p>
-                    </div>
+                    <span className="text-xs font-medium">{item.label}</span>
+                  </Link>
+                )
+              })}
+            </div>
+          </Card>
+
+          <Card className="divide-y">
+            {settingsItems.map((item) => {
+              const Icon = item.icon
+              return (
+                <Link
+                  key={item.label}
+                  to={item.link}
+                  className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors"
+                >
+                  <div className="flex items-center gap-3">
+                    <Icon className="h-5 w-5 text-gray-400" />
+                    <span className="font-medium">{item.label}</span>
                   </div>
-                </Card>
-              </Link>
-            )
-          })}
+                  <div className="flex items-center gap-2">
+                    {item.badge && (
+                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+                        {item.badge}
+                      </span>
+                    )}
+                    <ChevronRight className="h-4 w-4 text-gray-400" />
+                  </div>
+                </Link>
+              )
+            })}
+          </Card>
         </div>
 
         <div className="mt-8 text-center">
