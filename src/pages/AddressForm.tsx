@@ -7,25 +7,7 @@ import { useState } from "react"
 import { AddressHeader } from "@/components/address/AddressHeader"
 import { AddressFormFields } from "@/components/address/AddressFormFields"
 import { Loader2 } from "lucide-react"
-
-// 模拟数据
-const provinces = ["浙江省", "江苏省", "广东省"]
-const cities = {
-  "浙江省": ["杭州市", "宁波市", "温州市"],
-  "江苏省": ["南京市", "苏州市", "无锡市"],
-  "广东省": ["广州市", "深圳市", "东莞市"]
-}
-const districts = {
-  "杭州市": ["西湖区", "滨江区", "余杭区"],
-  "宁波市": ["海曙区", "江北区", "鄞州区"],
-  "温州市": ["鹿城区", "龙湾区", "瓯海区"],
-  "南京市": ["玄武区", "秦淮区", "建邺区"],
-  "苏州市": ["姑苏区", "虎丘区", "吴中区"],
-  "无锡市": ["梁溪区", "锡山区", "惠山区"],
-  "广州市": ["天河区", "海珠区", "越秀区"],
-  "深圳市": ["福田区", "南山区", "罗湖区"],
-  "东莞市": ["莞城区", "东城区", "南城区"]
-}
+import { getNameByCode } from "@/utils/addressData"
 
 const AddressForm = () => {
   const navigate = useNavigate()
@@ -47,6 +29,14 @@ const AddressForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
+    
+    // 获取地址名称用于提交
+    const addressData = {
+      ...form,
+      provinceName: getNameByCode(form.province),
+      cityName: getNameByCode(form.city),
+      districtName: getNameByCode(form.district)
+    }
     
     // 模拟API调用
     await new Promise(resolve => setTimeout(resolve, 1000))
@@ -95,9 +85,6 @@ const AddressForm = () => {
             form={form}
             handleInputChange={handleInputChange}
             handleSelectChange={handleSelectChange}
-            provinces={provinces}
-            cities={cities}
-            districts={districts}
           />
 
           <Button 
