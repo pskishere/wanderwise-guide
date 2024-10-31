@@ -6,6 +6,32 @@ import { ArrowLeft } from "lucide-react"
 import { useNavigate, useParams } from "react-router-dom"
 import { useToast } from "@/hooks/use-toast"
 import { useState } from "react"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
+// 模拟数据
+const provinces = ["浙江省", "江苏省", "广东省"]
+const cities = {
+  "浙江省": ["杭州市", "宁波市", "温州市"],
+  "江苏省": ["南京市", "苏州市", "无锡市"],
+  "广东省": ["广州市", "深圳市", "东莞市"]
+}
+const districts = {
+  "杭州市": ["西湖区", "滨江区", "余杭区"],
+  "宁波市": ["海曙区", "江北区", "鄞州区"],
+  "温州市": ["鹿城区", "龙湾区", "瓯海区"],
+  "南京市": ["玄武区", "秦淮区", "建邺区"],
+  "苏州市": ["姑苏区", "虎丘区", "吴中区"],
+  "无锡市": ["梁溪区", "锡山区", "惠山区"],
+  "广州市": ["天河区", "海珠区", "越秀区"],
+  "深圳市": ["福田区", "南山区", "罗湖区"],
+  "东莞市": ["莞城区", "东城区", "南城区"]
+}
 
 const AddressForm = () => {
   const navigate = useNavigate()
@@ -42,6 +68,22 @@ const AddressForm = () => {
       ...prev,
       [name]: type === "checkbox" ? checked : value
     }))
+  }
+
+  const handleSelectChange = (value: string, field: 'province' | 'city' | 'district') => {
+    setForm(prev => {
+      const updates: Partial<typeof form> = { [field]: value }
+      
+      // 重置下级选项
+      if (field === 'province') {
+        updates.city = ''
+        updates.district = ''
+      } else if (field === 'city') {
+        updates.district = ''
+      }
+      
+      return { ...prev, ...updates }
+    })
   }
 
   return (
@@ -90,37 +132,60 @@ const AddressForm = () => {
 
             <div className="grid grid-cols-3 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="province">省份</Label>
-                <Input
-                  id="province"
-                  name="province"
-                  placeholder="请选择"
+                <Label>省份</Label>
+                <Select
                   value={form.province}
-                  onChange={handleInputChange}
-                  required
-                />
+                  onValueChange={(value) => handleSelectChange(value, 'province')}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="请选择" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {provinces.map(province => (
+                      <SelectItem key={province} value={province}>
+                        {province}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="city">城市</Label>
-                <Input
-                  id="city"
-                  name="city"
-                  placeholder="请选择"
+                <Label>城市</Label>
+                <Select
                   value={form.city}
-                  onChange={handleInputChange}
-                  required
-                />
+                  onValueChange={(value) => handleSelectChange(value, 'city')}
+                  disabled={!form.province}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="请选择" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {form.province && cities[form.province as keyof typeof cities].map(city => (
+                      <SelectItem key={city} value={city}>
+                        {city}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="district">区县</Label>
-                <Input
-                  id="district"
-                  name="district"
-                  placeholder="请选择"
+                <Label>区县</Label>
+                <Select
                   value={form.district}
-                  onChange={handleInputChange}
-                  required
-                />
+                  onValueChange={(value) => handleSelectChange(value, 'district')}
+                  disabled={!form.city}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="请选择" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {form.city && districts[form.city as keyof typeof districts].map(district => (
+                      <SelectItem key={district} value={district}>
+                        {district}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
             </div>
 
