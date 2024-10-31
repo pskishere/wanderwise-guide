@@ -4,10 +4,10 @@ export interface Product {
   id: number
   title: string
   price: string
-  originalPrice?: string
+  originalPrice: string  // Changed from optional to required
   description: string
   images: string[]
-  image: string // Added this field
+  image: string
   shop: {
     name: string
     avatar: string
@@ -37,7 +37,7 @@ const initialState: ProductState = {
         "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=800&q=80",
         "https://images.unsplash.com/photo-1475180098004-ca77a66827be?w=800&q=80",
       ],
-      image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&q=80", // Added this field
+      image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&q=80",
       shop: {
         name: "ZARA官方旗舰店",
         avatar: "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&q=80"
