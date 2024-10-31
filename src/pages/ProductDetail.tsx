@@ -46,7 +46,7 @@ const ProductDetail = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 pb-20">
+      <div className="min-h-screen bg-white pb-20">
         <Navigation />
         <div className="container mx-auto px-4 pt-20">
           <div className="grid md:grid-cols-2 gap-8">
@@ -65,7 +65,7 @@ const ProductDetail = () => {
 
   if (error || !product) {
     return (
-      <div className="min-h-screen bg-gray-50 pb-20">
+      <div className="min-h-screen bg-white pb-20">
         <Navigation />
         <div className="container mx-auto px-4 pt-20">
           <div className="text-center py-12">
@@ -82,7 +82,7 @@ const ProductDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20">
+    <div className="min-h-screen bg-white pb-20">
       <Navigation />
       <div className="container mx-auto px-4 pt-20">
         <div className="grid md:grid-cols-2 gap-8">
