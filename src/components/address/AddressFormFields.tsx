@@ -125,6 +125,7 @@ export const AddressFormFields = ({
             value={form.detail}
             onChange={handleInputChange}
             required
+            className="h-24 align-top"
           />
         </div>
       </div>
