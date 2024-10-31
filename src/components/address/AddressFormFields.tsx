@@ -32,8 +32,17 @@ export const AddressFormFields = ({
   const { toast } = useToast()
 
   const handleDetailPaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    e.preventDefault() // 阻止默认粘贴行为
     const text = e.clipboardData.getData('text')
     const parsed = parseAddress(text, provinces, cities, districts)
+    
+    if (!parsed.name && !parsed.phone && !parsed.province) {
+      toast({
+        variant: "destructive",
+        description: "无法识别地址格式，请检查后重试",
+      })
+      return
+    }
     
     // 通过创建合成事件来触发表单更新
     const createChangeEvent = (name: string, value: string) => {
