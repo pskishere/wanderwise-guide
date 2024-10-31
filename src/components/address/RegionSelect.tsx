@@ -27,32 +27,38 @@ export function RegionSelect({
   // 初始化城市和区县数据
   useEffect(() => {
     if (province) {
-      const citiesData = getCitiesByProvince(province)
-      setCities(citiesData)
-      
-      if (city) {
-        const districtsData = getDistrictsByCity(city)
-        setDistricts(districtsData)
-      }
+      setTimeout(() => {
+        const citiesData = getCitiesByProvince(province)
+        setCities(citiesData)
+        
+        if (city) {
+          const districtsData = getDistrictsByCity(city)
+          setDistricts(districtsData)
+        }
+      }, 2)
     }
   }, [])
 
   // 当省份改变时更新城市列表
   const handleProvinceChange = (value: string) => {
     onProvinceChange(value)
-    const citiesData = getCitiesByProvince(value)
-    setCities(citiesData)
-    setDistricts([])
-    onCityChange("")
-    onDistrictChange("")
+    setTimeout(() => {
+      const citiesData = getCitiesByProvince(value)
+      setCities(citiesData)
+      setDistricts([])
+      onCityChange("")
+      onDistrictChange("")
+    }, 2)
   }
 
   // 当城市改变时更新区县列表
   const handleCityChange = (value: string) => {
     onCityChange(value)
-    const districtsData = getDistrictsByCity(value)
-    setDistricts(districtsData)
-    onDistrictChange("")
+    setTimeout(() => {
+      const districtsData = getDistrictsByCity(value)
+      setDistricts(districtsData)
+      onDistrictChange("")
+    }, 2)
   }
 
   return (
