@@ -28,8 +28,9 @@ export const AddressFormFields = ({
   districts
 }: AddressFormFieldsProps) => {
   return (
-    <div className="space-y-4">
-      <div className="grid grid-cols-2 gap-4">
+    <div className="space-y-6">
+      {/* Recipient Information Section */}
+      <div className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="name">收货人</Label>
           <Input
@@ -54,75 +55,78 @@ export const AddressFormFields = ({
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-4">
-        <div className="space-y-2">
-          <Label>省份</Label>
-          <Select
-            value={form.province}
-            onValueChange={(value) => handleSelectChange(value, 'province')}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="请选择" />
-            </SelectTrigger>
-            <SelectContent>
-              {provinces.map(province => (
-                <SelectItem key={province} value={province}>
-                  {province}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+      {/* Address Section */}
+      <div className="space-y-4">
+        <div className="grid grid-cols-3 gap-4">
+          <div className="space-y-2">
+            <Label>省份</Label>
+            <Select
+              value={form.province}
+              onValueChange={(value) => handleSelectChange(value, 'province')}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="请选择" />
+              </SelectTrigger>
+              <SelectContent>
+                {provinces.map(province => (
+                  <SelectItem key={province} value={province}>
+                    {province}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="space-y-2">
+            <Label>城市</Label>
+            <Select
+              value={form.city}
+              onValueChange={(value) => handleSelectChange(value, 'city')}
+              disabled={!form.province}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="请选择" />
+              </SelectTrigger>
+              <SelectContent>
+                {form.province && cities[form.province].map(city => (
+                  <SelectItem key={city} value={city}>
+                    {city}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="space-y-2">
+            <Label>区县</Label>
+            <Select
+              value={form.district}
+              onValueChange={(value) => handleSelectChange(value, 'district')}
+              disabled={!form.city}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="请选择" />
+              </SelectTrigger>
+              <SelectContent>
+                {form.city && districts[form.city].map(district => (
+                  <SelectItem key={district} value={district}>
+                    {district}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
-        <div className="space-y-2">
-          <Label>城市</Label>
-          <Select
-            value={form.city}
-            onValueChange={(value) => handleSelectChange(value, 'city')}
-            disabled={!form.province}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="请选择" />
-            </SelectTrigger>
-            <SelectContent>
-              {form.province && cities[form.province].map(city => (
-                <SelectItem key={city} value={city}>
-                  {city}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="space-y-2">
-          <Label>区县</Label>
-          <Select
-            value={form.district}
-            onValueChange={(value) => handleSelectChange(value, 'district')}
-            disabled={!form.city}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="请选择" />
-            </SelectTrigger>
-            <SelectContent>
-              {form.city && districts[form.city].map(district => (
-                <SelectItem key={district} value={district}>
-                  {district}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="detail">详细地址</Label>
-        <Input
-          id="detail"
-          name="detail"
-          placeholder="请输入详细地址，如街道、门牌号等"
-          value={form.detail}
-          onChange={handleInputChange}
-          required
-        />
+        <div className="space-y-2">
+          <Label htmlFor="detail">详细地址</Label>
+          <Input
+            id="detail"
+            name="detail"
+            placeholder="请输入详细地址，如街道、门牌号等"
+            value={form.detail}
+            onChange={handleInputChange}
+            required
+          />
+        </div>
       </div>
 
       <div className="flex items-center gap-2">
