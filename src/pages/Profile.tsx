@@ -1,10 +1,10 @@
-import { Avatar } from "@/components/ui/avatar"
 import { BottomNav } from "@/components/BottomNav"
-import { Heart, MapPin, ShoppingBag, Settings, Camera, Medal, Edit2, Bell, Share2, ChevronRight } from "lucide-react"
+import { Heart, MapPin, ShoppingBag, Settings, Camera, Medal, Edit2, Bell, Share2 } from "lucide-react"
 import { Link } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
+import { Avatar } from "@/components/ui/avatar"
 
 const menuItems = [
   { 
@@ -12,27 +12,21 @@ const menuItems = [
     label: "收藏", 
     link: "/favorites",
     count: "28",
-    desc: "收藏的内容",
-    color: "pink",
-    gradient: "from-pink-500/10 to-pink-500/5"
+    color: "pink"
   },
   { 
     icon: MapPin, 
     label: "足迹", 
     link: "/footprints",
     count: "12",
-    desc: "去过的地方",
-    color: "blue",
-    gradient: "from-blue-500/10 to-blue-500/5"
+    color: "blue"
   },
   { 
     icon: ShoppingBag, 
     label: "订单", 
     link: "/orders",
     count: "6",
-    desc: "购买的商品",
-    color: "orange",
-    gradient: "from-orange-500/10 to-orange-500/5"
+    color: "orange"
   }
 ]
 
@@ -136,30 +130,31 @@ const Profile = () => {
         </div>
 
         {/* 功能菜单 */}
-        <div className="mt-4 space-y-3">
+        <div className="mt-4 grid gap-2">
           {menuItems.map((item) => {
             const Icon = item.icon
-            const bgColorClass = item.color === 'pink' ? 'bg-pink-50' : 
-                               item.color === 'blue' ? 'bg-blue-50' : 'bg-orange-50'
-            const textColorClass = item.color === 'pink' ? 'text-pink-500' : 
-                                 item.color === 'blue' ? 'text-blue-500' : 'text-orange-500'
+            const colorMap = {
+              pink: "text-pink-500 bg-pink-50",
+              blue: "text-blue-500 bg-blue-50",
+              orange: "text-orange-500 bg-orange-50"
+            }
+            const colors = colorMap[item.color as keyof typeof colorMap]
             
             return (
               <Link 
                 to={item.link}
                 key={item.label}
-                className={`flex items-center px-5 py-4 bg-gradient-to-r ${item.gradient} rounded-2xl shadow-sm`}
+                className="flex items-center px-4 py-3 bg-white rounded-xl hover:bg-gray-50/80 transition-colors"
               >
-                <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${bgColorClass}`}>
-                  <Icon className={`h-5 w-5 ${textColorClass}`} />
+                <div className={`flex h-9 w-9 items-center justify-center rounded-lg ${colors.split(" ")[1]}`}>
+                  <Icon className={`h-4 w-4 ${colors.split(" ")[0]}`} />
                 </div>
-                <div className="ml-4 flex-1">
-                  <div className="font-medium">{item.label}</div>
-                  <div className="text-sm text-gray-500 mt-0.5">{item.desc}</div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className={`text-sm font-medium ${textColorClass}`}>{item.count}</div>
-                  <ChevronRight className={`h-4 w-4 ${textColorClass}`} />
+                <span className="ml-3 font-medium">{item.label}</span>
+                <div className={`ml-auto flex items-center gap-2 ${colors.split(" ")[0]}`}>
+                  <span className="text-sm">{item.count}</span>
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
+                    <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
                 </div>
               </Link>
             )
