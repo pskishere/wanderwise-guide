@@ -16,7 +16,7 @@ const menuItems = [
   { 
     icon: MapPin, 
     label: "我的地址", 
-    link: "/address/new",
+    link: "/address",
     color: "blue"
   },
   { 
