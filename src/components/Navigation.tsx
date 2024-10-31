@@ -182,10 +182,10 @@ export const Navigation = () => {
                   <span className="absolute -top-1 -right-1 h-2.5 w-2.5 bg-pink-500 rounded-full ring-2 ring-white animate-pulse"></span>
                 </Link>
                 <Link 
-                  to="/cart"
+                  to="/favorites"
                   className="text-gray-600 hover:text-gray-900 transition-colors relative"
                 >
-                  <ShoppingCart className="h-5 w-5" />
+                  <Heart className="h-5 w-5" />
                   <span className="absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-pink-500 text-[10px] text-white animate-bounce">2</span>
                 </Link>
               </div>
