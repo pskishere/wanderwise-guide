@@ -7,6 +7,23 @@ export interface AddressData {
   name: string
 }
 
+interface ProvinceData {
+  code: string
+  name: string
+}
+
+interface CityData {
+  code: string
+  name: string
+  province: string // This is the province code
+}
+
+interface AreaData {
+  code: string
+  name: string
+  city: string // This is the city code
+}
+
 // 获取所有省份
 export const getProvinces = (): AddressData[] => {
   if (!Array.isArray(provinceData)) {
@@ -14,7 +31,7 @@ export const getProvinces = (): AddressData[] => {
     return []
   }
   
-  return provinceData.map(item => ({
+  return (provinceData as ProvinceData[]).map(item => ({
     code: String(item.code),
     name: item.name
   }))
@@ -27,8 +44,8 @@ export const getCitiesByProvince = (provinceCode: string): AddressData[] => {
     return []
   }
 
-  return cityData
-    .filter(item => String(item.provinceCode) === provinceCode)
+  return (cityData as CityData[])
+    .filter(item => String(item.province) === provinceCode)
     .map(item => ({
       code: String(item.code),
       name: item.name
@@ -42,8 +59,8 @@ export const getDistrictsByCity = (cityCode: string): AddressData[] => {
     return []
   }
 
-  return areaData
-    .filter(item => String(item.cityCode) === cityCode)
+  return (areaData as AreaData[])
+    .filter(item => String(item.city) === cityCode)
     .map(item => ({
       code: String(item.code),
       name: item.name
