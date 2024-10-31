@@ -15,8 +15,8 @@ const menuItems = [
   },
   { 
     icon: MapPin, 
-    label: "足迹", 
-    link: "/footprints",
+    label: "我的地址", 
+    link: "/address/new",
     color: "blue"
   },
   { 
