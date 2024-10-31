@@ -25,10 +25,43 @@ interface ProductInfoProps {
   }
 }
 
+const ProductFeatures = () => (
+  <div className="grid grid-cols-3 gap-1.5">
+    <div className="flex flex-col items-center gap-0.5 p-1.5 bg-gray-50/50 rounded-lg">
+      <Shield className="h-4 w-4 text-pink-500" />
+      <span className="text-xs text-gray-600">正品保证</span>
+    </div>
+    <div className="flex flex-col items-center gap-0.5 p-1.5 bg-gray-50/50 rounded-lg">
+      <Package className="h-4 w-4 text-pink-500" />
+      <span className="text-xs text-gray-600">极速发货</span>
+    </div>
+    <div className="flex flex-col items-center gap-0.5 p-1.5 bg-gray-50/50 rounded-lg">
+      <Truck className="h-4 w-4 text-pink-500" />
+      <span className="text-xs text-gray-600">全国包邮</span>
+    </div>
+  </div>
+)
+
+const ProductDescription = ({ description }: { description: string }) => (
+  <div className="space-y-1.5 bg-gray-50/50 p-2 rounded-lg">
+    <h2 className="font-medium flex items-center gap-1.5 text-sm">
+      <span className="h-3 w-0.5 bg-pink-500 rounded-full"></span>
+      商品详情
+    </h2>
+    <p className="text-gray-600 text-sm leading-relaxed">
+      {description}
+    </p>
+  </div>
+)
+
 export const ProductInfo = ({ product }: ProductInfoProps) => {
   const [isLiked, setIsLiked] = useState(false)
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const { toast } = useToast()
+
+  const originalPrice = Number(product.originalPrice.slice(1))
+  const currentPrice = Number(product.price.slice(1))
+  const discount = originalPrice - currentPrice
 
   return (
     <div className="space-y-6">
@@ -54,37 +87,15 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
             {product.originalPrice}
           </span>
           <span className="text-xs px-1.5 py-0.5 bg-pink-50 text-pink-600 rounded-full">
-            省¥{Number(product.originalPrice.slice(1)) - Number(product.price.slice(1))}
+            省¥{discount}
           </span>
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-1.5">
-        <div className="flex flex-col items-center gap-0.5 p-1.5 bg-gray-50/50 rounded-lg">
-          <Shield className="h-4 w-4 text-pink-500" />
-          <span className="text-xs text-gray-600">正品保证</span>
-        </div>
-        <div className="flex flex-col items-center gap-0.5 p-1.5 bg-gray-50/50 rounded-lg">
-          <Package className="h-4 w-4 text-pink-500" />
-          <span className="text-xs text-gray-600">极速发货</span>
-        </div>
-        <div className="flex flex-col items-center gap-0.5 p-1.5 bg-gray-50/50 rounded-lg">
-          <Truck className="h-4 w-4 text-pink-500" />
-          <span className="text-xs text-gray-600">全国包邮</span>
-        </div>
-      </div>
+      <ProductFeatures />
 
-      <div className="space-y-1.5 bg-gray-50/50 p-2 rounded-lg">
-        <h2 className="font-medium flex items-center gap-1.5 text-sm">
-          <span className="h-3 w-0.5 bg-pink-500 rounded-full"></span>
-          商品详情
-        </h2>
-        <p className="text-gray-600 text-sm leading-relaxed">
-          {product.description}
-        </p>
-      </div>
+      <ProductDescription description={product.description} />
 
-      {/* 富文本广告内容 */}
       {product.richDescription && (
         <div className="bg-white rounded-lg p-4">
           <MarkdownPreview 
