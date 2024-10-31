@@ -2,6 +2,7 @@ import { Avatar } from "@/components/ui/avatar"
 import { BottomNav } from "@/components/BottomNav"
 import { Heart, MapPin, ShoppingBag, MessageCircle, Bell, Settings } from "lucide-react"
 import { Link } from "react-router-dom"
+import { Card } from "@/components/ui/card"
 
 const stats = [
   { label: "笔记", value: "12" },
@@ -51,46 +52,55 @@ const menuItems = [
 
 const Profile = () => {
   return (
-    <div className="min-h-screen bg-gray-50">      
+    <div className="min-h-screen bg-gradient-to-b from-pink-50 to-white">      
       <div className="container mx-auto px-4 pb-24 max-w-2xl">
-        <div className="flex items-start gap-4 mb-8 pt-4">
-          <Avatar className="h-16 w-16 border-2 border-white">
-            <img 
-              src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&q=80" 
-              alt="用户头像"
-              className="object-cover"
-            />
-          </Avatar>
-          <div>
-            <h2 className="text-lg font-medium">旅行达人</h2>
+        <Card className="mt-6 p-6 shadow-lg">
+          <div className="flex flex-col items-center text-center">
+            <Avatar className="h-24 w-24 border-4 border-white shadow-xl">
+              <img 
+                src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&q=80" 
+                alt="用户头像"
+                className="object-cover"
+              />
+            </Avatar>
+            <h2 className="text-xl font-semibold mt-4">旅行达人</h2>
             <p className="text-sm text-gray-500 mt-1">小红书号：XHSUID8888</p>
-            <p className="text-sm text-gray-500 mt-1">在路上，寻找生活的诗意 ✨</p>
+            <p className="text-sm text-gray-600 mt-2 italic">在路上，寻找生活的诗意 ✨</p>
           </div>
-        </div>
 
-        <div className="grid grid-cols-4 gap-2 mb-8">
-          {stats.map((stat) => (
-            <div key={stat.label} className="text-center py-2">
-              <div className="font-medium">{stat.value}</div>
-              <div className="text-xs text-gray-500">{stat.label}</div>
-            </div>
-          ))}
-        </div>
+          <div className="grid grid-cols-4 gap-4 mt-8">
+            {stats.map((stat) => (
+              <div 
+                key={stat.label} 
+                className="text-center p-3 rounded-lg bg-pink-50/50 hover:bg-pink-50 transition-colors"
+              >
+                <div className="font-semibold text-pink-600">{stat.value}</div>
+                <div className="text-xs text-gray-500 mt-1">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </Card>
 
-        <div className="space-y-px bg-white rounded-lg overflow-hidden">
+        <div className="mt-6 space-y-3">
           {menuItems.map((item) => {
             const Icon = item.icon
             return (
               <Link
                 key={item.label}
                 to={item.link}
-                className="flex items-center gap-3 p-4 hover:bg-gray-50"
+                className="block"
               >
-                <Icon className="h-5 w-5 text-gray-400" />
-                <div className="flex-1">
-                  <span className="text-gray-700">{item.label}</span>
-                  <p className="text-xs text-gray-400 mt-0.5">{item.description}</p>
-                </div>
+                <Card className="p-4 hover:shadow-md transition-shadow">
+                  <div className="flex items-center gap-4">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-pink-50">
+                      <Icon className="h-5 w-5 text-pink-500" />
+                    </div>
+                    <div className="flex-1">
+                      <span className="font-medium text-gray-900">{item.label}</span>
+                      <p className="text-sm text-gray-500 mt-0.5">{item.description}</p>
+                    </div>
+                  </div>
+                </Card>
               </Link>
             )
           })}
