@@ -1,9 +1,10 @@
 import { Avatar } from "@/components/ui/avatar"
 import { BottomNav } from "@/components/BottomNav"
-import { Heart, MapPin, ShoppingBag, Settings, Camera, Medal, Edit2 } from "lucide-react"
+import { Heart, MapPin, ShoppingBag, Settings, Camera, Medal, Edit2, Bell, Share2 } from "lucide-react"
 import { Link } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { Separator } from "@/components/ui/separator"
 
 const menuItems = [
   { 
@@ -11,21 +12,24 @@ const menuItems = [
     label: "收藏", 
     link: "/favorites",
     count: "28",
-    desc: "收藏的内容"
+    desc: "收藏的内容",
+    color: "pink"
   },
   { 
     icon: MapPin, 
     label: "足迹", 
     link: "/footprints",
     count: "12",
-    desc: "去过的地方"
+    desc: "去过的地方",
+    color: "blue"
   },
   { 
     icon: ShoppingBag, 
     label: "订单", 
     link: "/orders",
     count: "6",
-    desc: "购买的商品"
+    desc: "购买的商品",
+    color: "orange"
   }
 ]
 
@@ -65,38 +69,56 @@ const Profile = () => {
               <p className="text-sm text-gray-600 mt-2 line-clamp-2">
                 在路上，寻找生活的诗意 ✨ 记录旅行的点点滴滴
               </p>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className="mt-3 rounded-full px-4 text-xs h-8 border-pink-200 hover:bg-pink-50"
-              >
-                <Edit2 className="h-3.5 w-3.5 mr-1.5" />
-                编辑资料
-              </Button>
+              <div className="flex items-center gap-2 mt-3">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="rounded-full px-4 text-xs h-8 border-pink-200 hover:bg-pink-50"
+                >
+                  <Edit2 className="h-3.5 w-3.5 mr-1.5" />
+                  编辑资料
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 rounded-full hover:bg-gray-100"
+                >
+                  <Share2 className="h-4 w-4 text-gray-500" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 rounded-full hover:bg-gray-100"
+                >
+                  <Bell className="h-4 w-4 text-gray-500" />
+                </Button>
+              </div>
             </div>
 
             <Link to="/settings">
-              <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
+              <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full hover:bg-gray-100">
                 <Settings className="h-4 w-4 text-gray-500" />
               </Button>
             </Link>
           </div>
 
-          <div className="grid grid-cols-4 gap-6 mt-6 text-center">
-            <button className="hover:bg-gray-50 rounded-xl py-2 transition-colors">
-              <div className="font-bold text-lg text-gray-900">12</div>
+          <Separator className="my-6" />
+
+          <div className="grid grid-cols-4 gap-6 text-center">
+            <button className="hover:bg-gray-50 rounded-xl py-2 transition-colors group">
+              <div className="font-bold text-lg text-gray-900 group-hover:text-pink-500 transition-colors">12</div>
               <div className="text-xs text-gray-500 mt-0.5">笔记</div>
             </button>
-            <button className="hover:bg-gray-50 rounded-xl py-2 transition-colors">
-              <div className="font-bold text-lg text-gray-900">238</div>
+            <button className="hover:bg-gray-50 rounded-xl py-2 transition-colors group">
+              <div className="font-bold text-lg text-gray-900 group-hover:text-pink-500 transition-colors">238</div>
               <div className="text-xs text-gray-500 mt-0.5">关注</div>
             </button>
-            <button className="hover:bg-gray-50 rounded-xl py-2 transition-colors">
-              <div className="font-bold text-lg text-gray-900">486</div>
+            <button className="hover:bg-gray-50 rounded-xl py-2 transition-colors group">
+              <div className="font-bold text-lg text-gray-900 group-hover:text-pink-500 transition-colors">486</div>
               <div className="text-xs text-gray-500 mt-0.5">粉丝</div>
             </button>
-            <button className="hover:bg-gray-50 rounded-xl py-2 transition-colors">
-              <div className="font-bold text-lg text-gray-900">1.2k</div>
+            <button className="hover:bg-gray-50 rounded-xl py-2 transition-colors group">
+              <div className="font-bold text-lg text-gray-900 group-hover:text-pink-500 transition-colors">1.2k</div>
               <div className="text-xs text-gray-500 mt-0.5">获赞</div>
             </button>
           </div>
@@ -106,20 +128,25 @@ const Profile = () => {
         <div className="mt-4 space-y-3">
           {menuItems.map((item) => {
             const Icon = item.icon
+            const bgColorClass = item.color === 'pink' ? 'bg-pink-50' : 
+                               item.color === 'blue' ? 'bg-blue-50' : 'bg-orange-50'
+            const textColorClass = item.color === 'pink' ? 'text-pink-500' : 
+                                 item.color === 'blue' ? 'text-blue-500' : 'text-orange-500'
+            
             return (
               <Link 
                 key={item.label} 
                 to={item.link}
-                className="flex items-center px-5 py-4 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow"
+                className="flex items-center px-5 py-4 bg-white rounded-2xl shadow-sm hover:shadow-md transition-all hover:scale-[1.01]"
               >
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-pink-50">
-                  <Icon className="h-5 w-5 text-pink-500" />
+                <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${bgColorClass}`}>
+                  <Icon className={`h-5 w-5 ${textColorClass}`} />
                 </div>
                 <div className="ml-4 flex-1">
                   <div className="font-medium">{item.label}</div>
                   <div className="text-sm text-gray-500 mt-0.5">{item.desc}</div>
                 </div>
-                <div className="text-sm text-pink-500 font-medium">{item.count}</div>
+                <div className={`text-sm font-medium ${textColorClass}`}>{item.count}</div>
               </Link>
             )
           })}
