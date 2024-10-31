@@ -1,6 +1,6 @@
-import { data as provinceData } from 'province-city-china/dist/province.json'
-import { data as cityData } from 'province-city-china/dist/city.json'
-import { data as areaData } from 'province-city-china/dist/area.json'
+import provinceData from 'province-city-china/dist/province.json'
+import cityData from 'province-city-china/dist/city.json'
+import areaData from 'province-city-china/dist/area.json'
 
 export interface AddressData {
   code: string
