@@ -4,7 +4,7 @@ import { Heart, Store } from "lucide-react"
 import { PostSkeleton, ProductSkeleton } from "./FavoritesSkeleton"
 import { EmptyState } from "./EmptyState"
 import { useInView } from "react-intersection-observer"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 interface FavoritePost {
   id: number
@@ -31,6 +31,37 @@ interface FavoritesListProps {
   isLoading: boolean
   hasNextPage?: boolean
   fetchNextPage: () => void
+}
+
+const ImageWithSkeleton = ({ src, alt }: { src: string; alt: string }) => {
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(false)
+
+  return (
+    <div className="relative w-full aspect-[3/4] bg-gray-100 overflow-hidden">
+      {isLoading && (
+        <div className="absolute inset-0 animate-pulse bg-gray-200" />
+      )}
+      <img
+        src={src}
+        alt={alt}
+        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
+          isLoading ? 'opacity-0' : 'opacity-100'
+        }`}
+        loading="lazy"
+        onLoad={() => setIsLoading(false)}
+        onError={() => {
+          setIsLoading(false)
+          setError(true)
+        }}
+      />
+      {error && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+          <span className="text-gray-400 text-sm">图片加载失败</span>
+        </div>
+      )}
+    </div>
+  )
 }
 
 export const FavoritesList = ({ 
@@ -69,10 +100,9 @@ export const FavoritesList = ({
           type === 'posts' ? (
             <Link to={`/posts/${item.id}`} key={item.id}>
               <Card className="mb-4 break-inside-avoid overflow-hidden border-none shadow-none hover:shadow-lg transition-shadow duration-200">
-                <img
+                <ImageWithSkeleton
                   src={(item as FavoritePost).image}
                   alt={(item as FavoritePost).title}
-                  className="w-full object-cover"
                 />
                 <div className="px-2 pt-4 pb-3">
                   <h3 className="text-sm font-medium line-clamp-2 mb-4">
@@ -104,10 +134,9 @@ export const FavoritesList = ({
           ) : (
             <Link to={`/products/${item.id}`} key={item.id}>
               <Card className="mb-4 break-inside-avoid overflow-hidden border-none shadow-none hover:shadow-lg transition-shadow duration-200">
-                <img
+                <ImageWithSkeleton
                   src={(item as FavoriteProduct).image}
                   alt={(item as FavoriteProduct).title}
-                  className="w-full object-cover"
                 />
                 <div className="px-2 pt-4 pb-3">
                   <h3 className="text-sm font-medium line-clamp-2 mb-2">
