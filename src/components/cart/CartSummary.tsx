@@ -3,13 +3,15 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
 import { toggleSelectAll } from "@/store/cartSlice"
+import { useNavigate } from "react-router-dom"
 
 interface CartSummaryProps {
-  onCheckout: () => void
+  onCheckout?: () => void
 }
 
 export const CartSummary = ({ onCheckout }: CartSummaryProps) => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const items = useSelector((state: RootState) => state.cart.items)
   
   const totalAmount = items
@@ -24,6 +26,13 @@ export const CartSummary = ({ onCheckout }: CartSummaryProps) => {
 
   const handleSelectAll = (checked: boolean) => {
     dispatch(toggleSelectAll(checked))
+  }
+
+  const handleCheckout = () => {
+    if (onCheckout) {
+      onCheckout()
+    }
+    navigate('/checkout')
   }
 
   return (
@@ -46,7 +55,7 @@ export const CartSummary = ({ onCheckout }: CartSummaryProps) => {
         </div>
         <Button 
           className="bg-pink-500 hover:bg-[#E13E47] text-white rounded-full h-10 px-8 font-medium"
-          onClick={onCheckout}
+          onClick={handleCheckout}
           disabled={selectedCount === 0}
         >
           结算({selectedCount})

@@ -14,6 +14,7 @@ import Messages from "@/pages/Messages"
 import Cart from "@/pages/Cart"
 import Orders from "@/pages/Orders"
 import OrderDetail from "@/pages/OrderDetail"
+import Checkout from "@/pages/Checkout"
 import CreatePost from "@/pages/CreatePost"
 import SearchResults from "@/pages/SearchResults"
 
@@ -36,6 +37,7 @@ function App() {
               <Route path="/cart" element={<Cart />} />
               <Route path="/orders" element={<Orders />} />
               <Route path="/orders/:id" element={<OrderDetail />} />
+              <Route path="/checkout" element={<Checkout />} />
               <Route path="/create-post" element={<CreatePost />} />
               <Route path="/search/results" element={<SearchResults />} />
             </Routes>
