@@ -1,4 +1,4 @@
-import { Bell, ShoppingCart, Search, MapPin, Utensils, BookOpen } from "lucide-react"
+import { Bell, ShoppingCart, Search, MapPin, Utensils, BookOpen, Heart } from "lucide-react"
 import { Link, useNavigate } from "react-router-dom"
 import { Input } from "./ui/input"
 import { Button } from "./ui/button"
