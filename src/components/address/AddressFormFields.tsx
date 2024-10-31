@@ -1,6 +1,10 @@
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Textarea } from "@/components/ui/textarea"
+import { Button } from "@/components/ui/button"
+import { useState } from "react"
+import { useToast } from "@/hooks/use-toast"
 
 interface AddressFormFieldsProps {
   form: {
@@ -27,8 +31,109 @@ export const AddressFormFields = ({
   cities,
   districts
 }: AddressFormFieldsProps) => {
+  const [showPasteArea, setShowPasteArea] = useState(false)
+  const { toast } = useToast()
+
+  const parseAddress = (text: string) => {
+    // 简单的地址解析逻辑
+    const phoneRegex = /1[3-9]\d{9}/
+    const phone = text.match(phoneRegex)?.[0] || ""
+    
+    // 提取姓名 (假设姓名在手机号前后的2-4个字符)
+    const nameRegex = new RegExp(`(.{2,4}).*${phone}|${phone}.*?(.{2,4})`)
+    const nameMatch = text.match(nameRegex)
+    const name = (nameMatch?.[1] || nameMatch?.[2] || "").trim()
+
+    // 提取省市区
+    let province = ""
+    let city = ""
+    let district = ""
+    
+    for (const p of provinces) {
+      if (text.includes(p)) {
+        province = p
+        const citiesInProvince = cities[p]
+        for (const c of citiesInProvince) {
+          if (text.includes(c)) {
+            city = c
+            const districtsInCity = districts[c]
+            for (const d of districtsInCity) {
+              if (text.includes(d)) {
+                district = d
+                break
+              }
+            }
+            break
+          }
+        }
+        break
+      }
+    }
+
+    // 提取详细地址
+    let detail = text
+      .replace(phone, "")
+      .replace(name, "")
+      .replace(province, "")
+      .replace(city, "")
+      .replace(district, "")
+      .replace(/[,，。\s]/g, "")
+      .trim()
+
+    return { name, phone, province, city, district, detail }
+  }
+
+  const handlePaste = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
+    const text = e.clipboardData.getData('text')
+    const parsed = parseAddress(text)
+    
+    // 通过创建合成事件来触发表单更新
+    const createChangeEvent = (name: string, value: string) => {
+      return {
+        target: { name, value, type: 'text' }
+      } as React.ChangeEvent<HTMLInputElement>
+    }
+
+    if (parsed.name) handleInputChange(createChangeEvent('name', parsed.name))
+    if (parsed.phone) handleInputChange(createChangeEvent('phone', parsed.phone))
+    if (parsed.province) handleSelectChange(parsed.province, 'province')
+    if (parsed.city) handleSelectChange(parsed.city, 'city')
+    if (parsed.district) handleSelectChange(parsed.district, 'district')
+    if (parsed.detail) handleInputChange(createChangeEvent('detail', parsed.detail))
+
+    setShowPasteArea(false)
+    toast({
+      description: "地址解析成功",
+    })
+  }
+
   return (
     <div className="space-y-6">
+      <div className="text-right">
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={() => setShowPasteArea(!showPasteArea)}
+        >
+          {showPasteArea ? "取消" : "粘贴地址"}
+        </Button>
+      </div>
+
+      {showPasteArea && (
+        <div className="space-y-2">
+          <Label>粘贴完整地址</Label>
+          <Textarea
+            placeholder="请粘贴包含姓名、电话、地址的完整内容"
+            className="h-24"
+            onPaste={handlePaste}
+          />
+          <p className="text-sm text-gray-500">
+            支持格式：张三 13800138000 浙江省杭州市西湖区文三路 123 号
+          </p>
+        </div>
+      )}
+
       {/* Recipient Information Section */}
       <div className="space-y-4">
         <div className="space-y-2">
@@ -56,7 +161,6 @@ export const AddressFormFields = ({
       </div>
 
       {/* Address Section */}
-      <div className="space-y-4">
         <div className="grid grid-cols-3 gap-4">
           <div className="space-y-2">
             <Label>省份</Label>
@@ -116,18 +220,17 @@ export const AddressFormFields = ({
           </div>
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="detail">详细地址</Label>
-          <Input
-            id="detail"
-            name="detail"
-            placeholder="请输入详细地址，如街道、门牌号等"
-            value={form.detail}
-            onChange={handleInputChange}
-            required
-            className="h-24 align-top"
-          />
-        </div>
+      <div className="space-y-2">
+        <Label htmlFor="detail">详细地址</Label>
+        <Input
+          id="detail"
+          name="detail"
+          placeholder="请输入详细地址，如街道、门牌号等"
+          value={form.detail}
+          onChange={handleInputChange}
+          required
+          className="h-24 align-top"
+        />
       </div>
 
       <div className="flex items-center gap-2">
