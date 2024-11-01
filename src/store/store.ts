@@ -6,6 +6,7 @@ import messageReducer from './messageSlice'
 import addressReducer from './addressSlice'
 import searchReducer from './searchSlice'
 import orderReducer from './orderSlice'
+import checkoutReducer from './checkoutSlice'
 
 export const store = configureStore({
   reducer: {
@@ -15,7 +16,8 @@ export const store = configureStore({
     message: messageReducer,
     address: addressReducer,
     search: searchReducer,
-    order: orderReducer
+    order: orderReducer,
+    checkout: checkoutReducer
   }
 })
 

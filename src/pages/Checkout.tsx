@@ -5,38 +5,70 @@ import { Image } from "@/components/ui/image"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { MapPin, CreditCard, Wallet } from "lucide-react"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
 import { useToast } from "@/hooks/use-toast"
 import { useNavigate } from "react-router-dom"
 import { AddressSelector } from "@/components/address/AddressSelector"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { setSelectedItems, setSelectedAddress, setPaymentMethod, setLoading } from "@/store/checkoutSlice"
+import { setCurrentOrder } from "@/store/orderSlice"
 
 const Checkout = () => {
   const { toast } = useToast()
   const navigate = useNavigate()
-  const items = useSelector((state: RootState) => 
+  const dispatch = useDispatch()
+  
+  const cartItems = useSelector((state: RootState) => 
     state.cart.items.filter(item => item.selected)
   )
+  const { selectedItems, selectedAddress, paymentMethod } = useSelector((state: RootState) => state.checkout)
   
-  const totalAmount = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
+  const [showAddressSelector, setShowAddressSelector] = useState(false)
+
+  useEffect(() => {
+    dispatch(setLoading(true))
+    dispatch(setSelectedItems(cartItems))
+    dispatch(setLoading(false))
+  }, [dispatch, cartItems])
+
+  const totalAmount = selectedItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
   const freight = 0 // 免运费
 
-  const [showAddressSelector, setShowAddressSelector] = useState(false)
-  const [selectedAddress, setSelectedAddress] = useState({
-    id: "1",
-    name: "张三",
-    phone: "138****8888",
-    detail: "浙江省杭州市西湖区文三路 123 号"
-  })
-
   const handlePayment = () => {
+    // 创建新订单
+    const newOrder = {
+      id: `ORD${Date.now()}`,
+      status: "待发货",
+      totalAmount,
+      freight,
+      address: selectedAddress,
+      timeline: [
+        {
+          time: new Date().toISOString(),
+          status: "订单创建成功"
+        },
+        {
+          time: new Date().toISOString(),
+          status: "支付成功"
+        }
+      ],
+      items: selectedItems
+    }
+    
+    dispatch(setCurrentOrder(newOrder))
     toast({
       description: "订单提交成功，正在跳转支付...",
     })
+    
     setTimeout(() => {
       navigate('/orders')
     }, 1500)
+  }
+
+  const handleAddressSelect = (address: typeof selectedAddress) => {
+    dispatch(setSelectedAddress(address))
+    setShowAddressSelector(false)
   }
 
   return (
@@ -51,11 +83,11 @@ const Checkout = () => {
               <MapPin className="h-5 w-5 text-gray-400" />
               <div>
                 <div className="flex items-center gap-4">
-                  <span className="font-medium">{selectedAddress.name}</span>
-                  <span className="text-gray-500">{selectedAddress.phone}</span>
+                  <span className="font-medium">{selectedAddress?.name}</span>
+                  <span className="text-gray-500">{selectedAddress?.phone}</span>
                 </div>
                 <p className="text-sm text-gray-600 mt-1">
-                  {selectedAddress.detail}
+                  {selectedAddress?.detail}
                 </p>
               </div>
             </div>
@@ -72,7 +104,7 @@ const Checkout = () => {
 
         {/* 商品列表 */}
         <div className="bg-white rounded-xl divide-y">
-          {items.map((item) => (
+          {selectedItems.map((item) => (
             <div key={item.id} className="flex gap-3 p-4">
               <div className="w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100">
                 <Image
@@ -119,7 +151,11 @@ const Checkout = () => {
         {/* 支付方式 */}
         <div className="bg-white rounded-xl p-4">
           <h2 className="font-medium mb-4">支付方式</h2>
-          <RadioGroup defaultValue="alipay" className="space-y-3">
+          <RadioGroup 
+            value={paymentMethod} 
+            onValueChange={(value: 'alipay' | 'wechat') => dispatch(setPaymentMethod(value))} 
+            className="space-y-3"
+          >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <RadioGroupItem value="alipay" id="alipay" />
@@ -163,8 +199,8 @@ const Checkout = () => {
         <AddressSelector
           open={showAddressSelector}
           onOpenChange={setShowAddressSelector}
-          onSelect={setSelectedAddress}
-          selectedId={selectedAddress.id}
+          onSelect={handleAddressSelect}
+          selectedId={selectedAddress?.id}
         />
       </div>
 
