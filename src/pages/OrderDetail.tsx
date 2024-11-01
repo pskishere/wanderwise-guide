@@ -1,61 +1,78 @@
 import { Navigation } from "@/components/Navigation"
 import { BottomNav } from "@/components/BottomNav"
 import { useParams } from "react-router-dom"
-import { useQuery } from "@tanstack/react-query"
 import { Image } from "@/components/ui/image"
 import { Button } from "@/components/ui/button"
-import { Package, Truck, Clock, MapPin } from "lucide-react"
+import { Package, Truck, MapPin } from "lucide-react"
+import { useDispatch, useSelector } from "react-redux"
+import { RootState } from "@/store/store"
+import { setLoading, setError, setCurrentOrder, updateOrderStatus } from "@/store/orderSlice"
+import { useEffect } from "react"
+import { useToast } from "@/hooks/use-toast"
 
-const fetchOrderDetail = async (orderId: string) => {
-  // 模拟API调用
-  await new Promise(resolve => setTimeout(resolve, 1000))
-  return {
-    id: orderId,
-    status: "待收货",
-    totalAmount: 299,
-    freight: 0,
-    address: {
-      name: "张三",
-      phone: "138****8888",
-      detail: "浙江省杭州市西湖区文三路 123 号"
+const mockOrder = {
+  id: "ORD001",
+  status: "待收货",
+  totalAmount: 299,
+  freight: 0,
+  address: {
+    name: "张三",
+    phone: "138****8888",
+    detail: "浙江省杭州市西湖区文三路 123 号"
+  },
+  timeline: [
+    {
+      time: "2024-02-20 14:30:00",
+      status: "订单创建成功"
     },
-    timeline: [
-      {
-        time: "2024-02-20 14:30:00",
-        status: "订单创建成功"
-      },
-      {
-        time: "2024-02-20 14:35:00",
-        status: "支付成功"
-      },
-      {
-        time: "2024-02-21 10:00:00",
-        status: "商品已发货"
-      }
-    ],
-    items: [
-      {
-        id: 1,
-        title: "日本限定 Hello Kitty 樱花限定版玩偶",
-        price: 299,
-        image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&q=80",
-        quantity: 1,
-        specs: ["粉色 40cm"]
-      }
-    ]
-  }
-}
+    {
+      time: "2024-02-20 14:35:00",
+      status: "支付成功"
+    },
+    {
+      time: "2024-02-21 10:00:00",
+      status: "商品已发货"
+    }
+  ],
+  items: [
+    {
+      id: 1,
+      title: "日本限定 Hello Kitty 樱花限定版玩偶",
+      price: 299,
+      image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&q=80",
+      quantity: 1,
+      specs: ["粉色 40cm"]
+    }
+  ]
+};
 
 const OrderDetail = () => {
-  const { id } = useParams()
-  
-  const { data: order, isLoading } = useQuery({
-    queryKey: ['order', id],
-    queryFn: () => fetchOrderDetail(id || ''),
-    enabled: !!id
-  })
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const { toast } = useToast();
+  const { currentOrder, loading } = useSelector((state: RootState) => state.order);
 
-  if (!order) return null
+  useEffect(() => {
+    // 模拟API调用
+    dispatch(setLoading(true));
+    setTimeout(() => {
+      dispatch(setCurrentOrder(mockOrder));
+      dispatch(setLoading(false));
+    }, 1000);
+
+    return () => {
+      dispatch(setCurrentOrder(null));
+    };
+  }, [dispatch, id]);
+
+  const handleConfirmReceipt = () => {
+    dispatch(updateOrderStatus("已完成"));
+    toast({
+      description: "已确认收货",
+    });
+  };
+
+  if (!currentOrder) return null;
 
   return (
     <div className="min-h-screen bg-gray-50 pb-32">
@@ -66,11 +83,11 @@ const OrderDetail = () => {
         <div className="bg-gradient-to-br from-pink-500 to-pink-600 text-white p-6 rounded-xl">
           <div className="flex items-center gap-3 mb-4">
             <Package className="h-6 w-6" />
-            <span className="text-lg font-medium">{order.status}</span>
+            <span className="text-lg font-medium">{currentOrder.status}</span>
           </div>
           <div className="text-pink-100 text-sm space-y-1">
-            <p>订单号：{order.id}</p>
-            <p>下单时间：{order.timeline[0].time}</p>
+            <p>订单号：{currentOrder.id}</p>
+            <p>下单时间：{currentOrder.timeline[0].time}</p>
           </div>
         </div>
 
@@ -82,16 +99,16 @@ const OrderDetail = () => {
           </div>
           <div className="space-y-1">
             <div className="flex items-center gap-4">
-              <span className="font-medium">{order.address.name}</span>
-              <span className="text-gray-500">{order.address.phone}</span>
+              <span className="font-medium">{currentOrder.address.name}</span>
+              <span className="text-gray-500">{currentOrder.address.phone}</span>
             </div>
-            <p className="text-gray-600 text-sm">{order.address.detail}</p>
+            <p className="text-gray-600 text-sm">{currentOrder.address.detail}</p>
           </div>
         </div>
 
         {/* 商品列表 */}
         <div className="bg-white rounded-xl">
-          {order.items.map((item) => (
+          {currentOrder.items.map((item) => (
             <div key={item.id} className="flex gap-3 p-4">
               <div className="w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100">
                 <Image
@@ -124,15 +141,15 @@ const OrderDetail = () => {
           <div className="border-t px-4 py-3 space-y-2">
             <div className="flex justify-between text-sm">
               <span className="text-gray-500">商品总价</span>
-              <span>¥{order.totalAmount}</span>
+              <span>¥{currentOrder.totalAmount}</span>
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-gray-500">运费</span>
-              <span>{order.freight ? `¥${order.freight}` : "免运费"}</span>
+              <span>{currentOrder.freight ? `¥${currentOrder.freight}` : "免运费"}</span>
             </div>
             <div className="flex justify-between text-base pt-2 border-t">
               <span className="font-medium">实付款</span>
-              <span className="font-medium text-pink-600">¥{order.totalAmount + (order.freight || 0)}</span>
+              <span className="font-medium text-pink-600">¥{currentOrder.totalAmount + currentOrder.freight}</span>
             </div>
           </div>
         </div>
@@ -144,11 +161,11 @@ const OrderDetail = () => {
             <span className="text-sm">物流信息</span>
           </div>
           <div className="space-y-4">
-            {order.timeline.map((event, index) => (
+            {currentOrder.timeline.map((event, index) => (
               <div key={index} className="flex gap-3">
                 <div className="relative flex flex-col items-center">
                   <div className={`w-2 h-2 rounded-full ${index === 0 ? "bg-pink-500" : "bg-gray-300"}`} />
-                  {index !== order.timeline.length - 1 && (
+                  {index !== currentOrder.timeline.length - 1 && (
                     <div className="w-0.5 h-full bg-gray-200 mt-1" />
                   )}
                 </div>
@@ -167,8 +184,11 @@ const OrderDetail = () => {
             <Button variant="outline" className="rounded-full px-6">
               联系客服
             </Button>
-            {order.status === "待收货" && (
-              <Button className="rounded-full px-6 bg-pink-500 hover:bg-pink-600">
+            {currentOrder.status === "待收货" && (
+              <Button 
+                className="rounded-full px-6 bg-pink-500 hover:bg-pink-600"
+                onClick={handleConfirmReceipt}
+              >
                 确认收货
               </Button>
             )}
@@ -178,7 +198,7 @@ const OrderDetail = () => {
 
       <BottomNav />
     </div>
-  )
-}
+  );
+};
 
-export default OrderDetail
+export default OrderDetail;
