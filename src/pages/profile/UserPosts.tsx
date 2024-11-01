@@ -3,9 +3,20 @@ import { BottomNav } from "@/components/BottomNav"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { FavoritesList } from "@/components/favorites/FavoritesList"
 import { Button } from "@/components/ui/button"
-import { PenLine } from "lucide-react"
+import { PenLine, Trash2 } from "lucide-react"
 import { Link } from "react-router-dom"
 import { useToast } from "@/hooks/use-toast"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 interface PostItem {
   id: number
@@ -61,6 +72,62 @@ const EmptyState = () => (
   </div>
 )
 
+const PostCard = ({ post, onDelete }: { post: PostItem; onDelete: (id: number) => void }) => {
+  return (
+    <div className="relative group">
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity z-10 bg-black/50 hover:bg-black/70 text-white"
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>确认删除</AlertDialogTitle>
+            <AlertDialogDescription>
+              确定要删除这篇笔记吗？此操作无法撤销。
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>取消</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => onDelete(post.id)}
+              className="bg-red-500 hover:bg-red-600"
+            >
+              删除
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+        <div className="aspect-[4/3] relative">
+          <img
+            src={post.image}
+            alt={post.title}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        </div>
+        <div className="p-4">
+          <h3 className="font-medium line-clamp-2 mb-2">{post.title}</h3>
+          <div className="flex items-center gap-2">
+            <img
+              src={post.author.avatar}
+              alt={post.author.name}
+              className="w-6 h-6 rounded-full"
+            />
+            <span className="text-sm text-gray-500">{post.author.name}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 const UserPosts = () => {
   const { toast } = useToast()
   
@@ -69,7 +136,8 @@ const UserPosts = () => {
     isLoading,
     isError, 
     fetchNextPage, 
-    hasNextPage 
+    hasNextPage,
+    refetch 
   } = useInfiniteQuery({
     queryKey: ['user-posts'],
     queryFn: fetchUserPosts,
@@ -82,6 +150,25 @@ const UserPosts = () => {
       variant: "destructive",
       description: "加载笔记失败，请稍后重试",
     })
+  }
+
+  const handleDelete = async (id: number) => {
+    try {
+      // Mock API call for delete
+      await new Promise(resolve => setTimeout(resolve, 500))
+      
+      toast({
+        description: "笔记已删除",
+      })
+      
+      // Refetch posts after deletion
+      refetch()
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        description: "删除失败，请重试",
+      })
+    }
   }
 
   const allItems = data?.pages.flatMap(page => page.items) || []
@@ -109,13 +196,15 @@ const UserPosts = () => {
         {isEmpty ? (
           <EmptyState />
         ) : (
-          <FavoritesList
-            type="posts"
-            items={allItems}
-            isLoading={isLoading}
-            hasNextPage={!!hasNextPage}
-            fetchNextPage={fetchNextPage}
-          />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {allItems.map(post => (
+              <PostCard
+                key={post.id}
+                post={post}
+                onDelete={handleDelete}
+              />
+            ))}
+          </div>
         )}
       </div>
 
