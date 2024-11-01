@@ -8,7 +8,8 @@ import { Explore } from "@/pages/Explore"
 import PostDetail from "@/pages/PostDetail"
 import Profile from "@/pages/Profile"
 import UserPosts from "@/pages/profile/UserPosts"
-import Social from "@/pages/profile/Social"
+import UserFollowing from "@/pages/profile/UserFollowing"
+import UserFollowers from "@/pages/profile/UserFollowers"
 import EditProfile from "@/pages/EditProfile"
 import ProductDetail from "@/pages/ProductDetail"
 import Favorites from "@/pages/Favorites"
@@ -35,7 +36,8 @@ function App() {
             <Route path="/posts/:id" element={<PostDetail />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/profile/posts" element={<UserPosts />} />
-            <Route path="/profile/social" element={<Social />} />
+            <Route path="/profile/following" element={<UserFollowing />} />
+            <Route path="/profile/followers" element={<UserFollowers />} />
             <Route path="/profile/edit" element={<EditProfile />} />
             <Route path="/products/:id" element={<ProductDetail />} />
             <Route path="/favorites" element={<Favorites />} />

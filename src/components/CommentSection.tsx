@@ -12,8 +12,6 @@ interface CommentSectionProps {
 export const CommentSection = ({ comments: initialComments, commentCount }: CommentSectionProps) => {
   const [comments, setComments] = useState(initialComments)
   const [newComment, setNewComment] = useState("")
-  const [replyTo, setReplyTo] = useState<{id: number; name: string} | null>(null)
-  const [inputHeight, setInputHeight] = useState(44)
   const { toast } = useToast()
 
   const handleAddComment = () => {
@@ -43,19 +41,7 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
     })
   }
 
-  const handleReply = (parentId: number) => {
-    const parent = comments.find(c => c.id === parentId)
-    if (parent) {
-      setReplyTo({
-        id: parentId,
-        name: parent.author.name
-      })
-    }
-  }
-
-  const handleReplySubmit = (content: string) => {
-    if (!replyTo || !content.trim()) return
-
+  const handleReply = (parentId: number, content: string) => {
     const reply: CommentType = {
       id: Date.now(),
       author: {
@@ -69,7 +55,7 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
 
     const updateComments = (comments: CommentType[]): CommentType[] => {
       return comments.map(comment => {
-        if (comment.id === replyTo.id) {
+        if (comment.id === parentId) {
           return {
             ...comment,
             replies: [...(comment.replies || []), reply]
@@ -86,7 +72,6 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
     }
 
     setComments(updateComments(comments))
-    setReplyTo(null)
     toast({
       description: "回复发送成功",
     })
@@ -114,20 +99,11 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
     setComments(updateComments(comments))
   }
 
-  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setNewComment(e.target.value)
-    const textarea = e.target
-    textarea.style.height = 'auto'
-    const newHeight = Math.min(Math.max(textarea.scrollHeight, 44), 120)
-    setInputHeight(newHeight)
-    textarea.style.height = `${newHeight}px`
-  }
-
   return (
     <div className="mx-4 mt-4">
       <h2 className="font-medium mb-4">评论 {commentCount}</h2>
-      <ScrollArea className="h-[calc(100vh-16rem)]">
-        <div className="space-y-6 pb-32">
+      <ScrollArea className="h-[400px] rounded-md">
+        <div className="space-y-6">
           {comments.map((comment) => (
             <CommentItem
               key={comment.id}
@@ -139,46 +115,19 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
         </div>
       </ScrollArea>
 
-      <div className="fixed inset-x-0 bottom-0 bg-white/80 backdrop-blur-md border-t shadow-lg">
-        <div className="flex gap-2 max-w-lg mx-auto p-4 pb-[calc(env(safe-area-inset-bottom,_0px)_+_1rem)]">
-          {replyTo ? (
-            <div className="flex-1 space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-500">
-                  回复 @{replyTo.name}
-                </span>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setReplyTo(null)}
-                  className="h-6 px-2 text-sm hover:bg-gray-100"
-                >
-                  取消
-                </Button>
-              </div>
-              <textarea
-                value={newComment}
-                onChange={handleTextareaChange}
-                placeholder="说点什么..."
-                className="w-full resize-none rounded-xl border border-gray-200 p-3 text-sm focus:border-pink-500 focus:outline-none bg-white/50 transition-all duration-200 ease-in-out hover:bg-white/80 focus:bg-white"
-                style={{ height: `${inputHeight}px` }}
-                rows={1}
-              />
-            </div>
-          ) : (
-            <textarea
-              value={newComment}
-              onChange={handleTextareaChange}
-              placeholder="说点什么..."
-              className="flex-1 resize-none rounded-xl border border-gray-200 p-3 text-sm focus:border-pink-500 focus:outline-none bg-white/50 transition-all duration-200 ease-in-out hover:bg-white/80 focus:bg-white"
-              style={{ height: `${inputHeight}px` }}
-              rows={1}
-            />
-          )}
+      {/* Comment Input */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white p-4 border-t shadow-lg">
+        <div className="flex gap-2 max-w-lg mx-auto">
+          <textarea
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            placeholder="说点什么..."
+            className="flex-1 resize-none rounded-xl border border-gray-200 p-3 text-sm focus:border-pink-500 focus:outline-none min-h-[44px] max-h-[120px]"
+            rows={1}
+          />
           <Button 
-            onClick={replyTo ? () => handleReplySubmit(newComment) : handleAddComment}
-            className="rounded-full bg-pink-500 hover:bg-pink-600 px-8 shrink-0 self-end transition-all duration-200 ease-in-out hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-            disabled={!newComment.trim()}
+            onClick={handleAddComment}
+            className="rounded-full bg-pink-500 hover:bg-pink-600 px-8"
           >
             发送
           </Button>
