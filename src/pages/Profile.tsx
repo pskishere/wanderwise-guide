@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Avatar } from "@/components/ui/avatar"
 import { RootState } from "@/store/store"
+import { UserStats } from "@/components/profile/UserStats"
 
 const menuItems = [
   { 
@@ -34,8 +35,7 @@ const Profile = () => {
   const stats = {
     posts: "12",
     following: "238",
-    followers: "486",
-    likes: "1.2k"
+    followers: "486"
   }
 
   return (
@@ -115,24 +115,7 @@ const Profile = () => {
 
           <Separator className="my-6" />
 
-          <div className="grid grid-cols-4 gap-6 text-center">
-            {[
-              { label: "笔记", count: stats.posts },
-              { label: "关注", count: stats.following },
-              { label: "粉丝", count: stats.followers },
-              { label: "获赞", count: stats.likes }
-            ].map((item) => (
-              <button 
-                key={item.label}
-                className="hover:bg-gray-50 rounded-xl py-2 transition-colors"
-              >
-                <div className="font-bold text-lg text-gray-900">
-                  {item.count}
-                </div>
-                <div className="text-xs text-gray-500 mt-0.5">{item.label}</div>
-              </button>
-            ))}
-          </div>
+          <UserStats stats={stats} />
         </div>
 
         <div className="mt-4 grid gap-3">
