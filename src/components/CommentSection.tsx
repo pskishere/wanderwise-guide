@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 import { CommentItem, CommentType } from "./CommentItem"
 import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
-import { ReplyDrawer } from "./comment/ReplyDrawer"
+import { ReplyInput } from "./ReplyInput"
 
 interface CommentSectionProps {
   comments: CommentType[]
@@ -86,6 +86,7 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
     }
 
     setComments(updateComments(comments))
+    setReplyTo(null)
     toast({
       description: "回复发送成功",
     })
@@ -114,9 +115,9 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
   }
 
   return (
-    <div className="mx-4 mt-4">
+    <div className="mx-4 mt-4 pb-32">
       <h2 className="font-medium mb-4">评论 {commentCount}</h2>
-      <ScrollArea className="h-[400px] rounded-md">
+      <ScrollArea className="h-[calc(100vh-16rem)]">
         <div className="space-y-6">
           {comments.map((comment) => (
             <CommentItem
@@ -129,30 +130,31 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
         </div>
       </ScrollArea>
 
-      <div className="fixed inset-x-0 bottom-0 bg-white border-t shadow-lg">
-        <div className="flex gap-2 max-w-lg mx-auto p-4 pb-[calc(env(safe-area-inset-bottom,_0px)_+_1rem)]">
-          <textarea
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            placeholder="说点什么..."
-            className="flex-1 resize-none rounded-xl border border-gray-200 p-3 text-sm focus:border-pink-500 focus:outline-none min-h-[44px] max-h-[120px]"
-            rows={1}
-          />
-          <Button 
-            onClick={handleAddComment}
-            className="rounded-full bg-pink-500 hover:bg-pink-600 px-8 shrink-0"
-          >
-            发送
-          </Button>
+      {replyTo ? (
+        <ReplyInput
+          replyTo={replyTo.name}
+          onSubmit={handleReplySubmit}
+          onCancel={() => setReplyTo(null)}
+        />
+      ) : (
+        <div className="fixed inset-x-0 bottom-0 bg-white border-t shadow-lg">
+          <div className="flex gap-2 max-w-lg mx-auto p-4 pb-[calc(env(safe-area-inset-bottom,_0px)_+_1rem)]">
+            <textarea
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              placeholder="说点什么..."
+              className="flex-1 resize-none rounded-xl border border-gray-200 p-3 text-sm focus:border-pink-500 focus:outline-none min-h-[44px] max-h-[120px]"
+              rows={1}
+            />
+            <Button 
+              onClick={handleAddComment}
+              className="rounded-full bg-pink-500 hover:bg-pink-600 px-8 shrink-0"
+            >
+              发送
+            </Button>
+          </div>
         </div>
-      </div>
-
-      <ReplyDrawer
-        isOpen={!!replyTo}
-        onClose={() => setReplyTo(null)}
-        onSubmit={handleReplySubmit}
-        replyTo={replyTo?.name || ""}
-      />
+      )}
     </div>
   )
 }
