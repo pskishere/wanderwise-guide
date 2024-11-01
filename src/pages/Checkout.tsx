@@ -6,8 +6,8 @@ import { RootState } from "@/store/store"
 import { useToast } from "@/hooks/use-toast"
 import { useNavigate } from "react-router-dom"
 import { AddressSelector } from "@/components/address/AddressSelector"
-import { useState, useEffect, useCallback } from "react"
-import { setSelectedItems, setSelectedAddress, setPaymentMethod, setLoading } from "@/store/checkoutSlice"
+import { useState, useCallback, useMemo } from "react"
+import { setSelectedItems, setSelectedAddress, setPaymentMethod } from "@/store/checkoutSlice"
 import { setCurrentOrder } from "@/store/orderSlice"
 import { CheckoutAddress } from "@/components/checkout/CheckoutAddress"
 import { CheckoutProducts } from "@/components/checkout/CheckoutProducts"
@@ -25,11 +25,15 @@ const Checkout = () => {
   
   const [showAddressSelector, setShowAddressSelector] = useState(false)
 
-  useEffect(() => {
-    dispatch(setLoading(true))
-    dispatch(setSelectedItems(cartItems))
-    dispatch(setLoading(false))
-  }, [dispatch, cartItems])
+  // Memoize the selected items to prevent unnecessary re-renders
+  const memoizedSelectedItems = useMemo(() => cartItems, [cartItems])
+
+  // Update selected items only when cart items change
+  useMemo(() => {
+    if (cartItems.length > 0) {
+      dispatch(setSelectedItems(cartItems))
+    }
+  }, [cartItems, dispatch])
 
   const totalAmount = selectedItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
   const freight = 0
@@ -84,7 +88,7 @@ const Checkout = () => {
         />
 
         <CheckoutProducts 
-          products={selectedItems}
+          products={memoizedSelectedItems}
           totalAmount={totalAmount}
           freight={freight}
         />

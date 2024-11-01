@@ -1,16 +1,8 @@
 import { Image } from "@/components/ui/image"
-
-interface Product {
-  id: string
-  title: string
-  price: number
-  quantity: number
-  image: string
-  specs?: string[]
-}
+import { CartItem } from "@/store/cartSlice"
 
 interface CheckoutProductsProps {
-  products: Product[]
+  products: CartItem[]
   totalAmount: number
   freight?: number
 }
