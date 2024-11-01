@@ -7,6 +7,8 @@ import addressReducer from './addressSlice'
 import searchReducer from './searchSlice'
 import orderReducer from './orderSlice'
 import checkoutReducer from './checkoutSlice'
+import userReducer from './userSlice'
+import createPostReducer from './createPostSlice'
 
 export const store = configureStore({
   reducer: {
@@ -17,7 +19,9 @@ export const store = configureStore({
     address: addressReducer,
     search: searchReducer,
     order: orderReducer,
-    checkout: checkoutReducer
+    checkout: checkoutReducer,
+    user: userReducer,
+    createPost: createPostReducer
   }
 })
 
