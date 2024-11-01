@@ -160,7 +160,7 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
                 value={newComment}
                 onChange={handleTextareaChange}
                 placeholder="说点什么..."
-                className="w-full resize-none rounded-xl border border-gray-200 p-3 text-sm focus:border-pink-500 focus:outline-none bg-white/50"
+                className="w-full resize-none rounded-xl border border-gray-200 p-3 text-sm focus:border-pink-500 focus:outline-none bg-white/50 transition-all duration-200 ease-in-out hover:bg-white/80 focus:bg-white"
                 style={{ height: `${inputHeight}px` }}
                 rows={1}
               />
@@ -170,14 +170,15 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
               value={newComment}
               onChange={handleTextareaChange}
               placeholder="说点什么..."
-              className="flex-1 resize-none rounded-xl border border-gray-200 p-3 text-sm focus:border-pink-500 focus:outline-none bg-white/50"
+              className="flex-1 resize-none rounded-xl border border-gray-200 p-3 text-sm focus:border-pink-500 focus:outline-none bg-white/50 transition-all duration-200 ease-in-out hover:bg-white/80 focus:bg-white"
               style={{ height: `${inputHeight}px` }}
               rows={1}
             />
           )}
           <Button 
             onClick={replyTo ? () => handleReplySubmit(newComment) : handleAddComment}
-            className="rounded-full bg-pink-500 hover:bg-pink-600 px-8 shrink-0 self-end"
+            className="rounded-full bg-pink-500 hover:bg-pink-600 px-8 shrink-0 self-end transition-all duration-200 ease-in-out hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={!newComment.trim()}
           >
             发送
           </Button>
