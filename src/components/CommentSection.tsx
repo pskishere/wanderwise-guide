@@ -1,7 +1,7 @@
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Button } from "@/components/ui/button"
 import { CommentItem, CommentType } from "./CommentItem"
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useToast } from "@/hooks/use-toast"
 import { ReplyDrawer } from "./comment/ReplyDrawer"
 
@@ -14,7 +14,27 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
   const [comments, setComments] = useState(initialComments)
   const [newComment, setNewComment] = useState("")
   const [replyTo, setReplyTo] = useState<{id: number; name: string} | null>(null)
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
   const { toast } = useToast()
+
+  // 监听键盘弹出和收起
+  useEffect(() => {
+    const handleResize = () => {
+      const isKeyboard = window.innerHeight < window.outerHeight * 0.85
+      setIsKeyboardVisible(isKeyboard)
+      
+      // 当键盘弹出时，滚动到输入框
+      if (isKeyboard && textareaRef.current) {
+        setTimeout(() => {
+          textareaRef.current?.scrollIntoView({ behavior: 'smooth' })
+        }, 100)
+      }
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   const handleAddComment = () => {
     if (!newComment.trim()) {
@@ -129,18 +149,33 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
         </div>
       </ScrollArea>
 
-      <div className="fixed bottom-0 left-0 right-0 bg-white p-4 border-t shadow-lg">
-        <div className="flex gap-2 max-w-lg mx-auto">
+      <div 
+        className={`fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg transition-transform duration-200 ${
+          isKeyboardVisible ? 'translate-y-0' : 'translate-y-0'
+        }`}
+        style={{
+          paddingBottom: isKeyboardVisible ? '0px' : 'env(safe-area-inset-bottom, 0px)'
+        }}
+      >
+        <div className="flex gap-2 max-w-lg mx-auto p-4">
           <textarea
+            ref={textareaRef}
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
             placeholder="说点什么..."
             className="flex-1 resize-none rounded-xl border border-gray-200 p-3 text-sm focus:border-pink-500 focus:outline-none min-h-[44px] max-h-[120px]"
             rows={1}
+            onFocus={() => {
+              if (textareaRef.current) {
+                setTimeout(() => {
+                  textareaRef.current?.scrollIntoView({ behavior: 'smooth' })
+                }, 100)
+              }
+            }}
           />
           <Button 
             onClick={handleAddComment}
-            className="rounded-full bg-pink-500 hover:bg-pink-600 px-8"
+            className="rounded-full bg-pink-500 hover:bg-pink-600 px-8 shrink-0"
           >
             发送
           </Button>
