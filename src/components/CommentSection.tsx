@@ -61,12 +61,6 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
             replies: [...(comment.replies || []), reply]
           }
         }
-        if (comment.replies) {
-          return {
-            ...comment,
-            replies: updateComments(comment.replies)
-          }
-        }
         return comment
       })
     }
@@ -87,9 +81,18 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
           }
         }
         if (comment.replies) {
+          const updatedReplies = comment.replies.map(reply => {
+            if (reply.id === commentId) {
+              return {
+                ...reply,
+                likes: reply.likes + 1
+              }
+            }
+            return reply
+          })
           return {
             ...comment,
-            replies: updateComments(comment.replies)
+            replies: updatedReplies
           }
         }
         return comment
