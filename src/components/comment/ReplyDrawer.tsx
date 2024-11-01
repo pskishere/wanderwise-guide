@@ -32,7 +32,7 @@ export const ReplyDrawer = ({ isOpen, onClose, onSubmit, replyTo }: ReplyDrawerP
             value={content}
             onChange={(e) => setContent(e.target.value)}
             placeholder="写下你的回复..."
-            className="min-h-[100px] resize-none focus-visible:ring-pink-500"
+            className="min-h-[100px] resize-none focus-visible:ring-pink-500 bg-white/50 transition-all duration-200 ease-in-out hover:bg-white/80 focus:bg-white"
           />
         </div>
         <DrawerFooter className="px-4 py-3">
@@ -46,7 +46,8 @@ export const ReplyDrawer = ({ isOpen, onClose, onSubmit, replyTo }: ReplyDrawerP
             </Button>
             <Button
               onClick={handleSubmit}
-              className="flex-1 bg-pink-500 hover:bg-pink-600"
+              disabled={!content.trim()}
+              className="flex-1 bg-pink-500 hover:bg-pink-600 transition-all duration-200 ease-in-out hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
               发送
             </Button>
