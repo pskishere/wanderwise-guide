@@ -97,6 +97,7 @@ export const Explore = () => {
               >
                 <img
                   src={product.image}
+                  alt={product.title}
                   className="w-full object-cover"
                 />
                 <CardContent className="p-3">
@@ -104,7 +105,7 @@ export const Explore = () => {
                   <div className="flex items-center gap-2 mt-2">
                     <Tag className="h-3 w-3 text-gray-400" />
                     <div className="flex gap-2">
-                      {product.tags.map((tag, index) => (
+                      {product.tags?.map((tag, index) => (
                         <span key={index} className="text-xs text-gray-500">
                           {tag}
                         </span>
@@ -117,7 +118,7 @@ export const Explore = () => {
                   </div>
                   <div className="flex items-center gap-1 mt-2">
                     <Store className="h-3 w-3 text-gray-400" />
-                    <span className="text-xs text-gray-500">{product.shop}</span>
+                    <span className="text-xs text-gray-500">{product.shop.name}</span>
                   </div>
                 </CardContent>
               </Card>
@@ -125,10 +126,7 @@ export const Explore = () => {
           )}
         </div>
 
-        <div
-          ref={ref}
-          className="flex justify-center py-4"
-        >
+        <div ref={ref} className="flex justify-center py-4">
           {isFetchingNextPage && (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {Array(4).fill(0).map((_, index) => (
