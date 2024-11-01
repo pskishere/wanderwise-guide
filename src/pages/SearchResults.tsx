@@ -7,6 +7,9 @@ import { useEffect } from "react"
 import { useToast } from "@/hooks/use-toast"
 import { SearchResultItem } from "@/components/search/SearchResultItem"
 import { SearchResultSkeleton } from "@/components/search/SearchResultSkeleton"
+import { useDispatch, useSelector } from "react-redux"
+import { RootState } from "@/store/store"
+import { setLoading, setError, setResults } from "@/store/searchSlice"
 import type { SearchResult } from "@/types/search"
 
 const fetchSearchResults = async ({ pageParam = 0, queryKey }: any) => {
@@ -50,6 +53,8 @@ const SearchResults = () => {
   const { ref, inView } = useInView()
   const { toast } = useToast()
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { loading, error, results } = useSelector((state: RootState) => state.search)
 
   const {
     data,
@@ -66,19 +71,33 @@ const SearchResults = () => {
   })
 
   useEffect(() => {
+    if (data?.pages) {
+      const allResults = data.pages.flatMap(page => page.items)
+      dispatch(setResults(allResults))
+    }
+  }, [data, dispatch])
+
+  useEffect(() => {
+    dispatch(setLoading(isLoading))
+  }, [isLoading, dispatch])
+
+  useEffect(() => {
+    if (isError) {
+      dispatch(setError("加载搜索结果失败"))
+      toast({
+        variant: "destructive",
+        description: "加载搜索结果失败，请稍后重试",
+      })
+    } else {
+      dispatch(setError(null))
+    }
+  }, [isError, dispatch, toast])
+
+  useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
       fetchNextPage()
     }
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage])
-
-  if (isError) {
-    toast({
-      variant: "destructive",
-      description: "加载搜索结果失败，请稍后重试",
-    })
-  }
-
-  const allResults = data?.pages.flatMap(page => page.items) || []
 
   const handleItemClick = (result: SearchResult) => {
     if (result.type === 'post') {
@@ -96,12 +115,12 @@ const SearchResults = () => {
         <h2 className="text-lg font-medium mb-4 px-2">"{query}" 的搜索结果</h2>
 
         <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
-          {isLoading ? (
+          {loading ? (
             Array(8).fill(0).map((_, index) => (
               <SearchResultSkeleton key={index} />
             ))
           ) : (
-            allResults.map((result) => (
+            results.map((result) => (
               <SearchResultItem
                 key={result.id}
                 result={result}

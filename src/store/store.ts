@@ -4,6 +4,7 @@ import productReducer from './productSlice'
 import postReducer from './postSlice'
 import messageReducer from './messageSlice'
 import addressReducer from './addressSlice'
+import searchReducer from './searchSlice'
 
 export const store = configureStore({
   reducer: {
@@ -11,7 +12,8 @@ export const store = configureStore({
     product: productReducer,
     post: postReducer,
     message: messageReducer,
-    address: addressReducer
+    address: addressReducer,
+    search: searchReducer
   }
 })
 

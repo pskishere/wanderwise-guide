@@ -9,6 +9,9 @@ import { useInView } from "react-intersection-observer"
 import { useToast } from "@/hooks/use-toast"
 import { Tag, Store } from "lucide-react"
 import { useNavigate } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import { RootState } from "@/store/store"
+import { setLoading, setError, setProducts } from "@/store/productSlice"
 
 const ProductSkeleton = () => (
   <Card className="mb-2 break-inside-avoid overflow-hidden border-none shadow-none hover:shadow-lg transition-shadow duration-200">
@@ -25,6 +28,8 @@ export const Explore = () => {
   const { ref, inView } = useInView()
   const { toast } = useToast()
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { products, loading, error } = useSelector((state: RootState) => state.product)
 
   const {
     data,
@@ -41,19 +46,33 @@ export const Explore = () => {
   })
 
   useEffect(() => {
+    if (data?.pages) {
+      const allProducts = data.pages.flatMap(page => page.items)
+      dispatch(setProducts(allProducts))
+    }
+  }, [data, dispatch])
+
+  useEffect(() => {
+    dispatch(setLoading(isLoading))
+  }, [isLoading, dispatch])
+
+  useEffect(() => {
+    if (isError) {
+      dispatch(setError("加载商品失败"))
+      toast({
+        variant: "destructive",
+        description: "加载商品失败，请稍后重试",
+      })
+    } else {
+      dispatch(setError(null))
+    }
+  }, [isError, dispatch, toast])
+
+  useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
       fetchNextPage()
     }
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage])
-
-  if (isError) {
-    toast({
-      variant: "destructive",
-      description: "加载商品失败，请稍后重试",
-    })
-  }
-
-  const allProducts = data?.pages.flatMap(page => page.items) || []
 
   const handleProductClick = (productId: number) => {
     navigate(`/products/${productId}`)
@@ -63,15 +82,14 @@ export const Explore = () => {
     <div className="min-h-screen bg-gray-50">
       <Navigation />
       
-      {/* Products Grid */}
       <div className="container mx-auto px-2 py-20 max-w-7xl">
         <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
-          {isLoading ? (
+          {loading ? (
             Array(8).fill(0).map((_, index) => (
               <ProductSkeleton key={index} />
             ))
           ) : (
-            allProducts.map((product) => (
+            products.map((product) => (
               <Card 
                 key={product.id} 
                 className="mb-4 break-inside-avoid overflow-hidden border-none shadow-none hover:shadow-lg transition-shadow duration-200 cursor-pointer"
