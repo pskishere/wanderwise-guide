@@ -73,16 +73,16 @@ export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItem
               </Button>
             )}
           </div>
-          
-          {isReplying && (
-            <ReplyInput 
-              onSubmit={handleReply}
-              onCancel={() => setIsReplying(false)}
-              replyTo={comment.author.name}
-            />
-          )}
         </div>
       </div>
+
+      {isReplying && (
+        <ReplyInput 
+          onSubmit={handleReply}
+          onCancel={() => setIsReplying(false)}
+          replyTo={comment.author.name}
+        />
+      )}
 
       {comment.replies && comment.replies.length > 0 && level === 0 && (
         <div className="ml-10 space-y-4 border-l-2 border-gray-100 pl-4">

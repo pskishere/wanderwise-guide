@@ -20,7 +20,7 @@ export const ReplyInput = ({ onSubmit, onCancel, replyTo }: ReplyInputProps) => 
   }
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg animate-in slide-in-from-bottom duration-300">
+    <div className="fixed inset-x-0 bottom-0 bg-white border-t shadow-lg animate-in slide-in-from-bottom duration-300">
       <div className="container max-w-2xl mx-auto px-4 py-3 space-y-3">
         <div className="flex items-center justify-between">
           <span className="text-sm text-gray-500">
@@ -30,7 +30,7 @@ export const ReplyInput = ({ onSubmit, onCancel, replyTo }: ReplyInputProps) => 
             variant="ghost"
             size="icon"
             onClick={onCancel}
-            className="h-8 w-8"
+            className="h-8 w-8 hover:text-red-500"
           >
             <X className="h-4 w-4" />
           </Button>
@@ -40,7 +40,7 @@ export const ReplyInput = ({ onSubmit, onCancel, replyTo }: ReplyInputProps) => 
           <Textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            placeholder="写下你的回复..."
+            placeholder={`回复 @${replyTo}...`}
             className="min-h-[44px] max-h-[120px] resize-none focus-visible:ring-pink-500"
           />
           <Button 
