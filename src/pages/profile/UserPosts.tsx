@@ -1,9 +1,25 @@
 import { Navigation } from "@/components/Navigation"
 import { BottomNav } from "@/components/BottomNav"
-import { useQuery } from "@tanstack/react-query"
+import { useInfiniteQuery } from "@tanstack/react-query"
 import { FavoritesList } from "@/components/favorites/FavoritesList"
 
-const fetchUserPosts = async () => {
+interface PostItem {
+  id: number
+  title: string
+  image: string
+  author: {
+    name: string
+    avatar: string
+  }
+  likes: number
+}
+
+interface PostsResponse {
+  items: PostItem[]
+  nextPage: number | null
+}
+
+const fetchUserPosts = async ({ pageParam = 1 }): Promise<PostsResponse> => {
   // 模拟API调用
   await new Promise(resolve => setTimeout(resolve, 1000))
   return {
@@ -20,7 +36,7 @@ const fetchUserPosts = async () => {
       },
       // ... 其他帖子数据
     ],
-    nextPage: 2
+    nextPage: pageParam < 3 ? pageParam + 1 : null
   }
 }
 
@@ -30,14 +46,14 @@ const UserPosts = () => {
     isLoading, 
     fetchNextPage, 
     hasNextPage 
-  } = useQuery({
+  } = useInfiniteQuery({
     queryKey: ['user-posts'],
     queryFn: fetchUserPosts,
+    initialPageParam: 1,
     getNextPageParam: (lastPage) => lastPage.nextPage,
-    initialPageParam: 1
   })
 
-  const allItems = data?.pages?.flatMap(page => page.items) || []
+  const allItems = data?.pages.flatMap(page => page.items) || []
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -50,7 +66,7 @@ const UserPosts = () => {
           type="posts"
           items={allItems}
           isLoading={isLoading}
-          hasNextPage={hasNextPage}
+          hasNextPage={!!hasNextPage}
           fetchNextPage={fetchNextPage}
         />
       </div>
