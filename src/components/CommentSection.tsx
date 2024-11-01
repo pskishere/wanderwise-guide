@@ -1,4 +1,3 @@
-import { ScrollArea } from "@/components/ui/scroll-area"
 import { Button } from "@/components/ui/button"
 import { CommentItem, CommentType } from "./CommentItem"
 import { useState } from "react"
@@ -103,20 +102,18 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
   }
 
   return (
-    <div className="mx-4 mt-4">
+    <div className="mx-4 mt-4 pb-24">
       <h2 className="font-medium mb-4">评论 {commentCount}</h2>
-      <ScrollArea className="h-[400px] rounded-md">
-        <div className="space-y-6">
-          {comments.map((comment) => (
-            <CommentItem
-              key={comment.id}
-              comment={comment}
-              onReply={handleReply}
-              onLike={handleLike}
-            />
-          ))}
-        </div>
-      </ScrollArea>
+      <div className="space-y-6">
+        {comments.map((comment) => (
+          <CommentItem
+            key={comment.id}
+            comment={comment}
+            onReply={handleReply}
+            onLike={handleLike}
+          />
+        ))}
+      </div>
 
       {/* Comment Input */}
       <div className="fixed bottom-0 left-0 right-0 bg-white p-4 border-t shadow-lg">
