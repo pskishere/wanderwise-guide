@@ -1,5 +1,6 @@
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
 import { parseAddress } from "@/utils/addressParser"
 import { getProvinces, getCitiesByProvince, getDistrictsByCity } from "@/utils/addressData"
@@ -15,7 +16,7 @@ interface AddressFormFieldsProps {
     detail: string
     isDefault: boolean
   }
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
   handleSelectChange: (value: string, field: 'province' | 'city' | 'district') => void
 }
 
@@ -26,7 +27,7 @@ export const AddressFormFields = ({
 }: AddressFormFieldsProps) => {
   const { toast } = useToast()
 
-  const handleDetailPaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+  const handleDetailPaste = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
     e.preventDefault()
     const text = e.clipboardData.getData('text')
     const parsed = parseAddress(text, 
@@ -52,14 +53,13 @@ export const AddressFormFields = ({
     // 通过创建合成事件来触发表单更新
     const createChangeEvent = (name: string, value: string) => {
       return {
-        target: { name, value, type: 'text' }
+        target: { name, value }
       } as React.ChangeEvent<HTMLInputElement>
     }
 
     if (parsed.name) handleInputChange(createChangeEvent('name', parsed.name))
     if (parsed.phone) handleInputChange(createChangeEvent('phone', parsed.phone))
     
-    // 找到对应的代码并更新
     if (parsed.province) {
       const provinceCode = getProvinces().find(p => p.name === parsed.province)?.code
       if (provinceCode) handleSelectChange(provinceCode, 'province')
@@ -119,7 +119,7 @@ export const AddressFormFields = ({
 
       <div className="space-y-2">
         <Label htmlFor="detail">详细地址</Label>
-        <Input
+        <Textarea
           id="detail"
           name="detail"
           placeholder="请输入或粘贴完整地址，将自动解析"
@@ -127,7 +127,7 @@ export const AddressFormFields = ({
           onChange={handleInputChange}
           onPaste={handleDetailPaste}
           required
-          className="h-24 align-top"
+          className="min-h-[120px] resize-none rounded-lg border-2 border-gray-100 p-4 focus-visible:ring-0 focus-visible:border-pink-100 placeholder:text-gray-400 transition-colors"
         />
         <p className="text-sm text-gray-500">
           支持粘贴格式：张三 13800138000 浙江省杭州市西湖区文三路 123 号
