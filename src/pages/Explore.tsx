@@ -13,6 +13,7 @@ import { RootState } from "@/store/store"
 import { setLoading, setError, setProducts } from "@/store/productSlice"
 import { useEffect } from "react"
 import type { Product } from "@/types/product"
+import type { PageData } from "@/types/post"
 
 const ProductSkeleton = () => (
   <Card className="mb-2 break-inside-avoid overflow-hidden border-none shadow-none hover:shadow-lg transition-shadow duration-200">
