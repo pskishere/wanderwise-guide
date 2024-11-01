@@ -1,8 +1,7 @@
 import { Navigation } from "@/components/Navigation"
 import { BottomNav } from "@/components/BottomNav"
-import { useState, useEffect } from "react"
 import { useInfiniteQuery } from "@tanstack/react-query"
-import { fetchProducts, Product, PageData } from "@/services/api"
+import { fetchProducts } from "@/services/api"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Card, CardContent } from "@/components/ui/card"
 import { useInView } from "react-intersection-observer"
@@ -12,6 +11,8 @@ import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
 import { setLoading, setError, setProducts } from "@/store/productSlice"
+import { useEffect } from "react"
+import type { Product } from "@/types/product"
 
 const ProductSkeleton = () => (
   <Card className="mb-2 break-inside-avoid overflow-hidden border-none shadow-none hover:shadow-lg transition-shadow duration-200">
@@ -105,7 +106,7 @@ export const Explore = () => {
                   <div className="flex items-center gap-2 mt-2">
                     <Tag className="h-3 w-3 text-gray-400" />
                     <div className="flex gap-2">
-                      {product.tags?.map((tag, index) => (
+                      {product.tags.map((tag, index) => (
                         <span key={index} className="text-xs text-gray-500">
                           {tag}
                         </span>
