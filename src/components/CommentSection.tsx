@@ -124,10 +124,10 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
   }
 
   return (
-    <div className="mx-4 mt-4 pb-32">
+    <div className="mx-4 mt-4">
       <h2 className="font-medium mb-4">评论 {commentCount}</h2>
       <ScrollArea className="h-[calc(100vh-16rem)]">
-        <div className="space-y-6">
+        <div className="space-y-6 pb-32">
           {comments.map((comment) => (
             <CommentItem
               key={comment.id}
@@ -139,7 +139,7 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
         </div>
       </ScrollArea>
 
-      <div className="fixed inset-x-0 bottom-0 bg-white border-t shadow-lg">
+      <div className="fixed inset-x-0 bottom-0 bg-white/80 backdrop-blur-md border-t shadow-lg">
         <div className="flex gap-2 max-w-lg mx-auto p-4 pb-[calc(env(safe-area-inset-bottom,_0px)_+_1rem)]">
           {replyTo ? (
             <div className="flex-1 space-y-2">
@@ -160,7 +160,7 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
                 value={newComment}
                 onChange={handleTextareaChange}
                 placeholder="说点什么..."
-                className="w-full resize-none rounded-xl border border-gray-200 p-3 text-sm focus:border-pink-500 focus:outline-none"
+                className="w-full resize-none rounded-xl border border-gray-200 p-3 text-sm focus:border-pink-500 focus:outline-none bg-white/50"
                 style={{ height: `${inputHeight}px` }}
                 rows={1}
               />
@@ -170,7 +170,7 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
               value={newComment}
               onChange={handleTextareaChange}
               placeholder="说点什么..."
-              className="flex-1 resize-none rounded-xl border border-gray-200 p-3 text-sm focus:border-pink-500 focus:outline-none"
+              className="flex-1 resize-none rounded-xl border border-gray-200 p-3 text-sm focus:border-pink-500 focus:outline-none bg-white/50"
               style={{ height: `${inputHeight}px` }}
               rows={1}
             />
