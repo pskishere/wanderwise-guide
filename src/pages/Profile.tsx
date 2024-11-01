@@ -1,10 +1,12 @@
 import { BottomNav } from "@/components/BottomNav"
 import { Heart, MapPin, ShoppingBag, Settings, Camera, Medal, Edit2, Bell, Share2 } from "lucide-react"
 import { Link } from "react-router-dom"
+import { useSelector } from "react-redux"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Avatar } from "@/components/ui/avatar"
+import { RootState } from "@/store/store"
 
 const menuItems = [
   { 
@@ -28,17 +30,24 @@ const menuItems = [
 ]
 
 const Profile = () => {
+  const { profile } = useSelector((state: RootState) => state.user)
+  const stats = {
+    posts: "12",
+    following: "238",
+    followers: "486",
+    likes: "1.2k"
+  }
+
   return (
     <div className="min-h-screen bg-gray-100">      
       <div className="container mx-auto px-4 pb-24 pt-6">
-        {/* 用户信息卡片 */}
         <div className="bg-white rounded-2xl p-6 shadow">
           <div className="flex items-start gap-4">
             <div className="relative">
               <Avatar className="h-20 w-20 ring-4 ring-pink-100">
                 <img 
-                  src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&q=80" 
-                  alt="用户头像"
+                  src={profile.avatar}
+                  alt={profile.nickname}
                   className="object-cover"
                 />
               </Avatar>
@@ -54,16 +63,16 @@ const Profile = () => {
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-1">
                 <h2 className="text-lg font-bold bg-gradient-to-r from-pink-500 to-orange-500 bg-clip-text text-transparent">
-                  旅行达人
+                  {profile.nickname}
                 </h2>
                 <Medal className="h-4 w-4 text-yellow-500" />
                 <Badge variant="secondary" className="bg-gradient-to-r from-pink-50 to-pink-100 text-pink-600 text-xs">
                   Lv.4
                 </Badge>
               </div>
-              <p className="text-sm text-gray-500">小红书号：XHSUID8888</p>
+              <p className="text-sm text-gray-500">小红书号：{profile.userId}</p>
               <p className="text-sm text-gray-600 mt-2 line-clamp-2">
-                在路上，寻找生活的诗意 ✨ 记录旅行的点点滴滴
+                {profile.bio}
               </p>
               <div className="flex items-center gap-2 mt-3">
                 <Link to="/profile/edit">
@@ -108,10 +117,10 @@ const Profile = () => {
 
           <div className="grid grid-cols-4 gap-6 text-center">
             {[
-              { label: "笔记", count: "12" },
-              { label: "关注", count: "238" },
-              { label: "粉丝", count: "486" },
-              { label: "获赞", count: "1.2k" }
+              { label: "笔记", count: stats.posts },
+              { label: "关注", count: stats.following },
+              { label: "粉丝", count: stats.followers },
+              { label: "获赞", count: stats.likes }
             ].map((item) => (
               <button 
                 key={item.label}
@@ -126,7 +135,6 @@ const Profile = () => {
           </div>
         </div>
 
-        {/* 功能菜单 */}
         <div className="mt-4 grid gap-3">
           {menuItems.map((item) => {
             const Icon = item.icon
