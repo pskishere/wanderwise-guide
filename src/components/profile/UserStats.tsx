@@ -20,12 +20,12 @@ export const UserStats = ({ stats }: UserStatsProps) => {
       <StatItem
         label="关注"
         count={stats.following}
-        href="/profile/following"
+        href="/profile/social"
       />
       <StatItem
         label="粉丝"
         count={stats.followers}
-        href="/profile/followers"
+        href="/profile/social"
       />
     </div>
   )
