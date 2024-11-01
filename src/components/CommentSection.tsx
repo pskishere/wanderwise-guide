@@ -1,8 +1,9 @@
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { Button } from "@/components/ui/button"
 import { CommentItem, CommentType } from "./CommentItem"
 import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
-import { FloatingInput } from "./comment/FloatingInput"
+import { ReplyInput } from "./ReplyInput"
 
 interface CommentSectionProps {
   comments: CommentType[]
@@ -52,8 +53,8 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
     }
   }
 
-  const handleReplySubmit = () => {
-    if (!replyTo || !newComment.trim()) return
+  const handleReplySubmit = (content: string) => {
+    if (!replyTo) return
 
     const reply: CommentType = {
       id: Date.now(),
@@ -61,7 +62,7 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
         name: "我",
         avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&q=80"
       },
-      content: newComment,
+      content,
       time: "刚刚",
       likes: 0
     }
@@ -85,7 +86,6 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
     }
 
     setComments(updateComments(comments))
-    setNewComment("")
     setReplyTo(null)
     toast({
       description: "回复发送成功",
@@ -130,13 +130,31 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
         </div>
       </ScrollArea>
 
-      <FloatingInput
-        value={newComment}
-        onChange={setNewComment}
-        onSubmit={replyTo ? handleReplySubmit : handleAddComment}
-        replyTo={replyTo}
-        onCancelReply={() => setReplyTo(null)}
-      />
+      {replyTo ? (
+        <ReplyInput
+          replyTo={replyTo.name}
+          onSubmit={handleReplySubmit}
+          onCancel={() => setReplyTo(null)}
+        />
+      ) : (
+        <div className="fixed inset-x-0 bottom-0 bg-white border-t shadow-lg">
+          <div className="flex gap-2 max-w-lg mx-auto p-4 pb-[calc(env(safe-area-inset-bottom,_0px)_+_1rem)]">
+            <textarea
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              placeholder="说点什么..."
+              className="flex-1 resize-none rounded-xl border border-gray-200 p-3 text-sm focus:border-pink-500 focus:outline-none min-h-[44px] max-h-[120px]"
+              rows={1}
+            />
+            <Button 
+              onClick={handleAddComment}
+              className="rounded-full bg-pink-500 hover:bg-pink-600 px-8 shrink-0"
+            >
+              发送
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
