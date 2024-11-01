@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import { CommentItem, CommentType } from "./CommentItem"
 import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
+import { ReplyDrawer } from "./comment/ReplyDrawer"
 
 interface CommentSectionProps {
   comments: CommentType[]
@@ -12,6 +13,7 @@ interface CommentSectionProps {
 export const CommentSection = ({ comments: initialComments, commentCount }: CommentSectionProps) => {
   const [comments, setComments] = useState(initialComments)
   const [newComment, setNewComment] = useState("")
+  const [replyTo, setReplyTo] = useState<{id: number; name: string} | null>(null)
   const { toast } = useToast()
 
   const handleAddComment = () => {
@@ -41,7 +43,19 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
     })
   }
 
-  const handleReply = (parentId: number, content: string) => {
+  const handleReply = (parentId: number) => {
+    const parent = comments.find(c => c.id === parentId)
+    if (parent) {
+      setReplyTo({
+        id: parentId,
+        name: parent.author.name
+      })
+    }
+  }
+
+  const handleReplySubmit = (content: string) => {
+    if (!replyTo) return
+
     const reply: CommentType = {
       id: Date.now(),
       author: {
@@ -55,7 +69,7 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
 
     const updateComments = (comments: CommentType[]): CommentType[] => {
       return comments.map(comment => {
-        if (comment.id === parentId) {
+        if (comment.id === replyTo.id) {
           return {
             ...comment,
             replies: [...(comment.replies || []), reply]
@@ -115,7 +129,6 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
         </div>
       </ScrollArea>
 
-      {/* Comment Input */}
       <div className="fixed bottom-0 left-0 right-0 bg-white p-4 border-t shadow-lg">
         <div className="flex gap-2 max-w-lg mx-auto">
           <textarea
@@ -133,6 +146,13 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
           </Button>
         </div>
       </div>
+
+      <ReplyDrawer
+        isOpen={!!replyTo}
+        onClose={() => setReplyTo(null)}
+        onSubmit={handleReplySubmit}
+        replyTo={replyTo?.name || ""}
+      />
     </div>
   )
 }
