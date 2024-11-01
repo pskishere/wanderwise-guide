@@ -16,14 +16,14 @@ export interface CommentType {
   time: string
   likes: number
   replies?: CommentType[]
-  level?: number // 添加层级标记
+  level?: number
 }
 
 interface CommentItemProps {
   comment: CommentType
   onReply: (parentId: number, content: string) => void
   onLike: (commentId: number) => void
-  level?: number // 添加层级属性
+  level?: number
 }
 
 export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItemProps) => {
@@ -40,7 +40,6 @@ export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItem
     setIsReplying(false)
   }
 
-  // 只显示回复按钮如果是原始评论(level=0)
   const showReplyButton = level === 0
 
   return (
@@ -68,7 +67,7 @@ export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItem
                 variant="ghost" 
                 size="sm"
                 className="h-6 px-2 text-gray-500 hover:text-pink-500"
-                onClick={() => setIsReplying(!isReplying)}
+                onClick={() => setIsReplying(true)}
               >
                 回复
               </Button>
@@ -76,18 +75,15 @@ export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItem
           </div>
           
           {isReplying && (
-            <div className="mt-2">
-              <ReplyInput 
-                onSubmit={handleReply}
-                onCancel={() => setIsReplying(false)}
-                replyTo={comment.author.name}
-              />
-            </div>
+            <ReplyInput 
+              onSubmit={handleReply}
+              onCancel={() => setIsReplying(false)}
+              replyTo={comment.author.name}
+            />
           )}
         </div>
       </div>
 
-      {/* 嵌套回复 - 只渲染一层 */}
       {comment.replies && comment.replies.length > 0 && level === 0 && (
         <div className="ml-10 space-y-4 border-l-2 border-gray-100 pl-4">
           {comment.replies.map((reply) => (
