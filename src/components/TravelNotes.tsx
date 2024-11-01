@@ -3,12 +3,12 @@ import { Avatar } from "@/components/ui/avatar"
 import { Heart, MessageCircle } from "lucide-react"
 import { Link } from "react-router-dom"
 import { useInfiniteQuery } from "@tanstack/react-query"
-import { fetchPosts, Post, PageData } from "@/services/api"
+import { fetchPosts } from "@/services/postsApi"
+import { Post, PageData } from "@/types/post"
 import { TravelNotesSkeleton } from "./TravelNotesSkeleton"
 import { useInView } from "react-intersection-observer"
 import { useEffect, useState } from "react"
 import { useToast } from "@/hooks/use-toast"
-import { Skeleton } from "./ui/skeleton"
 
 const ImageWithSkeleton = ({ src, alt }: { src: string; alt: string }) => {
   const [isLoading, setIsLoading] = useState(true)
