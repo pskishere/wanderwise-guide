@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react"
 import { Input } from "@/components/ui/input"
-import { Search } from "lucide-react"
+import { Search, MapPin } from "lucide-react"
 import { Command, CommandEmpty, CommandList } from "@/components/ui/command"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { debounce } from "lodash"
@@ -102,19 +102,23 @@ export function MapSearch({ onAddressSelect }: MapSearchProps) {
           <Command>
             <CommandList>
               <CommandEmpty>未找到相关地址</CommandEmpty>
-              {suggestions.map((suggestion, index) => (
-                <div
-                  key={index}
-                  className="flex items-start space-x-2 p-2 hover:bg-gray-100 cursor-pointer"
-                  onClick={() => handleAddressSelect(suggestion)}
-                >
-                  <Search className="h-4 w-4 mt-1 text-gray-400" />
-                  <div>
-                    <div className="font-medium">{suggestion.title}</div>
-                    <div className="text-sm text-gray-500">{suggestion.address}</div>
+              <div className="max-h-[300px] overflow-y-auto">
+                {suggestions.map((suggestion, index) => (
+                  <div
+                    key={index}
+                    className="flex items-start space-x-3 p-3 hover:bg-gray-50 cursor-pointer transition-colors"
+                    onClick={() => handleAddressSelect(suggestion)}
+                  >
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-pink-50">
+                      <MapPin className="h-4 w-4 text-pink-500" />
+                    </div>
+                    <div className="flex-1 space-y-1">
+                      <div className="text-sm font-medium text-gray-900">{suggestion.title}</div>
+                      <div className="text-xs text-gray-500 line-clamp-2">{suggestion.address}</div>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </CommandList>
           </Command>
         </PopoverContent>
