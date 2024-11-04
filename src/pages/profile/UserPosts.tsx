@@ -118,7 +118,7 @@ const PostCard = ({ post, onDelete }: { post: PostItem; onDelete: (id: number) =
             <img
               src={post.author.avatar}
               alt={post.author.name}
-              className="w-6 h-6 rounded-full"
+              className="w-6 h-6 rounded-full object-cover"
             />
             <span className="text-sm text-gray-500">{post.author.name}</span>
           </div>

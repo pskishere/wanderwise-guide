@@ -1,4 +1,3 @@
-import { Avatar } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Heart } from "lucide-react"
 import { useState } from "react"
@@ -45,9 +44,11 @@ export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItem
   return (
     <div className="space-y-4">
       <div className="flex gap-3">
-        <Avatar className="h-8 w-8 flex-shrink-0">
-          <img src={comment.author.avatar} alt={comment.author.name} className="object-cover" />
-        </Avatar>
+        <img 
+          src={comment.author.avatar} 
+          alt={comment.author.name} 
+          className="h-8 w-8 rounded-full object-cover flex-shrink-0"
+        />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium truncate">{comment.author.name}</span>

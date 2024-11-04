@@ -5,7 +5,6 @@ import { useSelector } from "react-redux"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { Avatar } from "@/components/ui/avatar"
 import { RootState } from "@/store/store"
 import { UserStats } from "@/components/profile/UserStats"
 
@@ -44,13 +43,11 @@ const Profile = () => {
         <div className="bg-white rounded-2xl p-6 shadow">
           <div className="flex items-start gap-4">
             <div className="relative">
-              <Avatar className="h-20 w-20 ring-4 ring-pink-100">
-                <img 
-                  src={profile.avatar}
-                  alt={profile.nickname}
-                  className="object-cover"
-                />
-              </Avatar>
+              <img 
+                src={profile.avatar}
+                alt={profile.nickname}
+                className="h-20 w-20 rounded-full object-cover ring-4 ring-pink-100"
+              />
               <Button 
                 size="icon" 
                 variant="secondary"

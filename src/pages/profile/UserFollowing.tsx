@@ -1,6 +1,5 @@
 import { Navigation } from "@/components/Navigation"
 import { BottomNav } from "@/components/BottomNav"
-import { Avatar } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { useQuery } from "@tanstack/react-query"
 import { useToast } from "@/hooks/use-toast"
@@ -75,9 +74,11 @@ const UserFollowing = () => {
           {users?.map(user => (
             <div key={user.id} className="bg-white p-4 rounded-xl shadow-sm">
               <div className="flex items-center gap-3">
-                <Avatar className="h-12 w-12">
-                  <img src={user.avatar} alt={user.name} className="object-cover" />
-                </Avatar>
+                <img 
+                  src={user.avatar} 
+                  alt={user.name} 
+                  className="h-12 w-12 rounded-full object-cover"
+                />
                 <div className="flex-1 min-w-0">
                   <h3 className="font-medium">{user.name}</h3>
                   <p className="text-sm text-gray-500 truncate">{user.bio}</p>
