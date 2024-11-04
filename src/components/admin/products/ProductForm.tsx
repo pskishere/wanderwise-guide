@@ -3,20 +3,13 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Product } from "@/services/mockProducts"
 
 interface ProductFormProps {
-  product: {
-    title: string
-    price: string | number
-    originalPrice?: string | number
-    stock: string | number
-    description?: string
-    image: string
-    tags?: string[]
-  }
-  onSubmit: () => void
-  onChange: (field: string, value: string | string[]) => void
-  submitText?: string
+  product: Partial<Product>;
+  onSubmit: () => void;
+  onChange: (field: string, value: any) => void;
+  submitText?: string;
 }
 
 export const ProductForm = ({ product, onSubmit, onChange, submitText = "保存" }: ProductFormProps) => {
@@ -31,7 +24,7 @@ export const ProductForm = ({ product, onSubmit, onChange, submitText = "保存"
       <div className="space-y-2">
         <Label>商品名称</Label>
         <Input
-          value={product.title}
+          value={product.title || ""}
           onChange={(e) => onChange("title", e.target.value)}
           placeholder="请输入商品名称"
         />
@@ -39,33 +32,23 @@ export const ProductForm = ({ product, onSubmit, onChange, submitText = "保存"
 
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label>售价</Label>
+          <Label>价格</Label>
           <Input
             type="number"
-            value={product.price}
-            onChange={(e) => onChange("price", e.target.value)}
-            placeholder="请输入售价"
+            value={product.price || ""}
+            onChange={(e) => onChange("price", Number(e.target.value))}
+            placeholder="请输入价格"
           />
         </div>
         <div className="space-y-2">
-          <Label>原价</Label>
+          <Label>库存</Label>
           <Input
             type="number"
-            value={product.originalPrice || ""}
-            onChange={(e) => onChange("originalPrice", e.target.value)}
-            placeholder="请输入原价"
+            value={product.stock || ""}
+            onChange={(e) => onChange("stock", Number(e.target.value))}
+            placeholder="请输入库存"
           />
         </div>
-      </div>
-
-      <div className="space-y-2">
-        <Label>库存</Label>
-        <Input
-          type="number"
-          value={product.stock}
-          onChange={(e) => onChange("stock", e.target.value)}
-          placeholder="请输入库存数量"
-        />
       </div>
 
       <div className="space-y-2">
@@ -100,7 +83,7 @@ export const ProductForm = ({ product, onSubmit, onChange, submitText = "保存"
       <div className="space-y-2">
         <Label>商品图片</Label>
         <Input
-          value={product.image}
+          value={product.image || ""}
           onChange={(e) => onChange("image", e.target.value)}
           placeholder="请输入图片链接"
         />

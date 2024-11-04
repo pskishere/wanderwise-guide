@@ -13,23 +13,18 @@ import { ProductTable } from "./products/ProductTable"
 import { ProductSearch } from "./products/ProductSearch"
 import { ProductFilter } from "./products/ProductFilter"
 import { ProductBulkActions } from "./products/ProductBulkActions"
+import { mockProducts, Product } from "@/services/mockProducts"
 
-interface AdminProductsProps {
-  products: any[]
-}
-
-export const AdminProducts = ({ products: initialProducts }: AdminProductsProps) => {
+export const AdminProducts = () => {
   const { toast } = useToast()
-  const [products, setProducts] = useState(initialProducts)
-  const [editingProduct, setEditingProduct] = useState<any>(null)
+  const [products, setProducts] = useState(mockProducts)
+  const [selectedIds, setSelectedIds] = useState<number[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [categoryFilter, setCategoryFilter] = useState("all")
-  const [selectedIds, setSelectedIds] = useState<number[]>([])
-  const [newProduct, setNewProduct] = useState({
+  const [newProduct, setNewProduct] = useState<Partial<Product>>({
     title: "",
-    price: "",
-    originalPrice: "",
-    stock: "",
+    price: 0,
+    stock: 0,
     description: "",
     image: "",
     tags: []
@@ -37,11 +32,11 @@ export const AdminProducts = ({ products: initialProducts }: AdminProductsProps)
 
   const handleSearch = () => {
     if (!searchTerm.trim() && categoryFilter === "all") {
-      setProducts(initialProducts)
+      setProducts(mockProducts)
       return
     }
 
-    const filtered = initialProducts.filter(product => {
+    const filtered = mockProducts.filter(product => {
       const matchesSearch = !searchTerm.trim() || 
         product.title.toLowerCase().includes(searchTerm.toLowerCase())
       
@@ -56,9 +51,9 @@ export const AdminProducts = ({ products: initialProducts }: AdminProductsProps)
   const handleCategoryChange = (category: string) => {
     setCategoryFilter(category)
     const filtered = category === 'all' 
-      ? initialProducts
-      : initialProducts.filter(product => 
-          product.tags.some((tag: string) => tag.includes(category))
+      ? mockProducts
+      : mockProducts.filter(product => 
+          product.tags.some(tag => tag.includes(category))
         )
     setProducts(filtered)
   }
@@ -87,21 +82,10 @@ export const AdminProducts = ({ products: initialProducts }: AdminProductsProps)
     })
   }
 
-  const handleSaveEdit = () => {
-    if (!editingProduct) return
-
-    if (!editingProduct.title || !editingProduct.price) {
-      toast({
-        variant: "destructive",
-        description: "请填写商品名称和价格",
-      })
-      return
-    }
-
+  const handleEdit = (editedProduct: Product) => {
     setProducts(prev => prev.map(product => 
-      product.id === editingProduct.id ? editingProduct : product
+      product.id === editedProduct.id ? editedProduct : product
     ))
-    setEditingProduct(null)
     toast({
       description: "商品信息已更新",
     })
@@ -119,19 +103,14 @@ export const AdminProducts = ({ products: initialProducts }: AdminProductsProps)
     const product = {
       id: Date.now(),
       ...newProduct,
-      price: parseFloat(newProduct.price),
-      originalPrice: newProduct.originalPrice ? parseFloat(newProduct.originalPrice) : undefined,
-      stock: newProduct.stock ? parseInt(newProduct.stock) : 0,
-      sales: "0",
-      tags: newProduct.tags.length > 0 ? newProduct.tags : [categoryFilter]
-    }
+      tags: newProduct.tags?.length ? newProduct.tags : [categoryFilter]
+    } as Product
 
     setProducts(prev => [product, ...prev])
     setNewProduct({
       title: "",
-      price: "",
-      originalPrice: "",
-      stock: "",
+      price: 0,
+      stock: 0,
       description: "",
       image: "",
       tags: []
@@ -192,7 +171,7 @@ export const AdminProducts = ({ products: initialProducts }: AdminProductsProps)
           products={products}
           selectedIds={selectedIds}
           onSelectIds={setSelectedIds}
-          onEdit={handleSaveEdit}
+          onEdit={handleEdit}
           onDelete={handleDelete}
         />
       </div>

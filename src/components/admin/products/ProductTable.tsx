@@ -17,21 +17,14 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { ProductForm } from "./ProductForm"
-
-interface Product {
-  id: number
-  title: string
-  price: number
-  stock: number | null
-  image: string
-}
+import { Product } from "@/services/mockProducts"
 
 interface ProductTableProps {
-  products: Product[]
-  selectedIds: number[]
-  onSelectIds: (ids: number[]) => void
-  onEdit: (product: Product) => void
-  onDelete: (id: number) => void
+  products: Product[];
+  selectedIds: number[];
+  onSelectIds: (ids: number[]) => void;
+  onEdit: (product: Product) => void;
+  onDelete: (id: number) => void;
 }
 
 export const ProductTable = ({ 
