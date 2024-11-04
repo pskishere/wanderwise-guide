@@ -62,7 +62,11 @@ export const AdminSearchKeywords = () => {
   })
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-semibold tracking-tight">热门搜索词管理</h2>
+      </div>
+
       <div className="flex items-center gap-4">
         <div className="relative flex-1">
           <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -99,7 +103,7 @@ export const AdminSearchKeywords = () => {
         </Button>
       </div>
 
-      <div className="rounded-md border">
+      <div className="rounded-md border bg-white shadow-sm">
         <Table>
           <TableHeader>
             <TableRow>

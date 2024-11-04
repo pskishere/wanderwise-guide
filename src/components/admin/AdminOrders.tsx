@@ -56,7 +56,11 @@ export const AdminOrders = ({ orders: initialOrders }: AdminOrdersProps) => {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-semibold tracking-tight">订单管理</h2>
+      </div>
+
       <OrderSearchBar
         searchTerm={searchTerm}
         statusFilter={statusFilter}
@@ -65,7 +69,7 @@ export const AdminOrders = ({ orders: initialOrders }: AdminOrdersProps) => {
         onSearch={handleSearch}
       />
 
-      <div className="rounded-md border">
+      <div className="rounded-md border bg-white shadow-sm">
         <Table>
           <TableHeader>
             <TableRow>

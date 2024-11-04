@@ -91,13 +91,15 @@ export const AdminUsers = () => {
         onSearch={handleSearch}
       />
 
-      <UserTable
-        users={filteredUsers}
-        editingUser={editingUser}
-        onEditUser={setEditingUser}
-        onSaveEdit={handleSaveEdit}
-        onDisable={handleDisable}
-      />
+      <div className="rounded-md border bg-white shadow-sm">
+        <UserTable
+          users={filteredUsers}
+          editingUser={editingUser}
+          onEditUser={setEditingUser}
+          onSaveEdit={handleSaveEdit}
+          onDisable={handleDisable}
+        />
+      </div>
     </div>
   )
 }

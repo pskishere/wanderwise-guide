@@ -142,8 +142,9 @@ export const AdminProducts = ({ products: initialProducts }: AdminProductsProps)
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-semibold tracking-tight">商品管理</h2>
         <Dialog>
           <DialogTrigger asChild>
             <Button>添加商品</Button>
@@ -163,7 +164,9 @@ export const AdminProducts = ({ products: initialProducts }: AdminProductsProps)
             />
           </DialogContent>
         </Dialog>
+      </div>
 
+      <div className="flex items-center justify-between gap-4">
         <ProductSearch
           searchTerm={searchTerm}
           categoryFilter={categoryFilter}
@@ -184,7 +187,7 @@ export const AdminProducts = ({ products: initialProducts }: AdminProductsProps)
         onDelete={handleBulkDelete}
       />
       
-      <div className="rounded-md border">
+      <div className="rounded-md border bg-white shadow-sm">
         <ProductTable
           products={products}
           selectedIds={selectedIds}
