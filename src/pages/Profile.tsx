@@ -115,7 +115,7 @@ const Profile = () => {
           <UserStats stats={stats} />
         </div>
 
-        <div className="mt-4 bg-white rounded-xl shadow overflow-hidden">
+        <div className="mt-4 bg-white rounded-xl shadow overflow-hidden border border-gray-100">
           {menuItems.map((item, index) => {
             const Icon = item.icon
             const colorMap = {
