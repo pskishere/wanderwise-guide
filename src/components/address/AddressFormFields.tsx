@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast"
 import { parseAddress } from "@/utils/addressParser"
 import { getProvinces, getCitiesByProvince, getDistrictsByCity } from "@/utils/addressData"
 import { RegionSelect } from "./RegionSelect"
+import { MapSearch } from "./MapSearch"
 
 interface AddressFormFieldsProps {
   form: {
@@ -26,6 +27,29 @@ export const AddressFormFields = ({
   handleSelectChange,
 }: AddressFormFieldsProps) => {
   const { toast } = useToast()
+
+  const handleMapAddressSelect = (address: {
+    province: string
+    city: string
+    district: string
+    detail: string
+  }) => {
+    // Find the corresponding codes for the selected address
+    const provinceCode = getProvinces().find(p => p.name === address.province)?.code
+    if (provinceCode) handleSelectChange(provinceCode, 'province')
+
+    const cityCode = getCitiesByProvince(form.province).find(c => c.name === address.city)?.code
+    if (cityCode) handleSelectChange(cityCode, 'city')
+
+    const districtCode = getDistrictsByCity(form.city).find(d => d.name === address.district)?.code
+    if (districtCode) handleSelectChange(districtCode, 'district')
+
+    // Update detail address
+    const detailEvent = {
+      target: { name: 'detail', value: address.detail }
+    } as React.ChangeEvent<HTMLTextAreaElement>
+    handleInputChange(detailEvent)
+  }
 
   const handleDetailPaste = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
     e.preventDefault()
@@ -105,6 +129,12 @@ export const AddressFormFields = ({
             required
           />
         </div>
+      </div>
+
+      {/* Map Search */}
+      <div className="space-y-2">
+        <Label>地图搜索</Label>
+        <MapSearch onAddressSelect={handleMapAddressSelect} />
       </div>
 
       {/* Region Selection */}
