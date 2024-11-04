@@ -13,21 +13,29 @@ import { ProductTable } from "./products/ProductTable"
 import { ProductSearch } from "./products/ProductSearch"
 import { ProductFilter } from "./products/ProductFilter"
 import { ProductBulkActions } from "./products/ProductBulkActions"
-import { mockProducts, Product } from "@/services/mockProducts"
+import { Product } from "@/types/product"
+import { mockProducts } from "@/services/mockData"
 
 export const AdminProducts = () => {
   const { toast } = useToast()
-  const [products, setProducts] = useState(mockProducts)
+  const [products, setProducts] = useState<Product[]>(mockProducts)
   const [selectedIds, setSelectedIds] = useState<number[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [categoryFilter, setCategoryFilter] = useState("all")
   const [newProduct, setNewProduct] = useState<Partial<Product>>({
     title: "",
-    price: 0,
-    stock: 0,
+    price: "¥0",
+    originalPrice: "¥0",
     description: "",
     image: "",
-    tags: []
+    images: [],
+    tags: [],
+    sales: "0",
+    shop: {
+      name: "",
+      avatar: ""
+    },
+    specs: []
   })
 
   const handleSearch = () => {
@@ -109,11 +117,18 @@ export const AdminProducts = () => {
     setProducts(prev => [product, ...prev])
     setNewProduct({
       title: "",
-      price: 0,
-      stock: 0,
+      price: "¥0",
+      originalPrice: "¥0",
       description: "",
       image: "",
-      tags: []
+      images: [],
+      tags: [],
+      sales: "0",
+      shop: {
+        name: "",
+        avatar: ""
+      },
+      specs: []
     })
     toast({
       description: "商品已添加",
