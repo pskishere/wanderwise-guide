@@ -12,20 +12,17 @@ const menuItems = [
   { 
     icon: Heart, 
     label: "收藏", 
-    link: "/favorites",
-    count: "12"
+    link: "/favorites"
   },
   { 
     icon: MapPin, 
     label: "我的地址", 
-    link: "/address",
-    count: "2"
+    link: "/address"
   },
   { 
     icon: ShoppingBag, 
     label: "订单", 
-    link: "/orders",
-    count: "3"
+    link: "/orders"
   }
 ]
 
@@ -122,16 +119,13 @@ const Profile = () => {
               <div key={item.label}>
                 <Link 
                   to={item.link}
-                  className="flex items-center px-4 py-3.5 hover:bg-gray-50 transition-colors"
+                  className="flex items-center px-5 py-4 hover:bg-gray-50 transition-colors group"
                 >
-                  <Icon className="h-5 w-5 text-gray-500" />
-                  <span className="ml-3 text-sm text-gray-900">{item.label}</span>
-                  <div className="ml-auto flex items-center gap-2">
-                    {item.count && (
-                      <span className="text-sm text-gray-500">{item.count}</span>
-                    )}
-                    <ChevronRight className="h-4 w-4 text-gray-400" />
+                  <div className="flex items-center justify-center h-9 w-9 rounded-full bg-gray-50 group-hover:bg-white transition-colors">
+                    <Icon className="h-5 w-5 text-gray-600" />
                   </div>
+                  <span className="ml-4 text-sm font-medium text-gray-900">{item.label}</span>
+                  <ChevronRight className="h-4 w-4 text-gray-400 ml-auto" />
                 </Link>
                 {index < menuItems.length - 1 && (
                   <Separator />
