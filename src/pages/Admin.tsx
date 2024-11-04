@@ -6,15 +6,29 @@ import { AdminOrders } from "@/components/admin/AdminOrders"
 import { AdminProducts } from "@/components/admin/AdminProducts"
 import { AdminUsers } from "@/components/admin/AdminUsers"
 import { AdminDashboard } from "@/components/admin/AdminDashboard"
+import { useNavigate } from "react-router-dom"
+import { useEffect } from "react"
 
 const Admin = () => {
-  const orders = useSelector((state: RootState) => state.order.orders)
-  const products = useSelector((state: RootState) => state.product.products)
+  const navigate = useNavigate()
+  const { orders } = useSelector((state: RootState) => state.order)
+  const { products } = useSelector((state: RootState) => state.product)
+  const { user } = useSelector((state: RootState) => state.user)
+
+  // 检查用户权限
+  useEffect(() => {
+    if (!user?.isAdmin) {
+      navigate('/')
+    }
+  }, [user, navigate])
 
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="flex h-16 items-center justify-between border-b bg-white px-6">
         <h1 className="text-xl font-bold">后台管理系统</h1>
+        <div className="flex items-center gap-4">
+          <span className="text-sm text-gray-500">管理员：{user?.name}</span>
+        </div>
       </div>
       
       <div className="container mx-auto px-6 py-8">

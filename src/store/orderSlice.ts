@@ -14,10 +14,11 @@ export interface Order {
   status: string;
   totalAmount: number;
   freight: number;
-  address: {
+  address?: {
     name: string;
     phone: string;
     detail: string;
+    fullAddress?: string;
   };
   timeline: {
     time: string;
@@ -44,7 +45,8 @@ const initialState: OrderState = {
       address: {
         name: "张三",
         phone: "138****8888",
-        detail: "浙江省杭州市西湖区文三路 123 号"
+        detail: "浙江省杭州市西湖区文三路 123 号",
+        fullAddress: "浙江省杭州市西湖区文三路 123 号"
       },
       timeline: [
         {
