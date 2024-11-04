@@ -2,13 +2,15 @@ import { Navigation } from "@/components/Navigation"
 import { BottomNav } from "@/components/BottomNav"
 import { useParams } from "react-router-dom"
 import { Image } from "@/components/ui/image"
-import { Button } from "@/components/ui/button"
-import { Package, Truck, MapPin } from "lucide-react"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
 import { setLoading, setError, setCurrentOrder, updateOrderStatus } from "@/store/orderSlice"
 import { useEffect } from "react"
 import { useToast } from "@/hooks/use-toast"
+import { OrderStatus } from "@/components/order/detail/OrderStatus"
+import { OrderAddress } from "@/components/order/detail/OrderAddress"
+import { OrderTimeline } from "@/components/order/detail/OrderTimeline"
+import { OrderActions } from "@/components/order/detail/OrderActions"
 
 const mockOrder = {
   id: "ORD001",
@@ -53,7 +55,6 @@ const OrderDetail = () => {
   const { currentOrder, loading } = useSelector((state: RootState) => state.order);
 
   useEffect(() => {
-    // 模拟API调用
     dispatch(setLoading(true));
     setTimeout(() => {
       dispatch(setCurrentOrder(mockOrder));
@@ -79,32 +80,13 @@ const OrderDetail = () => {
       <Navigation />
       
       <div className="container mx-auto px-4 pt-20 max-w-3xl space-y-4">
-        {/* 订单状态 */}
-        <div className="bg-gradient-to-br from-pink-500 to-pink-600 text-white p-6 rounded-xl">
-          <div className="flex items-center gap-3 mb-4">
-            <Package className="h-6 w-6" />
-            <span className="text-lg font-medium">{currentOrder.status}</span>
-          </div>
-          <div className="text-pink-100 text-sm space-y-1">
-            <p>订单号：{currentOrder.id}</p>
-            <p>下单时间：{currentOrder.timeline[0].time}</p>
-          </div>
-        </div>
+        <OrderStatus 
+          status={currentOrder.status}
+          id={currentOrder.id}
+          createdAt={currentOrder.timeline[0].time}
+        />
 
-        {/* 收货地址 */}
-        <div className="bg-white rounded-xl p-4 space-y-2">
-          <div className="flex items-center gap-2 text-gray-500 mb-2">
-            <MapPin className="h-4 w-4" />
-            <span className="text-sm">收货地址</span>
-          </div>
-          <div className="space-y-1">
-            <div className="flex items-center gap-4">
-              <span className="font-medium">{currentOrder.address.name}</span>
-              <span className="text-gray-500">{currentOrder.address.phone}</span>
-            </div>
-            <p className="text-gray-600 text-sm">{currentOrder.address.detail}</p>
-          </div>
-        </div>
+        <OrderAddress {...currentOrder.address} />
 
         {/* 商品列表 */}
         <div className="bg-white rounded-xl">
@@ -154,46 +136,12 @@ const OrderDetail = () => {
           </div>
         </div>
 
-        {/* 物流时间线 */}
-        <div className="bg-white rounded-xl p-4">
-          <div className="flex items-center gap-2 text-gray-500 mb-4">
-            <Truck className="h-4 w-4" />
-            <span className="text-sm">物流信息</span>
-          </div>
-          <div className="space-y-4">
-            {currentOrder.timeline.map((event, index) => (
-              <div key={index} className="flex gap-3">
-                <div className="relative flex flex-col items-center">
-                  <div className={`w-2 h-2 rounded-full ${index === 0 ? "bg-pink-500" : "bg-gray-300"}`} />
-                  {index !== currentOrder.timeline.length - 1 && (
-                    <div className="w-0.5 h-full bg-gray-200 mt-1" />
-                  )}
-                </div>
-                <div className="flex-1 pb-4">
-                  <p className="text-sm text-gray-600">{event.status}</p>
-                  <p className="text-xs text-gray-400 mt-1">{event.time}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <OrderTimeline events={currentOrder.timeline} />
 
-        {/* 底部按钮 */}
-        <div className="fixed bottom-16 left-0 right-0 bg-white border-t p-3">
-          <div className="container mx-auto max-w-3xl flex justify-end gap-3">
-            <Button variant="outline" className="rounded-full px-6">
-              联系客服
-            </Button>
-            {currentOrder.status === "待收货" && (
-              <Button 
-                className="rounded-full px-6 bg-pink-500 hover:bg-pink-600"
-                onClick={handleConfirmReceipt}
-              >
-                确认收货
-              </Button>
-            )}
-          </div>
-        </div>
+        <OrderActions 
+          status={currentOrder.status}
+          onConfirmReceipt={handleConfirmReceipt}
+        />
       </div>
 
       <BottomNav />
