@@ -79,7 +79,7 @@ const PostDetail = () => {
     <div className="min-h-screen bg-gray-50 pb-20">
       <PostHeader />
 
-      <div className="relative w-full aspect-[4/3] bg-black z-0">
+      <div className="relative w-full aspect-[4/3] bg-black -z-10">
         <Carousel className="w-full h-full">
           <CarouselContent>
             {post.images.map((image, index) => (
@@ -109,7 +109,7 @@ const PostDetail = () => {
         index={currentImageIndex}
       />
 
-      <Card className="mx-4 -mt-8 relative z-10 rounded-2xl border-none shadow-lg overflow-hidden">
+      <Card className="mx-4 -mt-8 relative z-20 rounded-2xl border-none shadow-lg overflow-hidden">
         <PostContent 
           title={post.title}
           content={post.content}
