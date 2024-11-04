@@ -52,7 +52,7 @@ function App() {
             <Route path="/address" element={<AddressList />} />
             <Route path="/address/new" element={<AddressForm />} />
             <Route path="/address/edit/:id" element={<AddressForm />} />
-            <Route path="/admin" element={<Admin />} />
+            <Route path="/admin/*" element={<Admin />} />
           </Routes>
           <Toaster />
         </Router>
