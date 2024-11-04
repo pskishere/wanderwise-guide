@@ -1,8 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { CommentItem, CommentType } from "./CommentItem"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
-import { useInfiniteScroll } from "@/hooks/useInfiniteScroll"
 
 interface CommentSectionProps {
   comments: CommentType[]
@@ -12,51 +11,7 @@ interface CommentSectionProps {
 export const CommentSection = ({ comments: initialComments, commentCount }: CommentSectionProps) => {
   const [comments, setComments] = useState(initialComments)
   const [newComment, setNewComment] = useState("")
-  const [page, setPage] = useState(1)
-  const [hasMore, setHasMore] = useState(true)
-  const [isLoading, setIsLoading] = useState(false)
   const { toast } = useToast()
-
-  const loadMoreComments = async () => {
-    if (isLoading || !hasMore) return
-    
-    setIsLoading(true)
-    try {
-      // 模拟API调用加载更多评论
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
-      const moreComments: CommentType[] = Array(5).fill(null).map((_, index) => ({
-        id: Date.now() + index,
-        author: {
-          name: `用户${Math.floor(Math.random() * 1000)}`,
-          avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&q=80"
-        },
-        content: `这是第${page}页的评论 ${index + 1}`,
-        time: "3小时前",
-        likes: Math.floor(Math.random() * 100)
-      }))
-
-      if (moreComments.length < 5) {
-        setHasMore(false)
-      }
-
-      setComments(prev => [...prev, ...moreComments])
-      setPage(prev => prev + 1)
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        description: "加载评论失败，请稍后重试",
-      })
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  const { ref } = useInfiniteScroll({
-    hasNextPage: hasMore,
-    isFetchingNextPage: isLoading,
-    fetchNextPage: loadMoreComments
-  })
 
   const handleAddComment = () => {
     if (!newComment.trim()) {
@@ -159,16 +114,6 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
           />
         ))}
       </div>
-
-      {/* Loading indicator */}
-      {isLoading && (
-        <div className="text-center py-4 text-gray-500">
-          加载中...
-        </div>
-      )}
-
-      {/* Infinite scroll trigger */}
-      <div ref={ref} className="h-4" />
 
       {/* Comment Input */}
       <div className="fixed bottom-0 left-0 right-0 bg-white p-4 border-t shadow-lg">
