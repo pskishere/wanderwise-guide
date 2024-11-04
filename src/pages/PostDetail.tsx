@@ -17,8 +17,8 @@ const PostDetail = () => {
 
   return (
     <div className="pb-20 relative min-h-screen">
-      <PostHeader {...post} />
-      <PostContent {...post} />
+      <PostHeader author={post.author} title={post.title} />
+      <PostContent content={post.content} />
       <PostActions likes={post.likes} commentCount={post.comments.length} />
       <CommentSection comments={post.comments} commentCount={post.comments.length} />
       
@@ -27,7 +27,7 @@ const PostDetail = () => {
         <ReplyInput 
           onSubmit={handleSubmitComment}
           onCancel={() => {}}
-          placeholder="写下你的评论..."
+          replyTo=""
         />
       </div>
     </div>
