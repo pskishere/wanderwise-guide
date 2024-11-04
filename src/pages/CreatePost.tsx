@@ -126,10 +126,10 @@ const CreatePost = () => {
 
         <div className="px-4 space-y-4">
           <Input
-            placeholder="填写标题会有更多赞哦～"
+            placeholder="标题～"
             value={draft.title}
             onChange={(e) => dispatch(setDraft({ title: e.target.value }))}
-            className="text-lg border-0 px-0 py-2 focus-visible:ring-0 placeholder:text-gray-400"
+            className="text-small border-0 px-2 py-2 focus-visible:ring-0 placeholder:text-gray-400"
             maxLength={30}
           />
 

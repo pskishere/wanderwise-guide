@@ -9,7 +9,7 @@ interface ImageUploaderProps {
 export const ImageUploader = ({ images, onUpload, onRemove }: ImageUploaderProps) => {
   if (images.length === 0) {
     return (
-      <label className="block aspect-[4/3] rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 cursor-pointer hover:bg-gray-100 transition-colors">
+      <label className="block py-6 rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 cursor-pointer hover:bg-gray-100 transition-colors">
         <input
           type="file"
           accept="image/*"

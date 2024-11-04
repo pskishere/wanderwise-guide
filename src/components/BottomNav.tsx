@@ -1,4 +1,4 @@
-import { Home, Compass, ShoppingCart, User, Plus } from "lucide-react"
+import { Home, Compass, ShoppingCart, User, SquarePlus } from "lucide-react"
 import { Link, useLocation } from "react-router-dom"
 
 export const BottomNav = () => {
@@ -37,7 +37,7 @@ export const BottomNav = () => {
             isActive('/create-post') ? 'text-pink-500' : 'text-gray-500 hover:text-gray-900'
           }`}
         >
-          <Plus className={`h-5 w-5 ${isActive('/create-post') ? 'stroke-[2.5px]' : ''}`} />
+          <SquarePlus className={`h-5 w-5 ${isActive('/create-post') ? 'stroke-[2.5px]' : ''}`} />
           <span className="text-xs font-medium tracking-tight">发布</span>
         </Link>
 
