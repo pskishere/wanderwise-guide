@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { Image } from "@/components/ui/image"
+import { Checkbox } from "@/components/ui/checkbox"
 import {
   Dialog,
   DialogContent,
@@ -27,15 +28,32 @@ interface Product {
 
 interface ProductTableProps {
   products: Product[]
+  selectedIds: number[]
+  onSelectIds: (ids: number[]) => void
   onEdit: (product: Product) => void
   onDelete: (id: number) => void
 }
 
-export const ProductTable = ({ products, onEdit, onDelete }: ProductTableProps) => {
+export const ProductTable = ({ 
+  products, 
+  selectedIds,
+  onSelectIds,
+  onEdit, 
+  onDelete 
+}: ProductTableProps) => {
+  const handleSelect = (id: number) => {
+    if (selectedIds.includes(id)) {
+      onSelectIds(selectedIds.filter(selectedId => selectedId !== id))
+    } else {
+      onSelectIds([...selectedIds, id])
+    }
+  }
+
   return (
     <Table>
       <TableHeader>
         <TableRow>
+          <TableHead className="w-12"></TableHead>
           <TableHead>图片</TableHead>
           <TableHead>商品名</TableHead>
           <TableHead>价格</TableHead>
@@ -46,6 +64,12 @@ export const ProductTable = ({ products, onEdit, onDelete }: ProductTableProps) 
       <TableBody>
         {products.map((product) => (
           <TableRow key={product.id}>
+            <TableCell>
+              <Checkbox
+                checked={selectedIds.includes(product.id)}
+                onCheckedChange={() => handleSelect(product.id)}
+              />
+            </TableCell>
             <TableCell>
               <Image 
                 src={product.image} 
