@@ -113,7 +113,7 @@ export const AddressFormFields = ({
           name="isDefault"
           checked={form.isDefault}
           onChange={handleInputChange}
-          className="h-4 w-4 rounded border-gray-300 text-pink-600 focus:ring-pink-600"
+          className="h-4 w-4 rounded border-pink-500 text-pink-500 focus:ring-pink-500"
         />
         <Label htmlFor="isDefault">设为默认地址</Label>
       </div>
