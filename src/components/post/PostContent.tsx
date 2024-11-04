@@ -44,7 +44,7 @@ export const PostContent = ({ title, content, author, tags }: PostContentProps) 
             key={tag}
             className="px-2.5 py-1 bg-pink-50 text-pink-600 rounded-full text-xs font-medium hover:bg-pink-100 transition-colors cursor-pointer"
           >
-            #{tag}
+            {tag}
           </span>
         ))}
       </div>
