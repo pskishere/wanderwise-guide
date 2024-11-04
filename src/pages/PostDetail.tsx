@@ -17,8 +17,13 @@ const PostDetail = () => {
 
   return (
     <div className="pb-20 relative min-h-screen">
-      <PostHeader author={post.author} title={post.title} />
-      <PostContent content={post.content} />
+      <PostHeader />
+      <PostContent 
+        title={post.title}
+        content={post.content}
+        author={post.author}
+        tags={post.tags}
+      />
       <PostActions likes={post.likes} commentCount={post.comments.length} />
       <CommentSection comments={post.comments} commentCount={post.comments.length} />
       
