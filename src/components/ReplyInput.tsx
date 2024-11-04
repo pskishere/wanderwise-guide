@@ -42,11 +42,11 @@ export const ReplyInput = ({ onSubmit, onCancel, replyTo }: ReplyInputProps) => 
             value={content}
             onChange={(e) => setContent(e.target.value)}
             placeholder={`回复 @${replyTo}...`}
-            className="h-12 resize-none rounded-xl focus-visible:ring-pink-500 text-base py-3"
+            className="h-10 resize-none rounded-xl focus-visible:ring-pink-500 text-base py-2"
           />
           <Button 
             onClick={handleSubmit}
-            className="bg-pink-500 hover:bg-pink-600 active:bg-pink-700 px-8 h-12 rounded-full font-medium text-base shadow-lg hover:shadow-xl transition-all shrink-0"
+            className="bg-pink-500 hover:bg-pink-600 active:bg-pink-700 px-8 h-10 rounded-full font-medium text-base shadow-lg hover:shadow-xl transition-all shrink-0"
           >
             发送
           </Button>
