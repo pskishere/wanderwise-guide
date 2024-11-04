@@ -45,15 +45,15 @@ export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItem
   return (
     <div className="space-y-4">
       <div className="flex gap-3">
-        <Avatar className="h-8 w-8">
+        <Avatar className="h-8 w-8 flex-shrink-0">
           <img src={comment.author.avatar} alt={comment.author.name} className="object-cover" />
         </Avatar>
-        <div className="flex-1">
+        <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <span className="text-sm font-medium">{comment.author.name}</span>
+            <span className="text-sm font-medium truncate">{comment.author.name}</span>
             <span className="text-xs text-gray-500">{comment.time}</span>
           </div>
-          <p className="text-sm mt-1">{comment.content}</p>
+          <p className="text-sm mt-1 break-words">{comment.content}</p>
           <div className="flex items-center gap-4 mt-2">
             <button 
               className={`flex items-center gap-1 text-sm ${isLiked ? 'text-pink-500' : 'text-gray-500'} hover:text-pink-500 transition-colors`}
