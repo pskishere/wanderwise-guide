@@ -177,7 +177,7 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
             placeholder="说点什么..."
-            className="flex-1 resize-none rounded-xl border border-gray-200 p-3 text-sm focus:border-pink-500 focus:outline-none min-h-[44px] max-h-[120px]"
+            className="flex-1 resize-none rounded-xl p-3 text-sm focus:outline-none min-h-[44px] max-h-[120px]"
             rows={1}
           />
           <Button 
