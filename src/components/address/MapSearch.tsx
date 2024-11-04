@@ -94,11 +94,11 @@ export function MapSearch({ onAddressSelect }: MapSearchProps) {
               value={searchValue}
               onChange={handleInputChange}
               placeholder="搜索地址..."
-              className="pl-9 pr-4 w-full h-11 text-base"
+              className="pl-9 pr-4 w-full h-11 text-base bg-white"
             />
           </div>
         </PopoverTrigger>
-        <PopoverContent className="p-0 w-[calc(100vw-32px)] sm:w-[500px]" align="start">
+        <PopoverContent className="p-0 w-[calc(100vw-32px)] sm:w-[500px] bg-white" align="start">
           <Command>
             <CommandList>
               <CommandEmpty>
