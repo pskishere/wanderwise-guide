@@ -9,6 +9,8 @@ import { useSelector, useDispatch } from "react-redux"
 import { RootState } from "@/store/store"
 import { useEffect } from "react"
 import { setLoading, setError } from "@/store/productSlice"
+import { Navigation } from "@/components/Navigation"
+import { CommentSection } from "@/components/CommentSection"
 
 const relatedProducts = [
   {
@@ -99,7 +101,7 @@ const PostDetail = () => {
             </ScrollArea>
           </div>
           <CommentSection 
-            commentCount={post.commentCount}
+            commentCount={product.commentCount || 0}
           />
         </div>
       </div>
@@ -107,4 +109,4 @@ const PostDetail = () => {
   )
 }
 
-export default PostDetail;
+export default PostDetail
