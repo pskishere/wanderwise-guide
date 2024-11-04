@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
+import { Input } from "@/components/ui/input"
 import { useState } from "react"
 import { X } from "lucide-react"
 
@@ -38,11 +38,11 @@ export const ReplyInput = ({ onSubmit, onCancel, replyTo }: ReplyInputProps) => 
         </div>
         
         <div className="flex gap-3">
-          <Textarea
+          <Input
             value={content}
             onChange={(e) => setContent(e.target.value)}
             placeholder={`回复 @${replyTo}...`}
-            className="h-10 resize-none rounded-xl focus-visible:ring-pink-500 text-base py-2"
+            className="rounded-xl focus-visible:ring-pink-500 text-base"
           />
           <Button 
             onClick={handleSubmit}
@@ -53,5 +53,5 @@ export const ReplyInput = ({ onSubmit, onCancel, replyTo }: ReplyInputProps) => 
         </div>
       </div>
     </div>
-  )
+  );
 }
