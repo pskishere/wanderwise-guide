@@ -73,7 +73,7 @@ export function AddressSelector({ open, onOpenChange, onSelect, selectedId }: Ad
           ))}
         </RadioGroup>
 
-        <Button variant="outline" size="sm" className="w-full">
+        <Button variant="outline" size="xs" className="w-full mt-2">
           <MapPin className="mr-2 h-4 w-4" />
           新增地址
         </Button>
