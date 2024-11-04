@@ -90,7 +90,7 @@ export const Navigation = () => {
                       />
                     </div>
                   </PopoverTrigger>
-                  <PopoverContent className="p-0 -ml-2 w-[calc(100vw-32px)] sm:w-[500px] bg-white" align="start">
+                  <PopoverContent className="p-0 -ml-2 w-[calc(100vw-32px)] sm:w-[500px]" align="start">
                     <Command>
                       <CommandList>
                         <CommandEmpty>未找到相关结果</CommandEmpty>

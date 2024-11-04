@@ -88,7 +88,7 @@ export const AddressFormFields = ({
       </div>
 
       <div className="space-y-2">
-        <Label>地址搜索</Label>
+        <Label>地图搜索</Label>
         <MapSearch onAddressSelect={handleMapAddressSelect} />
       </div>
 
@@ -97,13 +97,16 @@ export const AddressFormFields = ({
         <Textarea
           id="detail"
           name="detail"
-          placeholder="请输入详细地址"
+          placeholder="请输入或粘贴完整地址，将自动解析"
           value={form.detail}
           onChange={handleInputChange}
           onPaste={handleDetailPaste}
           required
           className="min-h-[120px] resize-none rounded-lg border-2 border-gray-100 p-4 focus-visible:ring-0 focus-visible:border-pink-100 placeholder:text-gray-400 transition-colors"
         />
+        <p className="text-sm text-gray-500">
+          支持粘贴格式：张三 13800138000 详细地址
+        </p>
       </div>
 
       <div className="flex items-center gap-2">
@@ -113,7 +116,7 @@ export const AddressFormFields = ({
           name="isDefault"
           checked={form.isDefault}
           onChange={handleInputChange}
-          className="h-4 w-4 rounded border-pink-500 text-pink-500 focus:ring-pink-500"
+          className="h-4 w-4 rounded border-gray-300 text-pink-600 focus:ring-pink-600"
         />
         <Label htmlFor="isDefault">设为默认地址</Label>
       </div>
