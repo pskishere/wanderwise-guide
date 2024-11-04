@@ -57,6 +57,35 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
     fetchNextPage: loadMoreComments
   })
 
+  const handleReply = async (parentId: number, content: string) => {
+    const newReply: CommentType = {
+      id: Date.now(),
+      author: {
+        name: "当前用户",
+        avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&q=80"
+      },
+      content,
+      time: "刚刚",
+      likes: 0
+    }
+
+    setComments(prevComments => 
+      prevComments.map(comment => {
+        if (comment.id === parentId) {
+          return {
+            ...comment,
+            replies: [...(comment.replies || []), newReply]
+          }
+        }
+        return comment
+      })
+    )
+
+    toast({
+      description: "回复成功",
+    })
+  }
+
   const handleLike = (commentId: number) => {
     const updateComments = (comments: CommentType[]): CommentType[] => {
       return comments.map(comment => {
@@ -96,20 +125,18 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
           <CommentItem
             key={comment.id}
             comment={comment}
-            onReply={() => {}}
+            onReply={handleReply}
             onLike={handleLike}
           />
         ))}
       </div>
 
-      {/* Loading indicator */}
       {isLoading && (
         <div className="text-center py-4 text-gray-500">
           加载中...
         </div>
       )}
 
-      {/* Infinite scroll trigger */}
       <div ref={ref} className="h-4" />
     </div>
   )
