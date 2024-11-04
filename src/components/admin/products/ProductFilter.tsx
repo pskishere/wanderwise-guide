@@ -11,12 +11,13 @@ export const ProductFilter = ({ selectedCategory, onCategoryChange }: ProductFil
     { id: "all", name: "全部" },
     { id: "clothing", name: "服装" },
     { id: "accessories", name: "配饰" },
-    { id: "shoes", name: "鞋靴" }
+    { id: "shoes", name: "鞋靴" },
+    { id: "bags", name: "箱包" }
   ]
 
   return (
-    <div className="flex items-center gap-2">
-      <Tag className="h-4 w-4 text-gray-500" />
+    <div className="flex items-center gap-3 bg-gray-50/50 p-3 rounded-lg">
+      <Tag className="h-4 w-4 text-gray-400" />
       <div className="flex gap-2">
         {categories.map(category => (
           <Button

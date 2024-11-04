@@ -22,13 +22,13 @@ export const ProductSearch = ({
     <div className="flex items-center gap-4">
       <div className="flex-1 flex gap-4">
         <div className="relative flex-1">
-          <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
           <Input
             value={searchTerm}
             onChange={(e) => onSearchChange(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && onSearch()}
             placeholder="搜索商品名称、编号或标签..."
-            className="pl-8"
+            className="pl-9"
           />
         </div>
         <Select value={categoryFilter} onValueChange={onCategoryChange}>
@@ -44,7 +44,7 @@ export const ProductSearch = ({
           </SelectContent>
         </Select>
       </div>
-      <Button onClick={onSearch}>搜索</Button>
+      <Button onClick={onSearch} className="px-8">搜索</Button>
     </div>
   )
 }

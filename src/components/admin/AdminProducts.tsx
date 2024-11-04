@@ -18,7 +18,22 @@ import { mockProducts } from "@/services/mockData"
 
 export const AdminProducts = () => {
   const { toast } = useToast()
-  const [products, setProducts] = useState<Product[]>(mockProducts)
+  const [products, setProducts] = useState<Product[]>(mockProducts.map(p => ({
+    id: p.id,
+    title: p.title,
+    price: `¥${p.price}`,
+    originalPrice: `¥${p.price * 1.2}`,
+    description: p.description || "",
+    image: p.image,
+    images: [p.image],
+    tags: p.tags,
+    sales: "0",
+    shop: {
+      name: "默认店铺",
+      avatar: "https://api.dicebear.com/7.x/shapes/svg?seed=shop"
+    },
+    specs: []
+  })))
   const [selectedIds, setSelectedIds] = useState<number[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [categoryFilter, setCategoryFilter] = useState("all")
@@ -141,7 +156,9 @@ export const AdminProducts = () => {
         <h2 className="text-2xl font-semibold tracking-tight">商品管理</h2>
         <Dialog>
           <DialogTrigger asChild>
-            <Button>添加商品</Button>
+            <Button size="lg" className="gap-2 px-8">
+              添加商品
+            </Button>
           </DialogTrigger>
           <DialogContent className="max-w-lg">
             <DialogHeader>
@@ -150,17 +167,13 @@ export const AdminProducts = () => {
             <ProductForm
               product={newProduct}
               onSubmit={handleAddProduct}
-              onChange={(field, value) => setNewProduct(prev => ({
-                ...prev,
-                [field]: value
-              }))}
               submitText="添加"
             />
           </DialogContent>
         </Dialog>
       </div>
 
-      <div className="flex items-center justify-between gap-4">
+      <div className="space-y-4">
         <ProductSearch
           searchTerm={searchTerm}
           categoryFilter={categoryFilter}
@@ -168,27 +181,27 @@ export const AdminProducts = () => {
           onCategoryChange={setCategoryFilter}
           onSearch={handleSearch}
         />
-      </div>
 
-      <ProductFilter
-        selectedCategory={categoryFilter}
-        onCategoryChange={handleCategoryChange}
-      />
-
-      <ProductBulkActions
-        selectedIds={selectedIds}
-        onSelectAll={handleSelectAll}
-        onDelete={handleBulkDelete}
-      />
-      
-      <div className="rounded-md border bg-white shadow-sm">
-        <ProductTable
-          products={products}
-          selectedIds={selectedIds}
-          onSelectIds={setSelectedIds}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
+        <ProductFilter
+          selectedCategory={categoryFilter}
+          onCategoryChange={handleCategoryChange}
         />
+
+        <ProductBulkActions
+          selectedIds={selectedIds}
+          onSelectAll={handleSelectAll}
+          onDelete={handleBulkDelete}
+        />
+        
+        <div className="rounded-lg border bg-white shadow-sm overflow-hidden">
+          <ProductTable
+            products={products}
+            selectedIds={selectedIds}
+            onSelectIds={setSelectedIds}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
+        </div>
       </div>
     </div>
   )
