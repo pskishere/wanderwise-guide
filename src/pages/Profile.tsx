@@ -1,5 +1,5 @@
 import { BottomNav } from "@/components/BottomNav"
-import { Heart, MapPin, ShoppingBag, Settings, Camera, Medal, Edit2, Bell, Share2 } from "lucide-react"
+import { Heart, MapPin, ShoppingBag, Settings, Camera, Medal, Edit2, Bell, Share2, ChevronRight } from "lucide-react"
 import { Link } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { Button } from "@/components/ui/button"
@@ -13,24 +13,18 @@ const menuItems = [
     icon: Heart, 
     label: "收藏", 
     link: "/favorites",
-    color: "pink",
-    bgColor: "bg-pink-50",
     count: "12"
   },
   { 
     icon: MapPin, 
     label: "我的地址", 
     link: "/address",
-    color: "blue",
-    bgColor: "bg-blue-50",
     count: "2"
   },
   { 
     icon: ShoppingBag, 
     label: "订单", 
     link: "/orders",
-    color: "orange",
-    bgColor: "bg-orange-50",
     count: "3"
   }
 ]
@@ -121,30 +115,28 @@ const Profile = () => {
           <UserStats stats={stats} />
         </div>
 
-        <div className="mt-4 grid grid-cols-3 gap-3">
-          {menuItems.map((item) => {
+        <div className="mt-4 bg-white rounded-2xl shadow-sm overflow-hidden">
+          {menuItems.map((item, index) => {
             const Icon = item.icon
-            const textColorClass = `text-${item.color}-600`
-            
             return (
-              <Link 
-                key={item.label}
-                to={item.link}
-                className="relative flex flex-col items-center justify-center p-4 rounded-2xl bg-white shadow-sm border border-gray-100/50 hover:shadow-md transition-shadow"
-              >
-                <div className={`flex h-12 w-12 items-center justify-center rounded-xl ${item.bgColor}`}>
-                  <Icon className={`h-6 w-6 ${textColorClass}`} />
-                </div>
-                <span className="mt-2 text-sm font-medium text-gray-900">{item.label}</span>
-                {item.count && (
-                  <Badge 
-                    variant="secondary" 
-                    className="absolute top-2 right-2 bg-gray-100"
-                  >
-                    {item.count}
-                  </Badge>
+              <div key={item.label}>
+                <Link 
+                  to={item.link}
+                  className="flex items-center px-4 py-3.5 hover:bg-gray-50 transition-colors"
+                >
+                  <Icon className="h-5 w-5 text-gray-500" />
+                  <span className="ml-3 text-sm text-gray-900">{item.label}</span>
+                  <div className="ml-auto flex items-center gap-2">
+                    {item.count && (
+                      <span className="text-sm text-gray-500">{item.count}</span>
+                    )}
+                    <ChevronRight className="h-4 w-4 text-gray-400" />
+                  </div>
+                </Link>
+                {index < menuItems.length - 1 && (
+                  <Separator />
                 )}
-              </Link>
+              </div>
             )
           })}
         </div>
