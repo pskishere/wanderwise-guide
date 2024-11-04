@@ -6,11 +6,11 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
-import { CommentSection } from "@/components/CommentSection"
 import { ImageLightbox } from "@/components/ImageLightbox"
 import { PostHeader } from "@/components/post/PostHeader"
 import { PostContent } from "@/components/post/PostContent"
 import { PostActions } from "@/components/post/PostActions"
+import { CommentSection } from "@/components/CommentSection"
 import { useState } from "react"
 
 const PostDetail = () => {
@@ -79,7 +79,7 @@ const PostDetail = () => {
     <div className="min-h-screen bg-gray-50 pb-20">
       <PostHeader />
 
-      <div className="relative w-full aspect-[4/3] bg-black -z-10">
+      <div className="relative w-full aspect-[4/3] bg-black z-0">
         <Carousel className="w-full h-full">
           <CarouselContent>
             {post.images.map((image, index) => (
@@ -109,7 +109,7 @@ const PostDetail = () => {
         index={currentImageIndex}
       />
 
-      <Card className="mx-4 -mt-8 relative z-20 rounded-2xl border-none shadow-lg overflow-hidden">
+      <Card className="mx-4 -mt-8 relative z-10 rounded-2xl border-none shadow-lg overflow-hidden">
         <PostContent 
           title={post.title}
           content={post.content}
