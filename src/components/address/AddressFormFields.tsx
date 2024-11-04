@@ -138,14 +138,14 @@ export const AddressFormFields = ({
       </div>
 
       {/* Region Selection */}
-      <RegionSelect
+      {/* <RegionSelect
         province={form.province}
         city={form.city}
         district={form.district}
         onProvinceChange={(value) => handleSelectChange(value, 'province')}
         onCityChange={(value) => handleSelectChange(value, 'city')}
         onDistrictChange={(value) => handleSelectChange(value, 'district')}
-      />
+      /> */}
 
       <div className="space-y-2">
         <Label htmlFor="detail">详细地址</Label>
