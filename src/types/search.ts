@@ -13,5 +13,4 @@ export interface SearchResult {
   }
   likes?: number
   comments?: number
-  isAvailable?: boolean
 }

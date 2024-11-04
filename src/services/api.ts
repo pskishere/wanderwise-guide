@@ -1,10 +1,5 @@
-import { Product } from '@/types/product';
+import { Product, PageData } from '@/types/product';
 import { mockProducts } from './mockData';
-
-interface PageData<T> {
-  items: T[];
-  nextCursor?: number;
-}
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 

@@ -23,7 +23,6 @@ interface ProductInfoProps {
       name: string
       options: string[]
     }>
-    isAvailable?: boolean;
   }
 }
 
@@ -56,11 +55,6 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
     <div className="space-y-6">
       <div className="space-y-1.5">
         <div className="flex flex-wrap gap-1.5">
-          {!product.isAvailable && (
-            <Badge variant="secondary" className="bg-gray-100 text-gray-600 hover:bg-gray-200">
-              已下架
-            </Badge>
-          )}
           <Badge variant="secondary" className="bg-pink-50 text-pink-600 hover:bg-pink-100">
             限时优惠
           </Badge>
@@ -105,12 +99,11 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
         </Button>
         <Button
           size="lg"
-          className="flex-1 bg-pink-500 hover:bg-pink-600 rounded-full shadow-lg shadow-pink-500/20 h-9 disabled:opacity-50"
+          className="flex-1 bg-pink-500 hover:bg-pink-600 rounded-full shadow-lg shadow-pink-500/20 h-9"
           onClick={() => setIsDrawerOpen(true)}
-          disabled={!product.isAvailable}
         >
           <ShoppingCart className="h-4 w-4 mr-1.5" />
-          {product.isAvailable ? "加入购物车" : "已下架"}
+          加入购物车
         </Button>
       </div>
 
@@ -143,6 +136,7 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
           className="prose prose-pink max-w-none prose-img:rounded-lg prose-img:shadow-md"
         />
       </div>
+
 
       <SpecsDrawer 
         isOpen={isDrawerOpen}

@@ -50,9 +50,7 @@ export const SearchResultItem = ({ result, onClick }: SearchResultItemProps) => 
 
   return (
     <Card 
-      className={`mb-4 break-inside-avoid overflow-hidden border-none shadow-none hover:shadow-lg transition-shadow duration-200 cursor-pointer relative ${
-        !result.isAvailable ? 'opacity-60' : ''
-      }`}
+      className="mb-4 break-inside-avoid overflow-hidden border-none shadow-none hover:shadow-lg transition-shadow duration-200 cursor-pointer"
       onClick={() => onClick(result)}
     >
       <div className="relative w-full aspect-square bg-gray-100 overflow-hidden">
@@ -62,13 +60,6 @@ export const SearchResultItem = ({ result, onClick }: SearchResultItemProps) => 
           className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300"
           loading="lazy"
         />
-        {!result.isAvailable && (
-          <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-            <span className="text-white font-medium px-4 py-2 bg-black/60 rounded-full">
-              已下架
-            </span>
-          </div>
-        )}
       </div>
       <div className="px-2 pt-4 pb-3">
         <h3 className="text-sm font-medium line-clamp-2 mb-2">{result.title}</h3>
