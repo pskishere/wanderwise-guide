@@ -93,7 +93,7 @@ export const Explore = () => {
           {products.map((product) => (
             <Card 
               key={product.id} 
-              className="mb-4 break-inside-avoid overflow-hidden border-none shadow-none hover:shadow-lg transition-shadow duration-200 cursor-pointer"
+              className="mb-4 bg-white break-inside-avoid overflow-hidden border-none shadow-none hover:shadow-lg transition-shadow duration-200 cursor-pointer"
               onClick={() => handleProductClick(product.id)}
             >
               <img

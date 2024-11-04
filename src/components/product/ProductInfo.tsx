@@ -80,56 +80,6 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
         </div>
       </div>
 
-      <div className="flex items-center gap-2 p-2 bg-gradient-to-r from-pink-50/50 to-transparent rounded-lg border border-pink-100">
-        <Avatar className="h-8 w-8 ring-1 ring-pink-500/20">
-          <img src={product.shop.avatar} alt={product.shop.name} className="object-cover" />
-        </Avatar>
-        <div className="flex-1">
-          <h3 className="font-medium text-sm">{product.shop.name}</h3>
-          <div className="flex items-center gap-1.5">
-            <Award className="h-3 w-3 text-pink-500" />
-            <p className="text-xs text-gray-500">官方认证店铺</p>
-          </div>
-        </div>
-        <Button variant="outline" size="sm" className="gap-1 rounded-full px-3 border-pink-200 hover:bg-pink-50 text-xs h-7">
-          <Store className="h-3.5 w-3.5 text-pink-500" />
-          进店逛逛
-        </Button>
-      </div>
-
-      <div className="grid grid-cols-3 gap-1.5">
-        <div className="flex flex-col items-center gap-0.5 p-1.5 bg-gray-50/50 rounded-lg">
-          <Shield className="h-4 w-4 text-pink-500" />
-          <span className="text-xs text-gray-600">正品保证</span>
-        </div>
-        <div className="flex flex-col items-center gap-0.5 p-1.5 bg-gray-50/50 rounded-lg">
-          <Package className="h-4 w-4 text-pink-500" />
-          <span className="text-xs text-gray-600">极速发货</span>
-        </div>
-        <div className="flex flex-col items-center gap-0.5 p-1.5 bg-gray-50/50 rounded-lg">
-          <Truck className="h-4 w-4 text-pink-500" />
-          <span className="text-xs text-gray-600">全国包邮</span>
-        </div>
-      </div>
-
-      <div className="space-y-1.5 bg-gray-50/50 p-2 rounded-lg">
-        <h2 className="font-medium flex items-center gap-1.5 text-sm">
-          <span className="h-3 w-0.5 bg-pink-500 rounded-full"></span>
-          商品详情
-        </h2>
-        <p className="text-gray-600 text-sm leading-relaxed">
-          {product.description}
-        </p>
-      </div>
-
-      {/* 富文本广告内容 */}
-      <div className="bg-white rounded-lg p-4">
-        <MarkdownPreview 
-          source={product.richDescription || adContent}
-          className="prose prose-pink max-w-none prose-img:rounded-lg prose-img:shadow-md"
-        />
-      </div>
-
       <div className="flex gap-2 pt-1">
         <Button
           variant="outline"
@@ -156,6 +106,37 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
           加入购物车
         </Button>
       </div>
+
+      <div className="grid grid-cols-3 gap-1.5">
+        <div className="flex flex-col items-center gap-0.5 p-1.5 bg-gray-50/50 rounded-lg">
+          <Shield className="h-4 w-4 text-pink-500" />
+          <span className="text-xs text-gray-600">正品保证</span>
+        </div>
+        <div className="flex flex-col items-center gap-0.5 p-1.5 bg-gray-50/50 rounded-lg">
+          <Package className="h-4 w-4 text-pink-500" />
+          <span className="text-xs text-gray-600">极速发货</span>
+        </div>
+        <div className="flex flex-col items-center gap-0.5 p-1.5 bg-gray-50/50 rounded-lg">
+          <Truck className="h-4 w-4 text-pink-500" />
+          <span className="text-xs text-gray-600">全国包邮</span>
+        </div>
+      </div>
+
+      <div className="space-y-1.5 bg-gray-50/50 rounded-lg">
+        <h2 className="font-medium flex items-center gap-1.5 text-base">
+          <span className="h-3 w-1 bg-pink-500 rounded-full"></span>
+          商品详情
+        </h2>
+      </div>
+
+      {/* 富文本广告内容 */}
+      <div className="bg-white rounded-lg p-3">
+        <MarkdownPreview 
+          source={product.richDescription || adContent}
+          className="prose prose-pink max-w-none prose-img:rounded-lg prose-img:shadow-md"
+        />
+      </div>
+
 
       <SpecsDrawer 
         isOpen={isDrawerOpen}
