@@ -4,9 +4,6 @@ export interface Address {
   id: string
   name: string
   phone: string
-  province: string
-  city: string
-  district: string
   detail: string
   isDefault: boolean
 }
@@ -23,9 +20,6 @@ const initialState: AddressState = {
       id: "1",
       name: "张三",
       phone: "138****8888",
-      province: "330000",
-      city: "330100",
-      district: "330106",
       detail: "文三路 123 号",
       isDefault: true
     },
@@ -33,9 +27,6 @@ const initialState: AddressState = {
       id: "2",
       name: "李四",
       phone: "139****9999",
-      province: "330000",
-      city: "330100",
-      district: "330108",
       detail: "网商路 599 号",
       isDefault: false
     }
