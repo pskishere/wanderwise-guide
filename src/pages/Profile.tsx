@@ -13,19 +13,25 @@ const menuItems = [
     icon: Heart, 
     label: "收藏", 
     link: "/favorites",
-    color: "pink"
+    color: "pink",
+    bgColor: "bg-pink-50",
+    count: "12"
   },
   { 
     icon: MapPin, 
     label: "我的地址", 
     link: "/address",
-    color: "blue"
+    color: "blue",
+    bgColor: "bg-blue-50",
+    count: "2"
   },
   { 
     icon: ShoppingBag, 
     label: "订单", 
     link: "/orders",
-    color: "orange"
+    color: "orange",
+    bgColor: "bg-orange-50",
+    count: "3"
   }
 ]
 
@@ -38,7 +44,7 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">      
+    <div className="min-h-screen bg-gray-50">      
       <div className="container mx-auto px-4 pb-24 pt-6">
         <div className="bg-white rounded-2xl p-6 shadow">
           <div className="flex items-start gap-4">
@@ -115,37 +121,30 @@ const Profile = () => {
           <UserStats stats={stats} />
         </div>
 
-        <div className="mt-4 bg-white rounded-xl shadow overflow-hidden border border-gray-100">
-          {menuItems.map((item, index) => {
+        <div className="mt-4 grid grid-cols-3 gap-3">
+          {menuItems.map((item) => {
             const Icon = item.icon
-            const colorMap = {
-              pink: "text-pink-600 bg-pink-100",
-              blue: "text-blue-600 bg-blue-100",
-              orange: "text-orange-600 bg-orange-100"
-            }
-            const colors = colorMap[item.color as keyof typeof colorMap]
+            const textColorClass = `text-${item.color}-600`
             
             return (
-              <>
-                <Link 
-                  to={item.link}
-                  key={item.label}
-                  className="flex items-center px-4 py-3.5 hover:bg-gray-50/80 transition-colors"
-                >
-                  <div className={`flex h-10 w-10 items-center justify-center rounded-lg ${colors.split(" ")[1]}`}>
-                    <Icon className={`h-5 w-5 ${colors.split(" ")[0]}`} />
-                  </div>
-                  <span className="ml-3 font-medium text-gray-900">{item.label}</span>
-                  <div className="ml-auto">
-                    <svg className="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none">
-                      <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </div>
-                </Link>
-                {index < menuItems.length - 1 && (
-                  <Separator />
+              <Link 
+                key={item.label}
+                to={item.link}
+                className="relative flex flex-col items-center justify-center p-4 rounded-2xl bg-white shadow-sm border border-gray-100/50 hover:shadow-md transition-shadow"
+              >
+                <div className={`flex h-12 w-12 items-center justify-center rounded-xl ${item.bgColor}`}>
+                  <Icon className={`h-6 w-6 ${textColorClass}`} />
+                </div>
+                <span className="mt-2 text-sm font-medium text-gray-900">{item.label}</span>
+                {item.count && (
+                  <Badge 
+                    variant="secondary" 
+                    className="absolute top-2 right-2 bg-gray-100"
+                  >
+                    {item.count}
+                  </Badge>
                 )}
-              </>
+              </Link>
             )
           })}
         </div>
