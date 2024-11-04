@@ -15,6 +15,7 @@ import { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
+import { RelatedProducts } from "@/components/product/RelatedProducts"
 
 const PostDetail = () => {
   const [lightboxOpen, setLightboxOpen] = useState(false)
@@ -54,7 +55,6 @@ const PostDetail = () => {
       return
     }
 
-    // 这里可以添加实际的评论提交逻辑
     toast({
       description: "评论发布成功",
     })
@@ -111,12 +111,15 @@ const PostDetail = () => {
       />
 
       <div className="mt-6">
+        <div className="mx-4 mb-6">
+          <h2 className="text-lg font-medium mb-4">相关推荐</h2>
+          <RelatedProducts />
+        </div>
         <CommentSection 
           commentCount={post.commentCount}
         />
       </div>
 
-      {/* Add bottom bar */}
       <div className="fixed bottom-0 z-20 left-0 right-0 bg-white border-t shadow-lg animate-in slide-in-from-bottom duration-300">
         <div className="container max-w-2xl mx-auto px-4 py-3">
           <div className="flex gap-3">
