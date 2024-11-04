@@ -23,7 +23,7 @@ export const AdminProducts = ({ products: initialProducts }: AdminProductsProps)
   const [products, setProducts] = useState(initialProducts)
   const [editingProduct, setEditingProduct] = useState<any>(null)
   const [searchTerm, setSearchTerm] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState("all")
+  const [categoryFilter, setCategoryFilter] = useState("all")
   const [selectedIds, setSelectedIds] = useState<number[]>([])
   const [newProduct, setNewProduct] = useState({
     title: "",
@@ -36,19 +36,25 @@ export const AdminProducts = ({ products: initialProducts }: AdminProductsProps)
   })
 
   const handleSearch = () => {
-    if (!searchTerm.trim()) {
+    if (!searchTerm.trim() && categoryFilter === "all") {
       setProducts(initialProducts)
       return
     }
 
-    const filtered = initialProducts.filter(product => 
-      product.title.toLowerCase().includes(searchTerm.toLowerCase())
-    )
+    const filtered = initialProducts.filter(product => {
+      const matchesSearch = !searchTerm.trim() || 
+        product.title.toLowerCase().includes(searchTerm.toLowerCase())
+      
+      const matchesCategory = categoryFilter === "all" || 
+        product.tags.includes(categoryFilter)
+
+      return matchesSearch && matchesCategory
+    })
     setProducts(filtered)
   }
 
   const handleCategoryChange = (category: string) => {
-    setSelectedCategory(category)
+    setCategoryFilter(category)
     const filtered = category === 'all' 
       ? initialProducts
       : initialProducts.filter(product => 
@@ -117,7 +123,7 @@ export const AdminProducts = ({ products: initialProducts }: AdminProductsProps)
       originalPrice: newProduct.originalPrice ? parseFloat(newProduct.originalPrice) : undefined,
       stock: newProduct.stock ? parseInt(newProduct.stock) : 0,
       sales: "0",
-      tags: newProduct.tags.length > 0 ? newProduct.tags : [selectedCategory]
+      tags: newProduct.tags.length > 0 ? newProduct.tags : [categoryFilter]
     }
 
     setProducts(prev => [product, ...prev])
@@ -160,13 +166,15 @@ export const AdminProducts = ({ products: initialProducts }: AdminProductsProps)
 
         <ProductSearch
           searchTerm={searchTerm}
+          categoryFilter={categoryFilter}
           onSearchChange={setSearchTerm}
+          onCategoryChange={setCategoryFilter}
           onSearch={handleSearch}
         />
       </div>
 
       <ProductFilter
-        selectedCategory={selectedCategory}
+        selectedCategory={categoryFilter}
         onCategoryChange={handleCategoryChange}
       />
 

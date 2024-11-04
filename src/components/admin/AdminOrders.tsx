@@ -20,19 +20,25 @@ interface AdminOrdersProps {
 export const AdminOrders = ({ orders: initialOrders }: AdminOrdersProps) => {
   const [orders, setOrders] = useState(initialOrders)
   const [searchTerm, setSearchTerm] = useState("")
+  const [statusFilter, setStatusFilter] = useState("all")
   const { toast } = useToast()
   const navigate = useNavigate()
 
   const handleSearch = () => {
-    if (!searchTerm.trim()) {
+    if (!searchTerm.trim() && statusFilter === "all") {
       setOrders(initialOrders)
       return
     }
 
-    const filtered = initialOrders.filter(order => 
-      order.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      order.address?.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )
+    const filtered = initialOrders.filter(order => {
+      const matchesSearch = !searchTerm.trim() || 
+        order.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        order.address?.name.toLowerCase().includes(searchTerm.toLowerCase())
+      
+      const matchesStatus = statusFilter === "all" || order.status === statusFilter
+
+      return matchesSearch && matchesStatus
+    })
     setOrders(filtered)
   }
 
@@ -53,7 +59,9 @@ export const AdminOrders = ({ orders: initialOrders }: AdminOrdersProps) => {
     <div className="space-y-4">
       <OrderSearchBar
         searchTerm={searchTerm}
+        statusFilter={statusFilter}
         onSearchChange={setSearchTerm}
+        onStatusChange={setStatusFilter}
         onSearch={handleSearch}
       />
 

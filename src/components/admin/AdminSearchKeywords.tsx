@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input"
 import { Plus, Search, Trash2 } from "lucide-react"
 import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 export const AdminSearchKeywords = () => {
   const [keywords, setKeywords] = useState([
