@@ -88,7 +88,7 @@ export const AddressFormFields = ({
       </div>
 
       <div className="space-y-2">
-        <Label>地图搜索</Label>
+        <Label>地址搜索</Label>
         <MapSearch onAddressSelect={handleMapAddressSelect} />
       </div>
 
