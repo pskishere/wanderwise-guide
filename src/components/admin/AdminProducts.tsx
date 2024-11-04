@@ -18,29 +18,7 @@ import { mockProducts } from "@/services/mockProducts"
 
 export const AdminProducts = () => {
   const { toast } = useToast()
-  const [products, setProducts] = useState<Product[]>(mockProducts.map(p => {
-    // Convert price to number, remove ¥ if present, then calculate
-    const basePrice = typeof p.price === 'string' ? 
-      Number(p.price.replace('¥', '')) : 
-      p.price
-
-    return {
-      id: p.id,
-      title: p.title,
-      price: `¥${basePrice}`,
-      originalPrice: `¥${Math.round(basePrice * 1.2)}`,
-      description: p.description || "",
-      image: p.image,
-      images: [p.image],
-      tags: p.tags,
-      sales: "0",
-      shop: {
-        name: "默认店铺",
-        avatar: "https://api.dicebear.com/7.x/shapes/svg?seed=shop"
-      },
-      specs: []
-    }
-  }))
+  const [products, setProducts] = useState<Product[]>(mockProducts)
   const [selectedIds, setSelectedIds] = useState<number[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [categoryFilter, setCategoryFilter] = useState("all")

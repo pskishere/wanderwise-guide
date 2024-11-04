@@ -1,4 +1,7 @@
-export interface Product {
+import { Product } from "@/types/product";
+
+// Define a simpler type for mock data input
+interface MockProductInput {
   id: number;
   title: string;
   price: number;
@@ -8,7 +11,8 @@ export interface Product {
   tags: string[];
 }
 
-export const mockProducts: Product[] = [
+// Mock data with simpler structure
+const mockProductInputs: MockProductInput[] = [
   {
     id: 1,
     title: "日式和风连衣裙",
@@ -37,3 +41,21 @@ export const mockProducts: Product[] = [
     tags: ["shoes"]
   }
 ];
+
+// Convert mock inputs to full Product type
+export const mockProducts: Product[] = mockProductInputs.map(p => ({
+  id: p.id,
+  title: p.title,
+  price: `¥${p.price}`,
+  originalPrice: `¥${Math.round(p.price * 1.2)}`,
+  description: p.description || "",
+  image: p.image,
+  images: [p.image],
+  tags: p.tags,
+  sales: "0",
+  shop: {
+    name: "默认店铺",
+    avatar: "https://api.dicebear.com/7.x/shapes/svg?seed=shop"
+  },
+  specs: []
+}));
