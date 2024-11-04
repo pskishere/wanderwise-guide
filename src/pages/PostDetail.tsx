@@ -1,14 +1,14 @@
 import { useParams } from "react-router-dom";
-import PostHeader from "@/components/post/PostHeader";
-import PostContent from "@/components/post/PostContent";
-import PostActions from "@/components/post/PostActions";
-import CommentSection from "@/components/CommentSection";
-import ReplyInput from "@/components/ReplyInput";
-import { mockPosts } from "@/services/mockData";
+import { PostHeader } from "@/components/post/PostHeader";
+import { PostContent } from "@/components/post/PostContent";
+import { PostActions } from "@/components/post/PostActions";
+import { CommentSection } from "@/components/CommentSection";
+import { ReplyInput } from "@/components/ReplyInput";
+import { posts } from "@/services/mockData";
 
 const PostDetail = () => {
   const { id } = useParams();
-  const post = mockPosts.find(p => p.id === id) || mockPosts[0];
+  const post = posts.find(p => p.id === id) || posts[0];
 
   const handleSubmitComment = (content: string) => {
     console.log("New comment:", content);
