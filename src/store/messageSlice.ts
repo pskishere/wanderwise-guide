@@ -1,11 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
+interface MessageUser {
+  id: number
+  name: string
+  avatar: string
+}
+
 export interface Message {
   id: number
-  user: {
-    name: string
-    avatar: string
-  }
+  user: MessageUser
   lastMessage: string
   time: string
   unread: number
@@ -22,6 +25,7 @@ const initialState: MessageState = {
     {
       id: 1,
       user: {
+        id: 1,
         name: "东京导游小王",
         avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&q=80"
       },
@@ -32,6 +36,7 @@ const initialState: MessageState = {
     {
       id: 2,
       user: {
+        id: 2,
         name: "京都民宿房东",
         avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&q=80"
       },
