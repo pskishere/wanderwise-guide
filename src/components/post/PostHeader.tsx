@@ -9,7 +9,7 @@ export const PostHeader = () => {
   return (
     <button 
       onClick={() => navigate(-1)}
-      className="fixed top-4 left-4 z-20 bg-black/30 p-2 rounded-full text-white hover:bg-black/50 transition-colors"
+      className="fixed top-4 left-4 z-50 bg-black/30 p-2 rounded-full text-white hover:bg-black/50 transition-colors"
     >
       <ChevronLeft className="h-6 w-6" />
     </button>
