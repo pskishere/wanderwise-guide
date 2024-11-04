@@ -9,6 +9,7 @@ import orderReducer from './orderSlice'
 import checkoutReducer from './checkoutSlice'
 import userReducer from './userSlice'
 import createPostReducer from './createPostSlice'
+import keywordReducer from './keywordSlice'
 
 export const store = configureStore({
   reducer: {
@@ -21,7 +22,8 @@ export const store = configureStore({
     order: orderReducer,
     checkout: checkoutReducer,
     user: userReducer,
-    createPost: createPostReducer
+    createPost: createPostReducer,
+    keyword: keywordReducer
   }
 })
 

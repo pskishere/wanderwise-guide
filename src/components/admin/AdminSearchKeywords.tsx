@@ -13,40 +13,41 @@ import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { useDispatch, useSelector } from "react-redux"
+import { RootState } from "@/store/store"
+import { addKeyword, deleteKeyword } from "@/store/keywordSlice"
 
 export const AdminSearchKeywords = () => {
-  const [keywords, setKeywords] = useState([
-    { id: 1, keyword: "东京", searchCount: 1234, type: "destination", trend: "+12%" },
-    { id: 2, keyword: "京都", searchCount: 890, type: "destination", trend: "+5%" },
-    { id: 3, keyword: "大阪", searchCount: 756, type: "destination", trend: "-2%" }
-  ])
+  const dispatch = useDispatch()
+  const keywords = useSelector((state: RootState) => state.keyword.keywords)
   const [newKeyword, setNewKeyword] = useState("")
   const [searchTerm, setSearchTerm] = useState("")
   const [typeFilter, setTypeFilter] = useState("all")
   const { toast } = useToast()
 
   const handleAdd = () => {
-    if (!newKeyword.trim()) return
+    if (!newKeyword.trim()) {
+      toast({
+        description: "请输入关键词",
+      })
+      return
+    }
+
+    dispatch(addKeyword({
+      keyword: newKeyword,
+      searchCount: 0,
+      type: "destination",
+      trend: "0%"
+    }))
     
-    setKeywords(prev => [
-      ...prev, 
-      { 
-        id: Date.now(),
-        keyword: newKeyword,
-        searchCount: 0,
-        type: "destination",
-        trend: "0%"
-      }
-    ])
     setNewKeyword("")
-    
     toast({
       description: "关键词已添加",
     })
   }
 
   const handleDelete = (id: number) => {
-    setKeywords(prev => prev.filter(k => k.id !== id))
+    dispatch(deleteKeyword(id))
     toast({
       description: "关键词已删除",
     })
@@ -55,7 +56,9 @@ export const AdminSearchKeywords = () => {
   const filteredKeywords = keywords.filter(keyword => {
     const matchesSearch = searchTerm === "" || 
       keyword.keyword.toLowerCase().includes(searchTerm.toLowerCase())
+    
     const matchesType = typeFilter === "all" || keyword.type === typeFilter
+
     return matchesSearch && matchesType
   })
 
@@ -102,8 +105,8 @@ export const AdminSearchKeywords = () => {
           <SelectContent>
             <SelectItem value="all">全部类型</SelectItem>
             <SelectItem value="destination">目的地</SelectItem>
-            <SelectItem value="food">美食</SelectItem>
             <SelectItem value="activity">活动</SelectItem>
+            <SelectItem value="food">美食</SelectItem>
           </SelectContent>
         </Select>
       </div>
