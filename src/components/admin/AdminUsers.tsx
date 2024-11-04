@@ -1,38 +1,8 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
-import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { useToast } from "@/hooks/use-toast"
 import { useState } from "react"
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Badge } from "@/components/ui/badge"
-import { Search } from "lucide-react"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-
-interface User {
-  id: number
-  name: string
-  email: string
-  avatar: string
-  status: string
-  role: string
-  registerDate: string
-  lastLogin: string
-}
+import { useToast } from "@/hooks/use-toast"
+import { UserSearch } from "./users/UserSearch"
+import { UserTable } from "./users/UserTable"
+import type { User } from "./users/types"
 
 export const AdminUsers = () => {
   const { toast } = useToast()
@@ -92,7 +62,6 @@ export const AdminUsers = () => {
   }
 
   const handleSearch = () => {
-    // 实际项目中这里会调用API进行搜索
     toast({
       description: "搜索功能已触发",
     })
@@ -108,156 +77,27 @@ export const AdminUsers = () => {
     return matchesSearch && matchesStatus
   })
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "活跃":
-        return "bg-green-100 text-green-800"
-      case "禁用":
-        return "bg-red-100 text-red-800"
-      default:
-        return "bg-gray-100 text-gray-800"
-    }
-  }
-
-  const getRoleColor = (role: string) => {
-    switch (role) {
-      case "商家":
-        return "bg-blue-100 text-blue-800"
-      case "管理员":
-        return "bg-purple-100 text-purple-800"
-      default:
-        return "bg-gray-100 text-gray-800"
-    }
-  }
-
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between gap-4 mb-6">
-        <div className="flex-1 flex gap-4">
-          <div className="relative flex-1">
-            <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-            <Input
-              placeholder="搜索用户名或邮箱..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-8"
-              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-            />
-          </div>
-          <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="w-32">
-              <SelectValue placeholder="状态筛选" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">全部状态</SelectItem>
-              <SelectItem value="活跃">活跃</SelectItem>
-              <SelectItem value="禁用">禁用</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-semibold tracking-tight">用户管理</h2>
       </div>
 
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>用户</TableHead>
-              <TableHead>角色</TableHead>
-              <TableHead>状态</TableHead>
-              <TableHead>注册时间</TableHead>
-              <TableHead>最后登录</TableHead>
-              <TableHead>操作</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredUsers.map((user) => (
-              <TableRow key={user.id}>
-                <TableCell className="flex items-center space-x-2">
-                  <Avatar>
-                    <AvatarImage src={user.avatar} />
-                    <AvatarFallback>{user.name[0]}</AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <div className="font-medium">{user.name}</div>
-                    <div className="text-sm text-gray-500">{user.email}</div>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <Badge className={getRoleColor(user.role)}>{user.role}</Badge>
-                </TableCell>
-                <TableCell>
-                  <Badge className={getStatusColor(user.status)}>{user.status}</Badge>
-                </TableCell>
-                <TableCell className="text-sm text-gray-500">{user.registerDate}</TableCell>
-                <TableCell className="text-sm text-gray-500">{user.lastLogin}</TableCell>
-                <TableCell>
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button variant="outline" size="sm" className="mr-2">
-                        编辑
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>编辑用户信息</DialogTitle>
-                      </DialogHeader>
-                      <div className="space-y-4 py-4">
-                        <div className="space-y-2">
-                          <Label>用户名</Label>
-                          <Input
-                            value={editingUser?.name || user.name}
-                            onChange={(e) => setEditingUser({
-                              ...user,
-                              name: e.target.value
-                            })}
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label>邮箱</Label>
-                          <Input
-                            value={editingUser?.email || user.email}
-                            onChange={(e) => setEditingUser({
-                              ...user,
-                              email: e.target.value
-                            })}
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label>角色</Label>
-                          <Select 
-                            value={editingUser?.role || user.role}
-                            onValueChange={(value) => setEditingUser({
-                              ...user,
-                              role: value
-                            })}
-                          >
-                            <SelectTrigger>
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="用户">用户</SelectItem>
-                              <SelectItem value="商家">商家</SelectItem>
-                              <SelectItem value="管理员">管理员</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                        <Button onClick={handleSaveEdit} className="w-full">保存</Button>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
-                  <Button 
-                    variant={user.status === "禁用" ? "outline" : "destructive"}
-                    size="sm"
-                    onClick={() => handleDisable(user.id)}
-                  >
-                    {user.status === "禁用" ? "启用" : "禁用"}
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+      <UserSearch
+        searchTerm={searchTerm}
+        statusFilter={statusFilter}
+        onSearchChange={setSearchTerm}
+        onStatusChange={setStatusFilter}
+        onSearch={handleSearch}
+      />
+
+      <UserTable
+        users={filteredUsers}
+        editingUser={editingUser}
+        onEditUser={setEditingUser}
+        onSaveEdit={handleSaveEdit}
+        onDisable={handleDisable}
+      />
     </div>
   )
 }
