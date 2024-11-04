@@ -34,7 +34,7 @@ const Admin = () => {
           <Routes>
             <Route index element={<AdminDashboard orders={orders} products={products} />} />
             <Route path="orders" element={<AdminOrders orders={orders} />} />
-            <Route path="products" element={<AdminProducts products={products} />} />
+            <Route path="products" element={<AdminProducts />} />
             <Route path="users" element={<AdminUsers />} />
             <Route path="posts" element={<AdminPosts posts={posts} />} />
             <Route path="search-keywords" element={<AdminSearchKeywords />} />
