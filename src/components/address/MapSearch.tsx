@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input"
 import { Search } from "lucide-react"
 import { Command, CommandEmpty, CommandList } from "@/components/ui/command"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { debounce } from "lodash"
 
 interface MapSearchProps {
   onAddressSelect: (address: {
@@ -29,12 +30,6 @@ export function MapSearch({ onAddressSelect }: MapSearchProps) {
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.BMap) {
-      // 初始化地址自动完成
-      autocompleteRef.current = new window.BMap.Autocomplete({
-        input: "bmap-search-input",
-        location: "全国"
-      })
-
       // 初始化本地搜索
       localSearchRef.current = new window.BMap.LocalSearch("全国", {
         onSearchComplete: function(results: any) {
@@ -56,26 +51,25 @@ export function MapSearch({ onAddressSelect }: MapSearchProps) {
           }
         }
       })
-
-      // 监听选择建议地址事件
-      autocompleteRef.current.addEventListener('onconfirm', function(e: any) {
-        const poi = e.item.value
-        
-        // 使用本地搜索获取更详细的地址信息
-        localSearchRef.current.search(poi.province + poi.city + poi.district + poi.street + poi.business)
-      })
     }
   }, [])
 
-  const handleSearch = () => {
-    if (!searchValue.trim()) return
-    localSearchRef.current?.search(searchValue)
-  }
+  // 使用debounce优化搜索，避免频繁请求
+  const debouncedSearch = useRef(
+    debounce((value: string) => {
+      if (value.trim()) {
+        localSearchRef.current?.search(value)
+      } else {
+        setSuggestions([])
+        setOpen(false)
+      }
+    }, 300)
+  ).current
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      handleSearch()
-    }
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    setSearchValue(value)
+    debouncedSearch(value)
   }
 
   const handleAddressSelect = (suggestion: any) => {
@@ -98,8 +92,7 @@ export function MapSearch({ onAddressSelect }: MapSearchProps) {
             <Input
               id="bmap-search-input"
               value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-              onKeyDown={handleKeyDown}
+              onChange={handleInputChange}
               placeholder="搜索地址..."
               className="pl-8 pr-4 w-full"
             />
