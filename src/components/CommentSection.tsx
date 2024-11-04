@@ -1,45 +1,36 @@
 import { Button } from "@/components/ui/button"
 import { CommentItem, CommentType } from "./CommentItem"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll"
+import { useDispatch, useSelector } from "react-redux"
+import { RootState } from "@/store/store"
+import { addComment, addReply, updateLikes } from "@/store/slices/commentSlice"
 
 interface CommentSectionProps {
-  comments: CommentType[]
   commentCount: number
 }
 
-export const CommentSection = ({ comments: initialComments, commentCount }: CommentSectionProps) => {
-  const [comments, setComments] = useState(initialComments)
+export const CommentSection = ({ commentCount }: CommentSectionProps) => {
   const [page, setPage] = useState(1)
   const [hasMore, setHasMore] = useState(true)
   const [isLoading, setIsLoading] = useState(false)
   const { toast } = useToast()
+  const dispatch = useDispatch()
+  
+  const comments = useSelector((state: RootState) => state.comment.comments)
 
   const loadMoreComments = async () => {
     if (isLoading || !hasMore) return
     
     setIsLoading(true)
     try {
-      // 模拟API调用加载更多评论
       await new Promise(resolve => setTimeout(resolve, 1000))
       
-      const moreComments: CommentType[] = Array(5).fill(null).map((_, index) => ({
-        id: Date.now() + index,
-        author: {
-          name: `用户${Math.floor(Math.random() * 1000)}`,
-          avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&q=80"
-        },
-        content: `这是第${page}页的评论 ${index + 1}`,
-        time: "3小时前",
-        likes: Math.floor(Math.random() * 100)
-      }))
-
-      if (moreComments.length < 5) {
+      if (page >= 3) {
         setHasMore(false)
       }
 
-      setComments(prev => [...prev, ...moreComments])
       setPage(prev => prev + 1)
     } catch (error) {
       toast({
@@ -69,17 +60,7 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
       likes: 0
     }
 
-    setComments(prevComments => 
-      prevComments.map(comment => {
-        if (comment.id === parentId) {
-          return {
-            ...comment,
-            replies: [...(comment.replies || []), newReply]
-          }
-        }
-        return comment
-      })
-    )
+    dispatch(addReply({ parentId, reply: newReply }))
 
     toast({
       description: "回复成功",
@@ -87,34 +68,20 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
   }
 
   const handleLike = (commentId: number) => {
-    const updateComments = (comments: CommentType[]): CommentType[] => {
-      return comments.map(comment => {
-        if (comment.id === commentId) {
-          return {
-            ...comment,
-            likes: comment.likes + 1
-          }
-        }
+    const findComment = (comments: CommentType[]): CommentType | undefined => {
+      for (const comment of comments) {
+        if (comment.id === commentId) return comment;
         if (comment.replies) {
-          const updatedReplies = comment.replies.map(reply => {
-            if (reply.id === commentId) {
-              return {
-                ...reply,
-                likes: reply.likes + 1
-              }
-            }
-            return reply
-          })
-          return {
-            ...comment,
-            replies: updatedReplies
-          }
+          const found = findComment(comment.replies);
+          if (found) return found;
         }
-        return comment
-      })
-    }
+      }
+    };
 
-    setComments(updateComments(comments))
+    const comment = findComment(comments);
+    if (comment) {
+      dispatch(updateLikes({ id: commentId, likes: comment.likes + 1 }));
+    }
   }
 
   return (
