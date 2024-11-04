@@ -39,6 +39,7 @@ export function MapSearch({ onAddressSelect }: MapSearchProps) {
             const suggestions = []
             for (let i = 0; i < results.getCurrentNumPois(); i++) {
               const poi = results.getPoi(i)
+              console.log(poi)
               suggestions.push({
                 title: poi.title,
                 address: poi.address,

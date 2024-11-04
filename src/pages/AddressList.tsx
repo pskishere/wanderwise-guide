@@ -64,9 +64,6 @@ const AddressList = () => {
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-pink-50">
-                      {/* Removed the map pin icon */}
-                    </div>
                     <div>
                       <div className="flex items-center gap-4">
                         <span className="font-medium">{address.name}</span>
