@@ -23,9 +23,6 @@ const AddressForm = () => {
   const [form, setForm] = useState({
     name: "",
     phone: "",
-    province: "",
-    city: "",
-    district: "",
     detail: "",
     isDefault: false
   })
@@ -37,9 +34,6 @@ const AddressForm = () => {
         setForm({
           name: address.name,
           phone: address.phone,
-          province: address.province,
-          city: address.city,
-          district: address.district,
           detail: address.detail,
           isDefault: address.isDefault
         })
@@ -78,22 +72,6 @@ const AddressForm = () => {
     }))
   }
 
-  const handleSelectChange = (value: string, field: 'province' | 'city' | 'district') => {
-    setForm(prev => {
-      const updates: Partial<typeof form> = { [field]: value }
-      
-      // 重置下级选项
-      if (field === 'province') {
-        updates.city = ''
-        updates.district = ''
-      } else if (field === 'city') {
-        updates.district = ''
-      }
-      
-      return { ...prev, ...updates }
-    })
-  }
-
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
@@ -105,7 +83,6 @@ const AddressForm = () => {
           <AddressFormFields
             form={form}
             handleInputChange={handleInputChange}
-            handleSelectChange={handleSelectChange}
           />
 
           <Button 

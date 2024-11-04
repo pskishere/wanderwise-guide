@@ -13,7 +13,7 @@ interface PostContentProps {
 
 export const PostContent = ({ title, content, author, tags }: PostContentProps) => {
   return (
-    <div className="p-4">
+    <div className="p-4 relative z-10">
       <div className="flex items-center gap-3 mb-4">
         <Avatar className="h-10 w-10 ring-2 ring-pink-500/20">
           <img src={author.avatar} alt={author.name} className="object-cover" />
