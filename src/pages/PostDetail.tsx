@@ -37,40 +37,6 @@ const PostDetail = () => {
       avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&q=80"
     },
     likes: 3421,
-    comments: [
-      {
-        id: 1,
-        author: {
-          name: "旅行达人",
-          avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&q=80"
-        },
-        content: "太详细了！请问预约是在哪个网站呢？",
-        time: "2小时前",
-        likes: 45,
-        replies: [
-          {
-            id: 3,
-            author: {
-              name: "樱花妹",
-              avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&q=80"
-            },
-            content: "可以直接在官网预约哦，我待会发链接给你~",
-            time: "1小时前",
-            likes: 12
-          }
-        ]
-      },
-      {
-        id: 2,
-        author: {
-          name: "美食家",
-          avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&h=100&q=80"
-        },
-        content: "收藏了！下个月去京都一定要体验一下",
-        time: "3小时前",
-        likes: 23
-      }
-    ],
     commentCount: 234,
     tags: ["旅行", "日本", "京都", "和服"]
   }
@@ -146,7 +112,6 @@ const PostDetail = () => {
 
       <div className="mt-6">
         <CommentSection 
-          comments={post.comments}
           commentCount={post.commentCount}
         />
       </div>
