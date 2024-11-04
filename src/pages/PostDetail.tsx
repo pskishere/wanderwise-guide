@@ -12,6 +12,7 @@ import { PostContent } from "@/components/post/PostContent"
 import { PostActions } from "@/components/post/PostActions"
 import { CommentSection } from "@/components/CommentSection"
 import { useState } from "react"
+import { Input } from "@/components/ui/input"
 
 const PostDetail = () => {
   const [lightboxOpen, setLightboxOpen] = useState(false)
@@ -129,6 +130,18 @@ const PostDetail = () => {
           comments={post.comments}
           commentCount={post.commentCount}
         />
+      </div>
+
+      {/* Add bottom bar */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg animate-in slide-in-from-bottom duration-300">
+        <div className="container max-w-2xl mx-auto px-4 py-3">
+          <div className="flex gap-3">
+            <Input
+              placeholder="写评论..."
+              className="rounded-full focus-visible:ring-pink-500"
+            />
+          </div>
+        </div>
       </div>
     </div>
   )
