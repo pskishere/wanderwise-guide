@@ -42,7 +42,7 @@ export const ReplyInput = ({ onSubmit, onCancel, replyTo }: ReplyInputProps) => 
             value={content}
             onChange={(e) => setContent(e.target.value)}
             placeholder={`回复 @${replyTo}...`}
-            className="h-12 resize-none rounded-xl focus-visible:ring-pink-500 text-base py-2.5"
+            className="h-12 resize-none rounded-xl focus-visible:ring-pink-500 text-base py-3"
           />
           <Button 
             onClick={handleSubmit}
