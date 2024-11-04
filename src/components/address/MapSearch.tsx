@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react"
 import { Input } from "@/components/ui/input"
-import { Search, MapPin } from "lucide-react"
+import { Search } from "lucide-react"
 import { Command, CommandEmpty, CommandList } from "@/components/ui/command"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { debounce } from "lodash"
@@ -93,7 +93,6 @@ export function MapSearch({ onAddressSelect }: MapSearchProps) {
       <Popover 
         open={open} 
         onOpenChange={(open) => {
-          // Only allow closing if there's no input value or after selection
           if (!searchValue.trim()) {
             setOpen(open)
           }
@@ -101,7 +100,7 @@ export function MapSearch({ onAddressSelect }: MapSearchProps) {
       >
         <PopoverTrigger asChild>
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
             <Input
               ref={inputRef}
               value={searchValue}
@@ -112,11 +111,11 @@ export function MapSearch({ onAddressSelect }: MapSearchProps) {
                 }
               }}
               placeholder="搜索地址..."
-              className="pl-9 pr-4 w-full h-11 text-base bg-white"
+              className="pl-8 bg-gray-100 border-0 rounded-lg h-9 w-full"
             />
           </div>
         </PopoverTrigger>
-        <PopoverContent className="p-0 w-[calc(100vw-32px)] sm:w-[500px] bg-white" align="start">
+        <PopoverContent className="p-0 w-[calc(100vw-32px)] sm:w-[500px]" align="start">
           <Command>
             <CommandList>
               {suggestions.length === 0 && searchValue.trim() && (
