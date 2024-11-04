@@ -28,8 +28,11 @@ export const AdminProducts = ({ products: initialProducts }: AdminProductsProps)
   const [newProduct, setNewProduct] = useState({
     title: "",
     price: "",
+    originalPrice: "",
     stock: "",
-    image: ""
+    description: "",
+    image: "",
+    tags: []
   })
 
   const handleSearch = () => {
@@ -81,6 +84,14 @@ export const AdminProducts = ({ products: initialProducts }: AdminProductsProps)
   const handleSaveEdit = () => {
     if (!editingProduct) return
 
+    if (!editingProduct.title || !editingProduct.price) {
+      toast({
+        variant: "destructive",
+        description: "请填写商品名称和价格",
+      })
+      return
+    }
+
     setProducts(prev => prev.map(product => 
       product.id === editingProduct.id ? editingProduct : product
     ))
@@ -103,16 +114,21 @@ export const AdminProducts = ({ products: initialProducts }: AdminProductsProps)
       id: Date.now(),
       ...newProduct,
       price: parseFloat(newProduct.price),
-      stock: newProduct.stock ? parseInt(newProduct.stock) : null,
-      tags: [selectedCategory]
+      originalPrice: newProduct.originalPrice ? parseFloat(newProduct.originalPrice) : undefined,
+      stock: newProduct.stock ? parseInt(newProduct.stock) : 0,
+      sales: "0",
+      tags: newProduct.tags.length > 0 ? newProduct.tags : [selectedCategory]
     }
 
     setProducts(prev => [product, ...prev])
     setNewProduct({
       title: "",
       price: "",
+      originalPrice: "",
       stock: "",
-      image: ""
+      description: "",
+      image: "",
+      tags: []
     })
     toast({
       description: "商品已添加",
@@ -126,7 +142,7 @@ export const AdminProducts = ({ products: initialProducts }: AdminProductsProps)
           <DialogTrigger asChild>
             <Button>添加商品</Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="max-w-lg">
             <DialogHeader>
               <DialogTitle>添加新商品</DialogTitle>
             </DialogHeader>
