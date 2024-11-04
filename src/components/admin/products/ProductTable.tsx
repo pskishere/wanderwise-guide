@@ -17,7 +17,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { ProductForm } from "./ProductForm"
-import { Product } from "@/services/mockProducts"
+import { Product } from "@/types/product"
+import { useState } from "react"
+import { Badge } from "@/components/ui/badge"
+import { Pencil, Trash2 } from "lucide-react"
 
 interface ProductTableProps {
   products: Product[];
@@ -34,6 +37,8 @@ export const ProductTable = ({
   onEdit, 
   onDelete 
 }: ProductTableProps) => {
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null)
+
   const handleSelect = (id: number) => {
     if (selectedIds.includes(id)) {
       onSelectIds(selectedIds.filter(selectedId => selectedId !== id))
@@ -50,7 +55,8 @@ export const ProductTable = ({
           <TableHead>图片</TableHead>
           <TableHead>商品名</TableHead>
           <TableHead>价格</TableHead>
-          <TableHead>库存</TableHead>
+          <TableHead>销量</TableHead>
+          <TableHead>分类</TableHead>
           <TableHead>操作</TableHead>
         </TableRow>
       </TableHeader>
@@ -70,13 +76,38 @@ export const ProductTable = ({
                 className="h-12 w-12 object-cover rounded"
               />
             </TableCell>
-            <TableCell>{product.title}</TableCell>
-            <TableCell>¥{product.price}</TableCell>
-            <TableCell>{product.stock || "不限"}</TableCell>
+            <TableCell>
+              <div className="max-w-[200px]">
+                <p className="truncate font-medium">{product.title}</p>
+                <p className="text-sm text-gray-500 truncate">{product.description}</p>
+              </div>
+            </TableCell>
+            <TableCell>
+              <div className="space-y-0.5">
+                <p className="font-medium text-pink-600">{product.price}</p>
+                {product.originalPrice && (
+                  <p className="text-sm text-gray-500 line-through">{product.originalPrice}</p>
+                )}
+              </div>
+            </TableCell>
+            <TableCell>{product.sales}</TableCell>
+            <TableCell>
+              {product.tags?.map(tag => (
+                <Badge key={tag} variant="secondary" className="mr-1">
+                  {tag}
+                </Badge>
+              ))}
+            </TableCell>
             <TableCell>
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button variant="outline" size="sm" className="mr-2">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="mr-2"
+                    onClick={() => setEditingProduct(product)}
+                  >
+                    <Pencil className="h-4 w-4 mr-1" />
                     编辑
                   </Button>
                 </DialogTrigger>
@@ -84,13 +115,15 @@ export const ProductTable = ({
                   <DialogHeader>
                     <DialogTitle>编辑商品信息</DialogTitle>
                   </DialogHeader>
-                  <ProductForm
-                    product={product}
-                    onSubmit={() => onEdit(product)}
-                    onChange={(field, value) => {
-                      product[field as keyof Product] = value as never
-                    }}
-                  />
+                  {editingProduct && (
+                    <ProductForm
+                      product={editingProduct}
+                      onSubmit={(updatedProduct) => {
+                        onEdit({ ...editingProduct, ...updatedProduct })
+                        setEditingProduct(null)
+                      }}
+                    />
+                  )}
                 </DialogContent>
               </Dialog>
               <Button 
@@ -98,6 +131,7 @@ export const ProductTable = ({
                 size="sm"
                 onClick={() => onDelete(product.id)}
               >
+                <Trash2 className="h-4 w-4 mr-1" />
                 删除
               </Button>
             </TableCell>
