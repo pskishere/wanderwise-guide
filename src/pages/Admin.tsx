@@ -1,4 +1,3 @@
-import { Navigation } from "@/components/Navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useSelector } from "react-redux"
@@ -14,20 +13,20 @@ const Admin = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <Navigation />
+      <div className="flex h-16 items-center justify-between border-b bg-white px-6">
+        <h1 className="text-xl font-bold">后台管理系统</h1>
+      </div>
       
-      <div className="container mx-auto px-4 pt-20">
-        <h1 className="text-2xl font-bold mb-6">后台管理系统</h1>
-        
-        <Tabs defaultValue="dashboard" className="space-y-4">
-          <TabsList>
+      <div className="container mx-auto px-6 py-8">
+        <Tabs defaultValue="dashboard" className="space-y-6">
+          <TabsList className="bg-white p-1">
             <TabsTrigger value="dashboard">数据概览</TabsTrigger>
             <TabsTrigger value="orders">订单管理</TabsTrigger>
             <TabsTrigger value="products">商品管理</TabsTrigger>
             <TabsTrigger value="users">用户管理</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="dashboard">
+          <TabsContent value="dashboard" className="mt-6">
             <AdminDashboard orders={orders} products={products} />
           </TabsContent>
 
