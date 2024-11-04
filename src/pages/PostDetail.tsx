@@ -79,27 +79,42 @@ const PostDetail = () => {
     <div className="min-h-screen bg-gray-50 pb-20">
       <PostHeader />
 
-      <div className="relative w-full aspect-[4/3] bg-black z-0">
-        <Carousel className="w-full h-full">
-          <CarouselContent>
-            {post.images.map((image, index) => (
-              <CarouselItem key={index}>
-                <div 
-                  className="flex aspect-[4/3] items-center justify-center cursor-zoom-in"
-                  onClick={() => handleImageClick(index)}
-                >
-                  <img
-                    src={image}
-                    alt={`${post.title} - ${index + 1}`}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious className="left-4" />
-          <CarouselNext className="right-4" />
-        </Carousel>
+      <div className="relative">
+        <div className="w-full aspect-[4/3] bg-black">
+          <Carousel className="w-full h-full">
+            <CarouselContent>
+              {post.images.map((image, index) => (
+                <CarouselItem key={index}>
+                  <div 
+                    className="flex aspect-[4/3] items-center justify-center cursor-zoom-in"
+                    onClick={() => handleImageClick(index)}
+                  >
+                    <img
+                      src={image}
+                      alt={`${post.title} - ${index + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="left-4" />
+            <CarouselNext className="right-4" />
+          </Carousel>
+        </div>
+
+        <Card className="mx-4 -mt-8 relative z-10 rounded-2xl border-none shadow-lg overflow-hidden">
+          <PostContent 
+            title={post.title}
+            content={post.content}
+            author={post.author}
+            tags={post.tags}
+          />
+          <PostActions 
+            likes={post.likes}
+            commentCount={post.commentCount}
+          />
+        </Card>
       </div>
 
       <ImageLightbox
@@ -109,20 +124,7 @@ const PostDetail = () => {
         index={currentImageIndex}
       />
 
-      <Card className="mx-4 -mt-8 relative z-10 rounded-2xl border-none shadow-lg overflow-hidden">
-        <PostContent 
-          title={post.title}
-          content={post.content}
-          author={post.author}
-          tags={post.tags}
-        />
-        <PostActions 
-          likes={post.likes}
-          commentCount={post.commentCount}
-        />
-      </Card>
-
-      <div className="mt-6 relative z-0">
+      <div className="mt-6">
         <CommentSection 
           comments={post.comments}
           commentCount={post.commentCount}
