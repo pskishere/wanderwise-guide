@@ -97,16 +97,13 @@ export const AddressFormFields = ({
         <Textarea
           id="detail"
           name="detail"
-          placeholder="请输入或粘贴完整地址，将自动解析"
+          placeholder="请输入详细地址"
           value={form.detail}
           onChange={handleInputChange}
           onPaste={handleDetailPaste}
           required
           className="min-h-[120px] resize-none rounded-lg border-2 border-gray-100 p-4 focus-visible:ring-0 focus-visible:border-pink-100 placeholder:text-gray-400 transition-colors"
         />
-        <p className="text-sm text-gray-500">
-          支持粘贴格式：张三 13800138000 详细地址
-        </p>
       </div>
 
       <div className="flex items-center gap-2">
