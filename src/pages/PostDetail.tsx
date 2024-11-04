@@ -13,10 +13,14 @@ import { PostActions } from "@/components/post/PostActions"
 import { CommentSection } from "@/components/CommentSection"
 import { useState } from "react"
 import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { useToast } from "@/hooks/use-toast"
 
 const PostDetail = () => {
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [commentContent, setCommentContent] = useState("")
+  const { toast } = useToast()
 
   const post = {
     id: 1,
@@ -74,6 +78,21 @@ const PostDetail = () => {
   const handleImageClick = (index: number) => {
     setCurrentImageIndex(index)
     setLightboxOpen(true)
+  }
+
+  const handleSubmitComment = () => {
+    if (!commentContent.trim()) {
+      toast({
+        description: "请输入评论内容",
+      })
+      return
+    }
+
+    // 这里可以添加实际的评论提交逻辑
+    toast({
+      description: "评论发布成功",
+    })
+    setCommentContent("")
   }
 
   return (
@@ -137,9 +156,17 @@ const PostDetail = () => {
         <div className="container max-w-2xl mx-auto px-4 py-3">
           <div className="flex gap-3">
             <Input
+              value={commentContent}
+              onChange={(e) => setCommentContent(e.target.value)}
               placeholder="写评论..."
               className="rounded-full focus-visible:ring-pink-500"
             />
+            <Button 
+              onClick={handleSubmitComment}
+              className="bg-pink-500 hover:bg-pink-600 active:bg-pink-700 px-8 h-10 rounded-full font-medium text-base shadow-lg hover:shadow-xl transition-all shrink-0"
+            >
+              发送
+            </Button>
           </div>
         </div>
       </div>
