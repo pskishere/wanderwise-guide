@@ -115,8 +115,8 @@ const Profile = () => {
           <UserStats stats={stats} />
         </div>
 
-        <div className="mt-4 grid gap-3">
-          {menuItems.map((item) => {
+        <div className="mt-4 bg-white rounded-xl shadow overflow-hidden">
+          {menuItems.map((item, index) => {
             const Icon = item.icon
             const colorMap = {
               pink: "text-pink-600 bg-pink-100",
@@ -126,21 +126,26 @@ const Profile = () => {
             const colors = colorMap[item.color as keyof typeof colorMap]
             
             return (
-              <Link 
-                to={item.link}
-                key={item.label}
-                className="flex items-center px-4 py-3.5 bg-white rounded-xl hover:bg-gray-50/80 transition-colors shadow-sm"
-              >
-                <div className={`flex h-10 w-10 items-center justify-center rounded-lg ${colors.split(" ")[1]}`}>
-                  <Icon className={`h-5 w-5 ${colors.split(" ")[0]}`} />
-                </div>
-                <span className="ml-3 font-medium text-gray-900">{item.label}</span>
-                <div className="ml-auto">
-                  <svg className="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none">
-                    <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </div>
-              </Link>
+              <>
+                <Link 
+                  to={item.link}
+                  key={item.label}
+                  className="flex items-center px-4 py-3.5 hover:bg-gray-50/80 transition-colors"
+                >
+                  <div className={`flex h-10 w-10 items-center justify-center rounded-lg ${colors.split(" ")[1]}`}>
+                    <Icon className={`h-5 w-5 ${colors.split(" ")[0]}`} />
+                  </div>
+                  <span className="ml-3 font-medium text-gray-900">{item.label}</span>
+                  <div className="ml-auto">
+                    <svg className="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none">
+                      <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
+                </Link>
+                {index < menuItems.length - 1 && (
+                  <Separator />
+                )}
+              </>
             )
           })}
         </div>
