@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react"
 import { Input } from "@/components/ui/input"
-import { Search } from "lucide-react"
-import { Command, CommandEmpty, CommandList } from "@/components/ui/command"
+import { Button } from "@/components/ui/button"
+import { Search, MapPin } from "lucide-react"
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { debounce } from "lodash"
 
 interface MapSearchProps {
   onAddressSelect: (address: {
@@ -25,62 +25,52 @@ export function MapSearch({ onAddressSelect }: MapSearchProps) {
   const [open, setOpen] = useState(false)
   const [searchValue, setSearchValue] = useState("")
   const [suggestions, setSuggestions] = useState<any[]>([])
+  const [loading, setLoading] = useState(false)
   const autocompleteRef = useRef<any>(null)
-  const localSearchRef = useRef<any>(null)
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.BMap) {
-      // 初始化本地搜索
-      localSearchRef.current = new window.BMap.LocalSearch("全国", {
-        onSearchComplete: function(results: any) {
-          if (results) {
-            const suggestions = []
-            for (let i = 0; i < results.getCurrentNumPois(); i++) {
-              const poi = results.getPoi(i)
-              suggestions.push({
-                title: poi.title,
-                address: poi.address,
-                point: poi.point,
-                province: poi.province,
-                city: poi.city,
-                district: poi.district || ''
-              })
-            }
-            setSuggestions(suggestions)
-            setOpen(true)
-          }
-        }
+    if (window.BMap) {
+      autocompleteRef.current = new window.BMap.Autocomplete({
+        input: "suggestId",
+        location: "全国"
       })
     }
   }, [])
 
-  // 使用debounce优化搜索，避免频繁请求
-  const debouncedSearch = useRef(
-    debounce((value: string) => {
-      if (value.trim()) {
-        localSearchRef.current?.search(value)
-      } else {
-        setSuggestions([])
+  const handleSearch = async () => {
+    if (!searchValue.trim()) return
+    
+    setLoading(true)
+    try {
+      autocompleteRef.current?.setInputValue(searchValue)
+      autocompleteRef.current?.addEventListener('onconfirm', function(e: any) {
+        const _value = e.item.value
+        const province = _value.province
+        const city = _value.city
+        const district = _value.district
+        const street = _value.street
+        const streetNumber = _value.streetNumber
+        
+        onAddressSelect({
+          province,
+          city,
+          district,
+          detail: `${street}${streetNumber}`
+        })
+        
         setOpen(false)
-      }
-    }, 300)
-  ).current
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setSearchValue(value)
-    debouncedSearch(value)
+      })
+    } catch (error) {
+      console.error('Search error:', error)
+    } finally {
+      setLoading(false)
+    }
   }
 
-  const handleAddressSelect = (suggestion: any) => {
-    onAddressSelect({
-      province: suggestion.province,
-      city: suggestion.city,
-      district: suggestion.district,
-      detail: suggestion.address
-    })
-    setOpen(false)
-    setSearchValue(suggestion.title)
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSearch()
+    }
   }
 
   return (
@@ -90,9 +80,10 @@ export function MapSearch({ onAddressSelect }: MapSearchProps) {
           <div className="relative">
             <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
             <Input
-              id="bmap-search-input"
+              id="suggestId"
               value={searchValue}
-              onChange={handleInputChange}
+              onChange={(e) => setSearchValue(e.target.value)}
+              onKeyDown={handleKeyDown}
               placeholder="搜索地址..."
               className="pl-8 pr-4 w-full"
             />
@@ -102,18 +93,21 @@ export function MapSearch({ onAddressSelect }: MapSearchProps) {
           <Command>
             <CommandList>
               <CommandEmpty>未找到相关地址</CommandEmpty>
-              {suggestions.map((suggestion, index) => (
-                <div
+              {suggestions.map((item, index) => (
+                <CommandItem
                   key={index}
-                  className="flex items-start space-x-2 p-2 hover:bg-gray-100 cursor-pointer"
-                  onClick={() => handleAddressSelect(suggestion)}
+                  onSelect={() => {
+                    setSearchValue(item.value)
+                    handleSearch()
+                  }}
+                  className="flex items-center gap-2 px-4 py-2"
                 >
-                  <Search className="h-4 w-4 mt-1 text-gray-400" />
+                  <MapPin className="h-4 w-4 text-gray-400" />
                   <div>
-                    <div className="font-medium">{suggestion.title}</div>
-                    <div className="text-sm text-gray-500">{suggestion.address}</div>
+                    <div className="font-medium">{item.value}</div>
+                    <div className="text-sm text-gray-500">{item.address}</div>
                   </div>
-                </div>
+                </CommandItem>
               ))}
             </CommandList>
           </Command>
