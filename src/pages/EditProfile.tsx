@@ -18,10 +18,12 @@ const EditProfile = () => {
   
   const { profile, loading } = useSelector((state: RootState) => state.user)
   const [form, setForm] = useState({
-    nickname: profile.nickname,
-    userId: profile.userId,
-    bio: profile.bio,
-    avatar: profile.avatar
+    nickname: profile?.nickname || "",
+    userId: profile?.userId || "",
+    bio: profile?.bio || "",
+    avatar: profile?.avatar || "",
+    name: profile?.name || "",
+    isAdmin: profile?.isAdmin || false
   })
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
