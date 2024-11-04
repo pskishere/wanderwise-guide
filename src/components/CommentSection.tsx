@@ -11,7 +11,6 @@ interface CommentSectionProps {
 
 export const CommentSection = ({ comments: initialComments, commentCount }: CommentSectionProps) => {
   const [comments, setComments] = useState(initialComments)
-  const [newComment, setNewComment] = useState("")
   const [page, setPage] = useState(1)
   const [hasMore, setHasMore] = useState(true)
   const [isLoading, setIsLoading] = useState(false)
@@ -58,63 +57,6 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
     fetchNextPage: loadMoreComments
   })
 
-  const handleAddComment = () => {
-    if (!newComment.trim()) {
-      toast({
-        variant: "destructive",
-        description: "请输入评论内容",
-      })
-      return
-    }
-
-    const comment: CommentType = {
-      id: Date.now(),
-      author: {
-        name: "我",
-        avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&q=80"
-      },
-      content: newComment,
-      time: "刚刚",
-      likes: 0
-    }
-
-    setComments([comment, ...comments])
-    setNewComment("")
-    toast({
-      description: "评论发送成功",
-    })
-  }
-
-  const handleReply = (parentId: number, content: string) => {
-    const reply: CommentType = {
-      id: Date.now(),
-      author: {
-        name: "我",
-        avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&q=80"
-      },
-      content,
-      time: "刚刚",
-      likes: 0
-    }
-
-    const updateComments = (comments: CommentType[]): CommentType[] => {
-      return comments.map(comment => {
-        if (comment.id === parentId) {
-          return {
-            ...comment,
-            replies: [...(comment.replies || []), reply]
-          }
-        }
-        return comment
-      })
-    }
-
-    setComments(updateComments(comments))
-    toast({
-      description: "回复发送成功",
-    })
-  }
-
   const handleLike = (commentId: number) => {
     const updateComments = (comments: CommentType[]): CommentType[] => {
       return comments.map(comment => {
@@ -154,7 +96,7 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
           <CommentItem
             key={comment.id}
             comment={comment}
-            onReply={handleReply}
+            onReply={() => {}}
             onLike={handleLike}
           />
         ))}
@@ -169,25 +111,6 @@ export const CommentSection = ({ comments: initialComments, commentCount }: Comm
 
       {/* Infinite scroll trigger */}
       <div ref={ref} className="h-4" />
-
-      {/* Comment Input */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white p-4 border-t shadow-lg">
-        <div className="flex gap-2 max-w-lg mx-auto">
-          <textarea
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            placeholder="说点什么..."
-            className="flex-1 resize-none rounded-xl p-3 text-sm focus:outline-none min-h-[44px] max-h-[120px]"
-            rows={1}
-          />
-          <Button 
-            onClick={handleAddComment}
-            className="rounded-full bg-pink-500 hover:bg-pink-600 px-8"
-          >
-            发送
-          </Button>
-        </div>
-      </div>
     </div>
   )
 }
