@@ -103,7 +103,7 @@ const PostDetail = () => {
           </Carousel>
         </div>
 
-        <Card className="mx-4 -mt-8 relative z-10 rounded-2xl border-none shadow-lg overflow-hidden">
+        <Card className="mx-4 -mt-8 relative z-10 bg-white rounded-2xl border-none shadow-lg overflow-hidden">
           <PostContent 
             title={post.title}
             content={post.content}

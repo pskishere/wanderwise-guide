@@ -36,7 +36,7 @@ export const ReplyInput = ({ onSubmit, onCancel, replyTo }: ReplyInputProps) => 
           </Button>
         </div>
         
-        <div className="flex gap-2">
+        <div className="flex gap-2 bg-white">
           <Textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
