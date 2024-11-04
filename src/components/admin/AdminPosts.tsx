@@ -10,6 +10,9 @@ import { Button } from "@/components/ui/button"
 import { Image } from "@/components/ui/image"
 import { Eye, Trash2 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import { useDispatch } from "react-redux"
+import { deletePost } from "@/store/postSlice"
+import { useNavigate } from "react-router-dom"
 
 interface AdminPostsProps {
   posts: any[]
@@ -17,11 +20,18 @@ interface AdminPostsProps {
 
 export const AdminPosts = ({ posts }: AdminPostsProps) => {
   const { toast } = useToast()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const handleDelete = (id: number) => {
+    dispatch(deletePost(id))
     toast({
       description: "帖子已删除",
     })
+  }
+
+  const handleView = (id: number) => {
+    navigate(`/posts/${id}`)
   }
 
   return (
@@ -54,7 +64,12 @@ export const AdminPosts = ({ posts }: AdminPostsProps) => {
               <TableCell>{post.likes}</TableCell>
               <TableCell>{post.comments}</TableCell>
               <TableCell>
-                <Button variant="outline" size="sm" className="mr-2">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="mr-2"
+                  onClick={() => handleView(post.id)}
+                >
                   <Eye className="h-4 w-4 mr-1" />
                   查看
                 </Button>
