@@ -3,6 +3,7 @@ import { RootState } from "@/store/store"
 import { useNavigate, Routes, Route } from "react-router-dom"
 import { useEffect } from "react"
 import { AdminSidebar } from "@/components/admin/AdminSidebar"
+import { AdminHeader } from "@/components/admin/AdminHeader"
 import { AdminDashboard } from "@/components/admin/AdminDashboard"
 import { AdminOrders } from "@/components/admin/AdminOrders"
 import { AdminProducts } from "@/components/admin/AdminProducts"
@@ -27,16 +28,19 @@ const Admin = () => {
     <div className="flex min-h-screen bg-gray-100">
       <AdminSidebar />
       
-      <main className="flex-1 p-8">
-        <Routes>
-          <Route index element={<AdminDashboard orders={orders} products={products} />} />
-          <Route path="orders" element={<AdminOrders orders={orders} />} />
-          <Route path="products" element={<AdminProducts products={products} />} />
-          <Route path="users" element={<AdminUsers />} />
-          <Route path="posts" element={<AdminPosts posts={posts} />} />
-          <Route path="search-keywords" element={<AdminSearchKeywords />} />
-        </Routes>
-      </main>
+      <div className="flex-1">
+        <AdminHeader />
+        <main className="p-8">
+          <Routes>
+            <Route index element={<AdminDashboard orders={orders} products={products} />} />
+            <Route path="orders" element={<AdminOrders orders={orders} />} />
+            <Route path="products" element={<AdminProducts products={products} />} />
+            <Route path="users" element={<AdminUsers />} />
+            <Route path="posts" element={<AdminPosts posts={posts} />} />
+            <Route path="search-keywords" element={<AdminSearchKeywords />} />
+          </Routes>
+        </main>
+      </div>
     </div>
   )
 }
