@@ -112,7 +112,7 @@ export function MapSearch({ onAddressSelect }: MapSearchProps) {
                 }
               }}
               placeholder="搜索地址..."
-              className="pl-9 pr-4 w-full h-11 text-base bg-white"
+              className="pl-9 pr-4 w-full h-11 text-small bg-white"
             />
           </div>
         </PopoverTrigger>
