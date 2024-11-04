@@ -1,7 +1,7 @@
 import { Navigation } from "@/components/Navigation"
 import { BottomNav } from "@/components/BottomNav"
 import { Button } from "@/components/ui/button"
-import { MapPin, Plus, Edit2, Trash2 } from "lucide-react"
+import { Plus, Edit2, Trash2 } from "lucide-react"
 import { Link } from "react-router-dom"
 import { useToast } from "@/hooks/use-toast"
 import { useDispatch, useSelector } from "react-redux"
@@ -48,9 +48,6 @@ const AddressList = () => {
 
         {addresses.length === 0 ? (
           <div className="text-center py-12 bg-white rounded-xl shadow-sm">
-            <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-pink-50 flex items-center justify-center">
-              <MapPin className="h-10 w-10 text-pink-500" />
-            </div>
             <p className="text-gray-500 mb-4">暂无收货地址</p>
             <Link to="/address/new">
               <Button variant="outline" className="rounded-full">
@@ -68,7 +65,7 @@ const AddressList = () => {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-pink-50">
-                      <MapPin className="h-5 w-5 text-pink-500" />
+                      {/* Removed the map pin icon */}
                     </div>
                     <div>
                       <div className="flex items-center gap-4">
