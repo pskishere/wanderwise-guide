@@ -22,7 +22,6 @@ import CreatePost from "@/pages/CreatePost"
 import SearchResults from "@/pages/SearchResults"
 import AddressForm from "@/pages/AddressForm"
 import AddressList from "@/pages/AddressList"
-import Admin from "@/pages/Admin"
 
 const queryClient = new QueryClient()
 
@@ -52,7 +51,6 @@ function App() {
             <Route path="/address" element={<AddressList />} />
             <Route path="/address/new" element={<AddressForm />} />
             <Route path="/address/edit/:id" element={<AddressForm />} />
-            <Route path="/admin/*" element={<Admin />} />
           </Routes>
           <Toaster />
         </Router>
