@@ -7,11 +7,14 @@ import { AdminDashboard } from "@/components/admin/AdminDashboard"
 import { AdminOrders } from "@/components/admin/AdminOrders"
 import { AdminProducts } from "@/components/admin/AdminProducts"
 import { AdminUsers } from "@/components/admin/AdminUsers"
+import { AdminPosts } from "@/components/admin/AdminPosts"
+import { AdminSearchKeywords } from "@/components/admin/AdminSearchKeywords"
 
 const Admin = () => {
   const navigate = useNavigate()
   const { orders } = useSelector((state: RootState) => state.order)
   const { products } = useSelector((state: RootState) => state.product)
+  const { posts } = useSelector((state: RootState) => state.post)
   const { user } = useSelector((state: RootState) => state.user)
 
   useEffect(() => {
@@ -30,6 +33,8 @@ const Admin = () => {
           <Route path="orders" element={<AdminOrders orders={orders} />} />
           <Route path="products" element={<AdminProducts products={products} />} />
           <Route path="users" element={<AdminUsers />} />
+          <Route path="posts" element={<AdminPosts posts={posts} />} />
+          <Route path="search-keywords" element={<AdminSearchKeywords />} />
         </Routes>
       </main>
     </div>

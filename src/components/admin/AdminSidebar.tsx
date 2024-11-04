@@ -1,6 +1,13 @@
 import { Link, useLocation } from "react-router-dom"
 import { cn } from "@/lib/utils"
-import { LayoutDashboard, Users, ShoppingBag, List } from "lucide-react"
+import { 
+  LayoutDashboard, 
+  Users, 
+  ShoppingBag, 
+  List,
+  FileText,
+  Search
+} from "lucide-react"
 
 export const AdminSidebar = () => {
   const location = useLocation()
@@ -30,6 +37,18 @@ export const AdminSidebar = () => {
       icon: Users,
       href: "/admin/users",
       active: pathname === "/admin/users"
+    },
+    {
+      title: "帖子管理",
+      icon: FileText,
+      href: "/admin/posts",
+      active: pathname === "/admin/posts"
+    },
+    {
+      title: "热门搜索词",
+      icon: Search,
+      href: "/admin/search-keywords",
+      active: pathname === "/admin/search-keywords"
     }
   ]
 
