@@ -3,27 +3,47 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
 import { parseAddress } from "@/utils/addressParser"
+import { getProvinces, getCitiesByProvince, getDistrictsByCity } from "@/utils/addressData"
+import { RegionSelect } from "./RegionSelect"
 import { MapSearch } from "./MapSearch"
 
 interface AddressFormFieldsProps {
   form: {
     name: string
     phone: string
+    province: string
+    city: string
+    district: string
     detail: string
     isDefault: boolean
   }
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
+  handleSelectChange: (value: string, field: 'province' | 'city' | 'district') => void
 }
 
 export const AddressFormFields = ({
   form,
   handleInputChange,
+  handleSelectChange,
 }: AddressFormFieldsProps) => {
   const { toast } = useToast()
 
   const handleMapAddressSelect = (address: {
+    province: string
+    city: string
+    district: string
     detail: string
   }) => {
+    // Find the corresponding codes for the selected address
+    const provinceCode = getProvinces().find(p => p.name === address.province)?.code
+    if (provinceCode) handleSelectChange(provinceCode, 'province')
+
+    const cityCode = getCitiesByProvince(form.province).find(c => c.name === address.city)?.code
+    if (cityCode) handleSelectChange(cityCode, 'city')
+
+    const districtCode = getDistrictsByCity(form.city).find(d => d.name === address.district)?.code
+    if (districtCode) handleSelectChange(districtCode, 'district')
+
     // Update detail address
     const detailEvent = {
       target: { name: 'detail', value: address.detail }
@@ -34,9 +54,19 @@ export const AddressFormFields = ({
   const handleDetailPaste = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
     e.preventDefault()
     const text = e.clipboardData.getData('text')
-    const parsed = parseAddress(text)
+    const parsed = parseAddress(text, 
+      getProvinces().map(p => p.name),
+      getProvinces().reduce((acc, p) => ({
+        ...acc,
+        [p.name]: getCitiesByProvince(p.code).map(c => c.name)
+      }), {}),
+      getCitiesByProvince(form.province).reduce((acc, c) => ({
+        ...acc,
+        [c.name]: getDistrictsByCity(c.code).map(d => d.name)
+      }), {})
+    )
     
-    if (!parsed.name && !parsed.phone && !parsed.detail) {
+    if (!parsed.name && !parsed.phone && !parsed.province) {
       toast({
         variant: "destructive",
         description: "无法识别地址格式，请检查后重试",
@@ -53,6 +83,19 @@ export const AddressFormFields = ({
 
     if (parsed.name) handleInputChange(createChangeEvent('name', parsed.name))
     if (parsed.phone) handleInputChange(createChangeEvent('phone', parsed.phone))
+    
+    if (parsed.province) {
+      const provinceCode = getProvinces().find(p => p.name === parsed.province)?.code
+      if (provinceCode) handleSelectChange(provinceCode, 'province')
+    }
+    if (parsed.city) {
+      const cityCode = getCitiesByProvince(form.province).find(c => c.name === parsed.city)?.code
+      if (cityCode) handleSelectChange(cityCode, 'city')
+    }
+    if (parsed.district) {
+      const districtCode = getDistrictsByCity(form.city).find(d => d.name === parsed.district)?.code
+      if (districtCode) handleSelectChange(districtCode, 'district')
+    }
     if (parsed.detail) handleInputChange(createChangeEvent('detail', parsed.detail))
 
     toast({
@@ -62,6 +105,7 @@ export const AddressFormFields = ({
 
   return (
     <div className="space-y-6">
+      {/* Recipient Information Section */}
       <div className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="name">收货人</Label>
@@ -87,10 +131,21 @@ export const AddressFormFields = ({
         </div>
       </div>
 
+      {/* Map Search */}
       <div className="space-y-2">
         <Label>地图搜索</Label>
         <MapSearch onAddressSelect={handleMapAddressSelect} />
       </div>
+
+      {/* Region Selection */}
+      {/* <RegionSelect
+        province={form.province}
+        city={form.city}
+        district={form.district}
+        onProvinceChange={(value) => handleSelectChange(value, 'province')}
+        onCityChange={(value) => handleSelectChange(value, 'city')}
+        onDistrictChange={(value) => handleSelectChange(value, 'district')}
+      /> */}
 
       <div className="space-y-2">
         <Label htmlFor="detail">详细地址</Label>
@@ -105,7 +160,7 @@ export const AddressFormFields = ({
           className="min-h-[120px] resize-none rounded-lg border-2 border-gray-100 p-4 focus-visible:ring-0 focus-visible:border-pink-100 placeholder:text-gray-400 transition-colors"
         />
         <p className="text-sm text-gray-500">
-          支持粘贴格式：张三 13800138000 详细地址
+          支持粘贴格式：张三 13800138000 浙江省杭州市西湖区文三路 123 号
         </p>
       </div>
 
