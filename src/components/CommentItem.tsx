@@ -27,7 +27,6 @@ interface CommentItemProps {
   level?: number
 }
 
-// 抽取评论内容组件
 const CommentContent = ({ comment, isLiked, onLike, onReplyClick }: { 
   comment: CommentType
   isLiked: boolean
@@ -41,7 +40,7 @@ const CommentContent = ({ comment, isLiked, onLike, onReplyClick }: {
       className="h-8 w-8 rounded-full object-cover flex-shrink-0"
     />
     <div className="flex-1 min-w-0">
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1.5">
         <div className="flex items-center gap-2">
           <span className="text-sm font-medium truncate">{comment.author.name}</span>
           <span className="text-xs text-gray-500">{comment.time}</span>
@@ -52,7 +51,7 @@ const CommentContent = ({ comment, isLiked, onLike, onReplyClick }: {
           )}
           {comment.content}
         </p>
-        <div className="flex items-center gap-4 mt-1">
+        <div className="flex items-center gap-4">
           <button 
             className={`flex items-center gap-1 text-sm ${isLiked ? 'text-pink-500' : 'text-gray-500'} hover:text-pink-500 transition-colors`}
             onClick={onLike}
@@ -90,7 +89,7 @@ export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItem
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       <CommentContent 
         comment={comment}
         isLiked={isLiked}
@@ -100,7 +99,6 @@ export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItem
       
       {comment.replies && comment.replies.length > 0 && (
         <div className="pl-11">
-          {/* 显示第一条回复 */}
           <CommentItem
             key={comment.replies[0].id}
             comment={{
@@ -112,11 +110,10 @@ export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItem
             level={level + 1}
           />
           
-          {/* 如果有多条回复则显示展开按钮 */}
           {comment.replies.length > 1 && (
             <Collapsible open={isOpen} onOpenChange={setIsOpen}>
               <CollapsibleContent>
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {comment.replies.slice(1).map((reply) => (
                     <CommentItem
                       key={reply.id}
