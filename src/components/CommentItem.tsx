@@ -17,6 +17,7 @@ export interface CommentType {
   likes: number
   replies?: CommentType[]
   level?: number
+  replyTo?: string
 }
 
 interface CommentItemProps {
@@ -54,7 +55,12 @@ export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItem
             <span className="text-sm font-medium truncate">{comment.author.name}</span>
             <span className="text-xs text-gray-500">{comment.time}</span>
           </div>
-          <p className="text-sm mt-1 break-words">{comment.content}</p>
+          <p className="text-sm mt-1 break-words">
+            {comment.replyTo && (
+              <span className="text-pink-500">回复 @{comment.replyTo}：</span>
+            )}
+            {comment.content}
+          </p>
           <div className="flex items-center gap-4 mt-2">
             <button 
               className={`flex items-center gap-1 text-sm ${isLiked ? 'text-pink-500' : 'text-gray-500'} hover:text-pink-500 transition-colors`}
@@ -88,7 +94,10 @@ export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItem
           {/* Always show the first reply */}
           <CommentItem
             key={comment.replies[0].id}
-            comment={comment.replies[0]}
+            comment={{
+              ...comment.replies[0],
+              replyTo: comment.author.name
+            }}
             onReply={onReply}
             onLike={onLike}
             level={level + 1}
@@ -111,7 +120,10 @@ export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItem
                   {comment.replies.slice(1).map((reply) => (
                     <CommentItem
                       key={reply.id}
-                      comment={reply}
+                      comment={{
+                        ...reply,
+                        replyTo: comment.author.name
+                      }}
                       onReply={onReply}
                       onLike={onLike}
                       level={level + 1}
