@@ -84,30 +84,44 @@ export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItem
       )}
 
       {comment.replies && comment.replies.length > 0 && (
-        <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-          <CollapsibleTrigger asChild>
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="text-sm text-gray-500 hover:text-pink-500 pl-11"
-            >
-              {isOpen ? "收起" : `展开 ${comment.replies.length} 条回复`}
-            </Button>
-          </CollapsibleTrigger>
-          <CollapsibleContent>
-            <div className="ml-10 space-y-4 border-l-2 border-gray-100 pl-4">
-              {comment.replies.map((reply) => (
-                <CommentItem
-                  key={reply.id}
-                  comment={reply}
-                  onReply={onReply}
-                  onLike={onLike}
-                  level={level + 1}
-                />
-              ))}
-            </div>
-          </CollapsibleContent>
-        </Collapsible>
+        <div className="ml-10 pl-4">
+          {/* Always show the first reply */}
+          <CommentItem
+            key={comment.replies[0].id}
+            comment={comment.replies[0]}
+            onReply={onReply}
+            onLike={onLike}
+            level={level + 1}
+          />
+          
+          {/* Show collapse button only if there are more than 1 replies */}
+          {comment.replies.length > 1 && (
+            <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+              <CollapsibleTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="text-sm text-gray-500 hover:text-pink-500 pl-0 mt-2"
+                >
+                  {isOpen ? "收起" : `展开 ${comment.replies.length - 1} 条回复`}
+                </Button>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <div className="space-y-4">
+                  {comment.replies.slice(1).map((reply) => (
+                    <CommentItem
+                      key={reply.id}
+                      comment={reply}
+                      onReply={onReply}
+                      onLike={onLike}
+                      level={level + 1}
+                    />
+                  ))}
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
+          )}
+        </div>
       )}
     </div>
   )
