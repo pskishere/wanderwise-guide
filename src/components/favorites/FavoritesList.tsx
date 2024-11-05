@@ -95,9 +95,9 @@ export const FavoritesList = ({
 
   return (
     <>
-      <div className={`${type === 'posts' ? 'columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4' : 'grid grid-cols-2 md:grid-cols-4 gap-4'}`}>
-        {items.map((item) => (
-          type === 'posts' ? (
+      {type === 'posts' ? (
+        <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+          {items.map((item) => (
             <Link to={`/posts/${item.id}`} key={item.id}>
               <Card className="mb-4 break-inside-avoid overflow-hidden border-none shadow-sm hover:shadow-lg transition-shadow duration-200">
                 <ImageWithSkeleton
@@ -131,9 +131,13 @@ export const FavoritesList = ({
                 </div>
               </Card>
             </Link>
-          ) : (
+          ))}
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+          {items.map((item) => (
             <Link to={`/products/${item.id}`} key={item.id}>
-              <Card className="overflow-hidden border-none shadow-sm hover:shadow-lg transition-shadow duration-200">
+              <Card className="h-full overflow-hidden border-none shadow-sm hover:shadow-lg transition-shadow duration-200">
                 <div className="aspect-square bg-gray-100">
                   <img
                     src={(item as FavoriteProduct).image}
@@ -141,11 +145,11 @@ export const FavoritesList = ({
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div className="px-2 pt-4 pb-3">
+                <div className="p-3">
                   <h3 className="text-sm font-medium line-clamp-2 mb-2">
                     {(item as FavoriteProduct).title}
                   </h3>
-                  <p className="text-pink-600 font-medium">
+                  <p className="text-pink-600 font-medium text-sm">
                     {(item as FavoriteProduct).price}
                   </p>
                   <div className="flex items-center gap-1 mt-1.5">
@@ -157,14 +161,15 @@ export const FavoritesList = ({
                 </div>
               </Card>
             </Link>
-          )
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
+      
       {hasNextPage && (
         <div ref={ref} className="flex justify-center py-8">
           {isLoading && (
-            <div className={`${type === 'posts' ? 'columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4' : 'grid grid-cols-2 md:grid-cols-4 gap-4'}`}>
-              {Array(2).fill(0).map((_, i) => (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 w-full">
+              {Array(4).fill(0).map((_, i) => (
                 type === 'posts' ? <PostSkeleton key={i} /> : <ProductSkeleton key={i} />
               ))}
             </div>
