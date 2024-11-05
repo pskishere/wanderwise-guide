@@ -102,19 +102,9 @@ export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItem
             onLike={onLike}
             level={level + 1}
           />
-          
           {/* Show collapse button only if there are more than 1 replies */}
           {comment.replies.length > 1 && (
             <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-              <CollapsibleTrigger asChild>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className="text-sm text-gray-500 hover:text-pink-500 pl-0 mt-2"
-                >
-                  {isOpen ? "收起" : `展开 ${comment.replies.length - 1} 条回复`}
-                </Button>
-              </CollapsibleTrigger>
               <CollapsibleContent>
                 <div className="space-y-4">
                   {comment.replies.slice(1).map((reply) => (
@@ -131,6 +121,13 @@ export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItem
                   ))}
                 </div>
               </CollapsibleContent>
+              <CollapsibleTrigger asChild>
+                <div 
+                  className="text-sm text-gray-500 hover:text-pink-500 pl-0 my-2"
+                >
+                  {isOpen ? "收起" : `展开 ${comment.replies.length - 1} 条回复`}
+                </div>
+              </CollapsibleTrigger>
             </Collapsible>
           )}
         </div>

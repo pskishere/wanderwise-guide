@@ -20,7 +20,7 @@ export const ReplyInput = ({ onSubmit, onCancel, replyTo }: ReplyInputProps) => 
   }
 
   return (
-    <div className="fixed inset-x-0 z-10 bottom-0 bg-white border-t shadow-lg animate-in slide-in-from-bottom duration-300">
+    <div className="fixed inset-x-0 z-30 bottom-0 bg-white border-t shadow-lg animate-in slide-in-from-bottom duration-300">
       <div className="container max-w-2xl mx-auto px-4 py-4">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
