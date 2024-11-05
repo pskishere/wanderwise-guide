@@ -1,5 +1,7 @@
 import { Heart, MessageCircle, UserPlus } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import { useToast } from "@/components/ui/use-toast"
 
 interface NotificationItemProps {
   notification: {
@@ -13,6 +15,8 @@ interface NotificationItemProps {
 }
 
 export function NotificationItem({ notification }: NotificationItemProps) {
+  const { toast } = useToast()
+
   const getIcon = () => {
     switch (notification.type) {
       case "like":
@@ -24,15 +28,36 @@ export function NotificationItem({ notification }: NotificationItemProps) {
     }
   }
 
+  const handleMarkRead = () => {
+    toast({
+      description: "已标记为已读",
+    })
+  }
+
   return (
-    <div className={`flex items-center space-x-4 p-4 bg-white rounded-lg ${!notification.isRead ? "border-l-4 border-blue-500" : ""}`}>
-      <Avatar>
+    <div 
+      className={`flex items-center space-x-4 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow 
+        ${!notification.isRead ? "border-l-4 border-blue-500" : ""}`}
+    >
+      <Avatar className="h-12 w-12">
         <AvatarImage src={notification.avatar} />
         <AvatarFallback>UN</AvatarFallback>
       </Avatar>
       <div className="flex-1 min-w-0">
-        <p className="text-sm text-gray-900 truncate">{notification.content}</p>
-        <p className="text-xs text-gray-500">{notification.time}</p>
+        <p className="text-sm text-gray-900">{notification.content}</p>
+        <div className="flex items-center space-x-2 mt-1">
+          <p className="text-xs text-gray-500">{notification.time}</p>
+          {!notification.isRead && (
+            <Button 
+              variant="ghost" 
+              size="xs" 
+              onClick={handleMarkRead}
+              className="h-6 px-2 text-xs text-blue-500 hover:text-blue-600"
+            >
+              标记已读
+            </Button>
+          )}
+        </div>
       </div>
       <div className="flex-shrink-0">
         {getIcon()}

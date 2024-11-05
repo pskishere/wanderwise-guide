@@ -2,6 +2,8 @@ import { useQuery } from "@tanstack/react-query"
 import { NotificationItem } from "./NotificationItem"
 import { Skeleton } from "@/components/ui/skeleton"
 import { EmptyState } from "./EmptyState"
+import { Button } from "@/components/ui/button"
+import { useToast } from "@/components/ui/use-toast"
 
 const mockNotifications = [
   {
@@ -31,16 +33,29 @@ const mockNotifications = [
 ]
 
 export function NotificationList() {
-  const { data: notifications, isLoading } = useQuery({
+  const { toast } = useToast()
+  const { data: notifications, isLoading, refetch } = useQuery({
     queryKey: ["notifications"],
     queryFn: () => new Promise(resolve => setTimeout(() => resolve(mockNotifications), 1000))
   })
+
+  const handleMarkAllRead = () => {
+    toast({
+      description: "已将所有消息标记为已读",
+    })
+  }
+
+  const handleClearAll = () => {
+    toast({
+      description: "已清空所有消息",
+    })
+  }
 
   if (isLoading) {
     return (
       <div className="space-y-4">
         {[...Array(3)].map((_, i) => (
-          <div key={i} className="flex items-center space-x-4 p-4 bg-white rounded-lg">
+          <div key={i} className="flex items-center space-x-4 p-4 bg-white rounded-lg shadow-sm">
             <Skeleton className="h-10 w-10 rounded-full" />
             <div className="space-y-2 flex-1">
               <Skeleton className="h-4 w-3/4" />
@@ -58,6 +73,31 @@ export function NotificationList() {
 
   return (
     <div className="space-y-4">
+      <div className="flex justify-between items-center mb-6">
+        <div className="flex space-x-2">
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={handleMarkAllRead}
+          >
+            全部已读
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={handleClearAll}
+          >
+            清空消息
+          </Button>
+        </div>
+        <Button 
+          variant="ghost" 
+          size="sm"
+          onClick={() => refetch()}
+        >
+          刷新
+        </Button>
+      </div>
       {notifications.map((notification) => (
         <NotificationItem key={notification.id} notification={notification} />
       ))}
