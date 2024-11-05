@@ -16,6 +16,7 @@ import "@uiw/react-md-editor/markdown-editor.css"
 import "@uiw/react-markdown-preview/markdown.css"
 import dynamic from "@uiw/react-md-editor"
 import { Label } from "@/components/ui/label"
+import { MapPin } from "lucide-react"
 
 const MDEditor = dynamic
 
@@ -145,14 +146,19 @@ const CreatePost = () => {
             maxLength={30}
           />
 
-          <div className="space-y-2">
-            <Label>添加地点</Label>
-            <MapSearch onAddressSelect={handleLocationSelect} />
-            {draft.location && (
-              <div className="text-sm text-gray-500 mt-1">
-                已选择地点：{draft.location}
-              </div>
-            )}
+          <div className="mt-6 px-4 -mx-4">
+            <div className="flex items-center gap-2 mb-3">
+              <MapPin className="w-4 h-4 text-gray-400" />
+              <span className="text-sm text-gray-500">添加地点</span>
+            </div>
+            <div className="space-y-3">
+              <MapSearch onAddressSelect={handleLocationSelect} />
+              {draft.location && (
+                <div className="inline-block px-3 py-1.5 rounded-full text-sm bg-pink-50 text-pink-500">
+                  {draft.location}
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="space-y-2">
