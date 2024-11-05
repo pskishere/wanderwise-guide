@@ -1,8 +1,6 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
-import { Button } from "@/components/ui/button"
-import { MapPin } from "lucide-react"
 
 interface Address {
   id: string
@@ -37,7 +35,7 @@ const addresses: Address[] = [
 
 export function AddressSelector({ open, onOpenChange, onSelect, selectedId }: AddressSelectorProps) {
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={onOpenChange} style={{ margin: '0px 20px' }}>
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle>选择收货地址</DialogTitle>
@@ -72,11 +70,6 @@ export function AddressSelector({ open, onOpenChange, onSelect, selectedId }: Ad
             </div>
           ))}
         </RadioGroup>
-
-        <Button variant="outline" size="xs" className="w-full mt-2">
-          <MapPin className="mr-2 h-4 w-4" />
-          新增地址
-        </Button>
       </DialogContent>
     </Dialog>
   )
