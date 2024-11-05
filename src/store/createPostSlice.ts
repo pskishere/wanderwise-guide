@@ -1,5 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
+interface Product {
+  id: number
+  title: string
+  price: string
+  image: string
+}
+
 interface CreatePostState {
   draft: {
     title: string
@@ -7,6 +14,7 @@ interface CreatePostState {
     images: string[]
     tags: string[]
     location: string
+    products?: Product[]
   }
   loading: boolean
 }
@@ -17,7 +25,8 @@ const initialState: CreatePostState = {
     content: '',
     images: [],
     tags: [],
-    location: ''
+    location: '',
+    products: []
   },
   loading: false
 }

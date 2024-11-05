@@ -2,23 +2,11 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { useToast } from "@/hooks/use-toast"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
 import { BottomNav } from "@/components/BottomNav"
 import { CreatePostHeader } from "@/components/post/CreatePostHeader"
-import { ImageUploader } from "@/components/post/ImageUploader"
-import { TagSelector } from "@/components/post/TagSelector"
-import { MarkdownToolbar } from "@/components/post/MarkdownToolbar"
-import { MapSearch } from "@/components/address/MapSearch"
+import { CreatePostForm } from "@/components/post/CreatePostForm"
 import { RootState } from "@/store/store"
-import { setDraft, addImage, removeImage, toggleTag, clearDraft, setLoading } from "@/store/createPostSlice"
-import "@uiw/react-md-editor/markdown-editor.css"
-import "@uiw/react-markdown-preview/markdown.css"
-import dynamic from "@uiw/react-md-editor"
-import { Label } from "@/components/ui/label"
-import { MapPin } from "lucide-react"
-
-const MDEditor = dynamic
+import { setDraft, clearDraft, setLoading } from "@/store/createPostSlice"
 
 const CreatePost = () => {
   const navigate = useNavigate()
@@ -27,22 +15,6 @@ const CreatePost = () => {
   const [showPreview, setShowPreview] = useState(false)
   
   const { draft, loading } = useSelector((state: RootState) => state.createPost)
-  const suggestedTags = ["旅行", "美食", "穿搭", "护肤", "数码", "生活", "购物"]
-
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files
-    if (!files) return
-
-    const newImages = Array.from(files).map(file => URL.createObjectURL(file))
-    if (draft.images.length + newImages.length > 9) {
-      toast({
-        variant: "destructive",
-        description: "最多只能上传9张图片",
-      })
-      return
-    }
-    newImages.forEach(image => dispatch(addImage(image)))
-  }
 
   const handleMarkdownInsert = (type: string) => {
     const textarea = document.querySelector('textarea')
@@ -70,6 +42,21 @@ const CreatePost = () => {
 
     const newContent = text.slice(0, start) + insertion + text.slice(end)
     dispatch(setDraft({ content: newContent }))
+  }
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files
+    if (!files) return
+
+    Array.from(files).forEach(file => {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        dispatch(setDraft({ 
+          images: [...draft.images, reader.result as string]
+        }))
+      }
+      reader.readAsDataURL(file)
+    })
   }
 
   const handleLocationSelect = (address: {
@@ -128,68 +115,13 @@ const CreatePost = () => {
         hasImages={draft.images.length > 0}
       />
 
-      <form id="post-form" onSubmit={handleSubmit} className="pt-12 pb-20">
-        <div className="p-4">
-          <ImageUploader 
-            images={draft.images}
-            onUpload={handleImageUpload}
-            onRemove={(index) => dispatch(removeImage(index))}
-          />
-        </div>
-
-        <div className="px-4 space-y-4">
-          <Input
-            placeholder="标题～"
-            value={draft.title}
-            onChange={(e) => dispatch(setDraft({ title: e.target.value }))}
-            className="text-small border-0 px-2 py-2 focus-visible:ring-0 placeholder:text-gray-400"
-            maxLength={30}
-          />
-
-
-
-          <div className="space-y-2">
-            <MarkdownToolbar 
-              onInsert={handleMarkdownInsert}
-              showPreview={showPreview}
-              onTogglePreview={() => setShowPreview(!showPreview)}
-            />
-            {showPreview ? (
-              <MDEditor.Markdown 
-                source={draft.content} 
-                className="min-h-[200px] p-4 rounded-lg bg-white border-2 border-gray-100 prose prose-sm max-w-none prose-p:my-2 prose-p:leading-relaxed prose-headings:font-bold prose-headings:my-3 prose-h1:text-xl prose-h2:text-lg prose-h3:text-base prose-a:text-pink-600 prose-a:no-underline hover:prose-a:underline prose-code:text-pink-600 prose-code:bg-pink-50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none hover:border-pink-100 transition-colors"
-              />
-            ) : (
-              <Textarea
-                placeholder="分享这一刻的想法..."
-                value={draft.content}
-                onChange={(e) => dispatch(setDraft({ content: e.target.value }))}
-                className="min-h-[200px] text-base resize-none border-2 border-gray-100 p-4 focus-visible:ring-0 focus-visible:border-pink-100 placeholder:text-gray-400 rounded-lg transition-colors"
-              />
-            )}
-          </div>
-
-          <div className="mt-6 px-4 -mx-4">
-            <div className="flex items-center gap-2 mb-3">
-              <MapPin className="w-4 h-4 text-gray-400" />
-              <span className="text-sm text-gray-500">添加地点</span>
-            </div>
-            <div className="space-y-3">
-              <MapSearch onAddressSelect={handleLocationSelect} />
-              {draft.location && (
-                <div className="inline-block px-3 py-1.5 rounded-full text-sm bg-pink-50 text-pink-500">
-                  {draft.location}
-                </div>
-              )}
-            </div>
-          </div>
-          
-        </div>
-
-        <TagSelector 
-          selectedTags={draft.tags}
-          onToggleTag={(tag) => dispatch(toggleTag(tag))}
-          suggestedTags={suggestedTags}
+      <form id="post-form" onSubmit={handleSubmit}>
+        <CreatePostForm
+          showPreview={showPreview}
+          onTogglePreview={() => setShowPreview(!showPreview)}
+          onMarkdownInsert={handleMarkdownInsert}
+          handleImageUpload={handleImageUpload}
+          handleLocationSelect={handleLocationSelect}
         />
       </form>
 
