@@ -27,35 +27,37 @@ const queryClient = new QueryClient()
 
 function App() {
   return (
-    <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <Provider store={store}>
         <Router>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/explore" element={<Explore />} />
-            <Route path="/posts/:id" element={<PostDetail />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/profile/posts" element={<UserPosts />} />
-            <Route path="/profile/following" element={<UserFollowing />} />
-            <Route path="/profile/followers" element={<UserFollowers />} />
-            <Route path="/profile/edit" element={<EditProfile />} />
-            <Route path="/products/:id" element={<ProductDetail />} />
-            <Route path="/favorites" element={<Favorites />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/orders" element={<Orders />} />
-            <Route path="/orders/:id" element={<OrderDetail />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/create-post" element={<CreatePost />} />
-            <Route path="/search/results" element={<SearchResults />} />
-            <Route path="/address" element={<AddressList />} />
-            <Route path="/address/new" element={<AddressForm />} />
-            <Route path="/address/edit/:id" element={<AddressForm />} />
-            <Route path="/notifications" element={<Notifications />} />
-          </Routes>
-          <Toaster />
+          <div className="app">
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/explore" element={<Explore />} />
+              <Route path="/posts/:id" element={<PostDetail />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/profile/posts" element={<UserPosts />} />
+              <Route path="/profile/following" element={<UserFollowing />} />
+              <Route path="/profile/followers" element={<UserFollowers />} />
+              <Route path="/profile/edit" element={<EditProfile />} />
+              <Route path="/products/:id" element={<ProductDetail />} />
+              <Route path="/favorites" element={<Favorites />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/orders" element={<Orders />} />
+              <Route path="/orders/:id" element={<OrderDetail />} />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/create-post" element={<CreatePost />} />
+              <Route path="/search/results" element={<SearchResults />} />
+              <Route path="/address" element={<AddressList />} />
+              <Route path="/address/new" element={<AddressForm />} />
+              <Route path="/address/edit/:id" element={<AddressForm />} />
+              <Route path="/notifications" element={<Notifications />} />
+            </Routes>
+            <Toaster />
+          </div>
         </Router>
-      </QueryClientProvider>
-    </Provider>
+      </Provider>
+    </QueryClientProvider>
   )
 }
 
