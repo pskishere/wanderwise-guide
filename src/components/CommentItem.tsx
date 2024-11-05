@@ -95,6 +95,7 @@ export const CommentItem = ({ comment, onReply, onLike }: CommentItemProps) => {
         onReplyClick={() => setIsReplying(true)}
       />
       
+      <div className="ml-10">
       {comment.replies && comment.replies.length > 0 && (
         <div className="space-y-3">
           {/* Always show first reply */}
@@ -135,6 +136,7 @@ export const CommentItem = ({ comment, onReply, onLike }: CommentItemProps) => {
           )}
         </div>
       )}
+      </div>
 
       {isReplying && (
         <ReplyInput 
