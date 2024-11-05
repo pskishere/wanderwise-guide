@@ -25,10 +25,8 @@ export const CommentSection = ({ commentCount }: CommentSectionProps) => {
     
     setIsLoading(true)
     try {
-      // 模拟加载更多评论
       await new Promise(resolve => setTimeout(resolve, 1000))
       
-      // 模拟数据加载完成
       if (page >= 3) {
         setHasMore(false)
       }

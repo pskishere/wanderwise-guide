@@ -13,6 +13,7 @@ interface Comment {
   time: string;
   likes: number;
   replies?: Comment[];
+  replyTo?: string;
 }
 
 interface CommentState {
@@ -41,13 +42,23 @@ export const commentSlice = createSlice({
       state.comments.unshift(action.payload);
     },
     addReply: (state, action: PayloadAction<{ parentId: number; reply: Comment }>) => {
-      const comment = state.comments.find(c => c.id === action.payload.parentId);
-      if (comment) {
-        if (!comment.replies) {
-          comment.replies = [];
+      const findAndAddReply = (comments: Comment[]) => {
+        for (const comment of comments) {
+          if (comment.id === action.payload.parentId) {
+            if (!comment.replies) {
+              comment.replies = [];
+            }
+            comment.replies.push(action.payload.reply);
+            return true;
+          }
+          if (comment.replies) {
+            const found = findAndAddReply(comment.replies);
+            if (found) return true;
+          }
         }
-        comment.replies.push(action.payload.reply);
-      }
+        return false;
+      };
+      findAndAddReply(state.comments);
     },
     updateLikes: (state, action: PayloadAction<{ id: number; likes: number }>) => {
       const updateCommentLikes = (comments: Comment[]) => {
