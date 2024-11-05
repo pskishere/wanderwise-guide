@@ -6,7 +6,7 @@ interface CommentAuthor {
   avatar: string;
 }
 
-interface Comment {
+export interface Comment {
   id: number;
   author: CommentAuthor;
   content: string;

@@ -18,12 +18,15 @@ import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
 import { mockProducts } from "@/services/mockData"
 import { Link } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import { addComment } from "@/store/slices/commentSlice"
 
 const PostDetail = () => {
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [commentContent, setCommentContent] = useState("")
   const { toast } = useToast()
+  const dispatch = useDispatch()
 
   const post = {
     id: 1,
@@ -56,6 +59,19 @@ const PostDetail = () => {
       })
       return
     }
+
+    const newComment = {
+      id: Date.now(),
+      author: {
+        name: "当前用户",
+        avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&q=80"
+      },
+      content: commentContent,
+      time: "刚刚",
+      likes: 0
+    }
+
+    dispatch(addComment(newComment))
 
     toast({
       description: "评论发布成功",
