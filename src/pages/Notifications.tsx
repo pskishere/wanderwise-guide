@@ -66,17 +66,17 @@ export default function Notifications() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50/50">
+    <div className="min-h-screen bg-gradient-to-b from-pink-50/50 to-white">
       <Navigation />
       
       <div className="container max-w-2xl mx-auto px-4 pt-20 pb-24">
-        <div className="bg-white rounded-2xl shadow-sm overflow-hidden border">
-          <div className="p-4 border-b sticky top-0 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/50 z-10">
+        <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-sm border border-pink-100/50 overflow-hidden">
+          <div className="p-6 border-b border-pink-100/50 sticky top-0 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/50 z-10">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <h1 className="text-lg font-semibold">消息通知</h1>
+                <h1 className="text-xl font-semibold bg-gradient-to-r from-pink-600 to-pink-400 bg-clip-text text-transparent">消息通知</h1>
                 {unreadCount > 0 && (
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-pink-100 text-pink-800 ring-1 ring-pink-100/50">
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-pink-500 to-pink-400 text-white shadow-sm">
                     {unreadCount}条未读
                   </span>
                 )}
@@ -102,17 +102,17 @@ export default function Notifications() {
                 <NotificationSkeleton />
               </div>
             ) : notifications?.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-12 text-center">
-                <div className="h-12 w-12 rounded-full bg-gray-50 flex items-center justify-center mb-4">
-                  <Bell className="h-6 w-6 text-gray-400" />
+              <div className="flex flex-col items-center justify-center py-20 text-center">
+                <div className="h-16 w-16 rounded-full bg-gradient-to-br from-pink-50 to-pink-100 flex items-center justify-center mb-4 shadow-inner">
+                  <Bell className="h-8 w-8 text-pink-400" />
                 </div>
-                <h3 className="text-lg font-medium text-gray-900">暂无通知</h3>
-                <p className="text-sm text-gray-500 mt-1">
+                <h3 className="text-lg font-medium text-gray-900 mt-2">暂无通知</h3>
+                <p className="text-sm text-gray-500 mt-1 max-w-[240px]">
                   当有新的通知时，我们会在这里显示
                 </p>
               </div>
             ) : (
-              <div className="divide-y divide-gray-100">
+              <div className="divide-y divide-pink-100/50">
                 {notifications?.map((notification) => (
                   <NotificationItem key={notification.id} notification={notification} />
                 ))}

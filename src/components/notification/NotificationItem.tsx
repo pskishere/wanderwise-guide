@@ -23,20 +23,20 @@ export function NotificationItem({ notification }: NotificationItemProps) {
     switch (notification.type) {
       case "like":
         return (
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-pink-50 to-pink-100 shadow-inner">
-            <Heart className="h-5 w-5 text-pink-500" />
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-pink-50 to-pink-100 shadow-inner">
+            <Heart className="h-6 w-6 text-pink-500" />
           </div>
         )
       case "comment":
         return (
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 shadow-inner">
-            <MessageCircle className="h-5 w-5 text-blue-500" />
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 shadow-inner">
+            <MessageCircle className="h-6 w-6 text-blue-500" />
           </div>
         )
       case "order":
         return (
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-green-50 to-green-100 shadow-inner">
-            <ShoppingBag className="h-5 w-5 text-green-500" />
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-green-50 to-green-100 shadow-inner">
+            <ShoppingBag className="h-6 w-6 text-green-500" />
           </div>
         )
     }
@@ -46,20 +46,20 @@ export function NotificationItem({ notification }: NotificationItemProps) {
     <Link to={notification.link}>
       <Button
         variant="ghost"
-        className={`group relative w-full justify-start gap-5 px-5 py-4 h-auto transition-all duration-200 hover:bg-gray-50/80 ${
-          !notification.read ? "bg-pink-50/50" : ""
+        className={`group relative w-full justify-start gap-6 px-6 py-5 h-auto transition-all duration-300 hover:bg-gradient-to-r hover:from-pink-50/30 hover:to-transparent ${
+          !notification.read ? "bg-gradient-to-r from-pink-50/50 to-transparent" : ""
         }`}
       >
-        <div className="flex items-start gap-5 flex-1 min-w-0">
+        <div className="flex items-start gap-6 flex-1 min-w-0">
           {notification.avatar ? (
-            <Avatar className="h-12 w-12 ring-2 ring-white shadow-md transition-transform group-hover:scale-105">
-              <AvatarImage src={notification.avatar} />
-              <AvatarFallback>
+            <Avatar className="h-14 w-14 rounded-2xl ring-2 ring-white shadow-md transition-transform group-hover:scale-105 group-hover:rotate-2">
+              <AvatarImage src={notification.avatar} className="rounded-2xl" />
+              <AvatarFallback className="rounded-2xl">
                 {notification.user?.slice(0, 2)}
               </AvatarFallback>
             </Avatar>
           ) : (
-            <div className="transition-transform group-hover:scale-105">
+            <div className="transition-transform group-hover:scale-105 group-hover:rotate-2">
               {getIcon()}
             </div>
           )}
@@ -77,7 +77,7 @@ export function NotificationItem({ notification }: NotificationItemProps) {
           </div>
 
           {!notification.read && (
-            <div className="absolute right-4 top-4 h-2.5 w-2.5 rounded-full bg-pink-500 ring-4 ring-pink-100 animate-pulse" />
+            <div className="absolute right-5 top-5 h-2.5 w-2.5 rounded-full bg-gradient-to-r from-pink-500 to-pink-400 ring-4 ring-pink-100 animate-pulse" />
           )}
         </div>
       </Button>
