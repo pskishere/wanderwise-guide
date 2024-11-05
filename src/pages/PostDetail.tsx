@@ -11,10 +11,13 @@ import { PostHeader } from "@/components/post/PostHeader"
 import { PostContent } from "@/components/post/PostContent"
 import { PostActions } from "@/components/post/PostActions"
 import { CommentSection } from "@/components/CommentSection"
+import { Navigation } from "@/components/Navigation"
 import { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
+import { mockProducts } from "@/services/mockData"
+import { Link } from "react-router-dom"
 
 const PostDetail = () => {
   const [lightboxOpen, setLightboxOpen] = useState(false)
@@ -37,7 +40,7 @@ const PostDetail = () => {
       avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&q=80"
     },
     likes: 3421,
-    commentCount: 234,
+    comments: 234,
     tags: ["旅行", "日本", "京都", "和服"]
   }
 
@@ -54,16 +57,18 @@ const PostDetail = () => {
       return
     }
 
-    // 这里可以添加实际的评论提交逻辑
     toast({
       description: "评论发布成功",
     })
     setCommentContent("")
   }
 
+  // 选择与帖子相关的商品进行推广
+  const promotedProducts = mockProducts.slice(0, 4)
+
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
-      <PostHeader />
+      <Navigation />
 
       <div className="relative">
         <div className="w-full aspect-[4/3] bg-black">
@@ -98,7 +103,7 @@ const PostDetail = () => {
           />
           <PostActions 
             likes={post.likes}
-            commentCount={post.commentCount}
+            commentCount={post.comments}
           />
         </Card>
       </div>
@@ -110,9 +115,40 @@ const PostDetail = () => {
         index={currentImageIndex}
       />
 
+      {/* 推广商品卡片 */}
+      <div className="mt-6 px-4">
+        <h2 className="text-base font-medium mb-3 flex items-center">
+          <span className="h-3.5 w-1 bg-pink-500 rounded-full mr-2"></span>
+          相关推荐
+        </h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {promotedProducts.map((product) => (
+            <Link 
+              key={product.id} 
+              to={`/products/${product.id}`}
+              className="block"
+            >
+              <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-200 border-none">
+                <div className="aspect-square bg-gray-100">
+                  <img
+                    src={product.image}
+                    alt={product.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="p-2">
+                  <h3 className="text-sm font-medium line-clamp-2">{product.title}</h3>
+                  <p className="text-pink-600 font-medium mt-1.5">{product.price}</p>
+                </div>
+              </Card>
+            </Link>
+          ))}
+        </div>
+      </div>
+
       <div className="mt-6">
         <CommentSection 
-          commentCount={post.commentCount}
+          commentCount={post.comments}
         />
       </div>
 
