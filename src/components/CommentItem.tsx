@@ -16,7 +16,6 @@ export interface CommentType {
   time: string
   likes: number
   replies?: CommentType[]
-  level?: number
   replyTo?: string
 }
 
@@ -24,7 +23,6 @@ interface CommentItemProps {
   comment: CommentType
   onReply: (parentId: number, content: string) => void
   onLike: (commentId: number) => void
-  level?: number
 }
 
 const CommentContent = ({ comment, isLiked, onLike, onReplyClick }: { 
@@ -73,7 +71,7 @@ const CommentContent = ({ comment, isLiked, onLike, onReplyClick }: {
   </div>
 )
 
-export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItemProps) => {
+export const CommentItem = ({ comment, onReply, onLike }: CommentItemProps) => {
   const [isReplying, setIsReplying] = useState(false)
   const [isLiked, setIsLiked] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
@@ -98,16 +96,16 @@ export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItem
       />
       
       {comment.replies && comment.replies.length > 0 && (
-        <div className="pl-11">
-          <CommentItem
-            key={comment.replies[0].id}
+        <div className="space-y-3">
+          {/* Always show first reply */}
+          <CommentContent 
             comment={{
               ...comment.replies[0],
               replyTo: comment.author.name
             }}
-            onReply={onReply}
-            onLike={onLike}
-            level={level + 1}
+            isLiked={false}
+            onLike={() => onLike(comment.replies![0].id)}
+            onReplyClick={() => setIsReplying(true)}
           />
           
           {comment.replies.length > 1 && (
@@ -115,21 +113,21 @@ export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItem
               <CollapsibleContent>
                 <div className="space-y-3">
                   {comment.replies.slice(1).map((reply) => (
-                    <CommentItem
+                    <CommentContent
                       key={reply.id}
                       comment={{
                         ...reply,
                         replyTo: comment.author.name
                       }}
-                      onReply={onReply}
-                      onLike={onLike}
-                      level={level + 1}
+                      isLiked={false}
+                      onLike={() => onLike(reply.id)}
+                      onReplyClick={() => setIsReplying(true)}
                     />
                   ))}
                 </div>
               </CollapsibleContent>
               <CollapsibleTrigger asChild>
-                <div className="text-sm text-gray-500 hover:text-pink-500 pl-0 my-2 cursor-pointer">
+                <div className="text-sm text-gray-500 hover:text-pink-500 cursor-pointer">
                   {isOpen ? "收起" : `展开 ${comment.replies.length - 1} 条回复`}
                 </div>
               </CollapsibleTrigger>
