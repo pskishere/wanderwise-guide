@@ -6,10 +6,12 @@ import { MessageList } from "@/components/message/MessageList"
 import { useSelector, useDispatch } from "react-redux"
 import { RootState } from "@/store/store"
 import { useEffect } from "react"
-import { setLoading, setMessages } from "@/store/messageSlice"
+import { setLoading, setMessages, markAsRead } from "@/store/messageSlice"
+import { useToast } from "@/hooks/use-toast"
 
 const Messages = () => {
   const dispatch = useDispatch()
+  const { toast } = useToast()
   const { messages, loading } = useSelector((state: RootState) => state.message)
 
   useEffect(() => {
@@ -44,6 +46,13 @@ const Messages = () => {
     }, 1000)
   }, [dispatch])
 
+  const handleMessageClick = (messageId: number) => {
+    dispatch(markAsRead(messageId))
+    toast({
+      description: "正在跳转到聊天页面...",
+    })
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
       <Navigation />
@@ -52,11 +61,15 @@ const Messages = () => {
         <h1 className="text-2xl font-bold mb-6">消息</h1>
 
         {loading ? (
-          Array(3).fill(0).map((_, i) => <MessageSkeleton key={i} />)
+          <div className="space-y-4">
+            {Array(3).fill(0).map((_, i) => (
+              <MessageSkeleton key={i} />
+            ))}
+          </div>
         ) : !messages?.length ? (
           <EmptyMessages />
         ) : (
-          <MessageList messages={messages} />
+          <MessageList messages={messages} onMessageClick={handleMessageClick} />
         )}
       </div>
 
