@@ -22,11 +22,23 @@ export function NotificationItem({ notification }: NotificationItemProps) {
   const getIcon = () => {
     switch (notification.type) {
       case "like":
-        return <Heart className="h-4 w-4 text-pink-500" />
+        return (
+          <div className="h-8 w-8 rounded-full bg-pink-50 flex items-center justify-center">
+            <Heart className="h-4 w-4 text-pink-500" />
+          </div>
+        )
       case "comment":
-        return <MessageCircle className="h-4 w-4 text-blue-500" />
+        return (
+          <div className="h-8 w-8 rounded-full bg-blue-50 flex items-center justify-center">
+            <MessageCircle className="h-4 w-4 text-blue-500" />
+          </div>
+        )
       case "order":
-        return <ShoppingBag className="h-4 w-4 text-green-500" />
+        return (
+          <div className="h-8 w-8 rounded-full bg-green-50 flex items-center justify-center">
+            <ShoppingBag className="h-4 w-4 text-green-500" />
+          </div>
+        )
     }
   }
 
@@ -34,7 +46,7 @@ export function NotificationItem({ notification }: NotificationItemProps) {
     <Link to={notification.link}>
       <Button
         variant="ghost"
-        className={`w-full justify-start gap-4 p-4 h-auto hover:bg-gray-50 ${
+        className={`w-full justify-start gap-4 p-4 h-auto hover:bg-gray-50/80 ${
           !notification.read ? "bg-pink-50/50" : ""
         }`}
       >
@@ -47,12 +59,10 @@ export function NotificationItem({ notification }: NotificationItemProps) {
               </AvatarFallback>
             </Avatar>
           ) : (
-            <div className="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center">
-              {getIcon()}
-            </div>
+            getIcon()
           )}
           <div className="flex-1 min-w-0">
-            <div className="flex items-start gap-1">
+            <div className="flex items-start gap-1 flex-wrap">
               {notification.user && (
                 <span className="font-medium text-gray-900">{notification.user}</span>
               )}
@@ -62,6 +72,9 @@ export function NotificationItem({ notification }: NotificationItemProps) {
               {notification.time}
             </p>
           </div>
+          {!notification.read && (
+            <div className="h-2 w-2 rounded-full bg-pink-500 flex-shrink-0" />
+          )}
         </div>
       </Button>
     </Link>

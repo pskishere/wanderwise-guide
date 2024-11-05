@@ -1,11 +1,12 @@
 import { Bell, Heart, MessageCircle, ShoppingBag } from "lucide-react"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Separator } from "@/components/ui/separator"
 import { NotificationItem } from "@/components/notification/NotificationItem"
 import { NotificationSkeleton } from "@/components/notification/NotificationSkeleton"
 import { useQuery } from "@tanstack/react-query"
 import { Navigation } from "@/components/Navigation"
 import { BottomNav } from "@/components/BottomNav"
+import { Button } from "@/components/ui/button"
+import { useToast } from "@/components/ui/use-toast"
 
 const mockNotifications = [
   {
@@ -35,14 +36,34 @@ const mockNotifications = [
     time: "2小时前",
     read: false,
     link: "/orders/3"
+  },
+  {
+    id: 4,
+    type: "like" as const,
+    content: "赞了你的评论",
+    user: "David Wang",
+    time: "3小时前",
+    read: true,
+    avatar: "https://i.pravatar.cc/150?u=4",
+    link: "/posts/4"
   }
 ]
 
 export default function Notifications() {
+  const { toast } = useToast()
   const { data: notifications, isLoading } = useQuery({
     queryKey: ["notifications"],
     queryFn: () => new Promise(resolve => setTimeout(() => resolve(mockNotifications), 1000)),
   })
+
+  const unreadCount = notifications?.filter(n => !n.read).length || 0
+
+  const handleMarkAllAsRead = () => {
+    toast({
+      title: "已全部标记为已读",
+      description: "所有未读通知已更新",
+    })
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -50,12 +71,26 @@ export default function Notifications() {
       
       <div className="container max-w-2xl mx-auto px-4 pt-20 pb-24">
         <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
-          <div className="p-4 border-b">
+          <div className="p-4 border-b sticky top-0 bg-white/95 backdrop-blur-md z-10">
             <div className="flex items-center justify-between">
-              <h1 className="text-lg font-semibold">通知</h1>
-              <span className="text-sm text-pink-500 font-medium">
-                {notifications?.filter(n => !n.read).length || 0} 条未读
-              </span>
+              <div className="flex items-center gap-3">
+                <h1 className="text-lg font-semibold">通知</h1>
+                {unreadCount > 0 && (
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-pink-100 text-pink-800">
+                    {unreadCount}
+                  </span>
+                )}
+              </div>
+              {unreadCount > 0 && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleMarkAllAsRead}
+                  className="text-sm text-pink-600 hover:text-pink-700 hover:bg-pink-50"
+                >
+                  全部标记为已读
+                </Button>
+              )}
             </div>
           </div>
 
