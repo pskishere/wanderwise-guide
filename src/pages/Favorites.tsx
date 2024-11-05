@@ -1,8 +1,8 @@
 import { Navigation } from "@/components/Navigation"
 import { BottomNav } from "@/components/BottomNav"
-import { FavoritesList } from "@/components/favorites/FavoritesList"
-import { FavoritesHeader } from "@/components/favorites/FavoritesHeader"
-import { Tabs, TabsContent } from "@/components/ui/tabs"
+import { ProductCard } from "@/components/favorites/ProductCard"
+import { ProductSkeleton } from "@/components/favorites/FavoritesSkeleton"
+import { EmptyState } from "@/components/favorites/EmptyState"
 import { useFavorites } from "@/hooks/useFavorites"
 
 const Favorites = () => {
@@ -14,40 +14,48 @@ const Favorites = () => {
   } = useFavorites()
 
   const allItems = data?.pages.flatMap(page => page.items) || []
-  const allProducts = data?.pages.flatMap(page => page.products) || []
+
+  if (isLoading && !allItems.length) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <Navigation />
+        <div className="container mx-auto px-4 pt-20 pb-24 max-w-7xl">
+          <h1 className="text-2xl font-bold mb-6">我的收藏</h1>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+            {Array(4).fill(0).map((_, i) => (
+              <ProductSkeleton key={i} />
+            ))}
+          </div>
+        </div>
+        <BottomNav />
+      </div>
+    )
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white pb-20">
+    <div className="min-h-screen bg-gray-50">
       <Navigation />
       
-      <div className="container mx-auto px-4 pt-20 max-w-7xl">
-        <h1 className="text-2xl font-bold">我的收藏</h1>
+      <div className="container mx-auto px-4 pt-20 pb-24 max-w-7xl">
+        <h1 className="text-2xl font-bold mb-6">我的收藏</h1>
         
-        <Tabs defaultValue="posts">
-          <FavoritesHeader defaultValue="posts" />
-
-          <div className="mt-6">
-            <TabsContent value="posts" className="focus-visible:outline-none">
-              <FavoritesList
-                type="posts"
-                items={allItems}
-                isLoading={isLoading}
-                hasNextPage={hasNextPage}
-                fetchNextPage={fetchNextPage}
-              />
-            </TabsContent>
-
-            <TabsContent value="products" className="focus-visible:outline-none">
-              <FavoritesList
-                type="products"
-                items={allProducts}
-                isLoading={isLoading}
-                hasNextPage={hasNextPage}
-                fetchNextPage={fetchNextPage}
-              />
-            </TabsContent>
+        {!allItems.length ? (
+          <EmptyState type="products" />
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+            {allItems.map((item) => (
+              <ProductCard key={item.id} {...item} />
+            ))}
+            
+            {isLoading && hasNextPage && (
+              <>
+                {Array(2).fill(0).map((_, i) => (
+                  <ProductSkeleton key={i} />
+                ))}
+              </>
+            )}
           </div>
-        </Tabs>
+        )}
       </div>
 
       <BottomNav />
