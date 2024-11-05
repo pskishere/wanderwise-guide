@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { Avatar } from "@/components/ui/avatar"
+import { useNavigate } from "react-router-dom"
 
 interface PostContentProps {
   title: string
@@ -12,6 +13,12 @@ interface PostContentProps {
 }
 
 export const PostContent = ({ title, content, author, tags }: PostContentProps) => {
+  const navigate = useNavigate()
+
+  const handleTagClick = (tag: string) => {
+    navigate(`/search/results?q=${encodeURIComponent(tag)}`)
+  }
+
   return (
     <div className="p-4 relative z-10">
       <div className="flex items-center gap-3 mb-4">
@@ -42,6 +49,7 @@ export const PostContent = ({ title, content, author, tags }: PostContentProps) 
         {tags.map((tag) => (
           <span
             key={tag}
+            onClick={() => handleTagClick(tag)}
             className="px-2.5 py-1 bg-pink-50 text-pink-600 rounded-full text-xs font-medium hover:bg-pink-100 transition-colors cursor-pointer"
           >
             {tag}
