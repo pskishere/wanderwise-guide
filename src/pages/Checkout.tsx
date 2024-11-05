@@ -6,8 +6,8 @@ import { RootState } from "@/store/store"
 import { useToast } from "@/hooks/use-toast"
 import { useNavigate } from "react-router-dom"
 import { AddressSelector } from "@/components/address/AddressSelector"
-import { useState, useCallback, useMemo } from "react"
-import { setSelectedItems, setSelectedAddress, setPaymentMethod } from "@/store/checkoutSlice"
+import { useState, useCallback, useEffect } from "react"
+import { setSelectedAddress, setPaymentMethod, clearCheckout } from "@/store/checkoutSlice"
 import { setCurrentOrder } from "@/store/orderSlice"
 import { CheckoutAddress } from "@/components/checkout/CheckoutAddress"
 import { CheckoutProducts } from "@/components/checkout/CheckoutProducts"
@@ -18,22 +18,15 @@ const Checkout = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   
-  const cartItems = useSelector((state: RootState) => 
-    state.cart.items.filter(item => item.selected)
-  )
   const { selectedItems, selectedAddress, paymentMethod } = useSelector((state: RootState) => state.checkout)
   
   const [showAddressSelector, setShowAddressSelector] = useState(false)
 
-  // Memoize the selected items to prevent unnecessary re-renders
-  const memoizedSelectedItems = useMemo(() => cartItems, [cartItems])
-
-  // Update selected items only when cart items change
-  useMemo(() => {
-    if (cartItems.length > 0) {
-      dispatch(setSelectedItems(cartItems))
+  useEffect(() => {
+    if (selectedItems.length === 0) {
+      navigate('/cart')
     }
-  }, [cartItems, dispatch])
+  }, [selectedItems, navigate])
 
   const totalAmount = selectedItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
   const freight = 0
@@ -79,6 +72,8 @@ const Checkout = () => {
     }
     
     dispatch(setCurrentOrder(newOrder))
+    dispatch(clearCheckout())
+    
     toast({
       description: "订单提交成功，正在跳转支付...",
     })
@@ -124,7 +119,7 @@ const Checkout = () => {
         />
 
         <CheckoutProducts 
-          products={memoizedSelectedItems}
+          products={selectedItems}
           totalAmount={totalAmount}
           freight={freight}
         />
