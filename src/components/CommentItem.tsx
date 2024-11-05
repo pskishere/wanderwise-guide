@@ -97,7 +97,7 @@ export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItem
       />
       
       {comment.replies && comment.replies.length > 0 && (
-        <div className="ml-10">
+        <div className="pl-11">
           {/* 显示第一条回复 */}
           <CommentItem
             key={comment.replies[0].id}
