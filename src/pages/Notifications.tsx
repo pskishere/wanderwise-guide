@@ -1,4 +1,4 @@
-import { Bell, Heart, MessageCircle, ShoppingBag } from "lucide-react"
+import { Bell } from "lucide-react"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { NotificationItem } from "@/components/notification/NotificationItem"
 import { NotificationSkeleton } from "@/components/notification/NotificationSkeleton"
@@ -12,7 +12,7 @@ const mockNotifications = [
   {
     id: 1,
     type: "like" as const,
-    content: "赞了你的帖子",
+    content: "赞了你的笔记「东京银座探店攻略」",
     user: "Sarah Chen",
     time: "2分钟前",
     read: false,
@@ -22,7 +22,7 @@ const mockNotifications = [
   {
     id: 2,
     type: "comment" as const,
-    content: "评论了你的帖子：好文章!",
+    content: "评论了你的笔记：好文章，下次去东京一定要去试试！",
     user: "Mike Zhang",
     time: "1小时前",
     read: true,
@@ -32,7 +32,7 @@ const mockNotifications = [
   {
     id: 3,
     type: "order" as const,
-    content: "你的订单已发货",
+    content: "你购买的「日本限定樱花抹茶Kit Kat」已发货",
     time: "2小时前",
     read: false,
     link: "/orders/3"
@@ -40,7 +40,7 @@ const mockNotifications = [
   {
     id: 4,
     type: "like" as const,
-    content: "赞了你的评论",
+    content: "赞了你的评论：「推荐去涉谷Sky Scramble，视野超棒！」",
     user: "David Wang",
     time: "3小时前",
     read: true,
@@ -74,10 +74,10 @@ export default function Notifications() {
           <div className="p-4 border-b sticky top-0 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/50 z-10">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <h1 className="text-lg font-semibold">通知</h1>
+                <h1 className="text-lg font-semibold">消息通知</h1>
                 {unreadCount > 0 && (
                   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-pink-100 text-pink-800 ring-1 ring-pink-100/50">
-                    {unreadCount}
+                    {unreadCount}条未读
                   </span>
                 )}
               </div>

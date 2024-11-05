@@ -23,19 +23,19 @@ export function NotificationItem({ notification }: NotificationItemProps) {
     switch (notification.type) {
       case "like":
         return (
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-pink-50 to-pink-100 shadow-inner">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-pink-50 to-pink-100 shadow-inner">
             <Heart className="h-5 w-5 text-pink-500" />
           </div>
         )
       case "comment":
         return (
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 shadow-inner">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 shadow-inner">
             <MessageCircle className="h-5 w-5 text-blue-500" />
           </div>
         )
       case "order":
         return (
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-green-50 to-green-100 shadow-inner">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-green-50 to-green-100 shadow-inner">
             <ShoppingBag className="h-5 w-5 text-green-500" />
           </div>
         )
@@ -46,13 +46,13 @@ export function NotificationItem({ notification }: NotificationItemProps) {
     <Link to={notification.link}>
       <Button
         variant="ghost"
-        className={`group relative w-full justify-start gap-5 px-4 py-3.5 h-auto transition-all duration-200 hover:bg-gray-50/80 ${
+        className={`group relative w-full justify-start gap-5 px-5 py-4 h-auto transition-all duration-200 hover:bg-gray-50/80 ${
           !notification.read ? "bg-pink-50/50" : ""
         }`}
       >
-        <div className="flex items-start gap-4 flex-1 min-w-0">
+        <div className="flex items-start gap-5 flex-1 min-w-0">
           {notification.avatar ? (
-            <Avatar className="h-11 w-11 ring-2 ring-white shadow-md transition-transform group-hover:scale-105">
+            <Avatar className="h-12 w-12 ring-2 ring-white shadow-md transition-transform group-hover:scale-105">
               <AvatarImage src={notification.avatar} />
               <AvatarFallback>
                 {notification.user?.slice(0, 2)}
@@ -64,7 +64,7 @@ export function NotificationItem({ notification }: NotificationItemProps) {
             </div>
           )}
           
-          <div className="flex-1 min-w-0 space-y-1.5">
+          <div className="flex-1 min-w-0 space-y-2">
             <div className="flex items-start gap-2 flex-wrap">
               {notification.user && (
                 <span className="font-medium text-gray-900">{notification.user}</span>
