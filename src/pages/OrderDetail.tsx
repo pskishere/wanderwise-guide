@@ -11,6 +11,8 @@ import { OrderStatus } from "@/components/order/detail/OrderStatus"
 import { OrderAddress } from "@/components/order/detail/OrderAddress"
 import { OrderTimeline } from "@/components/order/detail/OrderTimeline"
 import { OrderActions } from "@/components/order/detail/OrderActions"
+import { Card } from "@/components/ui/card"
+import { Package, Truck, MapPin } from "lucide-react"
 
 const mockOrder = {
   id: "ORD001",
@@ -56,6 +58,7 @@ const OrderDetail = () => {
 
   useEffect(() => {
     dispatch(setLoading(true));
+    // 模拟API调用
     setTimeout(() => {
       dispatch(setCurrentOrder(mockOrder));
       dispatch(setLoading(false));
@@ -73,7 +76,7 @@ const OrderDetail = () => {
     });
   };
 
-  if (!currentOrder) return null;
+  if (!currentOrder || loading) return null;
 
   return (
     <div className="min-h-screen bg-gray-50 pb-32">
@@ -88,10 +91,14 @@ const OrderDetail = () => {
 
         <OrderAddress {...currentOrder.address} />
 
-        {/* 商品列表 */}
-        <div className="bg-white rounded-xl">
+        <Card className="p-4 space-y-4">
+          <div className="flex items-center gap-2 text-gray-500">
+            <Package className="h-4 w-4" />
+            <span className="text-sm">商品信息</span>
+          </div>
+
           {currentOrder.items.map((item) => (
-            <div key={item.id} className="flex gap-3 p-4">
+            <div key={item.id} className="flex gap-3">
               <div className="w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100">
                 <Image
                   src={item.image}
@@ -120,7 +127,7 @@ const OrderDetail = () => {
             </div>
           ))}
           
-          <div className="border-t px-4 py-3 space-y-2">
+          <div className="border-t pt-3 space-y-2">
             <div className="flex justify-between text-sm">
               <span className="text-gray-500">商品总价</span>
               <span>¥{currentOrder.totalAmount}</span>
@@ -134,7 +141,7 @@ const OrderDetail = () => {
               <span className="font-medium text-pink-600">¥{currentOrder.totalAmount + currentOrder.freight}</span>
             </div>
           </div>
-        </div>
+        </Card>
 
         <OrderTimeline events={currentOrder.timeline} />
 

@@ -22,5 +22,5 @@ export const OrderActions = ({ status, onConfirmReceipt }: OrderActionsProps) =>
         )}
       </div>
     </div>
-  )
-}
+  );
+};

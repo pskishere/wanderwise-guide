@@ -1,4 +1,5 @@
 import { Truck } from "lucide-react"
+import { Card } from "@/components/ui/card"
 
 interface TimelineEvent {
   time: string
@@ -11,7 +12,7 @@ interface OrderTimelineProps {
 
 export const OrderTimeline = ({ events }: OrderTimelineProps) => {
   return (
-    <div className="bg-white rounded-xl p-4">
+    <Card className="p-4">
       <div className="flex items-center gap-2 text-gray-500 mb-4">
         <Truck className="h-4 w-4" />
         <span className="text-sm">物流信息</span>
@@ -32,6 +33,6 @@ export const OrderTimeline = ({ events }: OrderTimelineProps) => {
           </div>
         ))}
       </div>
-    </div>
-  )
-}
+    </Card>
+  );
+};
