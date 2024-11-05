@@ -90,7 +90,7 @@ export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItem
       )}
 
       {comment.replies && comment.replies.length > 0 && (
-        <div className="space-y-4">
+        <div className="ml-10 pl-4">
           {/* Always show the first reply */}
           <CommentItem
             key={comment.replies[0].id}
@@ -110,13 +110,13 @@ export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItem
                 <Button 
                   variant="ghost" 
                   size="sm" 
-                  className="text-sm text-gray-500 hover:text-pink-500 pl-0"
+                  className="text-sm text-gray-500 hover:text-pink-500 pl-0 mt-2"
                 >
                   {isOpen ? "收起" : `展开 ${comment.replies.length - 1} 条回复`}
                 </Button>
               </CollapsibleTrigger>
               <CollapsibleContent>
-                <div className="space-y-4 mt-4">
+                <div className="space-y-4">
                   {comment.replies.slice(1).map((reply) => (
                     <CommentItem
                       key={reply.id}
