@@ -81,20 +81,8 @@ export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItem
         </div>
       </div>
       
-      <div className="ml-10">
       {comment.replies && comment.replies.length > 0 && (
-        <div>
-          {/* Always show the first reply */}
-          <CommentItem
-            key={comment.replies[0].id}
-            comment={{
-              ...comment.replies[0],
-              replyTo: comment.author.name
-            }}
-            onReply={onReply}
-            onLike={onLike}
-            level={level + 1}
-          />
+        <div className="ml-10">
           {/* Show collapse button only if there are more than 1 replies */}
           {comment.replies.length > 1 && (
             <Collapsible open={isOpen} onOpenChange={setIsOpen}>
@@ -125,7 +113,6 @@ export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItem
           )}
         </div>
       )}
-      </div>
 
       {isReplying && (
         <ReplyInput 
