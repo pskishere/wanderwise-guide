@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { OrderSkeleton } from "./OrderSkeleton"
 import { Image } from "@/components/ui/image"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 interface OrderItem {
   id: number
@@ -27,6 +27,8 @@ interface OrderListProps {
 }
 
 export const OrderList = ({ orders, isLoading }: OrderListProps) => {
+  const navigate = useNavigate();
+
   if (isLoading) {
     return (
       <div className="space-y-4">
@@ -83,7 +85,13 @@ export const OrderList = ({ orders, isLoading }: OrderListProps) => {
               <span className="text-base font-medium text-gray-900">¥{order.totalAmount}</span>
             </div>
             <div className="flex gap-2">
-              <Button variant="outline" size="sm">查看详情</Button>
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => navigate(`/orders/${order.id}`)}
+              >
+                查看详情
+              </Button>
               {order.status === "待付款" && (
                 <Button size="sm" className="bg-pink-500 hover:bg-pink-600">立即付款</Button>
               )}
