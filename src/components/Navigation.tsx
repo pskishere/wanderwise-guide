@@ -1,4 +1,4 @@
-import { Bell, Heart, Search, MapPin, Utensils, BookOpen } from "lucide-react"
+import { Heart, Search, MapPin, Utensils, BookOpen } from "lucide-react"
 import { Link } from "react-router-dom"
 import { Input } from "./ui/input"
 import { Button } from "./ui/button"
@@ -175,13 +175,6 @@ export function Navigation() {
                 >
                   <MapPin className="h-4 w-4 text-gray-500" />
                 </Button>
-                <Link 
-                  to="/notifications" 
-                  className="text-gray-600 hover:text-gray-900 transition-colors relative"
-                >
-                  <Bell className="h-5 w-5" />
-                  <span className="absolute -top-1 -right-1 h-2.5 w-2.5 bg-pink-500 rounded-full ring-2 ring-white animate-pulse"></span>
-                </Link>
                 <Link 
                   to="/favorites"
                   className="text-gray-600 hover:text-gray-900 transition-colors relative"
