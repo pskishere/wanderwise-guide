@@ -1,11 +1,31 @@
 import { Card } from "@/components/ui/card"
+import { useSelector } from "react-redux"
+import { RootState } from "@/store/store"
+import { Skeleton } from "@/components/ui/skeleton"
 
 export const PopularDestinations = () => {
-  const destinations = [
-    { id: 1, name: "东京", image: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=300&h=200&q=80" },
-    { id: 2, name: "巴厘岛", image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=300&h=200&q=80" },
-    { id: 3, name: "巴黎", image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=300&h=200&q=80" },
-  ]
+  const { destinations, loading, error } = useSelector((state: RootState) => state.destination)
+
+  if (loading) {
+    return (
+      <div className="bg-white rounded-xl p-4 shadow-sm">
+        <Skeleton className="h-6 w-24 mb-3" />
+        <div className="space-y-3">
+          {[1, 2, 3].map((i) => (
+            <Skeleton key={i} className="h-32" />
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="bg-white rounded-xl p-4 shadow-sm">
+        <p className="text-red-500">{error}</p>
+      </div>
+    )
+  }
 
   return (
     <div className="bg-white rounded-xl p-4 shadow-sm">
