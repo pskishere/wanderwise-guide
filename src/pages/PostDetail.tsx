@@ -11,13 +11,12 @@ import { PostContent } from "@/components/post/PostContent"
 import { PostActions } from "@/components/post/PostActions"
 import { PostHeader } from "@/components/post/PostHeader"
 import { CommentSection } from "@/components/CommentSection"
-import { Navigation } from "@/components/Navigation"
+import { PromotedProducts } from "@/components/post/PromotedProducts"
 import { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
 import { mockProducts } from "@/services/mockData"
-import { Link } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { addComment } from "@/store/slices/commentSlice"
 
@@ -85,7 +84,7 @@ const PostDetail = () => {
     <div className="min-h-screen bg-gray-50 pb-20">
       <PostHeader />
 
-      <div className="container mx-auto px-4 pt-20">
+      <div className="md:container md:mx-auto md:px-4 md:pt-20">
         <div className="md:grid md:grid-cols-12 md:gap-8">
           {/* Main Content */}
           <div className="md:col-span-8">
@@ -113,7 +112,7 @@ const PostDetail = () => {
                 </Carousel>
               </div>
 
-              <Card className="mx-0 -mt-8 relative z-10 bg-white rounded-2xl border-none shadow-lg overflow-hidden">
+              <Card className="mx-4 md:mx-0 -mt-8 relative z-10 bg-white rounded-2xl border-none shadow-lg overflow-hidden">
                 <PostContent 
                   title={post.title}
                   content={post.content}
@@ -127,6 +126,15 @@ const PostDetail = () => {
               </Card>
             </div>
 
+            {/* Mobile Promoted Products */}
+            <div className="mt-6 px-4 md:hidden">
+              <h2 className="text-base font-medium mb-3 flex items-center">
+                <span className="h-3.5 w-1 bg-pink-500 rounded-full mr-2"></span>
+                相关推荐
+              </h2>
+              <PromotedProducts products={promotedProducts} layout="mobile" />
+            </div>
+
             <div className="mt-6">
               <CommentSection 
                 commentCount={post.comments}
@@ -134,7 +142,7 @@ const PostDetail = () => {
             </div>
           </div>
 
-          {/* Sidebar */}
+          {/* Desktop Sidebar */}
           <div className="hidden md:block md:col-span-4">
             <div className="sticky top-24 space-y-6">
               <div>
@@ -142,33 +150,7 @@ const PostDetail = () => {
                   <span className="h-3.5 w-1 bg-pink-500 rounded-full mr-2"></span>
                   相关推荐
                 </h2>
-                <div className="space-y-3">
-                  {promotedProducts.map((product) => (
-                    <Link 
-                      to={`/products/${product.id}`}
-                      key={product.id}
-                      className="block group"
-                    >
-                      <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-200">
-                        <div className="flex gap-3 p-3">
-                          <div className="w-20 h-20 shrink-0">
-                            <img
-                              src={product.image}
-                              alt={product.title}
-                              className="w-full h-full object-cover rounded-lg"
-                            />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <h3 className="text-sm font-medium line-clamp-2 group-hover:text-pink-500 transition-colors">
-                              {product.title}
-                            </h3>
-                            <p className="text-pink-600 font-medium mt-1.5">{product.price}</p>
-                          </div>
-                        </div>
-                      </Card>
-                    </Link>
-                  ))}
-                </div>
+                <PromotedProducts products={promotedProducts} layout="desktop" />
               </div>
             </div>
           </div>
