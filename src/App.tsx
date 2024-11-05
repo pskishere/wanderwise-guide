@@ -21,6 +21,7 @@ import CreatePost from "@/pages/CreatePost"
 import SearchResults from "@/pages/SearchResults"
 import AddressForm from "@/pages/AddressForm"
 import AddressList from "@/pages/AddressList"
+import Notifications from "@/pages/Notifications"
 
 const queryClient = new QueryClient()
 
@@ -49,6 +50,7 @@ function App() {
             <Route path="/address" element={<AddressList />} />
             <Route path="/address/new" element={<AddressForm />} />
             <Route path="/address/edit/:id" element={<AddressForm />} />
+            <Route path="/notifications" element={<Notifications />} />
           </Routes>
           <Toaster />
         </Router>
