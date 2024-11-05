@@ -86,42 +86,88 @@ const PostDetail = () => {
     <div className="min-h-screen bg-gray-50 pb-20">
       <PostHeader />
 
-      <div className="relative">
-        <div className="w-full aspect-[4/3] bg-black">
-          <Carousel className="w-full h-full">
-            <CarouselContent>
-              {post.images.map((image, index) => (
-                <CarouselItem key={index}>
-                  <div 
-                    className="flex aspect-[4/3] items-center justify-center cursor-zoom-in"
-                    onClick={() => handleImageClick(index)}
+      <div className="container mx-auto max-w-6xl px-4 pt-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Left Column: Images */}
+          <div className="relative">
+            <div className="w-full aspect-[4/3] bg-black rounded-2xl overflow-hidden">
+              <Carousel className="w-full h-full">
+                <CarouselContent>
+                  {post.images.map((image, index) => (
+                    <CarouselItem key={index}>
+                      <div 
+                        className="flex aspect-[4/3] items-center justify-center cursor-zoom-in"
+                        onClick={() => handleImageClick(index)}
+                      >
+                        <img
+                          src={image}
+                          alt={`${post.title} - ${index + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="left-4" />
+                <CarouselNext className="right-4" />
+              </Carousel>
+            </div>
+          </div>
+
+          {/* Right Column: Content */}
+          <div className="space-y-6">
+            <Card className="bg-white rounded-2xl border-none shadow-lg overflow-hidden">
+              <PostContent 
+                title={post.title}
+                content={post.content}
+                author={post.author}
+                tags={post.tags}
+              />
+              <PostActions 
+                likes={post.likes}
+                commentCount={post.comments}
+              />
+            </Card>
+
+            {/* Promoted Products */}
+            <div className="bg-white rounded-2xl p-6 shadow-lg">
+              <h2 className="text-base font-medium mb-4 flex items-center">
+                <span className="h-3.5 w-1 bg-pink-500 rounded-full mr-2"></span>
+                相关推荐
+              </h2>
+              <div className="grid grid-cols-2 gap-4">
+                {promotedProducts.map((product) => (
+                  <Link 
+                    key={product.id}
+                    to={`/products/${product.id}`}
+                    className="block"
                   >
-                    <img
-                      src={image}
-                      alt={`${post.title} - ${index + 1}`}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="left-4" />
-            <CarouselNext className="right-4" />
-          </Carousel>
+                    <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-200 border-none">
+                      <div className="aspect-square bg-gray-100">
+                        <img
+                          src={product.image}
+                          alt={product.title}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="p-3">
+                        <h3 className="text-sm font-medium line-clamp-2">{product.title}</h3>
+                        <p className="text-pink-600 font-medium mt-1.5">{product.price}</p>
+                      </div>
+                    </Card>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
 
-        <Card className="mx-4 -mt-8 relative z-10 bg-white rounded-2xl border-none shadow-lg overflow-hidden">
-          <PostContent 
-            title={post.title}
-            content={post.content}
-            author={post.author}
-            tags={post.tags}
-          />
-          <PostActions 
-            likes={post.likes}
+        {/* Comments Section */}
+        <div className="mt-8">
+          <CommentSection 
             commentCount={post.comments}
           />
-        </Card>
+        </div>
       </div>
 
       <ImageLightbox
@@ -131,49 +177,7 @@ const PostDetail = () => {
         index={currentImageIndex}
       />
 
-      {/* 推广商品卡片 */}
-      <div className="mt-6 px-4">
-        <h2 className="text-base font-medium mb-3 flex items-center">
-          <span className="h-3.5 w-1 bg-pink-500 rounded-full mr-2"></span>
-          相关推荐
-        </h2>
-        <Carousel className="w-full">
-          <CarouselContent className="-ml-2 md:-ml-4">
-            {promotedProducts.map((product) => (
-              <CarouselItem key={product.id} className="pl-2 md:pl-4 basis-1/2 md:basis-1/4">
-                <Link 
-                  to={`/products/${product.id}`}
-                  className="block"
-                >
-                  <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-200 border-none">
-                    <div className="aspect-square bg-gray-100">
-                      <img
-                        src={product.image}
-                        alt={product.title}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div className="p-2">
-                      <h3 className="text-sm font-medium line-clamp-2">{product.title}</h3>
-                      <p className="text-pink-600 font-medium mt-1.5">{product.price}</p>
-                    </div>
-                  </Card>
-                </Link>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious className="left-0 md:-left-12" />
-          <CarouselNext className="right-0 md:-right-12" />
-        </Carousel>
-      </div>
-
-      <div className="mt-6">
-        <CommentSection 
-          commentCount={post.comments}
-        />
-      </div>
-
-      {/* Add bottom bar */}
+      {/* Comment Input */}
       <div className="fixed bottom-0 z-20 left-0 right-0 bg-white border-t shadow-lg animate-in slide-in-from-bottom duration-300">
         <div className="container max-w-2xl mx-auto px-4 py-3">
           <div className="flex gap-3">
