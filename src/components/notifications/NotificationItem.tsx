@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { useToast } from "@/components/ui/use-toast"
 import { useDispatch } from "react-redux"
 import { markAsRead } from "@/store/slices/notificationSlice"
+import { useNavigate } from "react-router-dom"
 
 interface NotificationItemProps {
   notification: {
@@ -13,12 +14,14 @@ interface NotificationItemProps {
     time: string
     isRead: boolean
     avatar: string
+    targetId?: number // 添加目标ID字段
   }
 }
 
 export function NotificationItem({ notification }: NotificationItemProps) {
   const { toast } = useToast()
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const getIcon = () => {
     switch (notification.type) {
@@ -31,16 +34,38 @@ export function NotificationItem({ notification }: NotificationItemProps) {
     }
   }
 
-  const handleMarkRead = () => {
+  const handleMarkRead = (e: React.MouseEvent) => {
+    e.stopPropagation() // 阻止事件冒泡
     dispatch(markAsRead(notification.id))
     toast({
       description: "已标记为已读",
     })
   }
 
+  const handleClick = () => {
+    if (!notification.targetId) return
+
+    // 根据不同类型的消息跳转到不同页面
+    switch (notification.type) {
+      case "like":
+      case "comment":
+        navigate(`/posts/${notification.targetId}`)
+        break
+      case "follow":
+        navigate(`/profile/${notification.targetId}`)
+        break
+    }
+
+    // 如果未读，标记为已读
+    if (!notification.isRead) {
+      dispatch(markAsRead(notification.id))
+    }
+  }
+
   return (
     <div 
-      className={`flex items-center space-x-4 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow 
+      onClick={handleClick}
+      className={`flex items-center space-x-4 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer
         ${!notification.isRead ? "border-l-4 border-blue-500" : ""}`}
     >
       <Avatar className="h-12 w-12">
