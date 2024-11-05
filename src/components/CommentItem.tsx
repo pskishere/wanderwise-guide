@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button"
 import { Heart } from "lucide-react"
 import { useState } from "react"
 import { ReplyInput } from "./ReplyInput"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 
 interface CommentAuthor {
   name: string
@@ -28,6 +29,7 @@ interface CommentItemProps {
 export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItemProps) => {
   const [isReplying, setIsReplying] = useState(false)
   const [isLiked, setIsLiked] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
 
   const handleLike = () => {
     setIsLiked(!isLiked)
@@ -82,17 +84,30 @@ export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItem
       )}
 
       {comment.replies && comment.replies.length > 0 && (
-        <div className="ml-10 space-y-4 border-l-2 border-gray-100 pl-4">
-          {comment.replies.map((reply) => (
-            <CommentItem
-              key={reply.id}
-              comment={reply}
-              onReply={onReply}
-              onLike={onLike}
-              level={level + 1}
-            />
-          ))}
-        </div>
+        <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+          <CollapsibleTrigger asChild>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="text-sm text-gray-500 hover:text-pink-500 pl-11"
+            >
+              {isOpen ? "收起" : `展开 ${comment.replies.length} 条回复`}
+            </Button>
+          </CollapsibleTrigger>
+          <CollapsibleContent>
+            <div className="ml-10 space-y-4 border-l-2 border-gray-100 pl-4">
+              {comment.replies.map((reply) => (
+                <CommentItem
+                  key={reply.id}
+                  comment={reply}
+                  onReply={onReply}
+                  onLike={onLike}
+                  level={level + 1}
+                />
+              ))}
+            </div>
+          </CollapsibleContent>
+        </Collapsible>
       )}
     </div>
   )
