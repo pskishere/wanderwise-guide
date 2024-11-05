@@ -9,13 +9,22 @@ export interface CheckoutState {
     phone: string;
     detail: string;
   } | null;
-  paymentMethod: 'alipay' | 'wechat' | '';
+  paymentMethod: 'alipay' | 'wechat';
+  loading: boolean;
+  error: string | null;
 }
 
 const initialState: CheckoutState = {
   selectedItems: [],
-  selectedAddress: null,
-  paymentMethod: ''
+  selectedAddress: {
+    id: "1",
+    name: "张三",
+    phone: "138****8888",
+    detail: "浙江省杭州市西湖区文三路 123 号"
+  },
+  paymentMethod: 'alipay',
+  loading: false,
+  error: null
 };
 
 export const checkoutSlice = createSlice({
@@ -31,10 +40,11 @@ export const checkoutSlice = createSlice({
     setPaymentMethod: (state, action: PayloadAction<'alipay' | 'wechat'>) => {
       state.paymentMethod = action.payload;
     },
-    clearCheckout: (state) => {
-      state.selectedItems = [];
-      state.selectedAddress = null;
-      state.paymentMethod = '';
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload;
+    },
+    setError: (state, action: PayloadAction<string | null>) => {
+      state.error = action.payload;
     }
   }
 });
@@ -43,7 +53,8 @@ export const {
   setSelectedItems,
   setSelectedAddress,
   setPaymentMethod,
-  clearCheckout
+  setLoading,
+  setError
 } = checkoutSlice.actions;
 
 export default checkoutSlice.reducer;

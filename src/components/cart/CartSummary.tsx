@@ -29,6 +29,9 @@ export const CartSummary = ({ onCheckout }: CartSummaryProps) => {
   }
 
   const handleCheckout = () => {
+    if (onCheckout) {
+      onCheckout()
+    }
     navigate('/checkout')
   }
 
