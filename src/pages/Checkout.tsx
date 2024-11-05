@@ -43,6 +43,22 @@ const Checkout = () => {
   }, [dispatch])
 
   const handlePayment = () => {
+    if (!selectedAddress) {
+      toast({
+        variant: "destructive",
+        description: "请选择收货地址",
+      })
+      return
+    }
+
+    if (!paymentMethod) {
+      toast({
+        variant: "destructive",
+        description: "请选择支付方式",
+      })
+      return
+    }
+
     const newOrder = {
       id: `ORD${Date.now()}`,
       status: "待发货",
@@ -76,6 +92,26 @@ const Checkout = () => {
     dispatch(setSelectedAddress(address))
     setShowAddressSelector(false)
   }, [dispatch])
+
+  if (selectedItems.length === 0) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <Navigation />
+        <div className="container mx-auto px-4 pt-20 pb-32 max-w-3xl">
+          <div className="bg-white rounded-xl p-8 text-center">
+            <p className="text-gray-500">购物车为空，请先选择商品</p>
+            <Button 
+              className="mt-4"
+              onClick={() => navigate('/')}
+            >
+              去购物
+            </Button>
+          </div>
+        </div>
+        <BottomNav />
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 pb-32">
