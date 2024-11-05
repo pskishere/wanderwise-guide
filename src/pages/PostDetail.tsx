@@ -1,4 +1,3 @@
-import { Card } from "@/components/ui/card"
 import {
   Carousel,
   CarouselContent,
@@ -6,8 +5,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
+import { Card } from "@/components/ui/card"
 import { ImageLightbox } from "@/components/ImageLightbox"
-import { PostHeader } from "@/components/post/PostHeader"
 import { PostContent } from "@/components/post/PostContent"
 import { PostActions } from "@/components/post/PostActions"
 import { CommentSection } from "@/components/CommentSection"
@@ -121,29 +120,34 @@ const PostDetail = () => {
           <span className="h-3.5 w-1 bg-pink-500 rounded-full mr-2"></span>
           相关推荐
         </h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {promotedProducts.map((product) => (
-            <Link 
-              key={product.id} 
-              to={`/products/${product.id}`}
-              className="block"
-            >
-              <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-200 border-none">
-                <div className="aspect-square bg-gray-100">
-                  <img
-                    src={product.image}
-                    alt={product.title}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="p-2">
-                  <h3 className="text-sm font-medium line-clamp-2">{product.title}</h3>
-                  <p className="text-pink-600 font-medium mt-1.5">{product.price}</p>
-                </div>
-              </Card>
-            </Link>
-          ))}
-        </div>
+        <Carousel className="w-full">
+          <CarouselContent className="-ml-2 md:-ml-4">
+            {promotedProducts.map((product) => (
+              <CarouselItem key={product.id} className="pl-2 md:pl-4 basis-1/2 md:basis-1/4">
+                <Link 
+                  to={`/products/${product.id}`}
+                  className="block"
+                >
+                  <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-200 border-none">
+                    <div className="aspect-square bg-gray-100">
+                      <img
+                        src={product.image}
+                        alt={product.title}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="p-2">
+                      <h3 className="text-sm font-medium line-clamp-2">{product.title}</h3>
+                      <p className="text-pink-600 font-medium mt-1.5">{product.price}</p>
+                    </div>
+                  </Card>
+                </Link>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="left-0 md:-left-12" />
+          <CarouselNext className="right-0 md:-right-12" />
+        </Carousel>
       </div>
 
       <div className="mt-6">
