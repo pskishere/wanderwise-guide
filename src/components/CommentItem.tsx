@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button"
 import { Heart } from "lucide-react"
 import { useState } from "react"
 import { ReplyInput } from "./ReplyInput"
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 
 interface CommentAuthor {
   name: string
@@ -30,7 +29,6 @@ interface CommentItemProps {
 export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItemProps) => {
   const [isReplying, setIsReplying] = useState(false)
   const [isLiked, setIsLiked] = useState(false)
-  const [isOpen, setIsOpen] = useState(false)
 
   const handleLike = () => {
     setIsLiked(!isLiked)
@@ -90,46 +88,19 @@ export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItem
       )}
 
       {comment.replies && comment.replies.length > 0 && (
-        <div className="ml-10 pl-4">
-          {/* Always show the first reply */}
-          <CommentItem
-            key={comment.replies[0].id}
-            comment={{
-              ...comment.replies[0],
-              replyTo: comment.author.name
-            }}
-            onReply={onReply}
-            onLike={onLike}
-            level={level + 1}
-          />
-          {/* Show collapse button only if there are more than 1 replies */}
-          {comment.replies.length > 1 && (
-            <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-              <CollapsibleContent>
-                <div className="space-y-4">
-                  {comment.replies.slice(1).map((reply) => (
-                    <CommentItem
-                      key={reply.id}
-                      comment={{
-                        ...reply,
-                        replyTo: comment.author.name
-                      }}
-                      onReply={onReply}
-                      onLike={onLike}
-                      level={level + 1}
-                    />
-                  ))}
-                </div>
-              </CollapsibleContent>
-              <CollapsibleTrigger asChild>
-                <div 
-                  className="text-sm text-gray-500 hover:text-pink-500 pl-0 my-2"
-                >
-                  {isOpen ? "收起" : `展开 ${comment.replies.length - 1} 条回复`}
-                </div>
-              </CollapsibleTrigger>
-            </Collapsible>
-          )}
+        <div className="space-y-4">
+          {comment.replies.map((reply) => (
+            <CommentItem
+              key={reply.id}
+              comment={{
+                ...reply,
+                replyTo: comment.author.name
+              }}
+              onReply={onReply}
+              onLike={onLike}
+              level={level + 1}
+            />
+          ))}
         </div>
       )}
     </div>
