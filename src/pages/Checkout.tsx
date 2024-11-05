@@ -6,8 +6,8 @@ import { RootState } from "@/store/store"
 import { useToast } from "@/hooks/use-toast"
 import { useNavigate } from "react-router-dom"
 import { AddressSelector } from "@/components/address/AddressSelector"
-import { useState, useCallback, useMemo } from "react"
-import { setSelectedItems, setSelectedAddress, setPaymentMethod } from "@/store/checkoutSlice"
+import { useState, useEffect } from "react"
+import { setSelectedAddress, setPaymentMethod } from "@/store/checkoutSlice"
 import { setCurrentOrder } from "@/store/orderSlice"
 import { CheckoutAddress } from "@/components/checkout/CheckoutAddress"
 import { CheckoutProducts } from "@/components/checkout/CheckoutProducts"
@@ -18,31 +18,39 @@ const Checkout = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   
-  const cartItems = useSelector((state: RootState) => 
-    state.cart.items.filter(item => item.selected)
-  )
   const { selectedItems, selectedAddress, paymentMethod } = useSelector((state: RootState) => state.checkout)
   
   const [showAddressSelector, setShowAddressSelector] = useState(false)
 
-  // Memoize the selected items to prevent unnecessary re-renders
-  const memoizedSelectedItems = useMemo(() => cartItems, [cartItems])
-
-  // Update selected items only when cart items change
-  useMemo(() => {
-    if (cartItems.length > 0) {
-      dispatch(setSelectedItems(cartItems))
+  // 如果没有选中的商品，重定向回购物车页面
+  useEffect(() => {
+    if (!selectedItems || selectedItems.length === 0) {
+      navigate('/cart')
     }
-  }, [cartItems, dispatch])
+  }, [selectedItems, navigate])
 
-  const totalAmount = selectedItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
+  const totalAmount = selectedItems?.reduce((sum, item) => sum + item.price * item.quantity, 0) || 0
   const freight = 0
 
-  const handlePaymentMethodChange = useCallback((value: 'alipay' | 'wechat') => {
+  const handlePaymentMethodChange = (value: 'alipay' | 'wechat') => {
     dispatch(setPaymentMethod(value))
-  }, [dispatch])
+  }
 
   const handlePayment = () => {
+    if (!selectedAddress) {
+      toast({
+        description: "请选择收货地址",
+      })
+      return
+    }
+
+    if (!paymentMethod) {
+      toast({
+        description: "请选择支付方式",
+      })
+      return
+    }
+
     const newOrder = {
       id: `ORD${Date.now()}`,
       status: "待发货",
@@ -53,10 +61,6 @@ const Checkout = () => {
         {
           time: new Date().toISOString(),
           status: "订单创建成功"
-        },
-        {
-          time: new Date().toISOString(),
-          status: "支付成功"
         }
       ],
       items: selectedItems
@@ -67,15 +71,20 @@ const Checkout = () => {
       description: "订单提交成功，正在跳转支付...",
     })
     
+    // 延迟跳转以显示提示
     setTimeout(() => {
       navigate('/orders')
     }, 1500)
   }
 
-  const handleAddressSelect = useCallback((address: typeof selectedAddress) => {
+  const handleAddressSelect = (address: typeof selectedAddress) => {
     dispatch(setSelectedAddress(address))
     setShowAddressSelector(false)
-  }, [dispatch])
+  }
+
+  if (!selectedItems || selectedItems.length === 0) {
+    return null // 等待重定向
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 pb-32">
@@ -88,7 +97,7 @@ const Checkout = () => {
         />
 
         <CheckoutProducts 
-          products={memoizedSelectedItems}
+          products={selectedItems}
           totalAmount={totalAmount}
           freight={freight}
         />

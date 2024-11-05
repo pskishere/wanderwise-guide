@@ -8,7 +8,9 @@ import { useToast } from "@/hooks/use-toast"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
 import { setItems } from "@/store/cartSlice"
+import { setSelectedItems } from "@/store/checkoutSlice"
 import { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 
 const fetchCartItems = async () => {
   // 模拟API调用
@@ -44,6 +46,7 @@ const fetchCartItems = async () => {
 const Cart = () => {
   const { toast } = useToast()
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const items = useSelector((state: RootState) => state.cart.items)
   
   const { data: cartItems, isLoading } = useQuery({
@@ -58,9 +61,16 @@ const Cart = () => {
   }, [cartItems, dispatch])
 
   const handleCheckout = () => {
-    toast({
-      description: "正在跳转到结算页面...",
-    })
+    const selectedItems = items.filter(item => item.selected)
+    if (selectedItems.length === 0) {
+      toast({
+        description: "请先选择要结算的商品",
+      })
+      return
+    }
+    
+    dispatch(setSelectedItems(selectedItems))
+    navigate('/checkout')
   }
 
   if (!items?.length && !isLoading) {
