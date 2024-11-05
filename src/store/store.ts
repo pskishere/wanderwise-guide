@@ -13,7 +13,8 @@ export const store = configureStore({
     user: reducers.userReducer,
     createPost: reducers.createPostReducer,
     keyword: reducers.keywordReducer,
-    comment: reducers.commentReducer
+    comment: reducers.commentReducer,
+    notification: reducers.notificationReducer
   }
 });
 

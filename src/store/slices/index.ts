@@ -9,3 +9,4 @@ export { default as userReducer } from '../userSlice';
 export { default as createPostReducer } from '../createPostSlice';
 export { default as keywordReducer } from '../keywordSlice';
 export { default as commentReducer } from './commentSlice';
+export { default as notificationReducer } from './notificationSlice';

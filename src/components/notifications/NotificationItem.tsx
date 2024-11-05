@@ -2,6 +2,8 @@ import { Heart, MessageCircle, UserPlus } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/components/ui/use-toast"
+import { useDispatch } from "react-redux"
+import { markAsRead } from "@/store/slices/notificationSlice"
 
 interface NotificationItemProps {
   notification: {
@@ -16,6 +18,7 @@ interface NotificationItemProps {
 
 export function NotificationItem({ notification }: NotificationItemProps) {
   const { toast } = useToast()
+  const dispatch = useDispatch()
 
   const getIcon = () => {
     switch (notification.type) {
@@ -29,6 +32,7 @@ export function NotificationItem({ notification }: NotificationItemProps) {
   }
 
   const handleMarkRead = () => {
+    dispatch(markAsRead(notification.id))
     toast({
       description: "已标记为已读",
     })
