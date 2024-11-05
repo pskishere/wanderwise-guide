@@ -9,11 +9,13 @@ import { CreatePostHeader } from "@/components/post/CreatePostHeader"
 import { ImageUploader } from "@/components/post/ImageUploader"
 import { TagSelector } from "@/components/post/TagSelector"
 import { MarkdownToolbar } from "@/components/post/MarkdownToolbar"
+import { MapSearch } from "@/components/address/MapSearch"
 import { RootState } from "@/store/store"
 import { setDraft, addImage, removeImage, toggleTag, clearDraft, setLoading } from "@/store/createPostSlice"
 import "@uiw/react-md-editor/markdown-editor.css"
 import "@uiw/react-markdown-preview/markdown.css"
 import dynamic from "@uiw/react-md-editor"
+import { Label } from "@/components/ui/label"
 
 const MDEditor = dynamic
 
@@ -67,6 +69,16 @@ const CreatePost = () => {
 
     const newContent = text.slice(0, start) + insertion + text.slice(end)
     dispatch(setDraft({ content: newContent }))
+  }
+
+  const handleLocationSelect = (address: {
+    province: string
+    city: string
+    district: string
+    detail: string
+  }) => {
+    const locationText = `${address.province}${address.city}${address.district}${address.detail}`
+    dispatch(setDraft({ location: locationText }))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -132,6 +144,16 @@ const CreatePost = () => {
             className="text-small border-0 px-2 py-2 focus-visible:ring-0 placeholder:text-gray-400"
             maxLength={30}
           />
+
+          <div className="space-y-2">
+            <Label>添加地点</Label>
+            <MapSearch onAddressSelect={handleLocationSelect} />
+            {draft.location && (
+              <div className="text-sm text-gray-500 mt-1">
+                已选择地点：{draft.location}
+              </div>
+            )}
+          </div>
 
           <div className="space-y-2">
             <MarkdownToolbar 
