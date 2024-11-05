@@ -46,9 +46,8 @@ export const ProductSelector = ({
       </div>
 
       <div className="relative">
-        <Card className="relative overflow-hidden hover:shadow-md transition-shadow duration-200">
-          <div className="flex items-center gap-1.5 p-1.5">
-            <Search className="h-3.5 w-3.5 text-gray-400 shrink-0" />
+        <Card className="relative overflow-hidden transition-shadow duration-200">
+          <div className="flex items-center">
             <Input
               placeholder="搜索商品..."
               value={searchTerm}
@@ -57,7 +56,7 @@ export const ProductSelector = ({
                 setShowResults(true)
               }}
               onFocus={() => setShowResults(true)}
-              className="flex-1 border-0 p-0 h-7 focus-visible:ring-0 placeholder:text-gray-400 text-xs"
+              className="flex-1 p-2 h-9 focus-visible:ring-0 placeholder:text-gray-400 text-xs"
             />
           </div>
         </Card>
