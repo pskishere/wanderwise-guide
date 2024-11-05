@@ -53,5 +53,5 @@ export const ReplyInput = ({ onSubmit, onCancel, replyTo }: ReplyInputProps) => 
         </div>
       </div>
     </div>
-  )
+  );
 }
