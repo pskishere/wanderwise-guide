@@ -25,8 +25,10 @@ export const CommentSection = ({ commentCount }: CommentSectionProps) => {
     
     setIsLoading(true)
     try {
+      // 模拟加载更多评论
       await new Promise(resolve => setTimeout(resolve, 1000))
       
+      // 模拟数据加载完成
       if (page >= 3) {
         setHasMore(false)
       }
@@ -48,7 +50,7 @@ export const CommentSection = ({ commentCount }: CommentSectionProps) => {
     fetchNextPage: loadMoreComments
   })
 
-  const handleReply = async (parentId: number, content: string) => {
+  const handleReply = (parentId: number, content: string) => {
     const newReply: CommentType = {
       id: Date.now(),
       author: {
@@ -61,7 +63,7 @@ export const CommentSection = ({ commentCount }: CommentSectionProps) => {
     }
 
     dispatch(addReply({ parentId, reply: newReply }))
-
+    
     toast({
       description: "回复成功",
     })
@@ -70,17 +72,17 @@ export const CommentSection = ({ commentCount }: CommentSectionProps) => {
   const handleLike = (commentId: number) => {
     const findComment = (comments: CommentType[]): CommentType | undefined => {
       for (const comment of comments) {
-        if (comment.id === commentId) return comment;
+        if (comment.id === commentId) return comment
         if (comment.replies) {
-          const found = findComment(comment.replies);
-          if (found) return found;
+          const found = findComment(comment.replies)
+          if (found) return found
         }
       }
-    };
+    }
 
-    const comment = findComment(comments);
+    const comment = findComment(comments)
     if (comment) {
-      dispatch(updateLikes({ id: commentId, likes: comment.likes + 1 }));
+      dispatch(updateLikes({ id: commentId, likes: comment.likes + 1 }))
     }
   }
 

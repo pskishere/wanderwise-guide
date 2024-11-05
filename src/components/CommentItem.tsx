@@ -27,6 +27,51 @@ interface CommentItemProps {
   level?: number
 }
 
+// 抽取评论内容组件
+const CommentContent = ({ comment, isLiked, onLike, onReplyClick }: { 
+  comment: CommentType
+  isLiked: boolean
+  onLike: () => void
+  onReplyClick: () => void 
+}) => (
+  <div className="flex gap-3">
+    <img 
+      src={comment.author.avatar} 
+      alt={comment.author.name} 
+      className="h-8 w-8 rounded-full object-cover flex-shrink-0"
+    />
+    <div className="flex-1 min-w-0">
+      <div className="flex items-center gap-2">
+        <span className="text-sm font-medium truncate">{comment.author.name}</span>
+        <span className="text-xs text-gray-500">{comment.time}</span>
+      </div>
+      <p className="text-sm mt-1 break-words">
+        {comment.replyTo && (
+          <span className="text-pink-500">回复 @{comment.replyTo}：</span>
+        )}
+        {comment.content}
+      </p>
+      <div className="flex items-center gap-4 mt-2">
+        <button 
+          className={`flex items-center gap-1 text-sm ${isLiked ? 'text-pink-500' : 'text-gray-500'} hover:text-pink-500 transition-colors`}
+          onClick={onLike}
+        >
+          <Heart className={`h-4 w-4 ${isLiked ? 'fill-pink-500' : ''}`} />
+          <span className="text-xs">{comment.likes}</span>
+        </button>
+        <Button 
+          variant="ghost" 
+          size="sm"
+          className="h-6 px-2 text-gray-500 hover:text-pink-500"
+          onClick={onReplyClick}
+        >
+          回复
+        </Button>
+      </div>
+    </div>
+  </div>
+)
+
 export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItemProps) => {
   const [isReplying, setIsReplying] = useState(false)
   const [isLiked, setIsLiked] = useState(false)
@@ -44,46 +89,28 @@ export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItem
 
   return (
     <div className="space-y-4">
-      <div className="flex gap-3">
-        <img 
-          src={comment.author.avatar} 
-          alt={comment.author.name} 
-          className="h-8 w-8 rounded-full object-cover flex-shrink-0"
-        />
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-medium truncate">{comment.author.name}</span>
-            <span className="text-xs text-gray-500">{comment.time}</span>
-          </div>
-          <p className="text-sm mt-1 break-words">
-            {comment.replyTo && (
-              <span className="text-pink-500">回复 @{comment.replyTo}：</span>
-            )}
-            {comment.content}
-          </p>
-          <div className="flex items-center gap-4 mt-2">
-            <button 
-              className={`flex items-center gap-1 text-sm ${isLiked ? 'text-pink-500' : 'text-gray-500'} hover:text-pink-500 transition-colors`}
-              onClick={handleLike}
-            >
-              <Heart className={`h-4 w-4 ${isLiked ? 'fill-pink-500' : ''}`} />
-              <span className="text-xs">{comment.likes}</span>
-            </button>
-            <Button 
-              variant="ghost" 
-              size="sm"
-              className="h-6 px-2 text-gray-500 hover:text-pink-500"
-              onClick={() => setIsReplying(true)}
-            >
-              回复
-            </Button>
-          </div>
-        </div>
-      </div>
+      <CommentContent 
+        comment={comment}
+        isLiked={isLiked}
+        onLike={handleLike}
+        onReplyClick={() => setIsReplying(true)}
+      />
       
       {comment.replies && comment.replies.length > 0 && (
         <div className="ml-10">
-          {/* Show collapse button only if there are more than 1 replies */}
+          {/* 显示第一条回复 */}
+          <CommentItem
+            key={comment.replies[0].id}
+            comment={{
+              ...comment.replies[0],
+              replyTo: comment.author.name
+            }}
+            onReply={onReply}
+            onLike={onLike}
+            level={level + 1}
+          />
+          
+          {/* 如果有多条回复则显示展开按钮 */}
           {comment.replies.length > 1 && (
             <Collapsible open={isOpen} onOpenChange={setIsOpen}>
               <CollapsibleContent>
@@ -103,9 +130,7 @@ export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItem
                 </div>
               </CollapsibleContent>
               <CollapsibleTrigger asChild>
-                <div 
-                  className="text-sm text-gray-500 hover:text-pink-500 pl-0 my-2"
-                >
+                <div className="text-sm text-gray-500 hover:text-pink-500 pl-0 my-2 cursor-pointer">
                   {isOpen ? "收起" : `展开 ${comment.replies.length - 1} 条回复`}
                 </div>
               </CollapsibleTrigger>
