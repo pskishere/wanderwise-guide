@@ -109,10 +109,11 @@ const fetchFavorites = async ({ pageParam = 1 }) => {
       {
         id: 1,
         type: 'product',
-        title: "ZARA 2024春季新款小香风粗花呢外套",
-        price: "¥799",
-        image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&q=80",
-        shop: "ZARA官方旗舰店"
+        title: "日式和风连衣裙 2024春季新款",
+        price: "¥299",
+        image: "https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=800&q=80",
+        shop: "樱花服饰旗舰店",
+        sales: "2391"
       },
       {
         id: 2,
@@ -120,15 +121,17 @@ const fetchFavorites = async ({ pageParam = 1 }) => {
         title: "SK-II 神仙水精华液 230ml",
         price: "¥1599",
         image: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=800&q=80",
-        shop: "SK-II官方旗舰店"
+        shop: "SK-II官方旗舰店",
+        sales: "5821"
       },
       {
         id: 3,
         type: 'product',
-        title: "Apple AirPods Pro 2代 主动降噪",
-        price: "¥1799",
-        image: "https://images.unsplash.com/photo-1588423771073-b8903fbb85b5?w=800&q=80",
-        shop: "Apple官方旗舰店"
+        title: "无印良品 MUJI 简约双肩包",
+        price: "¥299",
+        image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&q=80",
+        shop: "MUJI无印良品旗舰店",
+        sales: "3421"
       },
       {
         id: 4,
@@ -136,39 +139,8 @@ const fetchFavorites = async ({ pageParam = 1 }) => {
         title: "星巴克 Pike Place 派克市场咖啡豆",
         price: "¥128",
         image: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=800&q=80",
-        shop: "星巴克官方旗舰店"
-      },
-      {
-        id: 5,
-        type: 'product',
-        title: "UNIQLO 设计师联名款印花T恤",
-        price: "¥199",
-        image: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800&q=80",
-        shop: "优衣库官方旗舰店"
-      },
-      {
-        id: 6,
-        type: 'product',
-        title: "蒂佳婷 DR.JART+ 补水面膜",
-        price: "¥169",
-        image: "https://images.unsplash.com/photo-1567721913486-6585f069b332?w=800&q=80",
-        shop: "DR.JART+海外旗舰店"
-      },
-      {
-        id: 7,
-        type: 'product',
-        title: "NIKE Air Force 1 经典小白鞋",
-        price: "¥799",
-        image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800&q=80",
-        shop: "NIKE官方旗舰店"
-      },
-      {
-        id: 8,
-        type: 'product',
-        title: "无印良品 MUJI 简约双肩包",
-        price: "¥299",
-        image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&q=80",
-        shop: "MUJI无印良品旗舰店"
+        shop: "星巴克官方旗舰店",
+        sales: "1892"
       }
     ]
   }
