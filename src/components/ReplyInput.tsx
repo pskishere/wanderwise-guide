@@ -25,7 +25,7 @@ export const ReplyInput = ({ onSubmit, onCancel, replyTo }: ReplyInputProps) => 
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium">回复</span>
-            <span className="text-sm text-pink-500 font-medium">@{replyTo}</span>
+            <span className="text-base text-pink-500 font-medium">@{replyTo}</span>
           </div>
           <Button
             variant="ghost"
@@ -41,7 +41,6 @@ export const ReplyInput = ({ onSubmit, onCancel, replyTo }: ReplyInputProps) => 
           <Input
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            placeholder={`回复 @${replyTo}...`}
             className="rounded-xl focus-visible:ring-pink-500 text-base"
           />
           <Button 
