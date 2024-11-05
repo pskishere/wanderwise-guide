@@ -41,32 +41,34 @@ const CommentContent = ({ comment, isLiked, onLike, onReplyClick }: {
       className="h-8 w-8 rounded-full object-cover flex-shrink-0"
     />
     <div className="flex-1 min-w-0">
-      <div className="flex items-center gap-2">
-        <span className="text-sm font-medium truncate">{comment.author.name}</span>
-        <span className="text-xs text-gray-500">{comment.time}</span>
-      </div>
-      <p className="text-sm mt-1 break-words">
-        {comment.replyTo && (
-          <span className="text-pink-500">回复 @{comment.replyTo}：</span>
-        )}
-        {comment.content}
-      </p>
-      <div className="flex items-center gap-4 mt-2">
-        <button 
-          className={`flex items-center gap-1 text-sm ${isLiked ? 'text-pink-500' : 'text-gray-500'} hover:text-pink-500 transition-colors`}
-          onClick={onLike}
-        >
-          <Heart className={`h-4 w-4 ${isLiked ? 'fill-pink-500' : ''}`} />
-          <span className="text-xs">{comment.likes}</span>
-        </button>
-        <Button 
-          variant="ghost" 
-          size="sm"
-          className="h-6 px-2 text-gray-500 hover:text-pink-500"
-          onClick={onReplyClick}
-        >
-          回复
-        </Button>
+      <div className="flex flex-col gap-1">
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-medium truncate">{comment.author.name}</span>
+          <span className="text-xs text-gray-500">{comment.time}</span>
+        </div>
+        <p className="text-sm break-words">
+          {comment.replyTo && (
+            <span className="text-pink-500">回复 @{comment.replyTo}：</span>
+          )}
+          {comment.content}
+        </p>
+        <div className="flex items-center gap-4 mt-1">
+          <button 
+            className={`flex items-center gap-1 text-sm ${isLiked ? 'text-pink-500' : 'text-gray-500'} hover:text-pink-500 transition-colors`}
+            onClick={onLike}
+          >
+            <Heart className={`h-4 w-4 ${isLiked ? 'fill-pink-500' : ''}`} />
+            <span className="text-xs">{comment.likes}</span>
+          </button>
+          <Button 
+            variant="ghost" 
+            size="sm"
+            className="h-6 px-2 text-gray-500 hover:text-pink-500"
+            onClick={onReplyClick}
+          >
+            回复
+          </Button>
+        </div>
       </div>
     </div>
   </div>
