@@ -13,7 +13,6 @@ import UserFollowers from "@/pages/profile/UserFollowers"
 import EditProfile from "@/pages/EditProfile"
 import ProductDetail from "@/pages/ProductDetail"
 import Favorites from "@/pages/Favorites"
-import Messages from "@/pages/Messages"
 import Cart from "@/pages/Cart"
 import Orders from "@/pages/Orders"
 import OrderDetail from "@/pages/OrderDetail"
@@ -41,7 +40,6 @@ function App() {
             <Route path="/profile/edit" element={<EditProfile />} />
             <Route path="/products/:id" element={<ProductDetail />} />
             <Route path="/favorites" element={<Favorites />} />
-            <Route path="/messages" element={<Messages />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/orders" element={<Orders />} />
             <Route path="/orders/:id" element={<OrderDetail />} />

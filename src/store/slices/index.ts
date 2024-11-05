@@ -1,7 +1,6 @@
 export { default as cartReducer } from '../cartSlice';
 export { default as productReducer } from '../productSlice';
 export { default as postReducer } from '../postSlice';
-export { default as messageReducer } from '../messageSlice';
 export { default as addressReducer } from '../addressSlice';
 export { default as searchReducer } from '../searchSlice';
 export { default as orderReducer } from '../orderSlice';
