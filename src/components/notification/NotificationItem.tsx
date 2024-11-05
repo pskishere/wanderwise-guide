@@ -34,8 +34,8 @@ export function NotificationItem({ notification }: NotificationItemProps) {
     <Link to={notification.link}>
       <Button
         variant="ghost"
-        className={`w-full justify-start gap-4 p-4 h-auto ${
-          !notification.read ? "bg-gray-50" : ""
+        className={`w-full justify-start gap-4 p-4 h-auto hover:bg-gray-50 ${
+          !notification.read ? "bg-pink-50/50" : ""
         }`}
       >
         <div className="flex items-center gap-3 flex-1 min-w-0">
@@ -47,18 +47,18 @@ export function NotificationItem({ notification }: NotificationItemProps) {
               </AvatarFallback>
             </Avatar>
           ) : (
-            <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+            <div className="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center">
               {getIcon()}
             </div>
           )}
           <div className="flex-1 min-w-0">
             <div className="flex items-start gap-1">
               {notification.user && (
-                <span className="font-medium">{notification.user}</span>
+                <span className="font-medium text-gray-900">{notification.user}</span>
               )}
-              <span className="text-muted-foreground">{notification.content}</span>
+              <span className="text-gray-600">{notification.content}</span>
             </div>
-            <p className="text-sm text-muted-foreground mt-1">
+            <p className="text-sm text-gray-500 mt-1">
               {notification.time}
             </p>
           </div>
