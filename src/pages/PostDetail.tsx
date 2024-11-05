@@ -129,35 +129,40 @@ const PostDetail = () => {
               />
             </Card>
 
-            {/* Promoted Products */}
+            {/* Promoted Products - Now with horizontal scroll */}
             <div className="bg-white rounded-2xl p-6 shadow-lg">
               <h2 className="text-base font-medium mb-4 flex items-center">
                 <span className="h-3.5 w-1 bg-pink-500 rounded-full mr-2"></span>
                 相关推荐
               </h2>
-              <div className="grid grid-cols-2 gap-4">
-                {promotedProducts.map((product) => (
-                  <Link 
-                    key={product.id}
-                    to={`/products/${product.id}`}
-                    className="block"
-                  >
-                    <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-200 border-none">
-                      <div className="aspect-square bg-gray-100">
-                        <img
-                          src={product.image}
-                          alt={product.title}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div className="p-3">
-                        <h3 className="text-sm font-medium line-clamp-2">{product.title}</h3>
-                        <p className="text-pink-600 font-medium mt-1.5">{product.price}</p>
-                      </div>
-                    </Card>
-                  </Link>
-                ))}
-              </div>
+              <Carousel className="w-full">
+                <CarouselContent className="-ml-2 md:-ml-4">
+                  {promotedProducts.map((product) => (
+                    <CarouselItem key={product.id} className="pl-2 md:pl-4 basis-1/2 md:basis-1/3 lg:basis-1/2">
+                      <Link 
+                        to={`/products/${product.id}`}
+                        className="block"
+                      >
+                        <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-200 border-none">
+                          <div className="aspect-square bg-gray-100">
+                            <img
+                              src={product.image}
+                              alt={product.title}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="p-3">
+                            <h3 className="text-sm font-medium line-clamp-2">{product.title}</h3>
+                            <p className="text-pink-600 font-medium mt-1.5">{product.price}</p>
+                          </div>
+                        </Card>
+                      </Link>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="left-2" />
+                <CarouselNext className="right-2" />
+              </Carousel>
             </div>
           </div>
         </div>
