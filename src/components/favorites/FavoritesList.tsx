@@ -81,7 +81,7 @@ export const FavoritesList = ({
 
   if (isLoading && !items.length) {
     return (
-      <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {Array(6).fill(0).map((_, i) => (
           type === 'posts' ? <PostSkeleton key={i} /> : <ProductSkeleton key={i} />
         ))}
@@ -95,7 +95,7 @@ export const FavoritesList = ({
 
   return (
     <>
-      <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+      <div className={`${type === 'posts' ? 'columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4' : 'grid grid-cols-2 md:grid-cols-4 gap-4'}`}>
         {items.map((item) => (
           type === 'posts' ? (
             <Link to={`/posts/${item.id}`} key={item.id}>
@@ -133,11 +133,14 @@ export const FavoritesList = ({
             </Link>
           ) : (
             <Link to={`/products/${item.id}`} key={item.id}>
-              <Card className="mb-4 break-inside-avoid overflow-hidden border-none shadow-sm hover:shadow-lg transition-shadow duration-200">
-                <ImageWithSkeleton
-                  src={(item as FavoriteProduct).image}
-                  alt={(item as FavoriteProduct).title}
-                />
+              <Card className="overflow-hidden border-none shadow-sm hover:shadow-lg transition-shadow duration-200">
+                <div className="aspect-square bg-gray-100">
+                  <img
+                    src={(item as FavoriteProduct).image}
+                    alt={(item as FavoriteProduct).title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
                 <div className="px-2 pt-4 pb-3">
                   <h3 className="text-sm font-medium line-clamp-2 mb-2">
                     {(item as FavoriteProduct).title}
@@ -160,7 +163,7 @@ export const FavoritesList = ({
       {hasNextPage && (
         <div ref={ref} className="flex justify-center py-8">
           {isLoading && (
-            <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+            <div className={`${type === 'posts' ? 'columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4' : 'grid grid-cols-2 md:grid-cols-4 gap-4'}`}>
               {Array(2).fill(0).map((_, i) => (
                 type === 'posts' ? <PostSkeleton key={i} /> : <ProductSkeleton key={i} />
               ))}
