@@ -80,17 +80,10 @@ export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItem
           </div>
         </div>
       </div>
-
-      {isReplying && (
-        <ReplyInput 
-          onSubmit={handleReply}
-          onCancel={() => setIsReplying(false)}
-          replyTo={comment.author.name}
-        />
-      )}
-
+      
+      <div className="ml-10">
       {comment.replies && comment.replies.length > 0 && (
-        <div className="ml-10 pl-4">
+        <div>
           {/* Always show the first reply */}
           <CommentItem
             key={comment.replies[0].id}
@@ -131,6 +124,15 @@ export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItem
             </Collapsible>
           )}
         </div>
+      )}
+      </div>
+
+      {isReplying && (
+        <ReplyInput 
+          onSubmit={handleReply}
+          onCancel={() => setIsReplying(false)}
+          replyTo={comment.author.name}
+        />
       )}
     </div>
   )

@@ -36,7 +36,6 @@ const ProductDetail = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
-      <Navigation />
       <div className="container mx-auto px-4 pt-20">
         <div className="grid md:grid-cols-2 gap-8">
           <ProductGallery images={product.images} />

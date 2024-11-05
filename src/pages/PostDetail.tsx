@@ -67,7 +67,6 @@ const PostDetail = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
-      <Navigation />
 
       <div className="relative">
         <div className="w-full aspect-[4/3] bg-black">
