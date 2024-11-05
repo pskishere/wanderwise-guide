@@ -9,6 +9,7 @@ import { Card } from "@/components/ui/card"
 import { ImageLightbox } from "@/components/ImageLightbox"
 import { PostContent } from "@/components/post/PostContent"
 import { PostActions } from "@/components/post/PostActions"
+import { PostHeader } from "@/components/post/PostHeader"
 import { CommentSection } from "@/components/CommentSection"
 import { Navigation } from "@/components/Navigation"
 import { useState } from "react"
@@ -67,6 +68,7 @@ const PostDetail = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
+      <PostHeader />
 
       <div className="relative">
         <div className="w-full aspect-[4/3] bg-black">
