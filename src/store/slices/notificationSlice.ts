@@ -23,7 +23,7 @@ const initialState: NotificationState = {
   loading: false,
 };
 
-const notificationSlice = createSlice({
+export const notificationSlice = createSlice({
   name: 'notification',
   initialState,
   reducers: {
