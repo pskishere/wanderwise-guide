@@ -146,20 +146,7 @@ const CreatePost = () => {
             maxLength={30}
           />
 
-          <div className="mt-6 px-4 -mx-4">
-            <div className="flex items-center gap-2 mb-3">
-              <MapPin className="w-4 h-4 text-gray-400" />
-              <span className="text-sm text-gray-500">添加地点</span>
-            </div>
-            <div className="space-y-3">
-              <MapSearch onAddressSelect={handleLocationSelect} />
-              {draft.location && (
-                <div className="inline-block px-3 py-1.5 rounded-full text-sm bg-pink-50 text-pink-500">
-                  {draft.location}
-                </div>
-              )}
-            </div>
-          </div>
+
 
           <div className="space-y-2">
             <MarkdownToolbar 
@@ -181,6 +168,22 @@ const CreatePost = () => {
               />
             )}
           </div>
+
+          <div className="mt-6 px-4 -mx-4">
+            <div className="flex items-center gap-2 mb-3">
+              <MapPin className="w-4 h-4 text-gray-400" />
+              <span className="text-sm text-gray-500">添加地点</span>
+            </div>
+            <div className="space-y-3">
+              <MapSearch onAddressSelect={handleLocationSelect} />
+              {draft.location && (
+                <div className="inline-block px-3 py-1.5 rounded-full text-sm bg-pink-50 text-pink-500">
+                  {draft.location}
+                </div>
+              )}
+            </div>
+          </div>
+          
         </div>
 
         <TagSelector 
