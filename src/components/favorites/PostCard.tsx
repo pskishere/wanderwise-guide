@@ -1,21 +1,22 @@
-import { Link } from "react-router-dom"
-import { Card } from "@/components/ui/card"
-import { Heart } from "lucide-react"
+import React, { useState } from "react"; // Import useState here
+import { Link } from "react-router-dom";
+import { Card } from "@/components/ui/card";
+import { Heart } from "lucide-react";
 
 interface PostCardProps {
-  id: number
-  title: string
-  image: string
+  id: number;
+  title: string;
+  image: string;
   author: {
-    name: string
-    avatar: string
-  }
-  likes: number
+    name: string;
+    avatar: string;
+  };
+  likes: number;
 }
 
 export const PostCard = ({ id, title, image, author, likes }: PostCardProps) => {
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState(false)
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   return (
     <Link to={`/posts/${id}`}>
@@ -33,8 +34,8 @@ export const PostCard = ({ id, title, image, author, likes }: PostCardProps) => 
             loading="lazy"
             onLoad={() => setIsLoading(false)}
             onError={() => {
-              setIsLoading(false)
-              setError(true)
+              setIsLoading(false);
+              setError(true);
             }}
           />
           {error && (
@@ -64,5 +65,5 @@ export const PostCard = ({ id, title, image, author, likes }: PostCardProps) => 
         </div>
       </Card>
     </Link>
-  )
-}
+  );
+};
