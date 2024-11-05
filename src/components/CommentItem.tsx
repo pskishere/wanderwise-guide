@@ -39,8 +39,6 @@ export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItem
     setIsReplying(false)
   }
 
-  const showReplyButton = level === 0
-
   return (
     <div className="space-y-4">
       <div className="flex gap-3">
@@ -63,16 +61,14 @@ export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItem
               <Heart className={`h-4 w-4 ${isLiked ? 'fill-pink-500' : ''}`} />
               <span className="text-xs">{comment.likes}</span>
             </button>
-            {showReplyButton && (
-              <Button 
-                variant="ghost" 
-                size="sm"
-                className="h-6 px-2 text-gray-500 hover:text-pink-500"
-                onClick={() => setIsReplying(true)}
-              >
-                回复
-              </Button>
-            )}
+            <Button 
+              variant="ghost" 
+              size="sm"
+              className="h-6 px-2 text-gray-500 hover:text-pink-500"
+              onClick={() => setIsReplying(true)}
+            >
+              回复
+            </Button>
           </div>
         </div>
       </div>
@@ -85,7 +81,7 @@ export const CommentItem = ({ comment, onReply, onLike, level = 0 }: CommentItem
         />
       )}
 
-      {comment.replies && comment.replies.length > 0 && level === 0 && (
+      {comment.replies && comment.replies.length > 0 && (
         <div className="ml-10 space-y-4 border-l-2 border-gray-100 pl-4">
           {comment.replies.map((reply) => (
             <CommentItem
