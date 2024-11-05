@@ -6,6 +6,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { debounce } from "lodash"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
+import { Card } from "@/components/ui/card"
 
 interface MapSearchProps {
   onAddressSelect: (address: {
@@ -94,28 +95,29 @@ export function MapSearch({ onAddressSelect }: MapSearchProps) {
       <Popover 
         open={open} 
         onOpenChange={(open) => {
-          // Only allow closing if there's no input value or after selection
           if (!searchValue.trim()) {
             setOpen(open)
           }
         }}
       >
         <PopoverTrigger asChild>
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-            <Input
-              ref={inputRef}
-              value={searchValue}
-              onChange={handleInputChange}
-              onFocus={() => {
-                if (suggestions.length > 0) {
-                  setOpen(true)
-                }
-              }}
-              placeholder="搜索地址..."
-              className="pl-9 pr-4 w-full h-11 text-small bg-white"
-            />
-          </div>
+          <Card className="relative">
+            <div className="flex items-center gap-3 p-3">
+              <MapPin className="h-5 w-5 text-gray-400 shrink-0" />
+              <Input
+                ref={inputRef}
+                value={searchValue}
+                onChange={handleInputChange}
+                onFocus={() => {
+                  if (suggestions.length > 0) {
+                    setOpen(true)
+                  }
+                }}
+                placeholder="搜索地址..."
+                className="flex-1 border-0 p-0 focus-visible:ring-0 placeholder:text-gray-400 text-base"
+              />
+            </div>
+          </Card>
         </PopoverTrigger>
         <PopoverContent className="p-0 w-[calc(100vw-32px)] sm:w-[500px] bg-white" align="start">
           <Command>

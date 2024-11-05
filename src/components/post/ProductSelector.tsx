@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input"
 import { mockProducts } from "@/services/mockData"
 import { ProductSearchResults } from "./ProductSearchResults"
 import { SelectedProducts } from "./SelectedProducts"
+import { Card } from "@/components/ui/card"
 
 interface Product {
   id: number
@@ -45,16 +46,21 @@ export const ProductSelector = ({
       </div>
 
       <div className="relative">
-        <Input
-          placeholder="搜索商品..."
-          value={searchTerm}
-          onChange={(e) => {
-            setSearchTerm(e.target.value)
-            setShowResults(true)
-          }}
-          onFocus={() => setShowResults(true)}
-          className="w-full"
-        />
+        <Card className="relative">
+          <div className="flex items-center gap-3 p-3">
+            <Search className="h-5 w-5 text-gray-400 shrink-0" />
+            <Input
+              placeholder="搜索商品..."
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value)
+                setShowResults(true)
+              }}
+              onFocus={() => setShowResults(true)}
+              className="flex-1 border-0 p-0 focus-visible:ring-0 placeholder:text-gray-400 text-base"
+            />
+          </div>
+        </Card>
 
         {showResults && searchTerm && (
           <ProductSearchResults 
