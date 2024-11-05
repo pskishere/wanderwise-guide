@@ -10,16 +10,12 @@ export interface CheckoutState {
     detail: string;
   } | null;
   paymentMethod: 'alipay' | 'wechat' | '';
-  loading: boolean;
-  error: string | null;
 }
 
 const initialState: CheckoutState = {
   selectedItems: [],
   selectedAddress: null,
-  paymentMethod: '',
-  loading: false,
-  error: null
+  paymentMethod: ''
 };
 
 export const checkoutSlice = createSlice({
