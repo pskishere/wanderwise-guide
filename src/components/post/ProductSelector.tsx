@@ -46,7 +46,7 @@ export const ProductSelector = ({
       </div>
 
       <div className="relative">
-        <Card className="relative">
+        <Card className="relative overflow-hidden hover:shadow-md transition-shadow duration-200">
           <div className="flex items-center gap-3 p-3">
             <Search className="h-5 w-5 text-gray-400 shrink-0" />
             <Input

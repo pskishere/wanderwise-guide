@@ -101,7 +101,7 @@ export function MapSearch({ onAddressSelect }: MapSearchProps) {
         }}
       >
         <PopoverTrigger asChild>
-          <Card className="relative">
+          <Card className="relative overflow-hidden hover:shadow-md transition-shadow duration-200">
             <div className="flex items-center gap-3 p-3">
               <MapPin className="h-5 w-5 text-gray-400 shrink-0" />
               <Input
@@ -119,7 +119,7 @@ export function MapSearch({ onAddressSelect }: MapSearchProps) {
             </div>
           </Card>
         </PopoverTrigger>
-        <PopoverContent className="p-0 w-[calc(100vw-32px)] sm:w-[500px] bg-white" align="start">
+        <PopoverContent className="p-0 w-[calc(100vw-32px)] sm:w-[500px] bg-white shadow-lg" align="start">
           <Command>
             <CommandList>
               {suggestions.length === 0 && searchValue.trim() && (
