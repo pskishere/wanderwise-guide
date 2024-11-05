@@ -8,6 +8,8 @@ import { RootState } from "@/store/store"
 import { useEffect } from "react"
 import { setLoading, setMessages, markAsRead } from "@/store/messageSlice"
 import { useToast } from "@/hooks/use-toast"
+import { Button } from "@/components/ui/button"
+import { MessageCircle } from "lucide-react"
 
 const Messages = () => {
   const dispatch = useDispatch()
@@ -54,11 +56,16 @@ const Messages = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20">
+    <div className="min-h-screen bg-gradient-to-b from-pink-50 to-white pb-20">
       <Navigation />
       
       <div className="container mx-auto px-4 pt-20">
-        <h1 className="text-2xl font-bold mb-6">消息</h1>
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-2xl font-bold">消息</h1>
+          <Button variant="ghost" size="icon">
+            <MessageCircle className="h-5 w-5" />
+          </Button>
+        </div>
 
         {loading ? (
           <div className="space-y-4">
