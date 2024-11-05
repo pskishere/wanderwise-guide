@@ -10,7 +10,7 @@ import { useInView } from "react-intersection-observer"
 import { useEffect, useState } from "react"
 import { useToast } from "@/hooks/use-toast"
 
-const ImageWithSkeleton = ({ src, alt }: { src: string; alt: string }) => {
+function ImageWithSkeleton({ src, alt }: { src: string; alt: string }) {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(false)
 
@@ -41,7 +41,7 @@ const ImageWithSkeleton = ({ src, alt }: { src: string; alt: string }) => {
   )
 }
 
-export const TravelNotes = () => {
+export function TravelNotes() {
   const { ref, inView } = useInView()
   const { toast } = useToast()
 

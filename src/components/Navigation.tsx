@@ -1,34 +1,35 @@
-import { Bell, ShoppingCart, Search, MapPin, Utensils, BookOpen, Heart } from "lucide-react"
-import { Link, useNavigate } from "react-router-dom"
+import { Bell, Heart, Search, MapPin, Utensils, BookOpen } from "lucide-react"
+import { Link } from "react-router-dom"
 import { Input } from "./ui/input"
 import { Button } from "./ui/button"
-import { useEffect, useState } from "react"
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "./ui/command"
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
+import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react"
 
-export const Navigation = () => {
+const suggestions = {
+  destinations: [
+    { id: 1, name: "东京", type: "city", desc: "日本最大都市" },
+    { id: 2, name: "巴厘岛", type: "city", desc: "印尼度假胜地" },
+    { id: 3, name: "巴黎", type: "city", desc: "法国浪漫之都" }
+  ],
+  foods: [
+    { id: 1, name: "寿司", type: "food", desc: "日本传统美食" },
+    { id: 2, name: "披萨", type: "food", desc: "意大利风味" },
+    { id: 3, name: "牛排", type: "food", desc: "西式料理" }
+  ],
+  guides: [
+    { id: 1, name: "东京购物攻略", type: "guide", desc: "血拼购物指南" },
+    { id: 2, name: "巴厘岛潜水指南", type: "guide", desc: "海底探险" },
+    { id: 3, name: "巴黎美食地图", type: "guide", desc: "米其林推荐" }
+  ]
+}
+
+export function Navigation() {
   const navigate = useNavigate()
   const [margin, setMargin] = useState(8)
   const [open, setOpen] = useState(false)
   const [searchValue, setSearchValue] = useState("")
-
-  const suggestions = {
-    destinations: [
-      { id: 1, name: "东京", type: "city", desc: "日本最大都市" },
-      { id: 2, name: "巴厘岛", type: "city", desc: "印尼度假胜地" },
-      { id: 3, name: "巴黎", type: "city", desc: "法国浪漫之都" }
-    ],
-    foods: [
-      { id: 1, name: "寿司", type: "food", desc: "日本传统美食" },
-      { id: 2, name: "披萨", type: "food", desc: "意大利风味" },
-      { id: 3, name: "牛排", type: "food", desc: "西式料理" }
-    ],
-    guides: [
-      { id: 1, name: "东京购物攻略", type: "guide", desc: "血拼购物指南" },
-      { id: 2, name: "巴厘岛潜水指南", type: "guide", desc: "海底探险" },
-      { id: 3, name: "巴黎美食地图", type: "guide", desc: "米其林推荐" }
-    ]
-  }
 
   useEffect(() => {
     const handleScroll = () => {
