@@ -66,17 +66,17 @@ export default function Notifications() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50/50">
       <Navigation />
       
       <div className="container max-w-2xl mx-auto px-4 pt-20 pb-24">
-        <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
-          <div className="p-4 border-b sticky top-0 bg-white/95 backdrop-blur-md z-10">
+        <div className="bg-white rounded-2xl shadow-sm overflow-hidden border">
+          <div className="p-4 border-b sticky top-0 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/50 z-10">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <h1 className="text-lg font-semibold">通知</h1>
                 {unreadCount > 0 && (
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-pink-100 text-pink-800">
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-pink-100 text-pink-800 ring-1 ring-pink-100/50">
                     {unreadCount}
                   </span>
                 )}
@@ -86,7 +86,7 @@ export default function Notifications() {
                   variant="ghost"
                   size="sm"
                   onClick={handleMarkAllAsRead}
-                  className="text-sm text-pink-600 hover:text-pink-700 hover:bg-pink-50"
+                  className="text-sm font-medium text-pink-600 hover:text-pink-700 hover:bg-pink-50"
                 >
                   全部标记为已读
                 </Button>
