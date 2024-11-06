@@ -2,7 +2,7 @@ import { Navigation } from "@/components/Navigation"
 import { BottomNav } from "@/components/BottomNav"
 import { FavoritesList } from "@/components/favorites/FavoritesList"
 import { FavoritesHeader } from "@/components/favorites/FavoritesHeader"
-import { TabsContent } from "@/components/ui/tabs"
+import { Tabs, TabsContent } from "@/components/ui/tabs"
 import { useFavorites } from "@/hooks/useFavorites"
 
 const Favorites = () => {
@@ -23,29 +23,31 @@ const Favorites = () => {
       <div className="container mx-auto px-4 pt-20 max-w-7xl">
         <h1 className="text-2xl font-bold">我的收藏</h1>
         
-        <FavoritesHeader defaultValue="posts" />
+        <Tabs defaultValue="posts">
+          <FavoritesHeader defaultValue="posts" />
 
-        <div className="mt-6">
-          <TabsContent value="posts" className="focus-visible:outline-none">
-            <FavoritesList
-              type="posts"
-              items={allItems}
-              isLoading={isLoading}
-              hasNextPage={hasNextPage}
-              fetchNextPage={fetchNextPage}
-            />
-          </TabsContent>
-          
-          <TabsContent value="products" className="focus-visible:outline-none">
-            <FavoritesList
-              type="products"
-              items={allProducts}
-              isLoading={isLoading}
-              hasNextPage={hasNextPage}
-              fetchNextPage={fetchNextPage}
-            />
-          </TabsContent>
-        </div>
+          <div className="mt-6">
+            <TabsContent value="posts" className="focus-visible:outline-none">
+              <FavoritesList
+                type="posts"
+                items={allItems}
+                isLoading={isLoading}
+                hasNextPage={hasNextPage}
+                fetchNextPage={fetchNextPage}
+              />
+            </TabsContent>
+            
+            <TabsContent value="products" className="focus-visible:outline-none">
+              <FavoritesList
+                type="products"
+                items={allProducts}
+                isLoading={isLoading}
+                hasNextPage={hasNextPage}
+                fetchNextPage={fetchNextPage}
+              />
+            </TabsContent>
+          </div>
+        </Tabs>
       </div>
 
       <BottomNav />
