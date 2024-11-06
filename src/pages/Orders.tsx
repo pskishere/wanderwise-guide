@@ -7,13 +7,15 @@ import { useToast } from "@/hooks/use-toast"
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll"
 import { useState } from "react"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+import { Badge } from "@/components/ui/badge"
 
 const ORDER_STATUSES = [
-  { value: "all", label: "全部" },
-  { value: "pending", label: "待付款" },
-  { value: "processing", label: "待发货" },
-  { value: "shipped", label: "待收货" },
-  { value: "completed", label: "已完成" }
+  { value: "all", label: "全部", count: 0 },
+  { value: "pending", label: "待付款", count: 0 },
+  { value: "processing", label: "待发货", count: 0 },
+  { value: "shipped", label: "待收货", count: 0 },
+  { value: "completed", label: "已完成", count: 0 },
+  { value: "cancelled", label: "已取消", count: 0 }
 ]
 
 const fetchOrders = async ({ pageParam = 1, status = "all" }) => {
@@ -53,6 +55,22 @@ const fetchOrders = async ({ pageParam = 1, status = "all" }) => {
         }
       ],
       createdAt: "2024-02-18 09:15:00"
+    },
+    {
+      id: "ORD003",
+      status: "待发货",
+      totalAmount: 599,
+      items: [
+        {
+          id: 3,
+          title: "东京迪士尼乐园限定 米奇挂饰",
+          price: 599,
+          image: "https://images.unsplash.com/photo-1620138546344-7b2c38516edf?w=800&q=80",
+          quantity: 1,
+          specs: ["金色 15cm"]
+        }
+      ],
+      createdAt: "2024-02-17 16:45:00"
     }
   ]
 
@@ -65,6 +83,7 @@ const fetchOrders = async ({ pageParam = 1, status = "all" }) => {
           case "processing": return order.status === "待发货";
           case "shipped": return order.status === "待收货";
           case "completed": return order.status === "已完成";
+          case "cancelled": return order.status === "已取消";
           default: return true;
         }
       });
@@ -73,10 +92,27 @@ const fetchOrders = async ({ pageParam = 1, status = "all" }) => {
   const end = start + ordersPerPage
   const pageOrders = filteredOrders.slice(start, end)
   
+  // 计算每个状态的订单数量
+  const statusCounts = mockOrders.reduce((acc, order) => {
+    const status = order.status;
+    acc[status] = (acc[status] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+
+  // 更新状态标签的数量
+  ORDER_STATUSES.forEach(status => {
+    if (status.value === "all") {
+      status.count = mockOrders.length;
+    } else {
+      status.count = statusCounts[status.label] || 0;
+    }
+  });
+  
   return {
     orders: pageOrders || [],
     nextPage: pageOrders.length === ordersPerPage ? pageParam + 1 : undefined,
-    hasMore: pageOrders.length === ordersPerPage
+    hasMore: pageOrders.length === ordersPerPage,
+    statusCounts
   }
 }
 
@@ -135,15 +171,20 @@ const Orders = () => {
             type="single" 
             value={status} 
             onValueChange={handleStatusChange}
-            className="flex overflow-x-auto pb-2 -mx-4 px-4"
+            className="flex overflow-x-auto pb-2 -mx-4 px-4 gap-2"
           >
-            {ORDER_STATUSES.map(({ value, label }) => (
+            {ORDER_STATUSES.map(({ value, label, count }) => (
               <ToggleGroupItem 
                 key={value} 
                 value={value}
-                className="whitespace-nowrap px-4 py-2 rounded-full data-[state=on]:bg-pink-50 data-[state=on]:text-pink-500"
+                className="whitespace-nowrap px-4 py-2 rounded-full data-[state=on]:bg-pink-50 data-[state=on]:text-pink-500 flex items-center gap-1"
               >
                 {label}
+                {count > 0 && (
+                  <Badge variant="secondary" className="ml-1">
+                    {count}
+                  </Badge>
+                )}
               </ToggleGroupItem>
             ))}
           </ToggleGroup>
