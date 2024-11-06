@@ -51,8 +51,9 @@ const fetchOrders = async ({ pageParam = 1 }) => {
   const end = start + ordersPerPage
   const pageOrders = mockOrders.slice(start, end)
   
+  // Always return an object with the required properties
   return {
-    orders: pageOrders,
+    orders: pageOrders || [], // Ensure we always return an array
     nextPage: pageOrders.length === ordersPerPage ? pageParam + 1 : undefined,
     hasMore: pageOrders.length === ordersPerPage
   }
