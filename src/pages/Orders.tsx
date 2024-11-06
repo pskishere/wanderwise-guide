@@ -58,7 +58,7 @@ const Orders = () => {
     <div className="min-h-screen bg-gray-50 pb-32">
       <Navigation />
       
-      <div className="container mx-auto px-4 pt-20 max-w-3xl">
+      <div className="container mx-auto px-4 pt-24 max-w-3xl">
         <div className="mb-6">
           <h1 className="text-2xl font-bold mb-4">我的订单</h1>
           <OrderStatusToggle 
