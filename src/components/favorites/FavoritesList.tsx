@@ -22,15 +22,17 @@ export const FavoritesList = ({ type }: FavoritesListProps) => {
   }
   
   return (
-    <div className="space-y-4">
+    <div className="columns-1 sm:columns-2 lg:columns-3 gap-4">
       {data.pages.map((page, i) => (
-        <div key={i} className="space-y-4">
+        <div key={i}>
           {page.items.map((item) => (
-            type === "posts" ? (
-              <PostCard key={item.id} post={item} />
-            ) : (
-              <ProductCard key={item.id} product={item} />
-            )
+            <div key={item.id} className="mb-4 break-inside-avoid">
+              {type === "posts" ? (
+                <PostCard post={item} />
+              ) : (
+                <ProductCard product={item} />
+              )}
+            </div>
           ))}
         </div>
       ))}
