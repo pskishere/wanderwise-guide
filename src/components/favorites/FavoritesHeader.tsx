@@ -13,9 +13,17 @@ export const FavoritesHeader = ({ defaultValue }: FavoritesHeaderProps) => {
     isLoading: isProductsLoading,
     fetchNextPage: fetchNextProducts,
     hasNextPage: hasNextProducts
-  } = useFavorites()
+  } = useFavorites("products")
+
+  const {
+    data: posts,
+    isLoading: isPostsLoading,
+    fetchNextPage: fetchNextPosts,
+    hasNextPage: hasNextPosts
+  } = useFavorites("posts")
 
   const allProducts = products?.pages.flatMap(page => page.items) || []
+  const allPosts = posts?.pages.flatMap(page => page.items) || []
 
   return (
     <Tabs defaultValue={defaultValue} className="w-full">
@@ -43,10 +51,10 @@ export const FavoritesHeader = ({ defaultValue }: FavoritesHeaderProps) => {
       <TabsContent value="posts" className="mt-4">
         <FavoritesList 
           type="posts"
-          items={[]}
-          isLoading={false}
-          hasNextPage={false}
-          fetchNextPage={() => {}}
+          items={allPosts}
+          isLoading={isPostsLoading}
+          hasNextPage={hasNextPosts}
+          fetchNextPage={fetchNextPosts}
         />
       </TabsContent>
 
