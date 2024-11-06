@@ -17,6 +17,13 @@ export interface Order {
   createdAt: string
 }
 
+interface OrderResponse {
+  orders: Order[]
+  nextPage?: number
+  hasMore: boolean
+  statusCounts: Record<string, number>
+}
+
 const mockOrders = [
   {
     id: "ORD001",
@@ -68,37 +75,44 @@ const mockOrders = [
   }
 ];
 
-export const fetchOrders = async ({ pageParam = 1, status = "all" }) => {
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  
-  const ordersPerPage = 5;
-  const filteredOrders = status === "all" 
-    ? mockOrders 
-    : mockOrders.filter(order => {
-        switch(status) {
-          case "pending": return order.status === "待付款";
-          case "processing": return order.status === "待发货";
-          case "shipped": return order.status === "待收货";
-          case "completed": return order.status === "已完成";
-          case "cancelled": return order.status === "已取消";
-          default: return true;
-        }
-      });
+export const fetchOrders = async ({ 
+  pageParam = 1, 
+  status = "all",
+  limit = 5 
+}): Promise<OrderResponse> => {
+  try {
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    const filteredOrders = status === "all" 
+      ? mockOrders 
+      : mockOrders.filter(order => {
+          switch(status) {
+            case "pending": return order.status === "待付款";
+            case "processing": return order.status === "待发货";
+            case "shipped": return order.status === "待收货";
+            case "completed": return order.status === "已完成";
+            case "cancelled": return order.status === "已取消";
+            default: return true;
+          }
+        });
 
-  const start = (pageParam - 1) * ordersPerPage;
-  const end = start + ordersPerPage;
-  const pageOrders = filteredOrders.slice(start, end);
-  
-  const statusCounts = mockOrders.reduce((acc, order) => {
-    const status = order.status;
-    acc[status] = (acc[status] || 0) + 1;
-    return acc;
-  }, {} as Record<string, number>);
+    const start = (pageParam - 1) * limit;
+    const end = start + limit;
+    const pageOrders = filteredOrders.slice(start, end);
+    
+    const statusCounts = mockOrders.reduce((acc, order) => {
+      const status = order.status;
+      acc[status] = (acc[status] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
 
-  return {
-    orders: pageOrders || [],
-    nextPage: pageOrders.length === ordersPerPage ? pageParam + 1 : undefined,
-    hasMore: pageOrders.length === ordersPerPage,
-    statusCounts
-  };
+    return {
+      orders: pageOrders,
+      nextPage: pageOrders.length === limit ? pageParam + 1 : undefined,
+      hasMore: pageOrders.length === limit,
+      statusCounts
+    };
+  } catch (error) {
+    throw new Error("Failed to fetch orders");
+  }
 };
