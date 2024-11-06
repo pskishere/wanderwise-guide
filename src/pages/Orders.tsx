@@ -53,7 +53,8 @@ const fetchOrders = async ({ pageParam = 1 }) => {
   
   return {
     orders: pageOrders,
-    nextPage: pageOrders.length === ordersPerPage ? pageParam + 1 : undefined
+    nextPage: pageOrders.length === ordersPerPage ? pageParam + 1 : undefined,
+    hasMore: pageOrders.length === ordersPerPage
   }
 }
 
@@ -69,7 +70,8 @@ const Orders = () => {
   } = useInfiniteQuery({
     queryKey: ['orders'],
     queryFn: fetchOrders,
-    getNextPageParam: (lastPage) => lastPage.nextPage,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => lastPage.hasMore ? lastPage.nextPage : undefined,
   })
 
   const { ref } = useInfiniteScroll({
