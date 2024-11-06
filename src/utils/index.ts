@@ -1,7 +1,6 @@
 import { format, formatDistanceToNow } from 'date-fns';
 import { zhCN } from 'date-fns/locale';
 
-export * from './utils';
 export * from './addressParser';
 export * from './addressData';
 

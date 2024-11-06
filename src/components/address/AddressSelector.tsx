@@ -1,6 +1,7 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
+import { cn } from "@/lib/utils"
 
 interface Address {
   id: string
@@ -35,8 +36,8 @@ const addresses: Address[] = [
 
 export function AddressSelector({ open, onOpenChange, onSelect, selectedId }: AddressSelectorProps) {
   return (
-    <Dialog open={open} onOpenChange={onOpenChange} style={{ margin: '0px 20px' }}>
-      <DialogContent className="max-w-md">
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className={cn("max-w-md mx-5")}>
         <DialogHeader>
           <DialogTitle>选择收货地址</DialogTitle>
         </DialogHeader>

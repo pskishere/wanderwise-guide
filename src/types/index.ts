@@ -1,6 +1,8 @@
-export * from './post';
-export * from './product';
-export * from './search';
+import type { Post, Comment } from './post';
+import type { Product, ProductCategory } from './product';
+import type { SearchResult, SearchFilters } from './search';
+
+export type { Post, Comment, Product, ProductCategory, SearchResult, SearchFilters };
 
 export interface User {
   id: number;
@@ -19,17 +21,4 @@ export interface Notification {
   time: string;
   isRead: boolean;
   avatar: string;
-}
-
-export interface Comment {
-  id: number;
-  author: {
-    name: string;
-    avatar: string;
-  };
-  content: string;
-  time: string;
-  likes: number;
-  replies?: Comment[];
-  replyTo?: string;
 }
