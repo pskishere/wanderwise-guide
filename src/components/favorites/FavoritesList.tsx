@@ -4,25 +4,7 @@ import { PostCard } from "./PostCard"
 import { ProductCard } from "./ProductCard"
 import { PostSkeleton, ProductSkeleton } from "./FavoritesSkeleton"
 import { EmptyState } from "./EmptyState"
-
-interface FavoritePost {
-  id: number
-  title: string
-  image: string
-  author: {
-    name: string
-    avatar: string
-  }
-  likes: number
-}
-
-interface FavoriteProduct {
-  id: number
-  title: string
-  price: string
-  image: string
-  shop: string
-}
+import type { FavoritePost, FavoriteProduct } from "@/hooks/useFavorites"
 
 interface FavoritesListProps {
   type: "posts" | "products"

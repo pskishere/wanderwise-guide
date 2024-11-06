@@ -1,5 +1,16 @@
 import { useInfiniteQuery } from "@tanstack/react-query"
 
+interface FavoritePost {
+  id: number
+  title: string
+  image: string
+  author: {
+    name: string
+    avatar: string
+  }
+  likes: number
+}
+
 interface FavoriteProduct {
   id: number
   title: string
@@ -31,20 +42,6 @@ const fetchFavorites = async ({ pageParam = 1 }): Promise<FavoritesResponse> => 
       price: "¥299",
       image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&q=80",
       shop: "MUJI无印良品旗舰店"
-    },
-    {
-      id: 3,
-      title: "Apple AirPods Pro 2代",
-      price: "¥1799",
-      image: "https://images.unsplash.com/photo-1588423771073-b8903fbb85b5?w=800&q=80",
-      shop: "Apple官方旗舰店"
-    },
-    {
-      id: 4,
-      title: "星巴克派克市场咖啡豆",
-      price: "¥128",
-      image: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=800&q=80",
-      shop: "星巴克官方旗舰店"
     }
   ]
 
@@ -67,3 +64,5 @@ export const useFavorites = () => {
     initialPageParam: 1
   })
 }
+
+export type { FavoritePost, FavoriteProduct }

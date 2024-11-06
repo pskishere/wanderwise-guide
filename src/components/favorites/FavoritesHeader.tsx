@@ -1,11 +1,22 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { BookmarkIcon, ShoppingBagIcon } from "lucide-react"
+import { FavoritesList } from "./FavoritesList"
+import { useFavorites } from "@/hooks/useFavorites"
 
 interface FavoritesHeaderProps {
   defaultValue: string;
 }
 
 export const FavoritesHeader = ({ defaultValue }: FavoritesHeaderProps) => {
+  const { 
+    data: products, 
+    isLoading: isProductsLoading,
+    fetchNextPage: fetchNextProducts,
+    hasNextPage: hasNextProducts
+  } = useFavorites()
+
+  const allProducts = products?.pages.flatMap(page => page.items) || []
+
   return (
     <Tabs defaultValue={defaultValue} className="w-full">
       <TabsList className="w-full h-10 bg-white/90 backdrop-blur-sm sticky top-20 z-10 p-0.5 gap-0.5 rounded-xl shadow-sm">
@@ -28,6 +39,26 @@ export const FavoritesHeader = ({ defaultValue }: FavoritesHeaderProps) => {
           </div>
         </TabsTrigger>
       </TabsList>
+
+      <TabsContent value="posts" className="mt-4">
+        <FavoritesList 
+          type="posts"
+          items={[]}
+          isLoading={false}
+          hasNextPage={false}
+          fetchNextPage={() => {}}
+        />
+      </TabsContent>
+
+      <TabsContent value="products" className="mt-4">
+        <FavoritesList 
+          type="products"
+          items={allProducts}
+          isLoading={isProductsLoading}
+          hasNextPage={hasNextProducts}
+          fetchNextPage={fetchNextProducts}
+        />
+      </TabsContent>
     </Tabs>
   )
 }
