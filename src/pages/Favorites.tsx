@@ -22,9 +22,8 @@ const Favorites = () => {
       
       <div className="container mx-auto px-4 pt-20 max-w-7xl">
         <h1 className="text-2xl font-bold">我的收藏</h1>
-        
         <Tabs defaultValue="posts">
-          <FavoritesHeader defaultValue="posts" />
+          <FavoritesHeader />
 
           <div className="mt-6">
             <TabsContent value="posts" className="focus-visible:outline-none">
