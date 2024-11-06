@@ -10,7 +10,6 @@ export { default as createPostReducer } from '../createPostSlice';
 export { default as keywordReducer } from '../keywordSlice';
 export { default as commentReducer } from './commentSlice';
 export { default as notificationReducer } from './notificationSlice';
-export { default as favoriteReducer } from './favoriteSlice';
 export { default as destinationReducer } from './destinationSlice';
 
 // Export action creators
@@ -26,5 +25,4 @@ export * from '../createPostSlice';
 export * from '../keywordSlice';
 export * from './commentSlice';
 export * from './notificationSlice';
-export * from './favoriteSlice';
 export * from './destinationSlice';
