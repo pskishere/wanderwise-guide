@@ -23,6 +23,12 @@ export interface Product {
   richDescription?: string;
 }
 
+export interface ProductCategory {
+  id: number;
+  name: string;
+  image: string;
+}
+
 export interface PageData<T> {
   items: T[];
   nextCursor?: number;

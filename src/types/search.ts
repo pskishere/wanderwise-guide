@@ -14,3 +14,11 @@ export interface SearchResult {
   likes?: number
   comments?: number
 }
+
+export interface SearchFilters {
+  type?: 'post' | 'product';
+  minPrice?: number;
+  maxPrice?: number;
+  sortBy?: 'price' | 'date' | 'popularity';
+  tags?: string[];
+}
