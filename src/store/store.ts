@@ -15,6 +15,7 @@ export const store = configureStore({
     keyword: reducers.keywordReducer,
     comment: reducers.commentReducer,
     notification: reducers.notificationReducer,
+    favorite: reducers.favoriteReducer,
     destination: reducers.destinationReducer
   }
 });
