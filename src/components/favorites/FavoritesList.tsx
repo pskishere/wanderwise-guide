@@ -2,7 +2,7 @@ import { useInfiniteScroll } from "@/hooks"
 import { useFavorites } from "@/hooks/useFavorites"
 import { Card } from "@/components/ui/card"
 import { Avatar } from "@/components/ui/avatar"
-import { Heart, MessageCircle, Store } from "lucide-react"
+import { Heart, MessageCircle, Store, Tag } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { FavoritesSkeleton } from "./FavoritesSkeleton"
 import { EmptyState } from "./EmptyState"
@@ -81,11 +81,26 @@ export const FavoritesList = ({ type }: FavoritesListProps) => {
                 </div>
                 <div className="px-2 pt-4 pb-3">
                   <h3 className="text-sm font-medium line-clamp-2 mb-2">{item.title}</h3>
-                  <div className="flex items-center justify-between">
-                    <span className="text-red-600 font-medium">{item.price}</span>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-red-600 font-medium">{item.price}</span>
+                      <span className="text-xs text-gray-400">已售{item.sales || 0}</span>
+                    </div>
+                    {item.tags && (
+                      <div className="flex items-center gap-2">
+                        <Tag className="h-3.5 w-3.5 text-gray-400" />
+                        <div className="flex gap-2">
+                          {item.tags.map((tag, index) => (
+                            <span key={index} className="text-xs text-gray-500">
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                     <div className="flex items-center gap-1">
                       <Store className="h-3.5 w-3.5 text-gray-400" />
-                      <span className="text-xs text-gray-500">商城</span>
+                      <span className="text-xs text-gray-500">{item.shop || '商城'}</span>
                     </div>
                   </div>
                 </div>
