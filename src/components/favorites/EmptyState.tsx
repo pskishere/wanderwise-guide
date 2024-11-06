@@ -1,14 +1,14 @@
-import { Heart } from "lucide-react"
+import { BookmarkIcon } from "lucide-react"
 
 interface EmptyStateProps {
   type: "posts" | "products"
 }
 
-export const EmptyState = ({ type }: EmptyStateProps) => {
-  return (
-    <div className="py-12 flex flex-col items-center gap-4 text-gray-500">
-      <Heart className="h-12 w-12 stroke-1" />
-      <p>暂无{type === "posts" ? "帖子" : "商品"}收藏</p>
-    </div>
-  )
-}
+export const EmptyState = ({ type }: EmptyStateProps) => (
+  <div className="flex flex-col items-center justify-center py-12">
+    <BookmarkIcon className="h-12 w-12 mb-4 text-gray-400" />
+    <p className="text-gray-500">
+      {type === "posts" ? "暂无收藏的游记" : "暂无收藏的商品"}
+    </p>
+  </div>
+)

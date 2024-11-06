@@ -1,19 +1,33 @@
-import { ChevronLeft } from "lucide-react"
-import { useNavigate } from "react-router-dom"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { BookmarkIcon, ShoppingBagIcon } from "lucide-react"
 
-export const FavoritesHeader = () => {
-  const navigate = useNavigate()
-  
+interface FavoritesHeaderProps {
+  defaultValue: string;
+}
+
+export const FavoritesHeader = ({ defaultValue }: FavoritesHeaderProps) => {
   return (
-    <div className="sticky top-0 z-10 bg-white border-b">
-      <div className="container max-w-2xl mx-auto px-4">
-        <div className="h-14 flex items-center gap-4">
-          <button onClick={() => navigate(-1)}>
-            <ChevronLeft className="h-6 w-6" />
-          </button>
-          <h1 className="text-lg font-medium">我的收藏</h1>
-        </div>
-      </div>
-    </div>
+    <Tabs defaultValue={defaultValue} className="w-full">
+      <TabsList className="w-full h-10 bg-white/90 backdrop-blur-sm sticky top-20 z-10 p-0.5 gap-0.5 rounded-xl shadow-sm">
+        <TabsTrigger 
+          value="posts" 
+          className="w-1/2 h-9 data-[state=active]:bg-pink-500 data-[state=active]:text-white data-[state=inactive]:text-gray-700 rounded-lg transition-all duration-300 text-xs font-medium"
+        >
+          <div className="flex items-center gap-2">
+            <BookmarkIcon className="w-4 h-4" />
+            游记
+          </div>
+        </TabsTrigger>
+        <TabsTrigger 
+          value="products" 
+          className="w-1/2 h-9 data-[state=active]:bg-pink-500 data-[state=active]:text-white data-[state=inactive]:text-gray-700 rounded-lg transition-all duration-300 text-xs font-medium"
+        >
+          <div className="flex items-center gap-2">
+            <ShoppingBagIcon className="w-4 h-4" />
+            商品
+          </div>
+        </TabsTrigger>
+      </TabsList>
+    </Tabs>
   )
 }

@@ -1,28 +1,54 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Navigation } from "@/components/Navigation"
+import { BottomNav } from "@/components/BottomNav"
 import { FavoritesList } from "@/components/favorites/FavoritesList"
 import { FavoritesHeader } from "@/components/favorites/FavoritesHeader"
+import { TabsContent } from "@/components/ui/tabs"
+import { useFavorites } from "@/hooks/useFavorites"
 
 const Favorites = () => {
+  const { 
+    data, 
+    isLoading, 
+    fetchNextPage, 
+    hasNextPage 
+  } = useFavorites()
+
+  const allItems = data?.pages.flatMap(page => page.items) || []
+  const allProducts = data?.pages.flatMap(page => page.products) || []
+
   return (
-    <div className="min-h-screen bg-gray-50/50">
-      <FavoritesHeader />
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white pb-20">
+      <Navigation />
       
-      <div className="container max-w-2xl mx-auto px-4 py-6">
-        <Tabs defaultValue="posts" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="posts">帖子收藏</TabsTrigger>
-            <TabsTrigger value="products">商品收藏</TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="posts">
-            <FavoritesList type="posts" />
+      <div className="container mx-auto px-4 pt-20 max-w-7xl">
+        <h1 className="text-2xl font-bold">我的收藏</h1>
+        
+        <FavoritesHeader defaultValue="posts" />
+
+        <div className="mt-6">
+          <TabsContent value="posts" className="focus-visible:outline-none">
+            <FavoritesList
+              type="posts"
+              items={allItems}
+              isLoading={isLoading}
+              hasNextPage={hasNextPage}
+              fetchNextPage={fetchNextPage}
+            />
           </TabsContent>
           
-          <TabsContent value="products">
-            <FavoritesList type="products" />
+          <TabsContent value="products" className="focus-visible:outline-none">
+            <FavoritesList
+              type="products"
+              items={allProducts}
+              isLoading={isLoading}
+              hasNextPage={hasNextPage}
+              fetchNextPage={fetchNextPage}
+            />
           </TabsContent>
-        </Tabs>
+        </div>
       </div>
+
+      <BottomNav />
     </div>
   )
 }
