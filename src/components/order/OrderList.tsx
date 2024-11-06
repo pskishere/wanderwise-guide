@@ -78,27 +78,27 @@ export const OrderList = ({ orders, isLoading }: OrderListProps) => {
             </div>
           ))}
 
-          <div className="flex flex-col pt-3 border-t">
-            <div className="text-sm text-gray-500 mb-2">
-              共{order.items.reduce((sum, item) => sum + item.quantity, 0)}件商品
-            </div>
-            <div className="flex items-center justify-between">
+          <div className="pt-3 border-t">
+            <div className="flex items-center justify-between mb-3">
+              <div className="text-sm text-gray-500">
+                共{order.items.reduce((sum, item) => sum + item.quantity, 0)}件商品
+              </div>
               <div className="text-sm">
                 <span className="text-gray-500">实付</span>
                 <span className="ml-2 text-base font-medium text-gray-900">¥{order.totalAmount}</span>
               </div>
-              <div className="flex gap-2">
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => navigate(`/orders/${order.id}`)}
-                >
-                  查看详情
-                </Button>
-                {order.status === "待付款" && (
-                  <Button size="sm" className="bg-pink-500 hover:bg-pink-600">立即付款</Button>
-                )}
-              </div>
+            </div>
+            <div className="flex justify-end gap-2">
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => navigate(`/orders/${order.id}`)}
+              >
+                查看详情
+              </Button>
+              {order.status === "待付款" && (
+                <Button size="sm" className="bg-pink-500 hover:bg-pink-600">立即付款</Button>
+              )}
             </div>
           </div>
         </Card>
