@@ -10,7 +10,7 @@ interface CreatePostState {
     products?: {
       id: number;
       title: string;
-      price: number;
+      price: string;
       image: string;
     }[];
   };

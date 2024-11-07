@@ -64,8 +64,6 @@ export {
 } from './createPostSlice';
 
 export {
-  setLoading as setCartLoading,
-  setError as setCartError,
   setItems,
   toggleSelectAll,
   toggleSelectItem,

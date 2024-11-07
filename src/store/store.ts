@@ -10,13 +10,7 @@ export const store = configureStore({
     search: reducers.searchReducer,
     order: reducers.orderReducer,
     checkout: reducers.checkoutReducer,
-    user: reducers.userReducer,
-    createPost: reducers.createPostReducer,
-    keyword: reducers.keywordReducer,
-    comment: reducers.commentReducer,
-    notification: reducers.notificationReducer,
-    favorite: reducers.favoriteReducer,
-    destination: reducers.destinationReducer
+    createPost: reducers.createPostReducer
   }
 });
 
