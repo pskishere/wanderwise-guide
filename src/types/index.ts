@@ -1,8 +1,16 @@
-import type { Post, Comment } from './post';
+import type { Post, Comment, PageData } from './post';
 import type { Product, ProductCategory } from './product';
 import type { SearchResult, SearchFilters } from './search';
 
-export type { Post, Comment, Product, ProductCategory, SearchResult, SearchFilters };
+export type { 
+  Post, 
+  Comment, 
+  PageData,
+  Product, 
+  ProductCategory, 
+  SearchResult, 
+  SearchFilters 
+};
 
 export interface User {
   id: number;

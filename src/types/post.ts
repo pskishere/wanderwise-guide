@@ -3,6 +3,7 @@ export interface Post {
   title: string;
   content: string;
   images: string[];
+  image?: string; // For backwards compatibility
   author: {
     id: number;
     name: string;
@@ -15,4 +16,23 @@ export interface Post {
   };
   tags: string[];
   createdAt: string;
+  likes?: number; // For backwards compatibility
+  comments?: number; // For backwards compatibility
+}
+
+export interface Comment {
+  id: number;
+  author: {
+    name: string;
+    avatar: string;
+  };
+  content: string;
+  time: string;
+  likes: number;
+  replies?: Comment[];
+}
+
+export interface PageData<T> {
+  items: T[];
+  nextCursor?: number;
 }
