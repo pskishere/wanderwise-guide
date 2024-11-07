@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { mockUsers } from '../mocks';
+import { mockUsers, mockFollowers, mockFollowing } from '../mocks';
 
 export interface UserProfile {
   nickname: string;
@@ -10,9 +10,19 @@ export interface UserProfile {
   isAdmin: boolean;
 }
 
+export interface FollowUser {
+  id: number;
+  name: string;
+  avatar: string;
+  bio: string;
+  isFollowing: boolean;
+}
+
 export interface UserState {
   profile: UserProfile | null;
   user: UserProfile | null;
+  followers: FollowUser[];
+  following: FollowUser[];
   loading: boolean;
   error: string | null;
 }
@@ -20,6 +30,8 @@ export interface UserState {
 const initialState: UserState = {
   profile: mockUsers[0],
   user: mockUsers[0],
+  followers: mockFollowers,
+  following: mockFollowing,
   loading: false,
   error: null
 };
@@ -34,6 +46,18 @@ export const userSlice = createSlice({
     setUser: (state, action: PayloadAction<UserProfile>) => {
       state.user = action.payload;
     },
+    setFollowers: (state, action: PayloadAction<FollowUser[]>) => {
+      state.followers = action.payload;
+    },
+    setFollowing: (state, action: PayloadAction<FollowUser[]>) => {
+      state.following = action.payload;
+    },
+    toggleFollow: (state, action: PayloadAction<number>) => {
+      const userId = action.payload;
+      state.following = state.following.map(user => 
+        user.id === userId ? { ...user, isFollowing: !user.isFollowing } : user
+      );
+    },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
     },
@@ -43,5 +67,14 @@ export const userSlice = createSlice({
   }
 });
 
-export const { setProfile, setUser, setLoading, setError } = userSlice.actions;
+export const { 
+  setProfile, 
+  setUser, 
+  setFollowers, 
+  setFollowing,
+  toggleFollow, 
+  setLoading, 
+  setError 
+} = userSlice.actions;
+
 export default userSlice.reducer;

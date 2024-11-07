@@ -1,45 +1,24 @@
 import { Navigation } from "@/components/Navigation"
 import { BottomNav } from "@/components/BottomNav"
 import { Button } from "@/components/ui/button"
-import { useQuery } from "@tanstack/react-query"
 import { useToast } from "@/hooks/use-toast"
-
-interface FollowingUser {
-  id: number
-  name: string
-  avatar: string
-  bio: string
-  isFollowing: boolean
-}
+import { useSelector, useDispatch } from "react-redux"
+import { RootState } from "@/store/types"
+import { toggleFollow } from "@/store/slices/userSlice"
 
 const UserFollowing = () => {
   const { toast } = useToast()
-  
-  const { data: users, isLoading } = useQuery<FollowingUser[]>({
-    queryKey: ['following'],
-    queryFn: async () => {
-      // 模拟API调用
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      return [
-        {
-          id: 1,
-          name: "旅行达人",
-          avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&q=80",
-          bio: "分享旅行中的美好时刻",
-          isFollowing: true
-        },
-        // ... 其他关注用户数据
-      ]
-    }
-  })
+  const dispatch = useDispatch()
+  const { following, loading } = useSelector((state: RootState) => state.user)
 
   const handleUnfollow = (userId: number) => {
+    dispatch(toggleFollow(userId))
     toast({
       description: "已取消关注",
     })
   }
 
-  if (isLoading) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-gray-50">
         <Navigation />
@@ -71,7 +50,7 @@ const UserFollowing = () => {
         <h1 className="text-xl font-bold mb-6">我的关注</h1>
         
         <div className="space-y-4">
-          {users?.map(user => (
+          {following?.map(user => (
             <div key={user.id} className="bg-white p-4 rounded-xl shadow-sm">
               <div className="flex items-center gap-3">
                 <img 

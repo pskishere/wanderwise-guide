@@ -2,45 +2,24 @@ import { Navigation } from "@/components/Navigation"
 import { BottomNav } from "@/components/BottomNav"
 import { Avatar } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-import { useQuery } from "@tanstack/react-query"
 import { useToast } from "@/hooks/use-toast"
-
-interface Follower {
-  id: number
-  name: string
-  avatar: string
-  bio: string
-  isFollowing: boolean
-}
+import { useSelector, useDispatch } from "react-redux"
+import { RootState } from "@/store/types"
+import { toggleFollow } from "@/store/slices/userSlice"
 
 const UserFollowers = () => {
   const { toast } = useToast()
-  
-  const { data: followers, isLoading } = useQuery<Follower[]>({
-    queryKey: ['followers'],
-    queryFn: async () => {
-      // 模拟API调用
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      return [
-        {
-          id: 1,
-          name: "美食家",
-          avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&q=80",
-          bio: "探索舌尖上的美味",
-          isFollowing: false
-        },
-        // ... 其他粉丝数据
-      ]
-    }
-  })
+  const dispatch = useDispatch()
+  const { followers, loading } = useSelector((state: RootState) => state.user)
 
   const handleFollow = (userId: number) => {
+    dispatch(toggleFollow(userId))
     toast({
       description: "关注成功",
     })
   }
 
-  if (isLoading) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-gray-50">
         <Navigation />
