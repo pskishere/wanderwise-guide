@@ -1,21 +1,27 @@
 import { configureStore } from '@reduxjs/toolkit'
-import * as reducers from './slices'
+import {
+  cartReducer,
+  productReducer,
+  postReducer,
+  addressReducer,
+  searchReducer,
+  orderReducer,
+  checkoutReducer,
+  createPostReducer,
+  userReducer
+} from './slices'
 
 export const store = configureStore({
   reducer: {
-    cart: reducers.cartReducer,
-    product: reducers.productReducer,
-    post: reducers.postReducer,
-    address: reducers.addressReducer,
-    search: reducers.searchReducer,
-    order: reducers.orderReducer,
-    checkout: reducers.checkoutReducer,
-    createPost: reducers.createPostReducer,
-    user: reducers.userReducer,
-    comment: reducers.commentReducer,
-    notification: reducers.notificationReducer,
-    favorite: reducers.favoriteReducer,
-    destination: reducers.destinationReducer
+    cart: cartReducer,
+    product: productReducer,
+    post: postReducer,
+    address: addressReducer,
+    search: searchReducer,
+    order: orderReducer,
+    checkout: checkoutReducer,
+    createPost: createPostReducer,
+    user: userReducer
   }
 })
 

@@ -1,16 +1,12 @@
-import cartReducer from './cartSlice'
-import productReducer from './productSlice'
-import postReducer from './postSlice'
-import addressReducer from './addressSlice'
-import searchReducer from './searchSlice'
-import orderReducer from './orderSlice'
-import checkoutReducer from './checkoutSlice'
-import createPostReducer from './createPostSlice'
-import userReducer from './userSlice'
-import commentReducer from './commentSlice'
-import notificationReducer from './notificationSlice'
-import favoriteReducer from './favoriteSlice'
-import destinationReducer from './destinationSlice'
+import cartReducer, * as cartActions from './cartSlice'
+import productReducer, * as productActions from './productSlice'
+import postReducer, * as postActions from './postSlice'
+import addressReducer, * as addressActions from './addressSlice'
+import searchReducer, * as searchActions from './searchSlice'
+import orderReducer, * as orderActions from './orderSlice'
+import checkoutReducer, * as checkoutActions from './checkoutSlice'
+import createPostReducer, * as createPostActions from './createPostSlice'
+import userReducer, * as userActions from './userSlice'
 
 export {
   cartReducer,
@@ -21,23 +17,17 @@ export {
   orderReducer,
   checkoutReducer,
   createPostReducer,
-  userReducer,
-  commentReducer,
-  notificationReducer,
-  favoriteReducer,
-  destinationReducer
+  userReducer
 }
 
-export * from './cartSlice'
-export * from './productSlice'
-export * from './postSlice'
-export * from './addressSlice'
-export * from './searchSlice'
-export * from './orderSlice'
-export * from './checkoutSlice'
-export * from './createPostSlice'
-export * from './userSlice'
-export * from './commentSlice'
-export * from './notificationSlice'
-export * from './favoriteSlice'
-export * from './destinationSlice'
+export {
+  cartActions,
+  productActions,
+  postActions,
+  addressActions,
+  searchActions,
+  orderActions,
+  checkoutActions,
+  createPostActions,
+  userActions
+}
