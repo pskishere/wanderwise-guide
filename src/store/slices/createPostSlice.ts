@@ -1,5 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+interface Product {
+  id: number;
+  title: string;
+  price: string;
+  image: string;
+}
+
 interface CreatePostState {
   draft: {
     title: string;
@@ -7,12 +14,7 @@ interface CreatePostState {
     images: string[];
     tags: string[];
     location: string;
-    products?: {
-      id: number;
-      title: string;
-      price: string;
-      image: string;
-    }[];
+    products?: Product[];
   };
   loading: boolean;
   error: string | null;
@@ -35,9 +37,6 @@ export const createPostSlice = createSlice({
   name: 'createPost',
   initialState,
   reducers: {
-    setLoading: (state, action: PayloadAction<boolean>) => {
-      state.loading = action.payload;
-    },
     setDraft: (state, action: PayloadAction<Partial<CreatePostState['draft']>>) => {
       state.draft = { ...state.draft, ...action.payload };
     },
@@ -57,17 +56,24 @@ export const createPostSlice = createSlice({
     },
     clearDraft: (state) => {
       state.draft = initialState.draft;
+    },
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload;
+    },
+    setError: (state, action: PayloadAction<string | null>) => {
+      state.error = action.payload;
     }
   }
 });
 
-export const {
-  setLoading,
-  setDraft,
-  addImage,
-  removeImage,
+export const { 
+  setDraft, 
+  addImage, 
+  removeImage, 
   toggleTag,
-  clearDraft
+  clearDraft,
+  setLoading,
+  setError
 } = createPostSlice.actions;
 
 export default createPostSlice.reducer;

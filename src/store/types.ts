@@ -7,3 +7,9 @@ export interface AsyncState {
   loading: boolean;
   error: string | null;
 }
+
+export interface PaginatedState<T> extends AsyncState {
+  items: T[];
+  hasMore: boolean;
+  page: number;
+}

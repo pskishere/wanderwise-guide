@@ -5,9 +5,9 @@ import { RelatedProducts } from "@/components/product/RelatedProducts"
 import { Navigation } from "@/components/Navigation"
 import { useToast } from "@/hooks/use-toast"
 import { useSelector, useDispatch } from "react-redux"
-import { RootState } from "@/store"
-import { setProductLoading, setProductError } from "@/store/slices"
+import { RootState } from "@/store/store"
 import { useEffect } from "react"
+import { setLoading, setError } from "@/store/productSlice"
 
 const ProductDetail = () => {
   const { id } = useParams()
@@ -18,17 +18,17 @@ const ProductDetail = () => {
   const product = products.find(p => p.id.toString() === id)
 
   useEffect(() => {
-    dispatch(setProductLoading(true))
+    dispatch(setLoading(true))
     // 模拟API调用
     setTimeout(() => {
       if (!product) {
-        dispatch(setProductError("商品不存在"))
+        dispatch(setError("商品不存在"))
         toast({
           variant: "destructive",
           description: "加载商品信息失败，请稍后重试",
         })
       }
-      dispatch(setProductLoading(false))
+      dispatch(setLoading(false))
     }, 1000)
   }, [dispatch, id, product, toast])
 

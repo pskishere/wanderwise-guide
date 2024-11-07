@@ -1,16 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AsyncState } from './types';
+import { Product } from '@/types/product';
+import { mockProducts } from '@/services/mockData';
 
-interface Product {
-  id: number;
-  title: string;
-  price: number;
-  image: string;
-  category: string;
-}
-
-interface ProductState extends AsyncState {
+interface ProductState {
   products: Product[];
+  loading: boolean;
+  error: string | null;
   currentPage: number;
   hasMore: boolean;
 }
@@ -19,11 +14,11 @@ const initialState: ProductState = {
   products: [],
   loading: false,
   error: null,
-  currentPage: 1,
+  currentPage: 0,
   hasMore: true
 };
 
-const productSlice = createSlice({
+export const productSlice = createSlice({
   name: 'product',
   initialState,
   reducers: {
@@ -46,19 +41,27 @@ const productSlice = createSlice({
       state.hasMore = action.payload;
     },
     filterByCategory: (state, action: PayloadAction<string>) => {
-      // Implementation for filtering by category
+      const category = action.payload;
+      if (category === 'all') {
+        state.products = mockProducts;
+      } else {
+        state.products = mockProducts.filter(product => 
+          product.tags.some(tag => tag.includes(category)) ||
+          product.title.includes(category)
+        );
+      }
     }
   }
 });
 
-export const {
-  setLoading,
-  setError,
-  setProducts,
+export const { 
+  setLoading, 
+  setError, 
+  setProducts, 
   appendProducts,
   setCurrentPage,
   setHasMore,
-  filterByCategory
+  filterByCategory 
 } = productSlice.actions;
 
 export default productSlice.reducer;

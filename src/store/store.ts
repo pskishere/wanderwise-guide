@@ -10,8 +10,15 @@ export const store = configureStore({
     search: reducers.searchReducer,
     order: reducers.orderReducer,
     checkout: reducers.checkoutReducer,
-    createPost: reducers.createPostReducer
+    user: reducers.userReducer,
+    createPost: reducers.createPostReducer,
+    keyword: reducers.keywordReducer,
+    comment: reducers.commentReducer,
+    notification: reducers.notificationReducer,
+    favorite: reducers.favoriteReducer,
+    destination: reducers.destinationReducer
   }
 });
 
-export type { RootState, AppDispatch } from './types';
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
