@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Product } from '@/types/product';
-import { mockProducts } from '@/services/mockData';
 
 interface ProductState {
   products: Product[];
@@ -39,29 +38,17 @@ export const productSlice = createSlice({
     },
     setHasMore: (state, action: PayloadAction<boolean>) => {
       state.hasMore = action.payload;
-    },
-    filterByCategory: (state, action: PayloadAction<string>) => {
-      const category = action.payload;
-      if (category === 'all') {
-        state.products = mockProducts;
-      } else {
-        state.products = mockProducts.filter(product => 
-          product.tags.some(tag => tag.includes(category)) ||
-          product.title.includes(category)
-        );
-      }
     }
   }
 });
 
-export const { 
-  setLoading, 
-  setError, 
-  setProducts, 
+export const {
+  setLoading,
+  setError,
+  setProducts,
   appendProducts,
   setCurrentPage,
-  setHasMore,
-  filterByCategory 
+  setHasMore
 } = productSlice.actions;
 
 export default productSlice.reducer;

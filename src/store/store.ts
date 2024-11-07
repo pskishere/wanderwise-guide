@@ -19,3 +19,5 @@ export const store = configureStore({
     destination: reducers.destinationReducer
   }
 });
+
+export type { RootState, AppDispatch } from './types';

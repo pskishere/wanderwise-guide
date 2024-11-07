@@ -14,75 +14,72 @@ export { default as notificationReducer } from './notificationSlice';
 export { default as favoriteReducer } from './favoriteSlice';
 export { default as destinationReducer } from './destinationSlice';
 
-// Actions
+// Actions from productSlice
 export {
-  setCartLoading,
-  setCartError,
-  setItems,
-  toggleSelectAll,
-  toggleSelectItem,
-  updateQuantity,
-  removeItem
-} from './cartSlice';
-
-export {
-  setProductLoading,
-  setProductError,
+  setLoading as setProductLoading,
+  setError as setProductError,
   setProducts,
   appendProducts,
   setCurrentPage,
-  setProductHasMore,
+  setHasMore as setProductHasMore,
   filterByCategory
 } from './productSlice';
 
+// Actions from postSlice
 export {
-  setPostLoading,
-  setPostError,
+  setLoading as setPostLoading,
+  setError as setPostError,
   setPosts,
-  updatePostLikes,
+  updateLikes as updatePostLikes,
   addComment,
   addReply
 } from './postSlice';
 
+// Actions from addressSlice
 export {
-  setAddressLoading,
-  setAddressError,
+  setLoading as setAddressLoading,
+  setError as setAddressError,
   addAddress,
   updateAddress,
   deleteAddress
 } from './addressSlice';
 
+// Actions from searchSlice
 export {
-  setSearchLoading,
-  setSearchError,
+  setLoading as setSearchLoading,
+  setError as setSearchError,
   setResults
 } from './searchSlice';
 
+// Actions from orderSlice
 export {
-  setOrderLoading,
-  setOrderError,
+  setLoading as setOrderLoading,
+  setError as setOrderError,
   setCurrentOrder,
   updateOrderStatus
 } from './orderSlice';
 
+// Actions from checkoutSlice
 export {
-  setCheckoutLoading,
-  setCheckoutError,
+  setLoading as setCheckoutLoading,
+  setError as setCheckoutError,
   setSelectedItems,
   setSelectedAddress,
   setPaymentMethod
 } from './checkoutSlice';
 
+// Actions from userSlice
 export {
-  setUserLoading,
-  setUserError,
+  setLoading as setUserLoading,
+  setError as setUserError,
   setProfile,
   setUser
 } from './userSlice';
 
+// Actions from createPostSlice
 export {
-  setCreatePostLoading,
-  setCreatePostError,
+  setLoading as setCreatePostLoading,
+  setError as setCreatePostError,
   setDraft,
   addImage,
   removeImage,
@@ -90,11 +87,12 @@ export {
   clearDraft
 } from './createPostSlice';
 
+// Actions from notificationSlice
 export {
-  setNotificationLoading,
-  setNotificationError,
+  setLoading as setNotificationLoading,
+  setError as setNotificationError,
   setNotifications,
-  setNotificationHasMore,
+  setHasMore as setNotificationHasMore,
   setPage,
   markAsRead,
   markAllAsRead,
