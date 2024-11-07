@@ -18,13 +18,22 @@ export const fetchPosts = async (cursor?: number): Promise<PageData<Post>> => {
     id: i + 1,
     title: titles[Math.floor(Math.random() * titles.length)],
     content: "这是一段旅行日记的内容描述...",
-    image: `https://picsum.photos/seed/${i + 1}/400/600`,
+    images: [`https://picsum.photos/seed/${i + 1}/400/600`],
+    image: `https://picsum.photos/seed/${i + 1}/400/600`, // For backwards compatibility
     author: {
+      id: 1,
       name: "旅行者",
       avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&q=80"
     },
-    likes: Math.floor(Math.random() * 1000),
-    comments: Math.floor(Math.random() * 100)
+    stats: {
+      likes: Math.floor(Math.random() * 1000),
+      comments: Math.floor(Math.random() * 100),
+      favorites: Math.floor(Math.random() * 500)
+    },
+    likes: Math.floor(Math.random() * 1000), // For backwards compatibility
+    comments: Math.floor(Math.random() * 100), // For backwards compatibility
+    tags: ["旅行", "日本"],
+    createdAt: new Date().toISOString()
   }));
 
   const start = cursor || 0;
