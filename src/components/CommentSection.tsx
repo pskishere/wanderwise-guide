@@ -4,8 +4,8 @@ import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll"
 import { useDispatch, useSelector } from "react-redux"
-import { RootState } from "@/store/store"
-import { addComment, addReply, updateLikes } from "@/store/slices/commentSlice"
+import { RootState } from "@/store"
+import { addComment, addReply, updateLikes } from "@/store/slices"
 
 interface CommentSectionProps {
   commentCount: number
