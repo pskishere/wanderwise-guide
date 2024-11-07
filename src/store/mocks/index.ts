@@ -1,3 +1,6 @@
+export * from './productMocks';
+export * from './notificationMocks';
+
 export const mockUsers = [
   {
     id: 1,
