@@ -14,44 +14,41 @@ export { default as notificationReducer } from './notificationSlice';
 export { default as favoriteReducer } from './favoriteSlice';
 export { default as destinationReducer } from './destinationSlice';
 
-// Actions from productSlice
+// Export all actions from each slice
 export {
-  setLoading as setProductLoading,
-  setError as setProductError,
+  setLoading,
+  setError,
   setProducts,
   appendProducts,
   setCurrentPage,
-  setHasMore as setProductHasMore,
+  setHasMore,
   filterByCategory
 } from './productSlice';
 
-// Actions from postSlice
 export {
   setLoading as setPostLoading,
   setError as setPostError,
   setPosts,
-  updateLikes as updatePostLikes,
+  updateLikes,
   addComment,
   addReply
 } from './postSlice';
 
-// Actions from addressSlice
 export {
   setLoading as setAddressLoading,
   setError as setAddressError,
   addAddress,
   updateAddress,
-  deleteAddress
+  deleteAddress,
+  setDefaultAddress
 } from './addressSlice';
 
-// Actions from searchSlice
 export {
   setLoading as setSearchLoading,
   setError as setSearchError,
   setResults
 } from './searchSlice';
 
-// Actions from orderSlice
 export {
   setLoading as setOrderLoading,
   setError as setOrderError,
@@ -59,7 +56,6 @@ export {
   updateOrderStatus
 } from './orderSlice';
 
-// Actions from checkoutSlice
 export {
   setLoading as setCheckoutLoading,
   setError as setCheckoutError,
@@ -68,7 +64,6 @@ export {
   setPaymentMethod
 } from './checkoutSlice';
 
-// Actions from userSlice
 export {
   setLoading as setUserLoading,
   setError as setUserError,
@@ -76,7 +71,6 @@ export {
   setUser
 } from './userSlice';
 
-// Actions from createPostSlice
 export {
   setLoading as setCreatePostLoading,
   setError as setCreatePostError,
@@ -87,7 +81,6 @@ export {
   clearDraft
 } from './createPostSlice';
 
-// Actions from notificationSlice
 export {
   setLoading as setNotificationLoading,
   setError as setNotificationError,
@@ -98,3 +91,13 @@ export {
   markAllAsRead,
   clearAll
 } from './notificationSlice';
+
+export {
+  setCartLoading,
+  setCartError,
+  setItems,
+  toggleSelectAll,
+  toggleSelectItem,
+  updateQuantity,
+  removeItem
+} from './cartSlice';
