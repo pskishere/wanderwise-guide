@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card"
 import { useSelector } from "react-redux"
-import { RootState } from "@/store/store"
+import { RootState } from "@/store"
 import { Skeleton } from "@/components/ui/skeleton"
 
 export const PopularDestinations = () => {
