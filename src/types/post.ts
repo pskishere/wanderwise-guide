@@ -2,26 +2,17 @@ export interface Post {
   id: number;
   title: string;
   content: string;
-  image: string;
+  images: string[];
   author: {
+    id: number;
     name: string;
     avatar: string;
   };
-  likes: number;
-  comments: number;
-}
-
-export interface Comment {
-  id: number;
-  content: string;
-  author: {
-    name: string;
-    avatar: string;
+  stats: {
+    likes: number;
+    comments: number;
+    favorites: number;
   };
+  tags: string[];
   createdAt: string;
-}
-
-export interface PageData<T> {
-  items: T[];
-  nextCursor?: number;
 }

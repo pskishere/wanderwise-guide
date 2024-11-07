@@ -4,7 +4,8 @@ import { RootState } from "@/store/store"
 import { Skeleton } from "@/components/ui/skeleton"
 
 export const PopularDestinations = () => {
-  const { destinations, loading, error } = useSelector((state: RootState) => state.destination)
+  const destinationState = useSelector((state: RootState) => state.destination)
+  const { destinations = [], loading = false, error = null } = destinationState || {}
 
   if (loading) {
     return (

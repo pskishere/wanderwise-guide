@@ -19,7 +19,7 @@ interface CartListProps {
 export const CartList = ({ isLoading }: CartListProps) => {
   const { toast } = useToast()
   const dispatch = useDispatch()
-  const items = useSelector((state: RootState) => state.cart.items)
+  const items = useSelector((state: RootState) => state.cart.items) || []
   const [swipedItemId, setSwipedItemId] = useState<number | null>(null)
 
   const handleQuantityChange = (id: number, type: 'increase' | 'decrease' | 'input', value?: number) => {

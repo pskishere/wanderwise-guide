@@ -1,38 +1,15 @@
-import { combineReducers } from '@reduxjs/toolkit';
-import cartReducer from './cartSlice';
-import productReducer from './productSlice';
-import postReducer from './postSlice';
-import addressReducer from './addressSlice';
-import searchReducer from './searchSlice';
-import orderReducer from './orderSlice';
-import checkoutReducer from './checkoutSlice';
-import userReducer from './userSlice';
-import createPostReducer from './createPostSlice';
-import keywordReducer from './keywordSlice';
-import commentReducer from './commentSlice';
-import notificationReducer from './notificationSlice';
-import favoriteReducer from './favoriteSlice';
-import destinationReducer from './destinationSlice';
-import postDetailReducer from './postDetailSlice';
-
-const rootReducer = combineReducers({
-  cart: cartReducer,
-  product: productReducer,
-  post: postReducer,
-  postDetail: postDetailReducer,
-  address: addressReducer,
-  search: searchReducer,
-  order: orderReducer,
-  checkout: checkoutReducer,
-  user: userReducer,
-  createPost: createPostReducer,
-  keyword: keywordReducer,
-  comment: commentReducer,
-  notification: notificationReducer,
-  favorite: favoriteReducer,
-  destination: destinationReducer
-});
-
-export type RootState = ReturnType<typeof rootReducer>;
-
-export default rootReducer;
+export { default as cartReducer } from './cartSlice';
+export { default as productReducer } from './productSlice';
+export { default as postReducer } from './postSlice';
+export { default as postDetailReducer } from './postDetailSlice';
+export { default as addressReducer } from './addressSlice';
+export { default as searchReducer } from './searchSlice';
+export { default as orderReducer } from './orderSlice';
+export { default as checkoutReducer } from './checkoutSlice';
+export { default as userReducer } from './userSlice';
+export { default as createPostReducer } from './createPostSlice';
+export { default as keywordReducer } from './keywordSlice';
+export { default as commentReducer } from './commentSlice';
+export { default as notificationReducer } from './notificationSlice';
+export { default as favoriteReducer } from './favoriteSlice';
+export { default as destinationReducer } from './destinationSlice';

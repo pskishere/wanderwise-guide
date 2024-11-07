@@ -12,7 +12,7 @@ interface CartSummaryProps {
 export const CartSummary = ({ onCheckout }: CartSummaryProps) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const items = useSelector((state: RootState) => state.cart.items)
+  const items = useSelector((state: RootState) => state.cart.items) || []
   
   const totalAmount = items
     .filter(item => item.selected)

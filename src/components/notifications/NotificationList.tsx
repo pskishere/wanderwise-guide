@@ -14,7 +14,7 @@ export function NotificationList() {
   const { toast } = useToast()
   const dispatch = useDispatch()
   const notificationState = useSelector((state: RootState) => state.notification)
-  const { notifications, hasMore, page, loading } = notificationState || { notifications: [], hasMore: true, page: 1, loading: false }
+  const { notifications = [], hasMore = true, page = 1, loading = false } = notificationState || {}
 
   const loadMoreNotifications = async () => {
     if (loading || !hasMore) return
