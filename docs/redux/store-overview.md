@@ -13,10 +13,8 @@ interface RootState {
   checkout: CheckoutState
   user: UserState
   createPost: CreatePostState
-  keyword: KeywordState
   comment: CommentState
   notification: NotificationState
-  favorite: FavoriteState
   destination: DestinationState
 }
 ```

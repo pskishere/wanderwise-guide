@@ -8,7 +8,10 @@ import {
   orderReducer,
   checkoutReducer,
   createPostReducer,
-  userReducer
+  userReducer,
+  commentReducer,
+  notificationReducer,
+  destinationReducer
 } from './slices'
 
 export const store = configureStore({
@@ -21,7 +24,10 @@ export const store = configureStore({
     order: orderReducer,
     checkout: checkoutReducer,
     createPost: createPostReducer,
-    user: userReducer
+    user: userReducer,
+    comment: commentReducer,
+    notification: notificationReducer,
+    destination: destinationReducer
   }
 })
 
