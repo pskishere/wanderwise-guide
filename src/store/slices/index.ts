@@ -14,16 +14,15 @@ export {
   setProducts,
   appendProducts,
   setCurrentPage,
-  setHasMore
+  setHasMore,
+  filterByCategory
 } from './productSlice';
 
 export {
   setLoading as setPostLoading,
   setError as setPostError,
   setPosts,
-  updateLikes,
-  addComment,
-  addReply
+  updateLikes
 } from './postSlice';
 
 export {
@@ -63,3 +62,13 @@ export {
   toggleTag,
   clearDraft
 } from './createPostSlice';
+
+export {
+  setLoading as setCartLoading,
+  setError as setCartError,
+  setItems,
+  toggleSelectAll,
+  toggleSelectItem,
+  updateQuantity,
+  removeItem
+} from './cartSlice';
