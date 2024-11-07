@@ -3,11 +3,10 @@ import { BottomNav } from "@/components/BottomNav"
 import { CartList } from "@/components/cart/CartList"
 import { CartSummary } from "@/components/cart/CartSummary"
 import { EmptyCart } from "@/components/cart/EmptyCart"
-import { useQuery } from "@tanstack/react-query"
 import { useToast } from "@/hooks/use-toast"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
-import { setItems } from "@/store/slices/cartSlice"
+import { setItems, setLoading, setError } from "@/store/slices/cartSlice"
 import { setSelectedItems } from "@/store/slices/checkoutSlice"
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
@@ -48,17 +47,27 @@ const Cart = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const items = useSelector((state: RootState) => state.cart.items)
-  
-  const { data: cartItems, isLoading } = useQuery({
-    queryKey: ['cart-items'],
-    queryFn: fetchCartItems
-  })
+  const isLoading = useSelector((state: RootState) => state.cart.loading)
+  const error = useSelector((state: RootState) => state.cart.error)
 
   useEffect(() => {
-    if (cartItems) {
-      dispatch(setItems(cartItems))
+    const loadCartItems = async () => {
+      try {
+        dispatch(setLoading(true))
+        const data = await fetchCartItems()
+        dispatch(setItems(data))
+      } catch (err) {
+        dispatch(setError(err instanceof Error ? err.message : '加载购物车失败'))
+        toast({
+          description: "加载购物车失败",
+        })
+      } finally {
+        dispatch(setLoading(false))
+      }
     }
-  }, [cartItems, dispatch])
+
+    loadCartItems()
+  }, [dispatch, toast])
 
   const handleCheckout = () => {
     const selectedItems = items.filter(item => item.selected)

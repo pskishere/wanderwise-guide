@@ -15,16 +15,26 @@ export interface CartItem {
 
 interface CartState {
   items: CartItem[]
+  loading: boolean
+  error: string | null
 }
 
 const initialState: CartState = {
-  items: []
+  items: [],
+  loading: false,
+  error: null
 }
 
 export const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload
+    },
+    setError: (state, action: PayloadAction<string | null>) => {
+      state.error = action.payload
+    },
     setItems: (state, action: PayloadAction<CartItem[]>) => {
       state.items = action.payload
     },
@@ -52,5 +62,14 @@ export const cartSlice = createSlice({
   }
 })
 
-export const { setItems, toggleSelectAll, toggleSelectItem, updateQuantity, removeItem } = cartSlice.actions
+export const { 
+  setLoading, 
+  setError, 
+  setItems, 
+  toggleSelectAll, 
+  toggleSelectItem, 
+  updateQuantity, 
+  removeItem 
+} = cartSlice.actions
+
 export default cartSlice.reducer
