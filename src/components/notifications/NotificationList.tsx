@@ -121,3 +121,4 @@ export function NotificationList() {
       <div ref={ref} className="h-4" />
     </div>
   )
+}
