@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
-import { mockProducts } from "@/services/mockData"
+import { mockProducts } from "@/store/mocks/productMocks"
 import { ProductSearchResults } from "./ProductSearchResults"
 import { SelectedProducts } from "./SelectedProducts"
 import { Card } from "@/components/ui/card"

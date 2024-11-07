@@ -16,7 +16,7 @@ import {
   setHasMore 
 } from "@/store/slices/productSlice"
 import { useEffect } from "react"
-import { mockProducts } from "@/services/mockData"
+import { mockProducts } from "@/store/mocks/productMocks"
 
 const ITEMS_PER_PAGE = 8;
 

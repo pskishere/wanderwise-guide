@@ -16,7 +16,7 @@ import { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
-import { mockProducts } from "@/services/mockData"
+import { mockProducts } from "@/store/mocks/productMocks"
 import { useDispatch } from "react-redux"
 import { addComment } from "@/store/slices/commentSlice"
 

@@ -1,5 +1,5 @@
 import { Product, PageData } from '@/types/product';
-import { mockProducts } from './mockData';
+import { mockProducts } from '@/store/mocks/productMocks';
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 

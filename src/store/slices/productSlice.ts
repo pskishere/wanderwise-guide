@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Product } from '@/types/product';
-import { mockProducts } from '@/services/mockData';
+import { mockProducts } from '@/store/mocks/productMocks';
 
 interface ProductState {
   products: Product[];
