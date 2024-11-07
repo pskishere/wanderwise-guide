@@ -21,17 +21,14 @@ export {
   setProducts,
   appendProducts,
   setCurrentPage,
-  setHasMore,
-  filterByCategory
+  setHasMore
 } from './productSlice';
 
 export {
   setLoading as setPostLoading,
   setError as setPostError,
   setPosts,
-  updateLikes,
-  addComment,
-  addReply
+  updateLikes
 } from './postSlice';
 
 export {
@@ -73,7 +70,6 @@ export {
 
 export {
   setLoading as setCreatePostLoading,
-  setError as setCreatePostError,
   setDraft,
   addImage,
   removeImage,
@@ -82,8 +78,6 @@ export {
 } from './createPostSlice';
 
 export {
-  setLoading as setNotificationLoading,
-  setError as setNotificationError,
   setNotifications,
   setHasMore as setNotificationHasMore,
   setPage,

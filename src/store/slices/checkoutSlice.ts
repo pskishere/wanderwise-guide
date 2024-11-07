@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { CartItem } from './cartSlice';
+import type { CartItem } from './cartSlice';
 
 export interface CheckoutState {
   selectedItems: CartItem[];

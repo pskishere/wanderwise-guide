@@ -18,7 +18,6 @@ export interface Order {
     name: string;
     phone: string;
     detail: string;
-    fullAddress?: string;
   };
   timeline: {
     time: string;
