@@ -4,6 +4,9 @@ export interface Address {
   id: string
   name: string
   phone: string
+  province: string
+  city: string
+  district: string
   detail: string
   isDefault: boolean
 }
@@ -20,13 +23,19 @@ const initialState: AddressState = {
       id: "1",
       name: "张三",
       phone: "138****8888",
+      province: "浙江省",
+      city: "杭州市",
+      district: "西湖区",
       detail: "文三路 123 号",
       isDefault: true
     },
     {
       id: "2",
-      name: "李四",
+      name: "李四", 
       phone: "139****9999",
+      province: "浙江省",
+      city: "杭州市",
+      district: "滨江区",
       detail: "网商路 599 号",
       isDefault: false
     }

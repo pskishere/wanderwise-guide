@@ -2,6 +2,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
+import { useSelector } from "react-redux"
+import { RootState } from "@/store/store"
 
 interface Address {
   id: string
@@ -18,23 +20,9 @@ interface AddressSelectorProps {
   selectedId?: string
 }
 
-const addresses: Address[] = [
-  {
-    id: "1",
-    name: "张三",
-    phone: "138****8888",
-    detail: "浙江省杭州市西湖区文三路 123 号",
-    isDefault: true
-  },
-  {
-    id: "2", 
-    name: "李四",
-    phone: "139****9999",
-    detail: "浙江省杭州市滨江区网商路 599 号",
-  }
-]
-
 export function AddressSelector({ open, onOpenChange, onSelect, selectedId }: AddressSelectorProps) {
+  const addresses = useSelector((state: RootState) => state.address.addresses)
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className={cn("max-w-md mx-5")}>
