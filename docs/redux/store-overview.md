@@ -21,4 +21,5 @@ interface RootState {
 }
 ```
 
+Mock data for development and testing is centralized in the `store/mocks` directory.
 Each slice manages a specific domain of the application state. See individual documentation files for details on each slice.
