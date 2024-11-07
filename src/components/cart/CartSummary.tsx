@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
-import { toggleSelectAll } from "@/store/cartSlice"
+import { toggleSelectAll } from "@/store/slices/cartSlice"
 import { useNavigate } from "react-router-dom"
 
 interface CartSummaryProps {

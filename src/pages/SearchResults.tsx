@@ -9,7 +9,7 @@ import { SearchResultItem } from "@/components/search/SearchResultItem"
 import { SearchResultSkeleton } from "@/components/search/SearchResultSkeleton"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
-import { setLoading, setError, setResults } from "@/store/searchSlice"
+import { setLoading, setError, setResults } from "@/store/slices/searchSlice"
 import type { SearchResult } from "@/types/search"
 
 const fetchSearchResults = async ({ pageParam = 0, queryKey }: any) => {

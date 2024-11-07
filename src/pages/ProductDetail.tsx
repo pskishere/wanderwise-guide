@@ -7,7 +7,7 @@ import { useToast } from "@/hooks/use-toast"
 import { useSelector, useDispatch } from "react-redux"
 import { RootState } from "@/store/store"
 import { useEffect } from "react"
-import { setLoading, setError } from "@/store/productSlice"
+import { setLoading, setError } from "@/store/slices/productSlice"
 
 const ProductDetail = () => {
   const { id } = useParams()

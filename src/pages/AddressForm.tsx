@@ -9,7 +9,7 @@ import { AddressFormFields } from "@/components/address/AddressFormFields"
 import { Loader2 } from "lucide-react"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
-import { addAddress, updateAddress } from "@/store/addressSlice"
+import { addAddress, updateAddress } from "@/store/slices/addressSlice"
 
 const AddressForm = () => {
   const navigate = useNavigate()

@@ -6,7 +6,7 @@ import { BottomNav } from "@/components/BottomNav"
 import { CreatePostHeader } from "@/components/post/CreatePostHeader"
 import { CreatePostForm } from "@/components/post/CreatePostForm"
 import { RootState } from "@/store/store"
-import { setDraft, clearDraft, setLoading } from "@/store/createPostSlice"
+import { setDraft, clearDraft, setLoading } from "@/store/slices/createPostSlice"
 
 const CreatePost = () => {
   const navigate = useNavigate()

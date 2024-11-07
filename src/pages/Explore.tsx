@@ -14,7 +14,7 @@ import {
   appendProducts, 
   setCurrentPage,
   setHasMore 
-} from "@/store/productSlice"
+} from "@/store/slices/productSlice"
 import { useEffect } from "react"
 import { mockProducts } from "@/services/mockData"
 
