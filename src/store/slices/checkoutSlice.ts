@@ -9,7 +9,7 @@ export interface CheckoutState {
     phone: string;
     detail: string;
   } | null;
-  paymentMethod: 'alipay' | 'wechat';
+  paymentMethod: 'alipay' | 'wechat' | null;
   loading: boolean;
   error: string | null;
 }
@@ -17,7 +17,7 @@ export interface CheckoutState {
 const initialState: CheckoutState = {
   selectedItems: [],
   selectedAddress: null,
-  paymentMethod: 'alipay',
+  paymentMethod: null,
   loading: false,
   error: null
 };
