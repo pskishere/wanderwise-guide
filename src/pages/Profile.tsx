@@ -34,20 +34,6 @@ const Profile = () => {
     followers: "486"
   }
 
-  if (!profile) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">未登录</h2>
-          <p className="text-gray-600 mb-4">请先登录以查看个人资料</p>
-          <Link to="/login">
-            <Button>登录</Button>
-          </Link>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="min-h-screen bg-gray-50">      
       <div className="container mx-auto px-4 pb-24 pt-6">

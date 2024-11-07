@@ -1,35 +1,24 @@
-import { configureStore } from '@reduxjs/toolkit'
-import {
-  cartReducer,
-  productReducer,
-  postReducer,
-  addressReducer,
-  searchReducer,
-  orderReducer,
-  checkoutReducer,
-  createPostReducer,
-  userReducer,
-  commentReducer,
-  notificationReducer,
-  destinationReducer
-} from './slices'
+import { configureStore } from '@reduxjs/toolkit';
+import * as reducers from './slices';
 
 export const store = configureStore({
   reducer: {
-    cart: cartReducer,
-    product: productReducer,
-    post: postReducer,
-    address: addressReducer,
-    search: searchReducer,
-    order: orderReducer,
-    checkout: checkoutReducer,
-    createPost: createPostReducer,
-    user: userReducer,
-    comment: commentReducer,
-    notification: notificationReducer,
-    destination: destinationReducer
+    cart: reducers.cartReducer,
+    product: reducers.productReducer,
+    post: reducers.postReducer,
+    address: reducers.addressReducer,
+    search: reducers.searchReducer,
+    order: reducers.orderReducer,
+    checkout: reducers.checkoutReducer,
+    user: reducers.userReducer,
+    createPost: reducers.createPostReducer,
+    keyword: reducers.keywordReducer,
+    comment: reducers.commentReducer,
+    notification: reducers.notificationReducer,
+    favorite: reducers.favoriteReducer,
+    destination: reducers.destinationReducer
   }
-})
+});
 
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

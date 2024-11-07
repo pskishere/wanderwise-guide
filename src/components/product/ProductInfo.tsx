@@ -1,12 +1,11 @@
 import { Button } from "@/components/ui/button"
 import { Avatar } from "@/components/ui/avatar"
-import { ShoppingCart, Heart, Store, Shield, Package, Truck, Award, MessageCircle } from "lucide-react"
+import { ShoppingCart, Heart, Store, Shield, Package, Truck, Award } from "lucide-react"
 import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
 import { SpecsDrawer } from "./SpecsDrawer"
 import { Badge } from "@/components/ui/badge"
 import MarkdownPreview from '@uiw/react-markdown-preview'
-import { useNavigate } from "react-router-dom"
 
 interface ProductInfoProps {
   product: {
@@ -51,7 +50,6 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
   const [isLiked, setIsLiked] = useState(false)
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const { toast } = useToast()
-  const navigate = useNavigate()
 
   return (
     <div className="space-y-6">
@@ -124,21 +122,6 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
         </div>
       </div>
 
-      <Button
-        variant="ghost"
-        className="w-full justify-between py-6 hover:bg-gray-50"
-        onClick={() => navigate("comments")}
-      >
-        <div className="flex items-center gap-2">
-          <MessageCircle className="h-5 w-5 text-gray-500" />
-          <span className="text-gray-900">商品评论</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-500">查看全部</span>
-          <span className="text-sm text-gray-300">›</span>
-        </div>
-      </Button>
-
       <div className="space-y-1.5 bg-gray-50/50 rounded-lg">
         <h2 className="font-medium flex items-center gap-1.5 text-base">
           <span className="h-3 w-1 bg-pink-500 rounded-full"></span>
@@ -146,12 +129,14 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
         </h2>
       </div>
 
+      {/* 富文本广告内容 */}
       <div className="bg-white rounded-lg p-3">
         <MarkdownPreview 
           source={product.richDescription || adContent}
           className="prose prose-pink max-w-none prose-img:rounded-lg prose-img:shadow-md"
         />
       </div>
+
 
       <SpecsDrawer 
         isOpen={isDrawerOpen}
