@@ -7,6 +7,11 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 
+interface NavigationProps {
+  title?: string;
+  showBack?: boolean;
+}
+
 const suggestions = {
   destinations: [
     { id: 1, name: "东京", type: "city", desc: "日本最大都市" },
@@ -25,7 +30,7 @@ const suggestions = {
   ]
 }
 
-export function Navigation() {
+export function Navigation({ title, showBack }: NavigationProps) {
   const navigate = useNavigate()
   const [margin, setMargin] = useState(8)
   const [open, setOpen] = useState(false)
