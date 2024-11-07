@@ -7,6 +7,9 @@ import orderReducer, * as orderActions from './orderSlice'
 import checkoutReducer, * as checkoutActions from './checkoutSlice'
 import createPostReducer, * as createPostActions from './createPostSlice'
 import userReducer, * as userActions from './userSlice'
+import commentReducer from './commentSlice'
+import notificationReducer from './notificationSlice'
+import destinationReducer from './destinationSlice'
 
 export {
   cartReducer,
@@ -17,9 +20,13 @@ export {
   orderReducer,
   checkoutReducer,
   createPostReducer,
-  userReducer
+  userReducer,
+  commentReducer,
+  notificationReducer,
+  destinationReducer
 }
 
+// Export individual action creators
 export {
   cartActions,
   productActions,

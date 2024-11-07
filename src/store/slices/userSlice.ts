@@ -1,39 +1,45 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface UserProfile {
-  id: string
-  name: string
-  avatar: string
-  bio: string
+export interface UserProfile {
+  id?: string;
+  name: string;
+  nickname: string;
+  userId: string;
+  bio: string;
+  avatar: string;
+  isAdmin: boolean;
 }
 
 interface UserState {
-  profile: UserProfile | null
-  loading: boolean
-  error: string | null
+  profile: UserProfile | null;
+  loading: boolean;
+  error: string | null;
 }
 
 const initialState: UserState = {
   profile: null,
   loading: false,
   error: null
-}
+};
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setProfile: (state, action: PayloadAction<UserProfile | null>) => {
-      state.profile = action.payload
+    setProfile: (state, action: PayloadAction<UserProfile>) => {
+      state.profile = action.payload;
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
-      state.loading = action.payload
+      state.loading = action.payload;
     },
     setError: (state, action: PayloadAction<string | null>) => {
-      state.error = action.payload
+      state.error = action.payload;
+    },
+    clearProfile: (state) => {
+      state.profile = null;
     }
   }
-})
+});
 
-export const { setProfile, setLoading, setError } = userSlice.actions
-export default userSlice.reducer
+export const { setProfile, setLoading, setError, clearProfile } = userSlice.actions;
+export default userSlice.reducer;
