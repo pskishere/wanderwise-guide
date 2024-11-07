@@ -8,8 +8,8 @@ import { Label } from "@/components/ui/label"
 import { ArrowLeft, Camera, Loader2 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useToast } from "@/components/ui/use-toast"
-import { RootState } from "@/store/store"
-import { setProfile, setLoading } from "@/store/userSlice"
+import { RootState } from "@/store"
+import { setProfile, setLoading } from "@/store/slices"
 
 const EditProfile = () => {
   const navigate = useNavigate()

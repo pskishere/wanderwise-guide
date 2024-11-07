@@ -14,7 +14,7 @@ export { default as notificationReducer } from './notificationSlice';
 export { default as favoriteReducer } from './favoriteSlice';
 export { default as destinationReducer } from './destinationSlice';
 
-// Types and actions from each slice
+// Re-export all actions and types from slices
 export * from './cartSlice';
 export * from './productSlice';
 export * from './postSlice';
@@ -29,3 +29,19 @@ export * from './commentSlice';
 export * from './notificationSlice';
 export * from './favoriteSlice';
 export * from './destinationSlice';
+
+// Namespace common actions to avoid conflicts
+export {
+  setLoading as setProductLoading,
+  setError as setProductError
+} from './productSlice';
+
+export {
+  setLoading as setOrderLoading,
+  setError as setOrderError
+} from './orderSlice';
+
+export {
+  setLoading as setUserLoading,
+  setError as setUserError
+} from './userSlice';
