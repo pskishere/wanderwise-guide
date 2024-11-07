@@ -1,10 +1,3 @@
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel"
 import { Card } from "@/components/ui/card"
 import { ImageLightbox } from "@/components/ImageLightbox"
 import { PostContent } from "@/components/post/PostContent"
@@ -12,9 +5,9 @@ import { PostActions } from "@/components/post/PostActions"
 import { PostHeader } from "@/components/post/PostHeader"
 import { CommentSection } from "@/components/CommentSection"
 import { PromotedProducts } from "@/components/post/PromotedProducts"
+import { PostGalleryCarousel } from "@/components/post/PostGalleryCarousel"
+import { PostCommentBar } from "@/components/post/PostCommentBar"
 import { useState, useEffect } from "react"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
 import { mockProducts } from "@/store/mocks/productMocks"
 import { useDispatch, useSelector } from "react-redux"
@@ -37,7 +30,6 @@ const PostDetail = () => {
     const fetchPost = async () => {
       dispatch(setLoading(true))
       try {
-        // 从 mockPosts 中获取对应 id 的帖子
         const mockPost = mockPosts.find(p => p.id === Number(id))
         if (mockPost) {
           dispatch(setPost(mockPost))
@@ -85,7 +77,6 @@ const PostDetail = () => {
     }
 
     dispatch(addComment(newComment))
-
     toast({
       description: "评论发布成功",
     })
@@ -123,28 +114,11 @@ const PostDetail = () => {
           {/* Main Content */}
           <div className="md:col-span-8">
             <div className="relative">
-              <div className="w-full aspect-[4/3] bg-black">
-                <Carousel className="w-full h-full">
-                  <CarouselContent>
-                    {post.images.map((image, index) => (
-                      <CarouselItem key={index}>
-                        <div 
-                          className="flex aspect-[4/3] items-center justify-center cursor-zoom-in"
-                          onClick={() => handleImageClick(index)}
-                        >
-                          <img
-                            src={image}
-                            alt={`${post.title} - ${index + 1}`}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                      </CarouselItem>
-                    ))}
-                  </CarouselContent>
-                  <CarouselPrevious className="left-4" />
-                  <CarouselNext className="right-4" />
-                </Carousel>
-              </div>
+              <PostGalleryCarousel 
+                images={post.images}
+                title={post.title}
+                onImageClick={handleImageClick}
+              />
 
               <Card className="mx-4 md:mx-0 -mt-8 relative z-10 bg-white rounded-2xl border-none shadow-lg overflow-hidden">
                 <PostContent 
@@ -200,24 +174,13 @@ const PostDetail = () => {
         index={currentImageIndex}
       />
 
-      {/* Bottom Comment Bar */}
-      <div className="fixed bottom-0 z-20 left-0 right-0 bg-white border-t shadow-lg animate-in slide-in-from-bottom duration-300">
-        <div className="container max-w-2xl mx-auto px-4 py-3">
-          <div className="flex gap-3">
-            <Input
-              value={commentContent}
-              onChange={(e) => setCommentContent(e.target.value)}
-              placeholder="写评论..."
-              className="rounded-full focus-visible:ring-pink-500"
-            />
-            <Button 
-              onClick={handleSubmitComment}
-              className="bg-pink-500 hover:bg-pink-600 active:bg-pink-700 px-8 h-10 rounded-full font-medium text-base shadow-lg hover:shadow-xl transition-all shrink-0"
-            >
-              发送
-            </Button>
-          </div>
-        </div>
-      </div>
+      <PostCommentBar
+        commentContent={commentContent}
+        onCommentChange={setCommentContent}
+        onSubmit={handleSubmitComment}
+      />
     </div>
   )
+}
+
+export default PostDetail
