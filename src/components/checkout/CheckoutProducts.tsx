@@ -1,5 +1,5 @@
 import { Image } from "@/components/ui/image"
-import { CartItem } from "@/store/cartSlice"
+import { CartItem } from "@/store/slices/cartSlice"
 
 interface CheckoutProductsProps {
   products: CartItem[]
