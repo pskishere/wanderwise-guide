@@ -23,6 +23,9 @@ const AddressForm = () => {
   const [form, setForm] = useState({
     name: "",
     phone: "",
+    province: "",
+    city: "",
+    district: "",
     detail: "",
     isDefault: false
   })
@@ -34,6 +37,9 @@ const AddressForm = () => {
         setForm({
           name: address.name,
           phone: address.phone,
+          province: address.province,
+          city: address.city,
+          district: address.district,
           detail: address.detail,
           isDefault: address.isDefault
         })
