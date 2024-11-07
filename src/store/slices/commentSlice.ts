@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { mockComments } from '@/services/mockComments';
+import { mockComments } from '@/store/mocks';
 
 interface CommentAuthor {
   name: string;
