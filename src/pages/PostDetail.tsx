@@ -12,13 +12,16 @@ import { PostActions } from "@/components/post/PostActions"
 import { PostHeader } from "@/components/post/PostHeader"
 import { CommentSection } from "@/components/CommentSection"
 import { PromotedProducts } from "@/components/post/PromotedProducts"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
 import { mockProducts } from "@/store/mocks/productMocks"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { addComment } from "@/store/slices/commentSlice"
+import { setLoading, setError, setPost, updateLikes, updateFavorites } from "@/store/slices/postDetailSlice"
+import { RootState } from "@/store/store"
+import { useParams } from "react-router-dom"
 
 const PostDetail = () => {
   const [lightboxOpen, setLightboxOpen] = useState(false)
@@ -26,25 +29,54 @@ const PostDetail = () => {
   const [commentContent, setCommentContent] = useState("")
   const { toast } = useToast()
   const dispatch = useDispatch()
+  const { id } = useParams()
 
-  const post = {
-    id: 1,
-    title: "京都和服体验｜超详细攻略，体验最正宗的日本文化",
-    content: "今天给大家分享一下京都和服体验！和服体验是来日本旅游必打卡的项目之一，可以说是来日本旅游的必备体验。今天我就给大家详细介绍一下在京都体验和服的全过程，包括选择店铺、预约方式、价格、穿着过程等等...",
-    images: [
-      "https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=800&q=80",
-      "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800&q=80",
-      "https://images.unsplash.com/photo-1493997181344-712f2f19d87a?w=800&q=80",
-      "https://images.unsplash.com/photo-1478436127897-769e1b3f0f36?w=800&q=80"
-    ],
-    author: {
-      name: "樱花妹",
-      avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&q=80"
-    },
-    likes: 3421,
-    comments: 234,
-    tags: ["旅行", "日本", "京都", "和服"]
-  }
+  const { post, loading, error } = useSelector((state: RootState) => state.postDetail)
+
+  useEffect(() => {
+    const fetchPost = async () => {
+      dispatch(setLoading(true))
+      try {
+        // 模拟API调用
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        dispatch(setPost({
+          id: 1,
+          title: "京都和服体验｜超详细攻略，体验最正宗的日本文化",
+          content: "今天给大家分享一下京都和服体验！和服体验是来日本旅游必打卡的项目之一，可以说是来日本旅游的必备体验。今天我就给大家详细介绍一下在京都体验和服的全过程，包括选择店铺、预约方式、价格、穿着过程等等...",
+          images: [
+            "https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=800&q=80",
+            "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800&q=80",
+            "https://images.unsplash.com/photo-1493997181344-712f2f19d87a?w=800&q=80",
+            "https://images.unsplash.com/photo-1478436127897-769e1b3f0f36?w=800&q=80"
+          ],
+          author: {
+            id: 1,
+            name: "樱花妹",
+            avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&q=80"
+          },
+          stats: {
+            likes: 3421,
+            comments: 234,
+            favorites: 156
+          },
+          tags: ["旅行", "日本", "京都", "和服"],
+          createdAt: "2024-02-20"
+        }))
+      } catch (err) {
+        dispatch(setError(err instanceof Error ? err.message : '加载失败'))
+        toast({
+          variant: "destructive",
+          description: "加载失败，请稍后重试",
+        })
+      } finally {
+        dispatch(setLoading(false))
+      }
+    }
+
+    if (id) {
+      fetchPost()
+    }
+  }, [id, dispatch, toast])
 
   const handleImageClick = (index: number) => {
     setCurrentImageIndex(index)
@@ -76,6 +108,26 @@ const PostDetail = () => {
       description: "评论发布成功",
     })
     setCommentContent("")
+  }
+
+  const handleLike = () => {
+    if (post) {
+      dispatch(updateLikes(post.stats.likes + 1))
+    }
+  }
+
+  const handleFavorite = () => {
+    if (post) {
+      dispatch(updateFavorites(post.stats.favorites + 1))
+    }
+  }
+
+  if (loading) {
+    return <div className="min-h-screen bg-gray-50 flex items-center justify-center">加载中...</div>
+  }
+
+  if (error || !post) {
+    return <div className="min-h-screen bg-gray-50 flex items-center justify-center">加载失败</div>
   }
 
   const promotedProducts = mockProducts.slice(0, 4)
@@ -120,8 +172,10 @@ const PostDetail = () => {
                   tags={post.tags}
                 />
                 <PostActions 
-                  likes={post.likes}
-                  commentCount={post.comments}
+                  likes={post.stats.likes}
+                  commentCount={post.stats.comments}
+                  onLike={handleLike}
+                  onFavorite={handleFavorite}
                 />
               </Card>
             </div>
@@ -137,7 +191,7 @@ const PostDetail = () => {
 
             <div className="mt-6">
               <CommentSection 
-                commentCount={post.comments}
+                commentCount={post.stats.comments}
               />
             </div>
           </div>
