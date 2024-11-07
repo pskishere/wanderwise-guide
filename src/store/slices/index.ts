@@ -14,10 +14,10 @@ export { default as notificationReducer } from './notificationSlice';
 export { default as favoriteReducer } from './favoriteSlice';
 export { default as destinationReducer } from './destinationSlice';
 
-// Re-export actions with namespaced names to avoid conflicts
+// Actions
 export {
-  setLoading as setCartLoading,
-  setError as setCartError,
+  setCartLoading,
+  setCartError,
   setItems,
   toggleSelectAll,
   toggleSelectItem,
@@ -26,61 +26,63 @@ export {
 } from './cartSlice';
 
 export {
-  setLoading as setProductLoading,
-  setError as setProductError,
+  setProductLoading,
+  setProductError,
   setProducts,
   appendProducts,
   setCurrentPage,
-  setHasMore as setProductHasMore,
+  setProductHasMore,
   filterByCategory
 } from './productSlice';
 
 export {
-  setLoading as setPostLoading,
-  setError as setPostError,
+  setPostLoading,
+  setPostError,
   setPosts,
-  updateLikes as updatePostLikes
+  updatePostLikes,
+  addComment,
+  addReply
 } from './postSlice';
 
 export {
-  setLoading as setAddressLoading,
-  setError as setAddressError,
+  setAddressLoading,
+  setAddressError,
   addAddress,
   updateAddress,
   deleteAddress
 } from './addressSlice';
 
 export {
-  setLoading as setSearchLoading,
-  setError as setSearchError,
+  setSearchLoading,
+  setSearchError,
   setResults
 } from './searchSlice';
 
 export {
-  setLoading as setOrderLoading,
-  setError as setOrderError,
+  setOrderLoading,
+  setOrderError,
   setCurrentOrder,
   updateOrderStatus
 } from './orderSlice';
 
 export {
-  setLoading as setCheckoutLoading,
-  setError as setCheckoutError,
+  setCheckoutLoading,
+  setCheckoutError,
   setSelectedItems,
   setSelectedAddress,
   setPaymentMethod
 } from './checkoutSlice';
 
 export {
-  setLoading as setUserLoading,
-  setError as setUserError,
+  setUserLoading,
+  setUserError,
   setProfile,
   setUser
 } from './userSlice';
 
 export {
-  setLoading as setCreatePostLoading,
-  setError as setCreatePostError,
+  setCreatePostLoading,
+  setCreatePostError,
   setDraft,
   addImage,
   removeImage,
@@ -89,10 +91,10 @@ export {
 } from './createPostSlice';
 
 export {
-  setLoading as setNotificationLoading,
-  setError as setNotificationError,
+  setNotificationLoading,
+  setNotificationError,
   setNotifications,
-  setHasMore as setNotificationHasMore,
+  setNotificationHasMore,
   setPage,
   markAsRead,
   markAllAsRead,

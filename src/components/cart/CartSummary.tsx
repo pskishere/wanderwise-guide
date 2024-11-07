@@ -1,39 +1,39 @@
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
-import { useDispatch, useSelector } from "react-redux"
-import { RootState } from "@/store"
-import { toggleSelectAll } from "@/store/slices"
-import { useNavigate } from "react-router-dom"
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { toggleSelectAll } from "@/store/slices";
+import { useNavigate } from "react-router-dom";
 
 interface CartSummaryProps {
-  onCheckout?: () => void
+  onCheckout?: () => void;
 }
 
 export const CartSummary = ({ onCheckout }: CartSummaryProps) => {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const items = useSelector((state: RootState) => state.cart.items)
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const items = useSelector((state: RootState) => state.cart.items);
   
   const totalAmount = items
     .filter(item => item.selected)
-    .reduce((sum, item) => sum + item.price * item.quantity, 0)
+    .reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   const selectedCount = items
     .filter(item => item.selected)
-    .reduce((sum, item) => sum + item.quantity, 0)
+    .reduce((sum, item) => sum + item.quantity, 0);
 
-  const allSelected = items.length > 0 && items.every(item => item.selected)
+  const allSelected = items.length > 0 && items.every(item => item.selected);
 
   const handleSelectAll = (checked: boolean) => {
-    dispatch(toggleSelectAll(checked))
-  }
+    dispatch(toggleSelectAll(checked));
+  };
 
   const handleCheckout = () => {
     if (onCheckout) {
-      onCheckout()
+      onCheckout();
     }
-    navigate('/checkout')
-  }
+    navigate('/checkout');
+  };
 
   return (
     <div className="fixed bottom-16 left-0 right-0 bg-white/95 backdrop-blur-md border-t p-3 sm:p-4">
@@ -62,5 +62,5 @@ export const CartSummary = ({ onCheckout }: CartSummaryProps) => {
         </Button>
       </div>
     </div>
-  )
-}
+  );
+};
