@@ -16,8 +16,8 @@ export { default as destinationReducer } from './destinationSlice';
 
 // Export all actions from each slice
 export {
-  setLoading,
-  setError,
+  setLoading as setProductLoading,
+  setError as setProductError,
   setProducts,
   appendProducts,
   setCurrentPage,

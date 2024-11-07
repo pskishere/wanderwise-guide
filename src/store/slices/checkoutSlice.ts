@@ -16,12 +16,7 @@ export interface CheckoutState {
 
 const initialState: CheckoutState = {
   selectedItems: [],
-  selectedAddress: {
-    id: "1",
-    name: "张三",
-    phone: "138****8888",
-    detail: "浙江省杭州市西湖区文三路 123 号"
-  },
+  selectedAddress: null,
   paymentMethod: 'alipay',
   loading: false,
   error: null
@@ -31,6 +26,12 @@ export const checkoutSlice = createSlice({
   name: 'checkout',
   initialState,
   reducers: {
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload;
+    },
+    setError: (state, action: PayloadAction<string | null>) => {
+      state.error = action.payload;
+    },
     setSelectedItems: (state, action: PayloadAction<CartItem[]>) => {
       state.selectedItems = action.payload;
     },
@@ -39,22 +40,16 @@ export const checkoutSlice = createSlice({
     },
     setPaymentMethod: (state, action: PayloadAction<'alipay' | 'wechat'>) => {
       state.paymentMethod = action.payload;
-    },
-    setLoading: (state, action: PayloadAction<boolean>) => {
-      state.loading = action.payload;
-    },
-    setError: (state, action: PayloadAction<string | null>) => {
-      state.error = action.payload;
     }
   }
 });
 
 export const {
+  setLoading,
+  setError,
   setSelectedItems,
   setSelectedAddress,
-  setPaymentMethod,
-  setLoading,
-  setError
+  setPaymentMethod
 } = checkoutSlice.actions;
 
 export default checkoutSlice.reducer;

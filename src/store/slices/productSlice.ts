@@ -1,10 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { AsyncState } from '../types';
 import { Product } from '@/types/product';
 
-interface ProductState {
+interface ProductState extends AsyncState {
   products: Product[];
-  loading: boolean;
-  error: string | null;
   currentPage: number;
   hasMore: boolean;
 }
@@ -13,11 +12,11 @@ const initialState: ProductState = {
   products: [],
   loading: false,
   error: null,
-  currentPage: 0,
+  currentPage: 1,
   hasMore: true
 };
 
-export const productSlice = createSlice({
+const productSlice = createSlice({
   name: 'product',
   initialState,
   reducers: {
@@ -38,6 +37,9 @@ export const productSlice = createSlice({
     },
     setHasMore: (state, action: PayloadAction<boolean>) => {
       state.hasMore = action.payload;
+    },
+    filterByCategory: (state, action: PayloadAction<string>) => {
+      // Implementation for filtering by category
     }
   }
 });
@@ -48,7 +50,8 @@ export const {
   setProducts,
   appendProducts,
   setCurrentPage,
-  setHasMore
+  setHasMore,
+  filterByCategory
 } = productSlice.actions;
 
 export default productSlice.reducer;

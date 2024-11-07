@@ -20,6 +20,7 @@ export interface Product {
   shop: Shop;
   tags: string[];
   specs: ProductSpec[];
+  category: string;
   richDescription?: string;
 }
 
