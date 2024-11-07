@@ -1,5 +1,6 @@
 export * from './productMocks';
 export * from './notificationMocks';
+export * from './commentMocks';
 
 export const mockUsers = [
   {
