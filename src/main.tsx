@@ -1,4 +1,4 @@
-import { createReactApp } from '@tarojs/runtime'
+import { createApp } from '@tarojs/taro'
 import { createRoot } from 'react-dom/client'
 import App from './App'
 import './index.css'
@@ -8,11 +8,11 @@ const isTaro = typeof process !== 'undefined' && process.env.TARO_ENV !== undefi
 
 if (isTaro) {
   // For Taro environment
-  createReactApp({
-    mount({ dom, component, props }) {
-      createRoot(dom).render(component(props))
+  createApp({
+    entry: App,
+    onLaunch() {
+      console.log('App launched')
     },
-    App,
   })
 } else {
   // For web environment
