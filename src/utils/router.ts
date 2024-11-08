@@ -1,5 +1,3 @@
-import { NavigateOptions } from '@tarojs/taro';
-
 // Check if we're in Taro environment
 const isTaro = typeof process !== 'undefined' && process.env.TARO_ENV !== undefined;
 
