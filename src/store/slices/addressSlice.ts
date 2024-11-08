@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { supabase } from "@/integrations/supabase/client"
 
 export interface Address {
   id: string
@@ -18,30 +19,30 @@ interface AddressState {
 }
 
 const initialState: AddressState = {
-  addresses: [
-    {
-      id: "1",
-      name: "张三",
-      phone: "138****8888",
-      province: "浙江省",
-      city: "杭州市",
-      district: "西湖区",
-      detail: "文三路 123 号",
-      isDefault: true
-    },
-    {
-      id: "2",
-      name: "李四", 
-      phone: "139****9999",
-      province: "浙江省",
-      city: "杭州市",
-      district: "滨江区",
-      detail: "网商路 599 号",
-      isDefault: false
-    }
-  ],
+  addresses: [],
   loading: false,
   error: null
+}
+
+export const fetchAddresses = async () => {
+  const { data, error } = await supabase
+    .from('addresses')
+    .select('*')
+    .order('is_default', { ascending: false })
+    .order('created_at', { ascending: false })
+
+  if (error) throw error
+
+  return data.map(addr => ({
+    id: addr.id.toString(),
+    name: addr.name,
+    phone: addr.phone,
+    province: addr.province,
+    city: addr.city,
+    district: addr.district,
+    detail: addr.detail,
+    isDefault: addr.is_default
+  }))
 }
 
 export const addressSlice = createSlice({

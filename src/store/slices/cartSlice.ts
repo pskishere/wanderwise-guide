@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { supabase } from "@/integrations/supabase/client"
 
 export interface CartItem {
   id: number
@@ -23,6 +24,37 @@ const initialState: CartState = {
   items: [],
   loading: false,
   error: null
+}
+
+export const fetchCartItems = async () => {
+  const { data, error } = await supabase
+    .from('cart_items')
+    .select(`
+      id,
+      quantity,
+      selected,
+      specs,
+      products (
+        id,
+        title,
+        price,
+        images
+      )
+    `)
+    .order('created_at', { ascending: false })
+
+  if (error) throw error
+
+  return data.map(item => ({
+    id: item.id,
+    title: item.products.title,
+    price: item.products.price,
+    image: item.products.images[0] || '',
+    quantity: item.quantity,
+    shop: "商店",
+    selected: item.selected,
+    specs: item.specs
+  }))
 }
 
 export const cartSlice = createSlice({
