@@ -1,9 +1,8 @@
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { Provider } from 'react-redux'
 import { store } from './store/store'
 import { Toaster } from "@/components/ui/toaster"
-import { useEffect } from "react"
 
 // Import all pages
 import Index from "@/pages/Index"
@@ -29,18 +28,7 @@ import Notifications from "@/pages/Notifications"
 const queryClient = new QueryClient()
 
 // Check if we're in Taro environment
-const isTaro = typeof process !== 'undefined' && process.env.TARO_ENV !== undefined;
-
-// NavigationProvider component to set up the navigation function
-function NavigationProvider({ children }: { children: React.ReactNode }) {
-  const navigate = useNavigate();
-  
-  useEffect(() => {
-    window.routerNavigate = navigate;
-  }, [navigate]);
-  
-  return <>{children}</>;
-}
+const isTaro = typeof process !== 'undefined' && process.env.TARO_ENV !== undefined
 
 function AppContent() {
   return (
@@ -69,12 +57,12 @@ function AppContent() {
           <Route path="/notifications" element={<Notifications />} />
         </Routes>
       ) : (
-        // For Taro, we don't need Routes as Taro handles routing
+        // For Taro, render the current page based on route
         <Index />
       )}
       <Toaster />
     </div>
-  );
+  )
 }
 
 function App() {
@@ -85,14 +73,12 @@ function App() {
           <AppContent />
         ) : (
           <Router>
-            <NavigationProvider>
-              <AppContent />
-            </NavigationProvider>
+            <AppContent />
           </Router>
         )}
       </Provider>
     </QueryClientProvider>
-  );
+  )
 }
 
-export default App;
+export default App
