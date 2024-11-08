@@ -15,6 +15,7 @@ export interface Post {
     favorites: number;
   };
   tags: string[];
+  location?: string;
   createdAt: string;
   likes?: number; // For backwards compatibility
   comments?: number; // For backwards compatibility
