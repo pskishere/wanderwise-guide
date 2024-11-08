@@ -1,29 +1,14 @@
 import { Button } from "@/components/ui/button"
-import { Avatar } from "@/components/ui/avatar"
-import { ShoppingCart, Heart, Store, Shield, Package, Truck, Award } from "lucide-react"
+import { ShoppingCart, Heart, Shield, Package, Truck } from "lucide-react"
 import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
 import { SpecsDrawer } from "./SpecsDrawer"
 import { Badge } from "@/components/ui/badge"
 import MarkdownPreview from '@uiw/react-markdown-preview'
+import type { Product } from "@/types/product"
 
 interface ProductInfoProps {
-  product: {
-    title: string
-    price: string
-    originalPrice: string
-    description: string
-    richDescription?: string
-    image: string
-    shop: {
-      name: string
-      avatar: string
-    }
-    specs: Array<{
-      name: string
-      options: string[]
-    }>
-  }
+  product: Product
 }
 
 const adContent = `
@@ -51,6 +36,10 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const { toast } = useToast()
 
+  const discount = product.originalPrice 
+    ? Math.round(product.originalPrice - product.price)
+    : 0
+
   return (
     <div className="space-y-6">
       <div className="space-y-1.5">
@@ -69,14 +58,18 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
         
         <div className="flex items-baseline gap-2">
           <span className="text-2xl font-bold text-pink-600 tracking-tight">
-            {product.price}
+            ¥{product.price}
           </span>
-          <span className="text-sm text-gray-400 line-through">
-            {product.originalPrice}
-          </span>
-          <span className="text-xs px-1.5 py-0.5 bg-pink-50 text-pink-600 rounded-full">
-            省¥{Number(product.originalPrice.slice(1)) - Number(product.price.slice(1))}
-          </span>
+          {product.originalPrice && (
+            <>
+              <span className="text-sm text-gray-400 line-through">
+                ¥{product.originalPrice}
+              </span>
+              <span className="text-xs px-1.5 py-0.5 bg-pink-50 text-pink-600 rounded-full">
+                省¥{discount}
+              </span>
+            </>
+          )}
         </div>
       </div>
 
@@ -129,7 +122,6 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
         </h2>
       </div>
 
-      {/* 富文本广告内容 */}
       <div className="bg-white rounded-lg p-3">
         <MarkdownPreview 
           source={product.richDescription || adContent}
@@ -137,11 +129,15 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
         />
       </div>
 
-
       <SpecsDrawer 
         isOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
-        product={product}
+        product={{
+          title: product.title,
+          price: `¥${product.price}`,
+          image: product.images[0],
+          specs: product.specs
+        }}
       />
     </div>
   )

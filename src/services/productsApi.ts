@@ -28,8 +28,8 @@ export const fetchProducts = async (
   const items = products.map((product): Product => ({
     id: product.id,
     title: product.title,
-    price: product.price.toString(),
-    originalPrice: product.original_price?.toString(),
+    price: product.price,
+    originalPrice: product.original_price,
     description: product.description || "",
     images: product.images,
     specs: [],
@@ -64,8 +64,8 @@ export const fetchProductById = async (id: string): Promise<Product | null> => {
   return {
     id: product.id,
     title: product.title,
-    price: product.price.toString(),
-    originalPrice: product.original_price?.toString(),
+    price: product.price,
+    originalPrice: product.original_price,
     description: product.description || "",
     images: product.images,
     specs: [],

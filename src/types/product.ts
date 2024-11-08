@@ -1,4 +1,5 @@
 export interface Shop {
+  id: number;
   name: string;
   avatar: string;
 }
@@ -11,11 +12,9 @@ export interface ProductSpec {
 export interface Product {
   id: number;
   title: string;
-  price: string;
-  originalPrice: string;
+  price: number;
+  originalPrice?: number;
   description: string;
-  sales: string;
-  image: string;
   images: string[];
   shop: Shop;
   tags: string[];

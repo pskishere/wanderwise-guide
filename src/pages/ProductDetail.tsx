@@ -14,13 +14,16 @@ const ProductDetail = () => {
   const { data: product, isLoading, error } = useQuery({
     queryKey: ["product", id],
     queryFn: () => fetchProductById(id!),
-    onError: () => {
-      toast({
-        variant: "destructive",
-        description: "加载商品信息失败，请稍后重试",
-      })
-    }
+    retry: false,
   })
+
+  if (error) {
+    toast({
+      variant: "destructive",
+      description: "加载商品信息失败，请稍后重试",
+    })
+    return null
+  }
 
   if (isLoading) {
     return (
@@ -39,7 +42,7 @@ const ProductDetail = () => {
     )
   }
 
-  if (error || !product) return null
+  if (!product) return null
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
