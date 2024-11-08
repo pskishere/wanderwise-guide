@@ -9,6 +9,98 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      addresses: {
+        Row: {
+          city: string
+          created_at: string
+          detail: string
+          district: string
+          id: number
+          is_default: boolean | null
+          name: string
+          phone: string
+          province: string
+          user_id: string
+        }
+        Insert: {
+          city: string
+          created_at?: string
+          detail: string
+          district: string
+          id?: number
+          is_default?: boolean | null
+          name: string
+          phone: string
+          province: string
+          user_id: string
+        }
+        Update: {
+          city?: string
+          created_at?: string
+          detail?: string
+          district?: string
+          id?: number
+          is_default?: boolean | null
+          name?: string
+          phone?: string
+          province?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "addresses_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cart_items: {
+        Row: {
+          created_at: string
+          id: number
+          product_id: number
+          quantity: number
+          selected: boolean | null
+          specs: string[] | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          product_id: number
+          quantity?: number
+          selected?: boolean | null
+          specs?: string[] | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          product_id?: number
+          quantity?: number
+          selected?: boolean | null
+          specs?: string[] | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cart_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cart_items_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       comments: {
         Row: {
           content: string
@@ -169,6 +261,131 @@ export type Database = {
           },
           {
             foreignKeyName: "likes_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      order_items: {
+        Row: {
+          created_at: string
+          id: number
+          order_id: number
+          price: number
+          product_id: number
+          quantity: number
+          specs: string[] | null
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          order_id: number
+          price: number
+          product_id: number
+          quantity: number
+          specs?: string[] | null
+          title: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          order_id?: number
+          price?: number
+          product_id?: number
+          quantity?: number
+          specs?: string[] | null
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      order_timeline: {
+        Row: {
+          created_at: string
+          id: number
+          order_id: number
+          status: string
+          time: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          order_id: number
+          status: string
+          time?: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          order_id?: number
+          status?: string
+          time?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_timeline_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          address_id: number | null
+          created_at: string
+          freight: number | null
+          id: number
+          status: string
+          total_amount: number
+          user_id: string
+        }
+        Insert: {
+          address_id?: number | null
+          created_at?: string
+          freight?: number | null
+          id?: number
+          status?: string
+          total_amount: number
+          user_id: string
+        }
+        Update: {
+          address_id?: number | null
+          created_at?: string
+          freight?: number | null
+          id?: number
+          status?: string
+          total_amount?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_address_id_fkey"
+            columns: ["address_id"]
+            isOneToOne: false
+            referencedRelation: "addresses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
