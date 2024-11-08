@@ -1,4 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 
 interface PostItem {
@@ -18,23 +19,40 @@ interface PostsResponse {
 }
 
 const fetchUserPosts = async ({ pageParam = 1 }): Promise<PostsResponse> => {
-  // 模拟API调用
-  await new Promise(resolve => setTimeout(resolve, 1000));
+  const itemsPerPage = 10;
+  const start = (pageParam - 1) * itemsPerPage;
+
+  const { data, error } = await supabase
+    .from('posts')
+    .select(`
+      id,
+      title,
+      images,
+      profiles:user_id (
+        nickname,
+        avatar
+      ),
+      likes (count)
+    `)
+    .range(start, start + itemsPerPage - 1)
+    .order('created_at', { ascending: false });
+
+  if (error) throw error;
+
+  const items = data.map(post => ({
+    id: post.id,
+    title: post.title,
+    image: post.images[0],
+    author: {
+      name: post.profiles.nickname,
+      avatar: post.profiles.avatar
+    },
+    likes: post.likes?.[0]?.count || 0
+  }));
+
   return {
-    items: [
-      {
-        id: 1,
-        title: "京都和服体验｜超详细攻略",
-        image: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=800&q=80",
-        author: {
-          name: "樱花妹",
-          avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&q=80"
-        },
-        likes: 3456
-      },
-      // ... 其他帖子数据
-    ],
-    nextPage: pageParam < 3 ? pageParam + 1 : null
+    items,
+    nextPage: items.length === itemsPerPage ? pageParam + 1 : null
   };
 };
 
@@ -50,14 +68,17 @@ export const useUserPosts = () => {
 export const useDeletePost = () => {
   return async (id: number) => {
     try {
-      // Mock API call for delete
-      await new Promise(resolve => setTimeout(resolve, 500));
+      const { error } = await supabase
+        .from('posts')
+        .delete()
+        .eq('id', id);
+      
+      if (error) throw error;
       
       toast({
         description: "笔记已删除",
       });
       
-      // Return true to indicate successful deletion
       return true;
     } catch (error) {
       toast({
@@ -65,7 +86,6 @@ export const useDeletePost = () => {
         description: "删除失败，请重试",
       });
       
-      // Return false to indicate failed deletion
       return false;
     }
   };
