@@ -7,14 +7,14 @@ import { CommentSection } from "@/components/CommentSection"
 import { PromotedProducts } from "@/components/post/PromotedProducts"
 import { PostGalleryCarousel } from "@/components/post/PostGalleryCarousel"
 import { PostCommentBar } from "@/components/post/PostCommentBar"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
 import { mockProducts } from "@/store/mocks/productMocks"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { addComment } from "@/store/slices/commentSlice"
-import { setLoading, setError, setPost, updateLikes, updateFavorites } from "@/store/slices/postDetailSlice"
-import { RootState } from "@/store/store"
 import { useParams } from "react-router-dom"
+import { useQuery } from "@tanstack/react-query"
+import { fetchPostById } from "@/services/postsApi"
 
 const PostDetail = () => {
   const [lightboxOpen, setLightboxOpen] = useState(false)
@@ -24,33 +24,11 @@ const PostDetail = () => {
   const dispatch = useDispatch()
   const { id } = useParams()
 
-  const { post, loading, error, mockPosts } = useSelector((state: RootState) => state.postDetail)
-
-  useEffect(() => {
-    const fetchPost = async () => {
-      dispatch(setLoading(true))
-      try {
-        const mockPost = mockPosts.find(p => p.id === Number(id))
-        if (mockPost) {
-          dispatch(setPost(mockPost))
-        } else {
-          throw new Error('帖子不存在')
-        }
-      } catch (err) {
-        dispatch(setError(err instanceof Error ? err.message : '加载失败'))
-        toast({
-          variant: "destructive",
-          description: "加载失败，请稍后重试",
-        })
-      } finally {
-        dispatch(setLoading(false))
-      }
-    }
-
-    if (id) {
-      fetchPost()
-    }
-  }, [id, dispatch, toast, mockPosts])
+  const { data: post, isLoading, isError } = useQuery({
+    queryKey: ['post', id],
+    queryFn: () => fetchPostById(id as string),
+    enabled: !!id
+  })
 
   const handleImageClick = (index: number) => {
     setCurrentImageIndex(index)
@@ -83,23 +61,15 @@ const PostDetail = () => {
     setCommentContent("")
   }
 
-  const handleLike = () => {
-    if (post) {
-      dispatch(updateLikes(post.stats.likes + 1))
-    }
-  }
-
-  const handleFavorite = () => {
-    if (post) {
-      dispatch(updateFavorites(post.stats.favorites + 1))
-    }
-  }
-
-  if (loading) {
+  if (isLoading) {
     return <div className="min-h-screen bg-gray-50 flex items-center justify-center">加载中...</div>
   }
 
-  if (error || !post) {
+  if (isError || !post) {
+    toast({
+      variant: "destructive",
+      description: "加载失败，请稍后重试",
+    })
     return <div className="min-h-screen bg-gray-50 flex items-center justify-center">加载失败</div>
   }
 
@@ -111,7 +81,6 @@ const PostDetail = () => {
 
       <div className="md:container md:mx-auto md:px-4 md:pt-20">
         <div className="md:grid md:grid-cols-12 md:gap-8">
-          {/* Main Content */}
           <div className="md:col-span-8">
             <div className="relative">
               <PostGalleryCarousel 
@@ -130,13 +99,12 @@ const PostDetail = () => {
                 <PostActions 
                   likes={post.stats.likes}
                   commentCount={post.stats.comments}
-                  onLike={handleLike}
-                  onFavorite={handleFavorite}
+                  onLike={() => {}}
+                  onFavorite={() => {}}
                 />
               </Card>
             </div>
 
-            {/* Mobile Promoted Products */}
             <div className="mt-6 px-4 md:hidden">
               <h2 className="text-base font-medium mb-3 flex items-center">
                 <span className="h-3.5 w-1 bg-pink-500 rounded-full mr-2"></span>
@@ -152,7 +120,6 @@ const PostDetail = () => {
             </div>
           </div>
 
-          {/* Desktop Sidebar */}
           <div className="hidden md:block md:col-span-4">
             <div className="sticky top-24 space-y-6">
               <div>

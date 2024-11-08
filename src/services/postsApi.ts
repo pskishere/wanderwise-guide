@@ -53,3 +53,51 @@ export const fetchPosts = async (cursor?: number): Promise<PageData<Post>> => {
 
   return { items, nextCursor };
 };
+
+export const fetchPostById = async (id: string): Promise<Post> => {
+  const { data, error } = await supabase
+    .from('posts')
+    .select(`
+      id,
+      title,
+      content,
+      images,
+      tags,
+      location,
+      created_at,
+      profiles!posts_user_id_fkey (
+        id,
+        nickname,
+        avatar
+      ),
+      likes (count),
+      comments (count),
+      favorites (count)
+    `)
+    .eq('id', id)
+    .single();
+
+  if (error) throw error;
+
+  if (!data) throw new Error('Post not found');
+
+  return {
+    id: data.id,
+    title: data.title,
+    content: data.content,
+    images: data.images,
+    author: {
+      id: data.profiles.id,
+      name: data.profiles.nickname || 'Unknown User',
+      avatar: data.profiles.avatar || ''
+    },
+    stats: {
+      likes: data.likes?.[0]?.count || 0,
+      comments: data.comments?.[0]?.count || 0,
+      favorites: data.favorites?.[0]?.count || 0
+    },
+    tags: data.tags,
+    location: data.location,
+    createdAt: data.created_at
+  };
+};
