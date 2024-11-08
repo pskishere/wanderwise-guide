@@ -5,17 +5,11 @@ import { mockProducts } from "@/store/mocks/productMocks"
 import { ProductSearchResults } from "./ProductSearchResults"
 import { SelectedProducts } from "./SelectedProducts"
 import { Card } from "@/components/ui/card"
-
-interface Product {
-  id: number
-  title: string
-  price: string
-  image: string
-}
+import { SimpleProduct } from "./types"
 
 interface ProductSelectorProps {
-  selectedProducts: Product[]
-  onSelectProduct: (product: Product) => void
+  selectedProducts: SimpleProduct[]
+  onSelectProduct: (product: SimpleProduct) => void
   onRemoveProduct: (productId: number) => void
 }
 
@@ -27,12 +21,19 @@ export const ProductSelector = ({
   const [searchTerm, setSearchTerm] = useState("")
   const [showResults, setShowResults] = useState(false)
 
-  const filteredProducts = mockProducts.filter(product =>
-    product.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
-    !selectedProducts.some(p => p.id === product.id)
-  )
+  const filteredProducts = mockProducts
+    .filter(product =>
+      product.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      !selectedProducts.some(p => p.id === product.id)
+    )
+    .map(product => ({
+      id: product.id,
+      title: product.title,
+      price: `¥${product.price}`,
+      image: product.images[0]
+    }))
 
-  const handleSelect = (product: Product) => {
+  const handleSelect = (product: SimpleProduct) => {
     onSelectProduct(product)
     setSearchTerm("")
     setShowResults(false)

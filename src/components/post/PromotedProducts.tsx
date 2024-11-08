@@ -7,16 +7,10 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import { Card } from "@/components/ui/card"
-
-interface Product {
-  id: number
-  title: string
-  price: string
-  image: string
-}
+import { SimpleProduct } from "./types"
 
 interface PromotedProductsProps {
-  products: Product[]
+  products: SimpleProduct[]
   layout: "mobile" | "desktop"
 }
 
