@@ -16,4 +16,4 @@ if (!isTaro) {
 }
 
 // Export App component for Taro
-export default App
+export default App;
