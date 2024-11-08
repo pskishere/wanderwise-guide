@@ -3,6 +3,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { Provider } from 'react-redux'
 import { store } from './store/store'
 import { Toaster } from "@/components/ui/toaster"
+
+// Import all pages
 import Index from "@/pages/Index"
 import { Explore } from "@/pages/Explore"
 import PostDetail from "@/pages/PostDetail"
@@ -25,7 +27,25 @@ import Notifications from "@/pages/Notifications"
 
 const queryClient = new QueryClient()
 
+// Check if we're in Taro environment
+const isTaro = typeof process !== 'undefined' && process.env.TARO_ENV !== undefined;
+
 function App() {
+  if (isTaro) {
+    // For Taro environment, we don't need Router wrapper
+    return (
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <div className="app">
+            {/* Taro will handle routing */}
+            <Toaster />
+          </div>
+        </Provider>
+      </QueryClientProvider>
+    )
+  }
+
+  // For React environment
   return (
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>

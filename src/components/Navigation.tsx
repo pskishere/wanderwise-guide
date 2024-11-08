@@ -1,11 +1,10 @@
 import { Heart, Search, MapPin, Utensils, BookOpen, Bell } from "lucide-react"
-import { Link } from "react-router-dom"
 import { Input } from "./ui/input"
 import { Button } from "./ui/button"
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "./ui/command"
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
-import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
+import { router } from "@/utils/router"
 
 const suggestions = {
   destinations: [
@@ -26,7 +25,6 @@ const suggestions = {
 }
 
 export function Navigation() {
-  const navigate = useNavigate()
   const [margin, setMargin] = useState(8)
   const [open, setOpen] = useState(false)
   const [searchValue, setSearchValue] = useState("")
@@ -57,7 +55,7 @@ export function Navigation() {
 
   const handleSearch = (value: string) => {
     if (value.trim()) {
-      navigate(`/search/results?q=${encodeURIComponent(value.trim())}`)
+      router.navigate({ url: `/search/results?q=${encodeURIComponent(value.trim())}` })
       setOpen(false)
     }
   }
@@ -66,6 +64,10 @@ export function Navigation() {
     if (e.key === 'Enter') {
       handleSearch(searchValue)
     }
+  }
+
+  const handleNavigate = (path: string) => {
+    router.navigate({ url: path })
   }
 
   return (
@@ -175,19 +177,19 @@ export function Navigation() {
                 >
                   <MapPin className="h-4 w-4 text-gray-500" />
                 </Button>
-                <Link 
-                  to="/notifications"
+                <button 
+                  onClick={() => handleNavigate('/notifications')}
                   className="text-gray-600 hover:text-gray-900 transition-colors relative"
                 >
                   <Bell className="h-5 w-5" />
                   <span className="absolute -top-1 -right-1 h-2 w-2 bg-red-500 rounded-full" />
-                </Link>
-                <Link 
-                  to="/favorites"
+                </button>
+                <button 
+                  onClick={() => handleNavigate('/favorites')}
                   className="text-gray-600 hover:text-gray-900 transition-colors relative"
                 >
                   <Heart className="h-5 w-5" />
-                </Link>
+                </button>
               </div>
             </div>
           </div>
