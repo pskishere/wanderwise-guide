@@ -59,13 +59,19 @@ export const fetchOrders = async ({
 
     if (error) throw error
 
-    // Get status counts
-    const { data: statusCounts, error: countError } = await supabase
+    // Get status counts using a separate query
+    const { data: statusCountsData, error: countError } = await supabase
       .from('orders')
-      .select('status', { count: 'exact' })
-      .group_by('status')
+      .select('status, count', { count: 'exact' })
+      .select('status')
 
     if (countError) throw countError
+
+    // Count occurrences of each status manually
+    const counts: Record<string, number> = {}
+    statusCountsData.forEach(item => {
+      counts[item.status] = (counts[item.status] || 0) + 1
+    })
 
     const formattedOrders = orders.map(order => ({
       id: order.id.toString(),
@@ -81,11 +87,6 @@ export const fetchOrders = async ({
         specs: item.specs
       }))
     }))
-
-    const counts = statusCounts.reduce((acc, curr) => {
-      acc[curr.status] = parseInt(curr.count)
-      return acc
-    }, {} as Record<string, number>)
 
     return {
       orders: formattedOrders,
