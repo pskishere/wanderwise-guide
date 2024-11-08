@@ -13,6 +13,7 @@ export const fetchPosts = async (cursor?: number): Promise<PageData<Post>> => {
       content,
       images,
       tags,
+      location,
       created_at,
       profiles!posts_user_id_fkey (
         id,
@@ -20,7 +21,8 @@ export const fetchPosts = async (cursor?: number): Promise<PageData<Post>> => {
         avatar
       ),
       likes (count),
-      comments (count)
+      comments (count),
+      favorites (count)
     `)
     .range(start, start + pageSize - 1)
     .order('created_at', { ascending: false });
@@ -32,20 +34,18 @@ export const fetchPosts = async (cursor?: number): Promise<PageData<Post>> => {
     title: post.title,
     content: post.content,
     images: post.images,
-    image: post.images[0], // For backwards compatibility
     author: {
-      id: post.profiles?.id || '',
-      name: post.profiles?.nickname || 'Unknown User',
-      avatar: post.profiles?.avatar || ''
+      id: post.profiles.id,
+      name: post.profiles.nickname || 'Unknown User',
+      avatar: post.profiles.avatar || ''
     },
     stats: {
       likes: post.likes?.[0]?.count || 0,
       comments: post.comments?.[0]?.count || 0,
-      favorites: 0 // TODO: Add favorites count when needed
+      favorites: post.favorites?.[0]?.count || 0
     },
-    likes: post.likes?.[0]?.count || 0, // For backwards compatibility
-    comments: post.comments?.[0]?.count || 0, // For backwards compatibility
     tags: post.tags,
+    location: post.location,
     createdAt: post.created_at
   }));
 
