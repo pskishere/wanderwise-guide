@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import { supabase } from "@/integrations/supabase/client"
 
 export interface Address {
@@ -24,26 +24,29 @@ const initialState: AddressState = {
   error: null
 }
 
-export const fetchAddresses = async () => {
-  const { data, error } = await supabase
-    .from('addresses')
-    .select('*')
-    .order('is_default', { ascending: false })
-    .order('created_at', { ascending: false })
+export const fetchAddresses = createAsyncThunk(
+  'address/fetchAddresses',
+  async () => {
+    const { data, error } = await supabase
+      .from('addresses')
+      .select('*')
+      .order('is_default', { ascending: false })
+      .order('created_at', { ascending: false })
 
-  if (error) throw error
+    if (error) throw error
 
-  return data.map(addr => ({
-    id: addr.id.toString(),
-    name: addr.name,
-    phone: addr.phone,
-    province: addr.province,
-    city: addr.city,
-    district: addr.district,
-    detail: addr.detail,
-    isDefault: addr.is_default
-  }))
-}
+    return data.map(addr => ({
+      id: addr.id.toString(),
+      name: addr.name,
+      phone: addr.phone,
+      province: addr.province,
+      city: addr.city,
+      district: addr.district,
+      detail: addr.detail,
+      isDefault: addr.is_default || false
+    }))
+  }
+)
 
 export const addressSlice = createSlice({
   name: 'address',
@@ -73,6 +76,21 @@ export const addressSlice = createSlice({
         isDefault: addr.id === action.payload
       }))
     }
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchAddresses.pending, (state) => {
+        state.loading = true
+        state.error = null
+      })
+      .addCase(fetchAddresses.fulfilled, (state, action) => {
+        state.loading = false
+        state.addresses = action.payload
+      })
+      .addCase(fetchAddresses.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.error.message || 'Failed to fetch addresses'
+      })
   }
 })
 
