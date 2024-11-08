@@ -24,7 +24,7 @@ const initialState: PostDetailState = {
         "https://images.unsplash.com/photo-1478436127897-769e1b3f0f36?w=800&q=80"
       ],
       author: {
-        id: 1,
+        id: "1", // Changed from number to string to match Post interface
         name: "樱花妹",
         avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&q=80"
       },
