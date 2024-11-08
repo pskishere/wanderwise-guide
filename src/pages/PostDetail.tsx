@@ -73,7 +73,12 @@ const PostDetail = () => {
     return <div className="min-h-screen bg-gray-50 flex items-center justify-center">加载失败</div>
   }
 
-  const promotedProducts = mockProducts.slice(0, 4)
+  const promotedProducts = mockProducts.slice(0, 4).map(product => ({
+    id: product.id,
+    title: product.title,
+    price: `¥${product.price}`,
+    image: product.images[0]
+  }))
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20">

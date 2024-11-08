@@ -20,6 +20,7 @@ export interface Product {
   tags: string[];
   specs: ProductSpec[];
   richDescription?: string;
+  sales?: number;
 }
 
 export interface ProductCategory {
