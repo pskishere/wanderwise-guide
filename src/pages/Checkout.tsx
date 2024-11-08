@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
 import { useToast } from "@/hooks/use-toast"
 import { useNavigate } from "react-router-dom"
-import { AddressSelector } from "@/components/address/AddressSelector"
 import { useState, useEffect } from "react"
 import { setSelectedAddress, setPaymentMethod } from "@/store/slices/checkoutSlice"
 import { setCurrentOrder } from "@/store/slices/orderSlice"
@@ -19,8 +18,6 @@ const Checkout = () => {
   const dispatch = useDispatch()
   
   const { selectedItems, selectedAddress, paymentMethod } = useSelector((state: RootState) => state.checkout)
-  
-  const [showAddressSelector, setShowAddressSelector] = useState(false)
 
   // 如果没有选中的商品，重定向回购物车页面
   useEffect(() => {
@@ -79,7 +76,6 @@ const Checkout = () => {
 
   const handleAddressSelect = (address: typeof selectedAddress) => {
     dispatch(setSelectedAddress(address))
-    setShowAddressSelector(false)
   }
 
   if (!selectedItems || selectedItems.length === 0) {
@@ -93,7 +89,7 @@ const Checkout = () => {
       <div className="container mx-auto px-4 pt-20 max-w-3xl space-y-4">
         <CheckoutAddress 
           address={selectedAddress}
-          onChangeAddress={() => setShowAddressSelector(true)}
+          onChangeAddress={handleAddressSelect}
         />
 
         <CheckoutProducts 
@@ -123,13 +119,6 @@ const Checkout = () => {
             </Button>
           </div>
         </div>
-
-        <AddressSelector
-          open={showAddressSelector}
-          onOpenChange={setShowAddressSelector}
-          onSelect={handleAddressSelect}
-          selectedId={selectedAddress?.id}
-        />
       </div>
 
       <BottomNav />
