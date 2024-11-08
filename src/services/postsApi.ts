@@ -14,7 +14,7 @@ export const fetchPosts = async (cursor?: number): Promise<PageData<Post>> => {
       images,
       tags,
       created_at,
-      profiles:user_id (
+      profiles!posts_user_id_fkey (
         id,
         nickname,
         avatar
@@ -34,9 +34,9 @@ export const fetchPosts = async (cursor?: number): Promise<PageData<Post>> => {
     images: post.images,
     image: post.images[0], // For backwards compatibility
     author: {
-      id: post.profiles.id,
-      name: post.profiles.nickname,
-      avatar: post.profiles.avatar
+      id: post.profiles?.id || '',
+      name: post.profiles?.nickname || 'Unknown User',
+      avatar: post.profiles?.avatar || ''
     },
     stats: {
       likes: post.likes?.[0]?.count || 0,

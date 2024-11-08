@@ -28,7 +28,7 @@ const fetchUserPosts = async ({ pageParam = 1 }): Promise<PostsResponse> => {
       id,
       title,
       images,
-      profiles:user_id (
+      profiles!posts_user_id_fkey (
         nickname,
         avatar
       ),
@@ -44,8 +44,8 @@ const fetchUserPosts = async ({ pageParam = 1 }): Promise<PostsResponse> => {
     title: post.title,
     image: post.images[0],
     author: {
-      name: post.profiles.nickname,
-      avatar: post.profiles.avatar
+      name: post.profiles?.nickname || 'Unknown User',
+      avatar: post.profiles?.avatar || ''
     },
     likes: post.likes?.[0]?.count || 0
   }));
