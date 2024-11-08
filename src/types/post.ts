@@ -5,7 +5,7 @@ export interface Post {
   images: string[];
   image?: string; // For backwards compatibility
   author: {
-    id: number;
+    id: string; // Changed from number to string since Supabase uses UUID (string) for user IDs
     name: string;
     avatar: string;
   };
