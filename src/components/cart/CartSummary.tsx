@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
-import { toggleSelectAll } from "@/store/slices/cartSlice"
+import { toggleSelectAll } from "@/store/cartSlice"
 import { useNavigate } from "react-router-dom"
 
 interface CartSummaryProps {
@@ -12,7 +12,7 @@ interface CartSummaryProps {
 export const CartSummary = ({ onCheckout }: CartSummaryProps) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const items = useSelector((state: RootState) => state.cart.items) || []
+  const items = useSelector((state: RootState) => state.cart.items)
   
   const totalAmount = items
     .filter(item => item.selected)

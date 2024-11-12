@@ -1,4 +1,4 @@
-# Authentication API
+# Authentication API Documentation
 
 The API uses JWT (JSON Web Token) for authentication. Include the token in the Authorization header:
 
@@ -7,6 +7,8 @@ Authorization: Bearer <token>
 ```
 
 ## Endpoints
+
+### User Management
 
 ```
 POST /api/auth/login/

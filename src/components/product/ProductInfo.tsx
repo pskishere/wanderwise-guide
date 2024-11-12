@@ -1,14 +1,30 @@
 import { Button } from "@/components/ui/button"
-import { ShoppingCart, Heart, Shield, Package, Truck } from "lucide-react"
+import { Avatar } from "@/components/ui/avatar"
+import { ShoppingCart, Heart, Store, Shield, Package, Truck, Award, MessageCircle } from "lucide-react"
 import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
 import { SpecsDrawer } from "./SpecsDrawer"
 import { Badge } from "@/components/ui/badge"
 import MarkdownPreview from '@uiw/react-markdown-preview'
-import type { Product } from "@/types/product"
+import { useNavigate } from "react-router-dom"
 
 interface ProductInfoProps {
-  product: Product
+  product: {
+    title: string
+    price: string
+    originalPrice: string
+    description: string
+    richDescription?: string
+    image: string
+    shop: {
+      name: string
+      avatar: string
+    }
+    specs: Array<{
+      name: string
+      options: string[]
+    }>
+  }
 }
 
 const adContent = `
@@ -35,10 +51,7 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
   const [isLiked, setIsLiked] = useState(false)
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const { toast } = useToast()
-
-  const discount = product.originalPrice 
-    ? Math.round(product.originalPrice - product.price)
-    : 0
+  const navigate = useNavigate()
 
   return (
     <div className="space-y-6">
@@ -58,18 +71,14 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
         
         <div className="flex items-baseline gap-2">
           <span className="text-2xl font-bold text-pink-600 tracking-tight">
-            ¥{product.price}
+            {product.price}
           </span>
-          {product.originalPrice && (
-            <>
-              <span className="text-sm text-gray-400 line-through">
-                ¥{product.originalPrice}
-              </span>
-              <span className="text-xs px-1.5 py-0.5 bg-pink-50 text-pink-600 rounded-full">
-                省¥{discount}
-              </span>
-            </>
-          )}
+          <span className="text-sm text-gray-400 line-through">
+            {product.originalPrice}
+          </span>
+          <span className="text-xs px-1.5 py-0.5 bg-pink-50 text-pink-600 rounded-full">
+            省¥{Number(product.originalPrice.slice(1)) - Number(product.price.slice(1))}
+          </span>
         </div>
       </div>
 
@@ -115,6 +124,21 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
         </div>
       </div>
 
+      <Button
+        variant="ghost"
+        className="w-full justify-between py-6 hover:bg-gray-50"
+        onClick={() => navigate("comments")}
+      >
+        <div className="flex items-center gap-2">
+          <MessageCircle className="h-5 w-5 text-gray-500" />
+          <span className="text-gray-900">商品评论</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-gray-500">查看全部</span>
+          <span className="text-sm text-gray-300">›</span>
+        </div>
+      </Button>
+
       <div className="space-y-1.5 bg-gray-50/50 rounded-lg">
         <h2 className="font-medium flex items-center gap-1.5 text-base">
           <span className="h-3 w-1 bg-pink-500 rounded-full"></span>
@@ -132,12 +156,7 @@ export const ProductInfo = ({ product }: ProductInfoProps) => {
       <SpecsDrawer 
         isOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
-        product={{
-          title: product.title,
-          price: `¥${product.price}`,
-          image: product.images[0],
-          specs: product.specs
-        }}
+        product={product}
       />
     </div>
   )

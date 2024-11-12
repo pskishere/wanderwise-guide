@@ -2,35 +2,23 @@ export interface Post {
   id: number;
   title: string;
   content: string;
-  images: string[];
-  image?: string; // For backwards compatibility
+  image: string;
   author: {
-    id: string;
     name: string;
     avatar: string;
   };
-  stats: {
-    likes: number;
-    comments: number;
-    favorites: number;
-  };
-  tags: string[];
-  location?: string;
-  createdAt: string;
-  likes?: number; // For backwards compatibility
-  comments?: number; // For backwards compatibility
+  likes: number;
+  comments: number;
 }
 
 export interface Comment {
   id: number;
+  content: string;
   author: {
     name: string;
     avatar: string;
   };
-  content: string;
-  time: string;
-  likes: number;
-  replies?: Comment[];
+  createdAt: string;
 }
 
 export interface PageData<T> {

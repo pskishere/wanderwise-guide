@@ -8,7 +8,7 @@ import { ProductSelector } from "@/components/post/ProductSelector"
 import { MapPin } from "lucide-react"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
-import { setDraft, addImage, removeImage, toggleTag } from "@/store/slices/createPostSlice"
+import { setDraft, addImage, removeImage, toggleTag } from "@/store/createPostSlice"
 import dynamic from "@uiw/react-md-editor"
 
 const MDEditor = dynamic

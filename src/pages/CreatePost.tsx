@@ -6,7 +6,7 @@ import { BottomNav } from "@/components/BottomNav"
 import { CreatePostHeader } from "@/components/post/CreatePostHeader"
 import { CreatePostForm } from "@/components/post/CreatePostForm"
 import { RootState } from "@/store/store"
-import { setDraft, clearDraft, setLoading, addMockPost } from "@/store/slices/createPostSlice"
+import { setDraft, clearDraft, setLoading } from "@/store/createPostSlice"
 
 const CreatePost = () => {
   const navigate = useNavigate()
@@ -91,32 +91,8 @@ const CreatePost = () => {
     dispatch(setLoading(true))
     
     try {
-      // Create a mock post
-      const mockPost = {
-        id: Date.now(),
-        title: draft.title,
-        content: draft.content,
-        images: draft.images,
-        tags: draft.tags,
-        location: draft.location,
-        author: {
-          id: 1,
-          name: "旅行者",
-          avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&q=80"
-        },
-        products: draft.products,
-        stats: {
-          likes: 0,
-          comments: 0,
-          favorites: 0
-        },
-        createdAt: new Date().toISOString()
-      }
-
-      // Add mock post to Redux store
-      dispatch(addMockPost(mockPost))
+      await new Promise(resolve => setTimeout(resolve, 1000))
       dispatch(clearDraft())
-      
       toast({
         description: "发布成功！",
       })

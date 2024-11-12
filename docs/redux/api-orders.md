@@ -1,4 +1,4 @@
-# Orders API
+# Orders API Documentation
 
 ## Endpoints
 

@@ -6,7 +6,6 @@ export const store = configureStore({
     cart: reducers.cartReducer,
     product: reducers.productReducer,
     post: reducers.postReducer,
-    postDetail: reducers.postDetailReducer,
     address: reducers.addressReducer,
     search: reducers.searchReducer,
     order: reducers.orderReducer,

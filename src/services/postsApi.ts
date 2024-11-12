@@ -1,103 +1,35 @@
 import { Post, PageData } from '@/types/post';
-import { supabase } from "@/integrations/supabase/client";
+
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+const titles = [
+  "东京和服体验｜超详细攻略",
+  "京都赏樱一日游记，感受春日浪漫",
+  "大阪美食地图｜带你吃遍关西必打卡的美食",
+  "北海道温泉之旅",
+  "富士山下的春日物语｜河口湖一日游完全攻略"
+];
 
 export const fetchPosts = async (cursor?: number): Promise<PageData<Post>> => {
-  const pageSize = 10;
-  const start = cursor || 0;
+  await delay(1000);
   
-  const { data, error } = await supabase
-    .from('posts')
-    .select(`
-      id,
-      title,
-      content,
-      images,
-      tags,
-      location,
-      created_at,
-      profiles!posts_user_id_fkey (
-        id,
-        nickname,
-        avatar
-      ),
-      likes (count),
-      comments (count),
-      favorites (count)
-    `)
-    .range(start, start + pageSize - 1)
-    .order('created_at', { ascending: false });
-
-  if (error) throw error;
-
-  const items = data.map(post => ({
-    id: post.id,
-    title: post.title,
-    content: post.content,
-    images: post.images,
+  const pageSize = 10;
+  const allPosts = Array.from({ length: 50 }, (_, i) => ({
+    id: i + 1,
+    title: titles[Math.floor(Math.random() * titles.length)],
+    content: "这是一段旅行日记的内容描述...",
+    image: `https://picsum.photos/seed/${i + 1}/400/600`,
     author: {
-      id: post.profiles.id,
-      name: post.profiles.nickname || 'Unknown User',
-      avatar: post.profiles.avatar || ''
+      name: "旅行者",
+      avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&q=80"
     },
-    stats: {
-      likes: post.likes?.[0]?.count || 0,
-      comments: post.comments?.[0]?.count || 0,
-      favorites: post.favorites?.[0]?.count || 0
-    },
-    tags: post.tags,
-    location: post.location,
-    createdAt: post.created_at
+    likes: Math.floor(Math.random() * 1000),
+    comments: Math.floor(Math.random() * 100)
   }));
 
-  const nextCursor = items.length === pageSize ? start + pageSize : undefined;
+  const start = cursor || 0;
+  const items = allPosts.slice(start, start + pageSize);
+  const nextCursor = start + pageSize < allPosts.length ? start + pageSize : undefined;
 
   return { items, nextCursor };
-};
-
-export const fetchPostById = async (id: string): Promise<Post> => {
-  const { data, error } = await supabase
-    .from('posts')
-    .select(`
-      id,
-      title,
-      content,
-      images,
-      tags,
-      location,
-      created_at,
-      profiles!posts_user_id_fkey (
-        id,
-        nickname,
-        avatar
-      ),
-      likes (count),
-      comments (count),
-      favorites (count)
-    `)
-    .eq('id', id)
-    .single();
-
-  if (error) throw error;
-
-  if (!data) throw new Error('Post not found');
-
-  return {
-    id: data.id,
-    title: data.title,
-    content: data.content,
-    images: data.images,
-    author: {
-      id: data.profiles.id,
-      name: data.profiles.nickname || 'Unknown User',
-      avatar: data.profiles.avatar || ''
-    },
-    stats: {
-      likes: data.likes?.[0]?.count || 0,
-      comments: data.comments?.[0]?.count || 0,
-      favorites: data.favorites?.[0]?.count || 0
-    },
-    tags: data.tags,
-    location: data.location,
-    createdAt: data.created_at
-  };
 };

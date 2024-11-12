@@ -39,7 +39,7 @@ const Favorites = () => {
             <TabsContent value="products" className="focus-visible:outline-none">
               <FavoritesList
                 type="products"
-                items={allProducts as any} // Type assertion to fix compatibility
+                items={allProducts}
                 isLoading={isLoading}
                 hasNextPage={hasNextPage}
                 fetchNextPage={fetchNextPage}

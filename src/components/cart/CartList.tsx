@@ -6,7 +6,7 @@ import { Minus, Plus, Trash2 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
-import { toggleSelectItem, updateQuantity, removeItem } from "@/store/slices/cartSlice"
+import { toggleSelectItem, updateQuantity, removeItem } from "@/store/cartSlice"
 import { Image } from "@/components/ui/image"
 import { motion, AnimatePresence, PanInfo } from "framer-motion"
 import { useState } from "react"
@@ -19,7 +19,7 @@ interface CartListProps {
 export const CartList = ({ isLoading }: CartListProps) => {
   const { toast } = useToast()
   const dispatch = useDispatch()
-  const items = useSelector((state: RootState) => state.cart.items) || []
+  const items = useSelector((state: RootState) => state.cart.items)
   const [swipedItemId, setSwipedItemId] = useState<number | null>(null)
 
   const handleQuantityChange = (id: number, type: 'increase' | 'decrease' | 'input', value?: number) => {

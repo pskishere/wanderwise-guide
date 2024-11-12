@@ -6,7 +6,7 @@ import { Link } from "react-router-dom"
 import { useToast } from "@/hooks/use-toast"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
-import { deleteAddress } from "@/store/slices/addressSlice"
+import { deleteAddress } from "@/store/addressSlice"
 import {
   AlertDialog,
   AlertDialogAction,

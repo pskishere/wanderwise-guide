@@ -1,10 +1,16 @@
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { X } from "lucide-react"
-import { SimpleProduct } from "./types"
+
+interface Product {
+  id: number
+  title: string
+  price: string
+  image: string
+}
 
 interface SelectedProductsProps {
-  products: SimpleProduct[]
+  products: Product[]
   onRemove: (productId: number) => void
 }
 

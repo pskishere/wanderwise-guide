@@ -1,4 +1,4 @@
-# Addresses API
+# Address API Documentation
 
 ## Endpoints
 

@@ -9,7 +9,7 @@ import { AddressFormFields } from "@/components/address/AddressFormFields"
 import { Loader2 } from "lucide-react"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
-import { addAddress, updateAddress } from "@/store/slices/addressSlice"
+import { addAddress, updateAddress } from "@/store/addressSlice"
 
 const AddressForm = () => {
   const navigate = useNavigate()
@@ -23,9 +23,6 @@ const AddressForm = () => {
   const [form, setForm] = useState({
     name: "",
     phone: "",
-    province: "",
-    city: "",
-    district: "",
     detail: "",
     isDefault: false
   })
@@ -37,9 +34,6 @@ const AddressForm = () => {
         setForm({
           name: address.name,
           phone: address.phone,
-          province: address.province,
-          city: address.city,
-          district: address.district,
           detail: address.detail,
           isDefault: address.isDefault
         })

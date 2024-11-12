@@ -1,4 +1,4 @@
-# Favorites API
+# Favorites API Documentation
 
 ## Endpoints
 

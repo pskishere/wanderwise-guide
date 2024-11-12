@@ -1,4 +1,4 @@
-# Posts API
+# Posts API Documentation
 
 ## Endpoints
 

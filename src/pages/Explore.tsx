@@ -14,9 +14,9 @@ import {
   appendProducts, 
   setCurrentPage,
   setHasMore 
-} from "@/store/slices/productSlice"
+} from "@/store/productSlice"
 import { useEffect } from "react"
-import { mockProducts } from "@/store/mocks/productMocks"
+import { mockProducts } from "@/services/mockData"
 
 const ITEMS_PER_PAGE = 8;
 
@@ -38,6 +38,7 @@ export const Explore = () => {
   const dispatch = useDispatch()
   const { products, loading, error, currentPage, hasMore } = useSelector((state: RootState) => state.product)
 
+  // 模拟加载更多数据
   const loadMoreProducts = () => {
     dispatch(setLoading(true));
     
@@ -96,7 +97,7 @@ export const Explore = () => {
               onClick={() => handleProductClick(product.id)}
             >
               <img
-                src={product.images[0]}
+                src={product.image}
                 alt={product.title}
                 className="w-full object-cover"
               />
@@ -113,8 +114,8 @@ export const Explore = () => {
                   </div>
                 </div>
                 <div className="flex items-center justify-between mt-2">
-                  <span className="text-red-600 font-medium">¥{product.price}</span>
-                  <span className="text-xs text-gray-400">已售{product.sales || 0}</span>
+                  <span className="text-red-600 font-medium">{product.price}</span>
+                  <span className="text-xs text-gray-400">已售{product.sales}</span>
                 </div>
                 <div className="flex items-center gap-1 mt-2">
                   <Store className="h-3 w-3 text-gray-400" />
@@ -140,3 +141,5 @@ export const Explore = () => {
     </div>
   );
 };
+
+export default Explore;

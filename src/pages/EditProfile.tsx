@@ -9,7 +9,7 @@ import { ArrowLeft, Camera, Loader2 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useToast } from "@/components/ui/use-toast"
 import { RootState } from "@/store/store"
-import { setProfile, setLoading } from "@/store/slices/userSlice"
+import { setProfile, setLoading } from "@/store/userSlice"
 
 const EditProfile = () => {
   const navigate = useNavigate()

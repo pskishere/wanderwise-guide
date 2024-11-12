@@ -18,7 +18,7 @@ export const CommentSection = ({ commentCount }: CommentSectionProps) => {
   const { toast } = useToast()
   const dispatch = useDispatch()
   
-  const comments = useSelector((state: RootState) => state.comment.comments) || []
+  const comments = useSelector((state: RootState) => state.comment.comments)
 
   const loadMoreComments = async () => {
     if (isLoading || !hasMore) return

@@ -3,40 +3,62 @@ import { BottomNav } from "@/components/BottomNav"
 import { CartList } from "@/components/cart/CartList"
 import { CartSummary } from "@/components/cart/CartSummary"
 import { EmptyCart } from "@/components/cart/EmptyCart"
+import { useQuery } from "@tanstack/react-query"
 import { useToast } from "@/hooks/use-toast"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
-import { setItems, setLoading, setError, fetchCartItems } from "@/store/slices/cartSlice"
-import { setSelectedItems } from "@/store/slices/checkoutSlice"
+import { setItems } from "@/store/cartSlice"
+import { setSelectedItems } from "@/store/checkoutSlice"
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+
+const fetchCartItems = async () => {
+  // 模拟API调用
+  await new Promise(resolve => setTimeout(resolve, 1000))
+  return [
+    {
+      id: 1,
+      title: "日本限定 Hello Kitty 樱花限定版玩偶",
+      price: 299,
+      image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&q=80",
+      quantity: 1,
+      shop: "三丽鸥官方旗舰店",
+      selected: true,
+      specs: ["粉色 40cm"],
+      discount: 30,
+      deadline: "3月1日"
+    },
+    {
+      id: 2,
+      title: "大阪环球影城限定 小黄人公仔套装",
+      price: 199,
+      image: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=800&q=80",
+      quantity: 2,
+      shop: "环球影城官方店",
+      selected: true,
+      specs: ["经典款 20cm"],
+      discount: 20,
+      deadline: "2月28日"
+    }
+  ]
+}
 
 const Cart = () => {
   const { toast } = useToast()
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const items = useSelector((state: RootState) => state.cart.items)
-  const isLoading = useSelector((state: RootState) => state.cart.loading)
-  const error = useSelector((state: RootState) => state.cart.error)
+  
+  const { data: cartItems, isLoading } = useQuery({
+    queryKey: ['cart-items'],
+    queryFn: fetchCartItems
+  })
 
   useEffect(() => {
-    const loadCartItems = async () => {
-      try {
-        dispatch(setLoading(true))
-        const data = await fetchCartItems()
-        dispatch(setItems(data))
-      } catch (err) {
-        dispatch(setError(err instanceof Error ? err.message : '加载购物车失败'))
-        toast({
-          description: "加载购物车失败",
-        })
-      } finally {
-        dispatch(setLoading(false))
-      }
+    if (cartItems) {
+      dispatch(setItems(cartItems))
     }
-
-    loadCartItems()
-  }, [dispatch, toast])
+  }, [cartItems, dispatch])
 
   const handleCheckout = () => {
     const selectedItems = items.filter(item => item.selected)

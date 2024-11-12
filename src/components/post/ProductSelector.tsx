@@ -1,15 +1,21 @@
 import { useState } from "react"
 import { Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
-import { mockProducts } from "@/store/mocks/productMocks"
+import { mockProducts } from "@/services/mockData"
 import { ProductSearchResults } from "./ProductSearchResults"
 import { SelectedProducts } from "./SelectedProducts"
 import { Card } from "@/components/ui/card"
-import { SimpleProduct } from "./types"
+
+interface Product {
+  id: number
+  title: string
+  price: string
+  image: string
+}
 
 interface ProductSelectorProps {
-  selectedProducts: SimpleProduct[]
-  onSelectProduct: (product: SimpleProduct) => void
+  selectedProducts: Product[]
+  onSelectProduct: (product: Product) => void
   onRemoveProduct: (productId: number) => void
 }
 
@@ -21,19 +27,12 @@ export const ProductSelector = ({
   const [searchTerm, setSearchTerm] = useState("")
   const [showResults, setShowResults] = useState(false)
 
-  const filteredProducts = mockProducts
-    .filter(product =>
-      product.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      !selectedProducts.some(p => p.id === product.id)
-    )
-    .map(product => ({
-      id: product.id,
-      title: product.title,
-      price: `¥${product.price}`,
-      image: product.images[0]
-    }))
+  const filteredProducts = mockProducts.filter(product =>
+    product.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
+    !selectedProducts.some(p => p.id === product.id)
+  )
 
-  const handleSelect = (product: SimpleProduct) => {
+  const handleSelect = (product: Product) => {
     onSelectProduct(product)
     setSearchTerm("")
     setShowResults(false)

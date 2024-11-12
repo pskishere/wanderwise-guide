@@ -1,4 +1,4 @@
-# Search API
+# Search API Documentation
 
 ## Endpoints
 

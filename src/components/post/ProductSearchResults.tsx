@@ -1,9 +1,15 @@
 import { Card } from "@/components/ui/card"
-import { SimpleProduct } from "./types"
+
+interface Product {
+  id: number
+  title: string
+  price: string
+  image: string
+}
 
 interface ProductSearchResultsProps {
-  products: SimpleProduct[]
-  onSelect: (product: SimpleProduct) => void
+  products: Product[]
+  onSelect: (product: Product) => void
 }
 
 export const ProductSearchResults = ({ products, onSelect }: ProductSearchResultsProps) => {

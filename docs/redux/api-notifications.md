@@ -1,4 +1,4 @@
-# Notifications API
+# Notifications API Documentation
 
 ## Endpoints
 
