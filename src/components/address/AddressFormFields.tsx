@@ -1,9 +1,9 @@
+
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
 import { parseAddress } from "@/utils/addressParser"
-import { MapSearch } from "./MapSearch"
 
 interface AddressFormFieldsProps {
   form: {
@@ -20,16 +20,6 @@ export const AddressFormFields = ({
   handleInputChange,
 }: AddressFormFieldsProps) => {
   const { toast } = useToast()
-
-  const handleMapAddressSelect = (address: {
-    detail: string
-  }) => {
-    // Update detail address
-    const detailEvent = {
-      target: { name: 'detail', value: address.detail }
-    } as React.ChangeEvent<HTMLTextAreaElement>
-    handleInputChange(detailEvent)
-  }
 
   const handleDetailPaste = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
     e.preventDefault()
@@ -86,11 +76,7 @@ export const AddressFormFields = ({
           />
         </div>
       </div>
-
-      <div className="space-y-2">
-        <Label>地址搜索</Label>
-        <MapSearch onAddressSelect={handleMapAddressSelect} />
-      </div>
+      {/* 移除地图/地址搜索部分 */}
 
       <div className="space-y-2">
         <Label htmlFor="detail">详细地址</Label>
